@@ -1091,7 +1091,7 @@ function levelUpChanneling(){
 	return true;
 }
 function maxAllSkills(){
-	if(location.pathname==='/ng/'){
+	if(dev){
 		for(var i=0;i<=400;i++){
 			levelUpPierce();
 			levelUp1hb();

@@ -5594,7 +5594,7 @@ function animateFear(Slot, fearDuration, triggerFlag, opacityFlag) {
 }
 
 function maxAll() {
-    if (location.pathname === '/ng/') {
+    if (dev) {
         my.level = 99;
         maxAllSkills();
         maxTalents();
@@ -5611,7 +5611,7 @@ function maxAll() {
 }
 
 function getItems() {
-    if (location.pathname === '/ng/') {
+    if (dev) {
         mob[2].level = 99;
         while(typeof findFirstInvSlot() === 'number'){
             getLoot(2);

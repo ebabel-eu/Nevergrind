@@ -8863,7 +8863,7 @@ function faerieFlameTick(mType, Slot){
 	}
 }
 function unlockQuests(){
-	if(location.pathname==='/ng/'){
+	if(dev){
 		for(var i=0;i<=2;i++){
 			P.Q[i].GreaterFaydark=4;
 			P.Q[i].LesserFaydark=2;
