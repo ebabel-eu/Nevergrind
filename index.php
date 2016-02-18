@@ -12,61 +12,10 @@
 		$_SESSION['account'] = '';
 		$_SESSION['customerId'] = '';
 	}
-	if(isset($_GET['reset'])){
-		$_SESSION['reset'] = $_GET['reset'];
-		$hash = crypt($_SESSION['reset'], '$2a$07$'.$_SESSION['salt'].'$');
-		$verify = crypt($_SESSION['reset'], $hash);
-		if(php_uname('n')=="JOE-PC"){
-			$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
-		}else{
-			$link = mysqli_connect("localhost", "nevergri_ng", "!M6a1e8l2f4y6n", "nevergri_ngLocal");
-		}
-		// 1-hour valid token
-		$query = "select email from resetpassword where reset='".$_SESSION['reset']."' and timestamp>date_sub(now(), interval 1 hour)";
-		$stmt = $link->prepare($query);
-		$stmt->execute();
-		$stmt->store_result();
-		if($stmt->num_rows==0){
-			// email address exists
-			echo "Your token has expired. Tokens are valid for one hour. Reset your password again at <a href='//nevergrind.com'>Nevergrind</a>.";
-			if(php_uname('n')!="JOE-PC"){
-				exit;
-			}
-		}else{
-			$stmt->bind_result($stmtEmail);
-			while($stmt->fetch()){
-				$_SESSION['tempEmail'] = $stmtEmail;
-			}
-		}
-		// hash token
-		$query = "select hashedReset from accounts where email=? limit 1";
-		if($stmt = $link->prepare($query)){
-			$stmt->bind_param('s', $_SESSION['tempEmail']);
-			$stmt->execute();
-			$stmt->store_result();
-			$count = $stmt->num_rows;
-			$stmt->bind_result($stmtPassword);
-			while($stmt->fetch()){
-				$dbPassword = $stmtPassword;
-			}
-			if($dbPassword!=$verify){
-				// receives this error if they clicked twice or the token is wrong
-				echo "Password reset failed due to mismatched or expired string! If you believe this is in error, contact <a href='mailto:support@nevergrind.com'>support@nevergrind.com</a> or visit <a href='//nevergrind.com'>Nevergrind</a> to reset your password again.";
-				// exit if not localhost
-				if(php_uname('n')!="JOE-PC"){ 
-					exit;
-				}
-			}else{
-				// sets hashedReset to nothing; only works once
-				$query = 'update accounts set hashedReset="" where email=?';
-				$stmt = $link->prepare($query);
-				$stmt->bind_param('s', $_SESSION['tempEmail']);
-				$stmt->execute();
-			}
-		}
-	}else{
-		unset($_SESSION['reset']);
-		unset($_SESSION['tempEmail']);
+	
+	if(!isset($_SESSION['email']) || !strlen($_SESSION['email'])){
+		header("Location: /login.php");
+		exit();
 	}
 ?>
 <!DOCTYPE html>
@@ -83,6 +32,7 @@
 	<meta name="twitter:widgets:csp" content="on">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
+	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<link rel='stylesheet' type='text/css' href="css/style84.css">
 	<link rel="shortcut icon" href="//nevergrind.com/images1/favicon.ico">
 </head>
@@ -181,7 +131,7 @@
 				<div id="loadingwait">Loading... Please Wait</div>
 				<div id="bgWrap">
 					<div id='bglogowrap'></div>
-					<img id='bglogo' src="//d3t6yj0r8qins4.cloudfront.net/ng_logo_532x428.png" alt="Nevergrind Logo" title="Nevergrind">
+					<img id='bglogo' src="/images1/ng_logo_532x428.png" alt="Nevergrind Logo" title="Nevergrind">
 				</div>
 			</div>
 			<canvas id="spellcurtain" width="1280" height="720"></canvas>
@@ -253,16 +203,13 @@
 				?>
 				<div id="leftPaneBG">
 				<?php
-						if($_SESSION['protocol']=="https:"){
-							echo '<div id="showCrystals" class="fire strongShadow2 NGgradient">
-								Buy Crystals
-								<div class="crystals crystals2"></div>
-							</div>';
-						}
+						echo 
+						'<div id="showCrystals" class="fire strongShadow2 NGgradient">
+							Buy Crystals
+							<div class="crystals crystals2"></div>
+						</div>';
 						echo '<div id="createcharacter" class="strongShadow NGgradient">Create Character</div>';
-						if($_SESSION['protocol']!="https:"){
-							echo '<div id="deletecharacter" class="strongShadow NGgradient">Delete Character</div>';
-						}
+						echo '<div id="deletecharacter" class="strongShadow NGgradient">Delete Character</div>';
 					?>
 					<div id="characterSlotPanel" class="strongShadow" >
 						<div id="characterslot1"></div>
@@ -298,7 +245,7 @@
 							A free online game<br>
 							with paid premium features
 						</h1>
-						<img id="nevergrind" src="//d3t6yj0r8qins4.cloudfront.net/ng_logo_532x428.png" alt="Nevergrind Logo" title="Nevergrind">
+						<img id="nevergrind" src="/images1/ng_logo_532x428.png" alt="Nevergrind Logo" title="Nevergrind">
 						
 						<a href="//nevergrind.com/leaderboards/" class="links">Leaderboards</a>
 						<a href="//nevergrind.com/leaderboards/hardcore" class="links">Hardcore Leaderboards</a>
@@ -321,57 +268,6 @@
 					</nav>
 				</div>
 				
-				<?php
-					if($_SESSION['protocol']=="https:"){
-						if(isset($_GET['reset'])){
-							echo 
-								'<form id="loginWrap" class="strongShadow">
-									<div>Reset Your Password</div>
-									<div class="textLeft">Password</div>
-									<input type="password" id="resetPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Password">
-									<div class="textLeft">Re-type Password</div>
-									<input type="password" id="resetVerifyPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Verify Password">
-									<div id="resetPW" class="strongShadow NGgradient">Reset Password</div>
-								</form>';
-						}else{
-							echo 
-								'<form id="loginWrap" class="strongShadow" autocomplete="on">
-									<div id="createAccountWrap">
-										<span id="createAccount">Create Account</span>
-									</div>
-									
-									<div class="textLeft">Email Address</div>
-									<input type="text" id="loginEmail" class="loginInputs strongShadow" maxlength="255" placeholder="Email Address" autocomplete="on" name="username">
-									
-									<div class="textLeft create-account signupHeader">Account Name</div>
-									<input type="text" id="loginAccount" class="loginInputs strongShadow create-account" maxlength="16" placeholder="Account Name" name="user">
-									
-									<div class="textLeft">Password</div>
-									<input type="password" id="loginPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Password" autocomplete="on" name="password">
-									
-									<div class="signupHeader create-account">Re-type Password</div>
-									<input type="password" id="loginVerifyPassword" class="loginInputs strongShadow create-account" maxlength="20" placeholder="Verify Password">
-									
-									<p id="emailWrap">
-										<input id="rememberEmail" type="checkbox" checked><label for="rememberEmail">Remember my email address</label>
-									</p>
-									
-									<div class="signupHeader create-account">Promo Code</div>
-									<input type="text" id="promoCode" class="loginInputs strongShadow create-account" maxlength="20" placeholder="Promo Code">
-									
-									<div id="tosWrap" class="create-account">
-										<span id="tos" class="aqua">
-											<a target="_blank" href="//nevergrind.com/blog/terms-of-service/">Terms of Service</a> | <a target="_blank" href="//nevergrind.com/blog/privacy-policy/">Privacy Policy</a>
-										</span>
-									</div>
-									<div id="login" class="strongShadow NGgradient">Login</div>
-									<div id="forgotPasswordWrap">
-										<span title="Neverworks Games will send you an email. Click the link to reset your password." id="forgotPassword">Forgot Password?</span>
-									</div>
-								</form>';
-						}
-					}
-				?>
 				<div id="enterWorldWrap">
 					<div id="zoneIndicator" class="strongShadow"></div>
 					<div id='enterworld' class='strongShadow NGgradient'>
@@ -654,7 +550,6 @@
 			</div>
 			<img class="hide" src="images1/neverworks.png" alt="Neverworks Logo" title="Neverworks">
 			
-			<div id="tweetIt"></div>
 			<div id="errorMsg" class="strongShadow">
 				<noscript>In order to play NeverGrind, you must enable JavaScript!</noscript>
 			</div>
@@ -703,17 +598,9 @@
 			}
 		})(document);
 	</script>
-	<script async src="//platform.twitter.com/widgets.js"></script>
+	
 	<?php
-		if($_SESSION['protocol']=="https:"){
-			if(php_uname('n')=="JOE-PC"){
-				$_SESSION['STRIPE_TEST'] = 'sk_test_3zyOCnInUEhcpkM6H0FDegZr';
-			}else{
-				$_SESSION['STRIPE_LIVE'] = 'sk_live_GtiutFgWYDWNyXnaaL4ShHQt';
-			}
-		}
 	?>
-	<script src="//apis.google.com/js/platform.js" async defer></script>	
 	
 	<script>
 		if(location.hostname!=="localhost"){

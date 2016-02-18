@@ -7192,43 +7192,6 @@ function positionMap(x, d){
 		left:a[0]*-1
 	});
 }
-function tweeter(boss){
-	if(typeof(twttr)==='object'){
-		if(!boss){
-			boss="Chief Grimden";
-		}
-		var e = document.getElementById('tweetIt');
-		T.fromTo(e, 1.5, {
-				top:-25
-			},{
-				delay:1,
-				top:10,
-				ease:ez.Bout
-		});
-		T.delayedCall(9, function(){
-			T.to(e, 1.5, {
-				top:-25,
-				ease:ez.Bin,
-				onComplete:function(){
-					e.innerHTML='';
-				}
-			});
-		});
-		var df = diff();
-		twttr.widgets.createShareButton(
-			'https://nevergrind.com',
-			document.getElementById('tweetIt'),
-			{
-				hashtags: 'indiegame, rpg, games, gamedev',
-				count: 'none',
-				size: 'large',
-				via: 'NeverworksGames',
-				text: 'I just defeated '+boss+' in Nevergrind!'
-			}
-		);
-		QMsg("Share your achievement!");
-	}
-}
 function supportsAudio(){ // maybe this will be useful later. Safari sucks. I don't know
     var a = D.createElement('audio');
     return !!(a.canPlayType&&a.canPlayType('audio/mpeg;').replace(/no/, ''));
@@ -7526,17 +7489,6 @@ $(document).on('keydown',function(e){
 				pauseGame();
 			}else{
 				unpauseGame();
-			}
-		}
-	}
-	// hit enter
-	if(e.keyCode===13){
-		if(enteredWorld===false){
-			if(focusPassword===true&&loginMode==="login"){
-				authenticate();
-			}
-			if(focusPasswordVerify===true&&loginMode==="create"){
-				createAccount();
 			}
 		}
 	}

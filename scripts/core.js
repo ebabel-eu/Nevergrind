@@ -6,7 +6,7 @@
 })();
 $.ajaxSetup({
     type: 'POST',
-    url: 'php/master1.php'
+    url: '/php/master1.php'
 });
 var M = Math,
     T = TweenMax,
@@ -11134,18 +11134,13 @@ function checkLoginStatus() {
         }
     }).done(function(data) {
         function setLoginView() {
-            D.getElementById('loginWrap').style.display = 'block';
             D.getElementById('characterSelectScreen').style.display = 'block';
             D.getElementById('createWindowId').style.display = 'block';
             D.getElementById('characterSelectScreen').style.opacity = 1;
             none(['leftPaneBG']);
         }
         var a = data.split("|");
-        if (a[0] === "reset") {
-            QMsg("Reset your password to login");
-            setLoginView();
-            $("#loginEmail").val(a[1]);
-        } else if (a[0] === "present") {
+        if (a[0] === "present") {
             // session found - load characters
             loadServerCharacters();
             block(['currencyIndicator', 'leftPaneBG']);
@@ -11232,7 +11227,6 @@ function loadServerCharacters() {
         }
         block(['leftPaneBG']);
         D.getElementById('createWindowId').style.display = 'block';
-        D.getElementById('loginWrap').style.display = 'none';
         D.getElementById('currencyIndicator').style.display = 'block';
         D.getElementById('characterSelectScreen').style.display = 'block';
         D.getElementById('characterSelectScreen').style.opacity = 1;
@@ -11654,22 +11648,6 @@ function showTutorial() {
         });
     });
 }
-
-function checkCC() {
-    $.ajax({
-        data: {
-            run: "checkCC"
-        }
-    }).done(function(data) {
-        if (data != "cardNotFound") {
-            $('#CC-last-four').text(data);
-            $('#old-cards').css({
-                display: 'block'
-            });
-			$("#last-credit-card").trigger('click');
-        }
-    });
-}
 $(function() {
     initNG();
     loadAllCharacters(); // load webpage init webpage
@@ -11691,7 +11669,6 @@ $(function() {
         block(['leftPaneBG']);
     } else {
         setTimeout(function() {
-            checkCC();
             focusLogin();
         }, 1500);
 		rememberEmail();
@@ -12151,63 +12128,6 @@ $('#gameView').on('mouseup', '.inventory', function(e) {
     }
 });
 
-function createAccount() {
-    if (createAccountLock === true) {
-        return;
-    }
-    var pw = $("#loginPassword").val();
-    var pw2 = $("#loginVerifyPassword").val();
-    var acc = $("#loginAccount").val();
-    var accRawLength = acc.length;
-    var newAcc = acc.replace(/[^A-z]/gmi, '');
-    if (acc.match(/[A-z]/gmi, '').length < accRawLength) {
-        QMsg("Your account name should only contain letters.");
-        return;
-    }
-    if (acc.length < 2) {
-        QMsg("Your account name must be at least two characters long.");
-        return;
-    }
-    if (acc.length > 16) {
-        QMsg("Your account name must be less than 16 characters long.");
-        return;
-    }
-    if (pw !== pw2) {
-        QMsg("Your passwords do not match.");
-        return;
-    }
-    if (pw.length < 6) {
-        QMsg("Your password be at least six characters long.");
-        return;
-    }
-    QMsg("Connecting to server...");
-    createAccountLock = true;
-    $.ajax({
-        data: {
-            run: "createAccount",
-            email: $("#loginEmail").val().toLowerCase(),
-            account: newAcc.toLowerCase().toLowerCase(),
-            password: pw,
-            verify: pw2,
-            promo: $("#promoCode").val().toLowerCase()
-        }
-    }).done(function(data) {
-        QMsg(data);
-        if (data === "Account Created!") {
-            $("#loginWrap").css('display', 'none');
-            $("#enterWorldWrap").css('display', 'block');
-            T.from('#enterWorldWrap', 1, {
-                opacity: 0
-            });
-            setCharacterSelectPanel();
-            loadServerCharacters();
-        }
-        createAccountLock = false;
-    }).fail(function() {
-        failToCommunicate();
-    });
-}
-
 function setCharacterSelectPanel() {
     $("#createcharacter").remove();
     var h = '<div id="createcharacter" class="strongShadow NGgradient">Create Character</div>';
@@ -12224,121 +12144,6 @@ function setCharacterSelectPanel() {
     }
 }
 
-function authenticate() {
-    if (authenticationLock === true) {
-        return;
-    }
-    if ($("#loginEmail").val().length < 3) {
-        QMsg("This is not a valid email address.");
-        return;
-    }
-    if ($("#loginPassword").val().length < 6) {
-        QMsg("Passwords must be at least six characters long.");
-        return;
-    }
-    QMsg("Connecting to server...");
-    authenticationLock = true;
-    if ($("#rememberEmail").prop('checked')) {
-        var email = $("#loginEmail").val();
-        localStorage.setItem('email', email);
-    } else {
-        localStorage.removeItem('email');
-    }
-    $.ajax({
-        data: {
-            run: "authenticate",
-            email: $("#loginEmail").val().toLowerCase(),
-            password: $("#loginPassword").val()
-        }
-    }).done(function(data) {
-        if (data === "Login successful!") {
-            $("#loginWrap").css('display', 'none');
-            $("#enterWorldWrap").css('display', 'block');
-            T.from('#enterWorldWrap', 1, {
-                opacity: 0
-            });
-            loadServerCharacters();
-            checkCC();
-        } else {
-            QMsg(data);
-        }
-        authenticationLock = false;
-    }).fail(function() {
-        failToCommunicate();
-    });
-}
-$('#login').on('click', function() {
-    var text = $(this).text();
-    if (text === "Login") {
-        // check password and login are ok
-        authenticate();
-    } else if (text === "Create Account") {
-        createAccount();
-    } else if (text === "Reset Password") {
-        resetPassword();
-    }
-});
-$("#createAccount").on('click', function() {
-    var text = $(this).text();
-    if (text === "Create Account") {
-        $(this).text("Cancel");
-        $(".create-account").css('display', 'block');
-        $("#emailWrap").css('display', 'none');
-        D.getElementById('login').textContent = "Create Account";
-        $("#loginEmail, #loginPassword, #loginAccount, #loginVerifyPassword").val("");
-        loginMode = "create";
-    } else {
-        $(this).text("Create Account");
-        $(".create-account").css('display', 'none');
-        $("#emailWrap").css('display', 'block');
-        D.getElementById('login').textContent = "Login";
-        $("#loginEmail, #loginPassword, #loginVerifyPassword, #promoCode").val("");
-        loginMode = "login";
-        if ($("#rememberEmail").prop('checked')) {
-            var email = localStorage.getItem("email");
-            $("#loginEmail").val(email);
-        }
-    }
-});
-$("#forgotPassword").on('click', function() {
-    if (this.textContent === "Checking...") {
-        return;
-    }
-    var email = $("#loginEmail").val().toLowerCase();
-    var msg = "Forgot Password";
-    $("#forgotPassword").text("Checking...");
-    if (!email || email.length < 3) {
-        QMsg("Enter a valid email address");
-        $("#forgotPassword").text(msg);
-        return;
-    }
-    QMsg("Checking account status...");
-    $.ajax({
-        data: {
-            run: "forgotPassword",
-            email: email
-        }
-    }).done(function(data) {
-        QMsg(data, 0, 0, 8000);
-        $("#forgotPassword").text(msg);
-    });
-});
-var loginMode = "login",
-    focusPassword = false,
-    focusPasswordVerify = false,
-    createAccountLock = false,
-    buttonLock = false,
-    authenticationLock = false;
-$("#loginPassword").on('focus', function() {
-    focusPassword = true;
-}).on('blur', function() {
-    focusPassword = false;
-});
-$("#loginVerifyPassword").on('focus', function() {
-    focusPasswordVerify = true;
-}).on('blur', function() {
-    focusPasswordVerify = false;
-});
 
 function logout() {
     g.lockScreen();
@@ -12355,7 +12160,6 @@ function logout() {
         }
         $("#createcharacter, #deletecharacter").remove();
         $('#enterWorldWrap').css('display', "none");
-        $('#loginWrap').css('display', "none");
         $('#logout').html('');
         $("#loginPassword").val('');
         location.reload();
@@ -12549,7 +12353,6 @@ $(document).ready(function() {
                                     e.textContent = ~~o.start;
                                 }
                             });
-                            checkCC();
                         }
                         that.attr('disabled', false);
                         g.unlockScreen();
@@ -12559,42 +12362,6 @@ $(document).ready(function() {
                 }
             }
         }
-    });
-    $("#resetPW").on('click', function() {
-        if (buttonLock === true) {
-            return;
-        }
-        if ($("#resetPassword").val() !== $("#resetVerifyPassword").val()) {
-            QMsg("Your passwords do not match.");
-            return;
-        }
-        if ($("#resetPassword").val().length < 6) {
-            QMsg("Your password be at least six characters long.");
-            return;
-        }
-        QMsg("Connecting to server...");
-        g.lockScreen();
-        $.ajax({
-            data: {
-                run: "resetPW",
-                password: $("#resetPassword").val(),
-                verify: $("#resetVerifyPassword").val()
-            }
-        }).done(function(data) {
-            if (data === "Password Reset Successful.") {
-                D.getElementById('loginWrap').style.display = 'none';
-                QMsg("Your password has been reset!");
-                QMsg("You will be redirected in five seconds.");
-                setTimeout(function() {
-                    location.reload('https://nevergrind.com');
-                }, 5000);
-            } else {
-                QMsg("There was a server error when resetting your password.");
-            }
-            g.unlockScreen();
-        }).fail(function() {
-            failToCommunicate();
-        });
     });
 });
 $(".floater").on('click', function() {

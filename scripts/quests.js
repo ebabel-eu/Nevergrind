@@ -1585,7 +1585,6 @@ function Qprogress(Slot){ //indicate progress was made
 				P.Q[x].Crushbone++;
 				P.Q[x].repeatCB=true;
 				setEquipValues();
-				tweeter("Chief Grimden");
 				return;
 			}
 		}
@@ -1670,7 +1669,6 @@ function Qprogress(Slot){ //indicate progress was made
 				P.Q[x].EstateofUnrest++;
 				P.Q[x].repeatER=true;
 				setEquipValues();
-				tweeter("Arcturin, the Lich King");
 				return;
 			}
 		}
@@ -1824,7 +1822,6 @@ function Qprogress(Slot){ //indicate progress was made
 				P.Q[x].KedgeKeep++;
 				my.epicQuests++;
 				stopMusic();
-				tweeter("Revenant Viston");
 				return;
 			}
 		}
@@ -2082,7 +2079,6 @@ function Qprogress(Slot){ //indicate progress was made
 				stopMusic();
 				P.Q[x].CazicThule++;
 				setEquipValues();
-				tweeter("Sentoth, Lord of Rapture");
 				return;
 			}
 		}
@@ -2329,7 +2325,6 @@ function Qprogress(Slot){ //indicate progress was made
 				}
 				P.Q[x].NagafensLair++;
 				P.Q[x].repeatNl4=true;
-				tweeter("Highlord Szarthax");
 				return;
 			}
 		}
@@ -2547,7 +2542,6 @@ function Qprogress(Slot){ //indicate progress was made
 				P.Q[x].repeatPk4=true; 
 				my.epicQuests++;
 				stopMusic();
-				tweeter("Matron Maelentia");
 				return;
 			}
 		}
@@ -2639,7 +2633,6 @@ function Qprogress(Slot){ //indicate progress was made
 				flashQuest(21);
 				my.epicQuests++;
 				stopMusic();
-				tweeter("Falzitherin");
 			}
 			if(mob[Slot].name==="Nalatos, God of Chaos"){
 				P.Q[x].PF22=2;
@@ -2656,7 +2649,6 @@ function Qprogress(Slot){ //indicate progress was made
 					P.Q[x].PlaneofFear++;
 				}
 				QMsg("Quest Completed!");
-				tweeter("Nalatos, God of Chaos");
 				return;
 			}
 		}
@@ -2712,7 +2704,6 @@ function Qprogress(Slot){ //indicate progress was made
 				flashQuest(12);
 				my.epicQuests++;
 				stopMusic();
-				tweeter("Vixen Sarmina");
 			}
 			if(mob[Slot].name==="Sanctum Guardian Ghalentus"&&P.Q[x].PH13<1){
 				P.Q[x].PH13=2;
@@ -2730,7 +2721,6 @@ function Qprogress(Slot){ //indicate progress was made
 					P.Q[x].PlaneofHate++;
 				}
 				QMsg("Quest Completed!");
-				tweeter("Sanctum Guardian Ghalentus");
 				return;
 			}
 		}

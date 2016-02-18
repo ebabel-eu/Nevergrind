@@ -2,9 +2,9 @@
 	$_SESSION['protocol'] = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https:" : "http:";
 	if($_SESSION['protocol']=="https:"){
 		if(php_uname('n')=="JOE-PC"){
-			$_SESSION['STRIPE_TEST'] = "sk_test_YLMUtYOaCNPSqBWP0IyPqT1w";
+			$_SESSION['STRIPE_TEST'] = 'sk_test_3zyOCnInUEhcpkM6H0FDegZr';
 		}else{
-			$_SESSION['STRIPE_LIVE'] = "sk_live_V620WZ4kNlyW3ztNOucxetYp";
+			$_SESSION['STRIPE_LIVE'] = 'sk_live_GtiutFgWYDWNyXnaaL4ShHQt';
 		}
 	}
 	$_SESSION['characterSlots'] = 1;

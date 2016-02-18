@@ -28,15 +28,15 @@
 			exit;
 		}
 		
-		$email = $_POST['email'];
-		$account = $_POST['account'];
+		$email = strtolower($_POST['email']);
+		$account = strtolower($_POST['account']);
 		$password = $_POST['password'];
 		$verify = $_POST['verify'];
 		$promo = $_POST['promo'];
 		
 		//validate email address
 		if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-			echo "The server reported an error. Please try again. Code: 1";
+			echo "The server reported an error. Please use a valid email address.";
 			exit;
 		}
 		// all alphabetic?
@@ -117,131 +117,6 @@
 		$promo=="facebook"){
 			$crystals += 75;
 		}
-		// reward tier $5 - 600
-		if($email=='jaklapperich@mail.com'||
-		$email=='roylove-@hotmail.com'||
-		$email=='yarow12@gmail.com'||
-		$email=='jamespoulette@gmail.com'||
-		$email=='bryanlee1990@gmail.com'
-		){
-			$kstier = 1;
-		}
-		// reward tier $10 - 1250
-		if($email=='sweetladyblume1@hotmail.com'||
-		$email=='craig@games4leaders.com'||
-		$email=='k_peek_2000@yahoo.com'
-		){
-			$kstier = 2;
-		}
-		// reward tier $15 - 1250
-		if($email=='spinablackrose@hotmail.com'||
-		$email=='e.pauley.jr@gmail.com'||
-		$email=='dfg139@gmail.com'
-		){
-			$kstier = 3;
-		}
-		// reward tier $20 - 1250
-		if($email=='neutrino82@gmail.com'||
-		$email=='w12fa49@hotmail.com'||
-		$email=='bmthomsen@msn.com'
-		){
-			$kstier = 4;
-		}
-		// reward tier $24 - 3460
-		if($email=='maxgud@gmail.com'||
-		$email=='rambilin@gmail.com'||
-		$email=='hobotroid@gmail.com'||
-		$email=='flakkentime@social-arena.net'||
-		$email=='zathor@gmail.com'
-		){
-			$kstier = 5;
-		}
-		// reward tier $25 - 1250
-		if($email=='jellypaladin@gmail.com'||
-		$email=='bschittone@gmail.com'||
-		$email=='jeffrey.egan@gmail.com'||
-		$email=='marekg@live.com'||
-		$email=='thursday@gmail.com'||
-		$email=='andrey.vw@gmail.com'||
-		$email=='vadim.cp@gmail.com'
-		){
-			$kstier = 6;
-		}
-		// reward tier $30 - 1250
-		if($email=='michael.l.finch@gmail.com'||
-		$email=='aaron.schoeffler@gmail.com'||
-		$email=='shablame@gmail.com'||
-		$email=='rclewis67@gmail.com'
-		){
-			$kstier = 7;
-		}
-		// reward tier $40 or higher - 3460
-		if($email=='lomega23@gmail.com'||
-		$email=='johnchristianm@gmail.com'||
-		$email=='deel0410@yahoo.com'||
-		$email=='mythic_huntress@yahoo.com'||
-		$email=='falelorn@gmail.com'||
-		$email=='atrius001@gmail.com'||
-		$email=='jaklapperich@mail.com'||
-		$email=='mbrandy@gmail.com'||
-		$email=='zitoj83@gmail.com'||
-		$email=='ackron.shadowcloak@gmail.com'||
-		$email=='pongo.narrans@gmail.com'||
-		$email=='therealjimparris+kickstarter@gmail.com'||
-		$email=='malocciu@gmail.com'||
-		$email=='artanis.khan@gmail.com'||
-		$email=='alvinchuazq@gmail.com'||
-		$email=='bradley.scott82@gmail.com'||
-		$email=='dlewded6@hotmail.com'||
-		$email=='gaudiem@gmail.com'||
-		$email=='a-pont@hotmail.com'||
-		$email=='eliasskilje@gmail.com'||
-		$email=='petersenlg@gmail.com'||
-		$email=='venzur@gmail.com'||
-		$email=='kneeyul@gmail.com'||
-		$email=='brendahol@gmail.com'||
-		$email=='dalien00@hotmail.com'||
-		$email=='cmullers@net1plus.com'||
-		$email=='schultzs@unm.edu'||
-		$email=='joeleon58@verizon.net'||
-		$email=='akl0961@gmail.com'||
-		$email=='imachocobo@hotmail.com'||
-		$email=='dean@blackboxnews.com'||
-		$email=='getcomposted@hotmail.com'||
-		$email=='kryan0822@gmail.com'||
-		$email=='reddragonofwu@hotmail.com'||
-		$email=='tnhhook@gmail.com'||
-		$email=='coopkc@gmail.com'||
-		$email=='torrencehookington@gmail.com'||
-		$email=='incurse@gmail.com'||
-		$email=='park01141@hotmail.com'||
-		$email=='silverstarwalker@gmail.com'||
-		$email=='bigdawe@gmail.com'
-		){
-			$kstier = 8;
-		}
-		if($kstier==1){
-			$crystals += 600;
-		}else if($kstier==2){
-			$crystals += 1250;
-		}else if($kstier==3){
-			$crystals += 1250;
-			// add ring
-		}else if($kstier==4){
-			$crystals += 1250;
-			// add trinket
-		}else if($kstier==5){
-			$crystals += 3460;
-			// no items
-		}else if($kstier==6){
-			$crystals += 1250;
-			// banker + items
-		}else if($kstier==7){
-			$crystals += 1250;
-			// banker + merchant + items
-		}else if($kstier==8){
-			$crystals += 3460;
-		}
 		$confirmCode = rand_str(rand(35, 45));
 		// set all data in the DB
 		$query = "insert into `accounts` (`email`, `account`, `password`, `salt`, `status`, `paid`, `created`, `crystals`, `totalCrystals`, `kstier`, `promo`, `confirmCode`) VALUES (?, ?, ?, ?, ?, 'false', now(), $crystals, $crystals, $kstier, ?, ?)";
@@ -294,51 +169,6 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
 		$stmt->execute();
-		// kickstarter rewards
-		// ring: 3,4,6,7,8
-		if($kstier==3 || $kstier==4 || $kstier>=6){
-			$query = "update item set name='Kickstarter Ring',
-				itemSlot='ring',
-				rarity=3,
-				xPos=0,
-				yPos=-512,
-				allStats=7,
-				globalHaste=-70,
-				castingHaste=-70,
-				fear=12,
-				cold=12,
-				stun=12,
-				silence=12,
-				expFind=5,
-				goldFind=12,
-				flavorText='\"Thank you for your supporting the campaign.\" Maelfyn Sinifay', 
-				lightRadius=10 where
-				email=? and slot=0 and slotType='bank';
-			";
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('s', $email);
-			$stmt->execute();
-		}
-		// trinket: 4,6,7,8
-		if($kstier==4 || $kstier>=6){
-			$query = "update item set name='Kickstarter Trinket',
-				itemSlot='range',
-				rarity=3,
-				xPos=-768,
-				yPos=-960,
-				hp=25,
-				mp=25,
-				hpRegen=5,
-				mpRegen=5,
-				flavorText='\"Thank you for your supporting the campaign.\" Maelfyn Sinifay', 
-				allSkills=2,
-				allResist=12 where
-				email=? and slot=1 and slotType='bank';
-			";
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('s', $email);
-			$stmt->execute();
-		}
 		echo "Account Created!";
 		// send confirmation email
 		$msg1 = "<p>Hail, $account!</p><p>You have successfully registered for an account at Nevergrind. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
@@ -799,20 +629,10 @@
 		$stmt->execute();
 	}
 	function checkLoginStatus(){
-		global $link;
-		if(isset($_SESSION['reset'])){
-			$password = $_SESSION['reset'];
-			$hash = crypt($password, '$2a$07$'.$_SESSION['salt'].'$');
-			$verify = crypt($password, $hash); 
-			// verify that hashed reset matches
-			
-			echo "reset|".$_SESSION['tempEmail'];
+		if($_SESSION['email']==''){
+			echo "absent|X";
 		}else{
-			if($_SESSION['email']==''){
-				echo "absent|X";
-			}else{
-				echo "present|X";
-			}
+			echo "present|X";
 		}
 	}
 	function loadAllCharacters(){
@@ -1061,7 +881,7 @@
 			exit;
 		}
 		if(php_uname('n')=="JOE-PC"){
-			$host="localhost/ng";
+			$host="localhost";
 			$email="joemattleonard@gmail.com";
 		}else{
 			$host="nevergrind.com";
@@ -1085,8 +905,8 @@
 		$mail->addAddress($email); // $email
 		$mail->Subject = 'Reset Your Password';
 		$mail->isHTML(true);
-		$mail->Body = "<style>p{color:#111;}</style><p>Dear Customer,</p><p>This password reset request originated from https://nevergrind.com. Please click the link below to reset your account's password:</p><p><a class='neverworksReset' href='https://".$host."?reset=".$plainReset."'>Reset Your Password</a></p><p>Neverworks Games</p>";
-		$mail->altBody = "Dear Customer,\n\nThis password reset request originated from https://nevergrind.com. Please click the link below to reset your account's password:\n\nhttps://".$host."?reset=".$plainReset." \n\nNeverworks Games";
+		$mail->Body = "<style>p{color:#111;}</style><p>Dear Customer,</p><p>This password reset request originated from https://nevergrind.com. Please click the link below to reset your account's password:</p><p><a class='neverworksReset' href='https://".$host."reset.php?reset=".$plainReset."'>Reset Your Password</a></p><p>Neverworks Games</p>";
+		$mail->altBody = "Dear Customer,\n\nThis password reset request originated from https://nevergrind.com. Please click the link below to reset your account's password:\n\nhttps://".$host."reset.php?reset=".$plainReset." \n\nNeverworks Games";
 		$mail->send();
 		
 		// insert into database

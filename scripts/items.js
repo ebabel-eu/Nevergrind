@@ -15000,7 +15000,7 @@ function getLoot(Slot, Qitem, weaponType, rarity, armorType) {
 	Chat(x);
 	if (newRarity >= 3) {
 		g.lastDrop = P.item[NI].name;
-		if (location.pathname !== '/ng/' && location.protocol === "https:") {
+		if (!dev && location.protocol === "https:") {
 			$.ajax({
 				data : {
 					run : "addLoot",
