@@ -1,0 +1,12 @@
+Todo:
+- make login page separate
+- make store page separate
+- make header an include with account info?
+- make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
+- put nevergrind in /games/nevergrind folder
+- manage account page
+
+Sword of Truth?
+Error in parsing value for 'text-shadow' Declaration dropped (103 instances) expected end of value but found 'l'. eorr in parsing value for 'top'. declaration dropped
+[Stratin] whispers: Error in parsing value for 'bottom'. declaration dropped.
+[Stratin] whispers: Error in parsing value for 'left' declaration dropped

@@ -1,0 +1,45 @@
+# Begin cache control #
+ExpiresActive on
+ExpiresDefault "now plus 240 minutes"
+ExpiresByType text/html "now plus 240 minutes"
+<FilesMatch "\.(htm|html)$">
+FileETag MTime Size
+ExpiresDefault "now plus 240 minutes"
+</FilesMatch>
+
+<FilesMatch "\.(css|png|bmp|ico|gff|js|jpg|jpeg|gif|gcf|ogg|mp3)$">
+FileETag MTime Size
+ExpiresDefault "now plus 86400 minutes"
+</FilesMatch>
+
+# End cache control #
+DirectoryIndex index.php Home.html
+
+AddType audio/aac .aac
+AddType audio/mp4 .mp4 .m4a
+AddType audio/mpeg .mp1 .mp2 .mp3 .mpg .mpeg
+AddType audio/ogg .oga .ogg
+AddType audio/wav .wav
+AddType audio/webm .webm
+Options -Indexes
+
+# BEGIN GZIP
+<ifmodule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</ifmodule>
+# END GZIP
+
+# remove www. from HTTP requests
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
+
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+
+# no session timeout
+<IfModule mod_php5.c>
+php_value session.gc_maxlifetime 0
+php_value session.cookie_lifetime 0
+</IfModule>

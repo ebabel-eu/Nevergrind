@@ -1,0 +1,17 @@
+[02-Sep-2015 16:18:38 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/master1.php on line 736
+[02-Sep-2015 22:06:25 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 250
+[02-Sep-2015 22:06:25 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 676
+[03-Sep-2015 20:47:49 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 856
+[04-Sep-2015 16:28:19 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 250
+[04-Sep-2015 16:28:20 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 676
+[04-Sep-2015 19:33:38 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/master1.php on line 736
+[04-Sep-2015 19:35:10 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/master1.php on line 736
+[04-Sep-2015 19:35:29 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 250
+[04-Sep-2015 19:35:29 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 676
+[05-Sep-2015 13:18:48 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 250
+[05-Sep-2015 13:18:49 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 676
+[06-Sep-2015 02:20:46 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/master1.php on line 736
+[06-Sep-2015 02:21:00 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 250
+[06-Sep-2015 02:21:00 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 676
+[06-Sep-2015 19:59:45 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 250
+[06-Sep-2015 19:59:45 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 676

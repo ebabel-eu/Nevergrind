@@ -1,0 +1,57 @@
+		To whom it may concern,
+
+This particular position caught my eye as it appears to be the type of position I am looking for. It closely aligns with my web development strengths in javascript, JQuery, and CSS. I noticed that it mentions Canvas as a standout skill, which I have taken a strong interest in as of late. Working with canvas has been a lot of fun to work with due to its amazing performance in the latest web browsers. In all of my performance tests, I am truly shocked by how far web browsers have come. In some of my tests I have been able to animate thousands of particles on screen with nary a hiccup! There are a lot of great emerging canvas libraries. I am personally using easelJS, but there are several good ones. I would be interested to know if you are planning to use a canvas library for your project (I highly recommend this!).
+
+I have been using canvas extensively in my personal web project. It is a web game with a lot of moving parts, so it is highly reliant on a high frame rate and blistering performance—particularly for mobile! For this reason I am not a huge fan of bulky frameworks, though I understand why so many enterprises tend to lean on them. The tech stack for this project looks pretty lean which was another reason I was rather interested. 
+
+My current project is nice, but it is not oriented toward flashy visualizations, and I often find myself over-engineering long, animated introductions and wild animations just for the sake of showing off. It would be nice if my efforts were expended in a position where my talents are more appropriate!
+
+Sincerely,
+Joe Leonard
+		
+		
+		
+
+Javascript DOM Animation Performance:
+Why you should always use a div instead of an img in your HTML5 games:
+- img tags show loading icons for images that have not finished loading
+- .cssText is very powerful style property that allows you to set all styles at the cost of accessing
+
+the element once. This includes the background image... something that images cannot do.
+- Images require you to use src to change the image which costs accessing a DOM element separately
+- allows you to use image sprites with one element
+- more flexible than images. divs can be gradients, inset box shadows, text, etc
+
+Benefits of images:
+- cleaner syntax
+- easier to use sprites
+- automatically sets width and height
+_______________________________________________
+
+//media / reddit
+[Nevergrind's Website](https://www.nevergrind.com)
+______________________________________________________________________________________________
+[Imgur Album](https://https://imgur.com/a/vAH8A) | [Twitter](https://twitter.com/neverworksgames) | [Facebook](https://www.facebook.com/nevergrindthegame) | 
+[Forums](https://www.nevergrind.com/forums/) | [Youtube](https://www.youtube.com/user/Maelfyn?feature=mhee)
+______________________________________________________________________________________________
+Nevergrind is a 16-bit style RPG developed by Neverworks. Nevergrind is an HTML5 web game playable from any web browser (including your tablet). Select from 12 races and 14 classes to restore order to the world of Vandamor. Complete quests and find rare treasures in 43 zones across three difficulty levels! Achieve level 99 and be an epic hero!! Play in hardcore mode!
+
+* [Home page artwork](https://i.imgur.com/LwkUJy1.png)
+* [Braxxen's Bastille](https://i.imgur.com/Gak0TTP.png)
+* [Viston's Redoubt](https://i.imgur.com/I7jWNkM.png)
+
+MARKETING:
+
+- YouTube
+- Facebook
+- Twitter
+- NG Forums
+- Reddit
+- Greensock?
+
+Weekly Events:
+#screenshotsaturday on Twitter
+
+
+Yeah, I might give it another whirl just to beef up my resume a bit. I'm looking to transition from tech writing to web dev, so it would be in my interest to learn it.
+
