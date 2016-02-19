@@ -45,7 +45,7 @@
 </head>
 
 <body id="curtain">
-	<div id="window2">
+	<div id="mainBG">
 		<header id="currencyIndicator" class="strongShadow">
 		<?php
 				require_once('/php/connect_plain.php');
@@ -130,6 +130,13 @@
 		require("/includes/ga.html");
 	?>
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<script>
+		if(location.host==="localhost"){
+			Stripe.setPublishableKey('pk_test_I7D5QZ64HRxIkWvYIVLhomLs');
+		}else{
+			Stripe.setPublishableKey('pk_live_1EVTTTw84wpPdLgWSIfB8d5E');
+		}
+	</script>
 	<script>
 		$.ajaxSetup({
 			type: 'POST',

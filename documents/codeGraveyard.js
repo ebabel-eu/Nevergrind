@@ -1,6 +1,6 @@
 data = {
     framerate:20,
-    images: ['images1/spriteTest.png'],
+    images: ['/images1/spriteTest.png'],
     frames: {
         width:64,
         height:64
@@ -92,7 +92,7 @@ var s2 = s1.cacheCanvas;
 	colorizeAmount: ? 
 */
 	
-	cWin[0] = new createjs.Bitmap("images1/redparticle50.png");
+	cWin[0] = new createjs.Bitmap("/images1/redparticle50.png");
 	cWin[0].image.onload = function(){
 		cWin[0].setTransform(100, 300, 1, 1, 0, 0, 0, 12.5, 12.5);
 		var b = cWin[0].getBounds();
@@ -100,11 +100,11 @@ var s2 = s1.cacheCanvas;
 		stage[5].addChild(cWin[0])
 	}
 	
-	bmp[2].image.src = "images1/an imp.png";
+	bmp[2].image.src = "/images1/an imp.png";
 	
 	// x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY
 	
-	bmp[x] = new createjs.Bitmap("images1/"+Mimg+".png");
+	bmp[x] = new createjs.Bitmap("/images1/"+Mimg+".png");
 	bmp[x].image.onload = function(){
 	// image values
 		var bounds = bmp[x].getBounds();
@@ -221,7 +221,7 @@ var s2 = s1.cacheCanvas;
 	wor.style.height='0px';
 	wor.style.left=x8+'px';
 	wor.style.top=y8+'px';
-	wor.src="images1/whiteLight3.png";
+	wor.src="/images1/whiteLight3.png";
 	NG.eWin.appendChild(wor);
 	TweenMax.to(wor, .1, {
 		width:70,
@@ -252,7 +252,7 @@ var s2 = s1.cacheCanvas;
 	wor2.style.height='0px';
 	wor2.style.left=x9+'px';
 	wor2.style.top=y9+'px';
-	wor2.src="images1/whiteLight3.png";
+	wor2.src="/images1/whiteLight3.png";
 	NG.eWin.appendChild(wor2);
 	TweenMax.to(wor2, .1, {
 		width:70,

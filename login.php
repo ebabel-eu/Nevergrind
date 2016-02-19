@@ -29,7 +29,7 @@
 </head>
 
 <body id="curtain">
-	<div id="window2">
+	<div id="mainBG">
 		<header id="currencyIndicator" class="strongShadow">
 		<?php
 			echo 

@@ -1,13 +1,14 @@
 Todo:
-- make .replace() use a localStorage value that saves where it re-directed from
-- make store page separate
-- insta login at checkLoginStatus
-- make include for google analytics
+
+- put nevergrind in /games/nevergrind folder
+- put firmament wars /games/FirmamentWars
 
 - make header an include with account info?
+
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
-- put nevergrind in /games/nevergrind folder
-- manage account page
+
+- manage account page?
+
 
 Sword of Truth?
 Error in parsing value for 'text-shadow' Declaration dropped (103 instances) expected end of value but found 'l'. eorr in parsing value for 'top'. declaration dropped
