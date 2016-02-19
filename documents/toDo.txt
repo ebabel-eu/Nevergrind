@@ -1,6 +1,6 @@
 Todo:
+- make .replace() use a localStorage value that saves where it re-directed from
 - make store page separate
-- make login page separate
 - insta login at checkLoginStatus
 - make include for google analytics
 

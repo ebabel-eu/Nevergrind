@@ -756,9 +756,9 @@
 				if($_SESSION['customerId']==''){
 					// Create a Customer
 					$customer = Stripe_Customer::create(array(
-					  "card" => $token,
-					  "description" => $_SESSION['email'])
-					);
+						"card" => $token,
+						"description" => $_SESSION['email']
+					));
 					$_SESSION['customerId'] = $customer->id;
 				}
 			}

@@ -10,6 +10,7 @@
 		header("Location: /");
 		exit();
 	}
+	$refer = isset($_GET['back']) ? "/".$_GET['back'] : "/";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +55,7 @@
 						<input type="password" id="resetVerifyPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Verify Password">
 						<div id="resetPW" class="strongShadow NGgradient">Reset Password</div>
 					</form>';
-			}else{
+			} else {
 				echo 
 					'<form id="loginWrap" class="strongShadow" autocomplete="on">
 						<div id="createAccountWrap">
@@ -92,6 +93,7 @@
 					</form>';
 			}
 		}
+		echo "<a id='refer' style='display:none' href='{$refer}'>REFER</a>";
 	?>
 	</div><!-- window 2 -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
@@ -148,8 +150,8 @@
 		}).done(function(data) {
 			QMsg(data + " Redirecting!");
 			setTimeout(function(){
-				location.reload();
-			}, 1000);
+				$("#refer")[0].click();
+			}, 250);
 			createAccountLock = false;
 		}).fail(function() {
 			QMsg("Could not contact the server!");
@@ -182,11 +184,7 @@
 				password: $("#loginPassword").val()
 			}
 		}).done(function(data) {
-			if (data === "Login successful!") {
-				location.reload();
-			} else {
-				QMsg(data);
-			}
+			data === "Login successful!" ? $("#refer")[0].click() : QMsg(data);
 		}).fail(function() {
 			QMsg("Could not contact the server!");
 		}).always(function(){
@@ -280,15 +278,8 @@
 		}
 	});
 	</script>
-	<script>
-		if(location.hostname!=="localhost"){
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-			ga('create', 'UA-35167620-1', 'auto');
-			ga('send', 'pageview');
-		}
-	</script>
+	<?php
+		require("/includes/ga.html");
+	?>
 </body>
 </html>
