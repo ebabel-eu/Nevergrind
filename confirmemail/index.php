@@ -93,12 +93,32 @@
 						$stmt = $link->prepare($query);
 						$stmt->bind_param('s', $email);
 						$stmt->execute();
-						echo "<div id='report'><p>Email account confirmed!</p><p>You have earned 75 Never Crystals!</p><p>Enjoy your time playing Nevergrind!</p><p><a id='play-now' href='https://nevergrind.com'>Play Nevergrind!</a></p></div>";
+						echo "<div id='report'>
+							<p>Email account confirmed!</p>
+							<p>You have earned 75 Never Crystals!</p>
+							<p>Enjoy your time playing our games!</p>
+							<p>
+								<div>
+									<a id='play-now' href='https://nevergrind.com'>Play Nevergrind!</a>
+								</div>
+							</p>
+						</div>";
 					} else {
-						echo "<div id='report'><p>The confirmation code did not match!</p><p>Contact <a href='support@nevergrind.com'>support@nevergrind.com</a> if you have any concerns.</p><p>Or just ignore this message and go <a href='https://nevergrind.com/'>slay some dragons</a></p></div>";
+						echo "
+						<div id='report'>
+							<p>The confirmation code did not match!</p>
+							<p>Contact <a href='support@nevergrind.com'>support@nevergrind.com</a> if you have any concerns.</p>
+							<p>Or just ignore this message and go <a href='https://nevergrind.com/'>play vidya games</a>
+							</p>
+						</div>";
 					}
 				}else{
-					echo "<div id='report'><p>This email account has already been confirmed... or something else went wrong.</p><p>Contact <a href='support@nevergrind.com'>support@nevergrind.com</a> if you have any concerns.</p><p>Or just ignore this message and go <a href='https://nevergrind.com/'>slay some dragons</a></p></div>";
+					echo "
+					<div id='report'>
+						<p>This email account has already been confirmed... or something else went wrong.</p>
+						<p>Contact <a href='support@nevergrind.com'>support@nevergrind.com</a> if you have any concerns.</p>
+						<p>Or just ignore this message and go <a href='https://nevergrind.com/'>slay some dragons</a></p>
+					</div>";
 				}
 			}
 		?>

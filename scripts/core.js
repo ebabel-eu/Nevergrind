@@ -627,8 +627,8 @@ if (location.hostname === 'localhost') {
 var CLR = {
     martyr: false
 }
-var soundLocation = location.protocol + '//nevergrind.com/sound1/',
-    musicLocation = location.protocol + '//nevergrind.com/music1/',
+var soundLocation = 'sound1/',
+    musicLocation = 'music1/',
     timers = {},
     portalStatus = false,
     loreTimer = TDC(),

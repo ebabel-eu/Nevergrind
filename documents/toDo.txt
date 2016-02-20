@@ -1,5 +1,4 @@
 Todo:
-
 - put firmament wars /games/FirmamentWars
 http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 - build 1-0-99 for /games/nevergrind/
@@ -8,6 +7,58 @@ http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
 
 - manage account page?
+
+Rules:
+- Players start with 5 MAN in their capital + 3 MAN from capital. Turn order is randomly rolled for and goes in order players joined the game.
+- Each players gets 3 hammers per turn (production/moves)
+- Attacking/advancing, splitting, or fortifying armies costs 1 hammer
+- Player is eliminated when you have no territories (rank is determined at this time)
+- Player wins when all capitals are captured
+- When a player wins, remaining players are ranked based on total territories. Ties are broken by total units remaining. Final tie breaker is order you entered the game.
+
+Reinforcements:
++3 MAN for capital
++MAN for granary, church, cathedral
++3 hammers
++get bonuses (below)
+
+GET +MAN BONUSES: 
++3 DUBS: 11, 22, 33, 44, 55 etc
++4 NAZI DUBS: 88
++7 TRIPS: 111, 222, 333, 444, etc
++9 SATANIC TRIPS: 666
++10 MAN SMOKE WEED EVERY DAY: 420
++12 HOLY TRIPS: 777
++15 JESUS CHRIST GET: 316
++18 QUADS: 1111, 2222
++21 HITLER GET: 1488
++21 LEET GET: 1337
++21 MURICA GET: 1776
++25 GET: X0000
+
+Players Actions:
+1 hammer Attack
+1 hammer Fortify (DEF bonus) 15% (after 1 turn) 30% (after 2 turns)
+1 hammer Split an army
+Build (below)
+
+Build Options:
+1 hammer 6+ build granary +1 MAN (permanent)
+1 hammer 10+ build bulwark +1 DEF (permanent)
+1 hammer 15+ build armory +1 ATK (permanent)
+
+2 hammers 20+ build church +2 MAN
+2 hammers 25+ build fortress +2 DEF (permanent)
+2 hammers 30+ build catapults +2 ATK (permanent)
+
+3 hammers 35+ build cathedral +4 MAN
+3 hammers 40+ build wall +8 DEF
+3 hammers 50+ build cannons +6 ATK (permanent)
+
+10 hammers 100+ build nuke reduce tile to 1 power and destroy all structures except capitals
+
+Capitals have: +5 DEF +3 MAN
+
 
 
 Sword of Truth?
