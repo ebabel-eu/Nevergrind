@@ -1,8 +1,8 @@
 Todo:
 
-- put nevergrind in /games/nevergrind folder
 - put firmament wars /games/FirmamentWars
-
+http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
+- build 1-0-99 for /games/nevergrind/
 - make header an include with account info?
 
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
