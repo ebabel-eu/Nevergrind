@@ -1,3 +1,8 @@
+
+Warning: require(/includes/ga.php): failed to open stream: No such file or directory in C:\xampp\htdocs\games\firmament-wars\index.php on line 112
+
+Fatal error: require(): Failed opening required '/includes/ga.php' (include_path='.;C:\xampp\php\PEAR') in C:\xampp\htdocs\games\firmament-wars\index.php on line 112
+
 data = {
     framerate:20,
     images: ['/images1/spriteTest.png'],

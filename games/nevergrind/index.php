@@ -522,8 +522,8 @@
 			}
 		})(document);
 	</script>
-	<?php
-		require("/includes/ga.html");
-	?>
 </body>
+<?php
+	require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
+?>
 </html>

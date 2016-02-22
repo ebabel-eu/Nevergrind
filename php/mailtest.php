@@ -1,6 +1,6 @@
 <?php
 
-		require 'PHPMailer/PHPMailerAutoload.php';
+		require '/php/PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 
 		$mail->isSMTP();                                      // Set mailer to use SMTP
@@ -29,7 +29,7 @@
 		}
 		/*
 		// send email confirmation
-		require 'PHPMailer/PHPMailerAutoload.php';
+		require '/php/PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP();
 		$mail->Host = 'smtp.gmail.com';

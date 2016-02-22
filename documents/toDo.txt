@@ -59,6 +59,8 @@ Build Options:
 
 Capitals have: +5 DEF +3 MAN
 
+Flags with words on it:
+
 
 
 Sword of Truth?

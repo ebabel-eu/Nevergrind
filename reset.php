@@ -26,6 +26,16 @@
 	<link rel="shortcut icon" href="/images1/favicon.ico">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<meta name="viewport" content="width=1280,user-scalable=no">
+	<style>
+		#currencyIndicator{
+			width: 100%;
+		}
+		#mainBG{
+			width: 1024px;
+			height: 768px;
+			background: url('/backgrounds/home.jpg') -110px 0px;
+		}
+	</style>
 </head>
 
 <body id="curtain">

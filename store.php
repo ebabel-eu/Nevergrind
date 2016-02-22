@@ -14,12 +14,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Nevergrind | Purchase Never Crystals</title>
+	<title>Nevergrind | Never Crystal Shop</title>
 	<meta charset="utf-8">
 	<meta name="author" content="Joe Leonard">
 	<meta name="referrer" content="always">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<meta name="viewport" content="width=1280,user-scalable=no">
+	<meta name="viewport" content="width=1024,user-scalable=no">
 	<meta name="twitter:widgets:csp" content="on">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
@@ -40,6 +40,14 @@
 			opacity: .6;
 			background: #111;
 			z-index:9999999;
+		}
+		#currencyIndicator{
+			width: 100%;
+		}
+		#mainBG{
+			width: 1024px;
+			height: 768px;
+			background: url('/backgrounds/home.jpg') -110px 0px;
 		}
 	</style>
 </head>
@@ -63,7 +71,7 @@
 					<div id="crystalCount" class="accountValueText2">'.$crystals.'</div>
 				</div>';
 				echo "<div class='modePanel'>";
-					echo "Purchase Never Crystals";
+					echo "Never Crystal Shop";
 				echo '</div>';
 			?>
 		</header>
@@ -218,17 +226,22 @@
 		});
 		
 		function QMsg(msg){
-			$("#payment-errors").text(msg);
-			TweenMax.killTweensOf("#payment-errors");
-			TweenMax.fromTo('#payment-errors', 2, {
-				opacity: 1,
+			var e = $("#payment-errors");
+			e.text(msg);
+			TweenMax.set(e, {
+				transformPerspective: 300,
+				transformOrigin: '50% 0'
+			});
+			TweenMax.killTweensOf(e);
+			TweenMax.fromTo(e, 2, {
+				rotationX: 0,
 				height: "auto"
 			}, {
-				opacity: 0,
+				rotationX: -90,
 				delay: 8,
 				height: 0,
 				onComplete: function(){
-					$("#payment-errors").text("");
+					e.text("");
 				}
 			});
 		}

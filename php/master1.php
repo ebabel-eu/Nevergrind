@@ -174,7 +174,7 @@
 		$msg1 = "<p>Hail, $account!</p><p>You have successfully registered for an account at Nevergrind. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
 		$msg2 = "Hail, $account,\n\nYou have successfully registered for an account at Nevergrind. Here is your information:\n\nUsername: $account\nEmail: $email\n\nYou can access the site at https://nevergrind.com/\n\nPlease confirm your email address to continue:\n\nhttps://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode\n\nHave a great day!";
 		
-		require 'PHPMailer/PHPMailerAutoload.php';
+		require '/php/PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP(); // Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
@@ -208,7 +208,7 @@
 		$msg1 = "<p>Hail, $account!</p><p>You have requested an account confirmation email. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
 		$msg2 = "Hail, $account,\n\nYou have requested an account confirmation email. Here is your information:\n\nUsername: $account\nEmail: $email\n\nYou can access the site at https://nevergrind.com/\n\nPlease confirm your email address to continue:\n\nhttps://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode\n\nHave a great day!";
 		
-		require 'PHPMailer/PHPMailerAutoload.php';
+		require $_SERVER['DOCUMENT_ROOT'] . '/php/PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP(); // Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
@@ -723,7 +723,7 @@
 		global $link;
 		$amount = $_POST['amount']*1;
 		$oldcard = $_POST['oldcard'];
-		require('lib/Stripe.php');
+		require('/php/lib/Stripe.php');
 		if(php_uname('n')=="JOE-PC"){
 			$stripeKey = $_SESSION['STRIPE_TEST'];
 		}else{
@@ -827,7 +827,7 @@
 			}
 		}else{
 			// errors
-			require 'PHPMailer/PHPMailerAutoload.php';
+			require '/php/PHPMailer/PHPMailerAutoload.php';
 			$mail = new PHPMailer;
 			$mail->isSMTP(); // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
@@ -884,7 +884,7 @@
 		$hash = crypt($plainReset, '$2a$07$'.$_SESSION['salt'].'$'); // blowfish
 		$dbReset = crypt($plainReset, $hash);
 		
-		require 'PHPMailer/PHPMailerAutoload.php';
+		require '/php/PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP(); // Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com

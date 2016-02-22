@@ -26,6 +26,16 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<link rel="shortcut icon" href="/images1/favicon.ico">
+	<style>
+		#currencyIndicator{
+			width: 100%;
+		}
+		#mainBG{
+			width: 1024px;
+			height: 768px;
+			background: url('/backgrounds/home.jpg') -110px 0px;
+		}
+	</style>
 </head>
 
 <body id="curtain">
