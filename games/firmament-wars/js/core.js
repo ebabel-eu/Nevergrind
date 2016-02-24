@@ -4,6 +4,13 @@ $.ajaxSetup({
 });
 TweenMax.defaultEase = Quad.easeOut;
 
+var GLB = {
+    musicStatus: 100,
+    soundStatus: 100,
+    videoSetting: "High",
+    showCombatLog: "On",
+    debugMode: "Off"
+}
 var isXbox = /Xbox/i.test(navigator.userAgent),
     isPlaystation = navigator.userAgent.toLowerCase().indexOf("playstation") >= 0,
     isNintendo = /Nintendo/i.test(navigator.userAgent),
@@ -19,68 +26,27 @@ var isXbox = /Xbox/i.test(navigator.userAgent),
 	dom = {};
 
 function resizeWindow() {
-    /*	
-    html{
-    	background:#060606;
-    	overflow:hidden;	
-    }
-    #gameView{
-    	position:absolute;
-    	left:50%;
-    	top:50%;
-    	width:100%;
-    	height:100%;
-    	background:#222;
-    }
-    #ui{
-    	position:absolute;
-    	background:#553;
-    	bottom:0;
-    	width:100%;
-    	height:8%;
-    }
-    #ui2{
-    	position:absolute;
-    	background:#553;
-    	color:#fff;
-    	top:0;
-    	left:0;
-    	width:100%;
-    	height:15%;
-    }
-    ======
-    var gameView = document.getElementById('gameView');
+    var e = document.getElementById('body');
     // game ratio
-    var widthToHeight = 1280/720;
+    var widthToHeight = 1024/768;
     // current window size
-    var newWidth = window.innerWidth;
-    var newHeight = window.innerHeight;
-    var newWidthToHeight = newWidth / newHeight;
-    if(newWidthToHeight > widthToHeight){
+    var w = window.innerWidth > 1024 ? 1024 : window.innerWidth;
+    var h = window.innerHeight > 768 ? 768 : window.innerHeight;
+    if(w / h > widthToHeight){
     	// too tall
-    	newWidth = newHeight * widthToHeight;
-    	gameView.style.height = newHeight + 'px';
-    	gameView.style.width = newWidth + 'px';
+    	w = h * widthToHeight;
+    	e.style.height = h + 'px';
+    	e.style.width = w + 'px';
     }else{
     	// too wide
-    	newHeight = newWidth / widthToHeight;
-    	gameView.style.width = newWidth + 'px';
-    	gameView.style.height = newHeight + 'px';
+    	h = w / widthToHeight;
+    	e.style.width = w + 'px';
+    	e.style.height = h + 'px';
     }
-    // wrap
-    gameView.style.marginTop = (-newHeight / 2) + 'px';
-    gameView.style.marginLeft = (-newWidth / 2) + 'px';
-    gameView.style.fontSize = (newWidth / 400) + 'em';
-    // canvas
-    var game = document.getElementById('game');
-    game.style.width = newWidth + 'px';
-    game.style.height = newHeight + 'px';	
-    */
+    e.style.marginTop = (-h / 2) + 'px';
+    e.style.marginLeft = (-w / 2) + 'px';
 }
 
-$(window).on('load resize orientationchange', function() {
-    resizeWindow();
-});
 
 function Chat(entry, fg) {
 	var e = document.getElementById("chat");
@@ -121,11 +87,6 @@ function Chat(entry, fg) {
 		NG.combatLog.scrollTop = NG.combatLog.scrollHeight;
 	}
 }
-$(document).ready(function() {
-    $("img").on('dragstart', function(event) {
-        event.preventDefault();
-    });
-});
 
 // sound functions
 var browserOgg = (isOpera || isFirefox || isChrome) ? true : false,
@@ -202,21 +163,6 @@ function loadMusic(sound) {
     }
 }
 initMusic();
-$("#bgmusic").on('ended', function() {
-    var x = document.getElementById('bgmusic');
-    x.currentTime = 0;
-    x.play();
-});
-$("#bgamb1").on('ended', function() {
-    var x = document.getElementById('bgamb1');
-    x.currentTime = 0;
-    x.play();
-});
-$("#bgamb2").on('ended', function() {
-    var x = document.getElementById('bgamb2');
-    x.currentTime = 0;
-    x.play();
-});
 
 function playMusic(foo) {
     if (isMobile === false) {
@@ -308,10 +254,6 @@ function testAjax() {
 		x = JSON.parse(data);
     });
 }
-
-$("#gameView").on('dragstart', 'img', function(e) {
-    e.preventDefault();
-});
 
 function checkSessionActive() {
 	$.ajax({
@@ -510,3 +452,71 @@ function can(img, target, x, y, w, h, regCenter, first){
 	}
 	return e;
 }
+// events
+$(document).ready(function() {
+	$(window).on('load resize orientationchange', function() {
+		resizeWindow();
+	});
+	$("#bgmusic").on('ended', function() {
+		var x = document.getElementById('bgmusic');
+		x.currentTime = 0;
+		x.play();
+	});
+	$("#bgamb1").on('ended', function() {
+		var x = document.getElementById('bgamb1');
+		x.currentTime = 0;
+		x.play();
+	});
+	$("#bgamb2").on('ended', function() {
+		var x = document.getElementById('bgamb2');
+		x.currentTime = 0;
+		x.play();
+	});
+	$("#gameView").on('dragstart', 'img', function(e) {
+		e.preventDefault();
+	});
+    $("img").on('dragstart', function(event) {
+        event.preventDefault();
+    });
+	// SVG
+	$(".land").on("mouseenter", function(){
+		console.info($(this).data("name"));
+		TweenMax.set($(this).get(0), {
+			fill: "#880000"
+		});
+	}).on("mouseleave", function(){
+		TweenMax.to($(this).get(0), .25, {
+			fill: "#002255"
+		});
+	}).on("click", function(e){
+		console.info($(this).data("name"));
+	});;
+	// startup game
+	// playMusic("WaitingBetweenWorlds");
+	// draw map
+	/*
+	var e = $(".land");
+	TweenMax.fromTo(e, 2, {
+		drawSVG: 0,
+		strokeOpacity: 1
+	}, {
+		drawSVG: "102%",
+		ease: Linear.easeNone
+	});
+	TweenMax.staggerFromTo(e, 1, {
+		fillOpacity: 0,
+	}, {
+		fillOpacity: 1,
+		delay: 6,
+		ease: Linear.easeNone
+	}, .033);
+	*/
+	
+	Draggable.create("#world", {
+		type: "x,y",
+		bounds: "#game",
+		overshootTolerance: 0,
+		throwProps: true
+	});
+	
+});
