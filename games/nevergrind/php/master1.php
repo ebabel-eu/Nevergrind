@@ -135,40 +135,6 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('s', $email);
 		$stmt->execute();
-		// initialize 10 bank slots
-		$query = "insert into item (
-			`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
-		) VALUES 
-		(?, 'bank', '', 0, '', '', '', '', 'false'),
-		(?, 'bank', '', 1, '', '', '', '', 'false'),
-		(?, 'bank', '', 2, '', '', '', '', 'false'),
-		(?, 'bank', '', 3, '', '', '', '', 'false'),
-		(?, 'bank', '', 4, '', '', '', '', 'false'),
-		(?, 'bank', '', 5, '', '', '', '', 'false'),
-		(?, 'bank', '', 6, '', '', '', '', 'false'),
-		(?, 'bank', '', 7, '', '', '', '', 'false'),
-		(?, 'bank', '', 8, '', '', '', '', 'false'),
-		(?, 'bank', '', 9, '', '', '', '', 'false')";
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
-		$stmt->execute();
-		// hardcore mode
-		$query = "insert into item (
-			`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
-		) VALUES 
-		(?, 'bank', '', 0, '', '', '', '', 'true'),
-		(?, 'bank', '', 1, '', '', '', '', 'true'),
-		(?, 'bank', '', 2, '', '', '', '', 'true'),
-		(?, 'bank', '', 3, '', '', '', '', 'true'),
-		(?, 'bank', '', 4, '', '', '', '', 'true'),
-		(?, 'bank', '', 5, '', '', '', '', 'true'),
-		(?, 'bank', '', 6, '', '', '', '', 'true'),
-		(?, 'bank', '', 7, '', '', '', '', 'true'),
-		(?, 'bank', '', 8, '', '', '', '', 'true'),
-		(?, 'bank', '', 9, '', '', '', '', 'true')";
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
-		$stmt->execute();
 		echo "Account Created!";
 		// send confirmation email
 		$msg1 = "<p>Hail, $account!</p><p>You have successfully registered for an account at Nevergrind. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
@@ -354,6 +320,53 @@
 		$my = $_POST['my'];
 		$illegal = array("\\", "/", ":", "*", "?", '"', "'", ">", "<", "1", "2", "3", "4", "5", "6", "7", "8", "9", "`", "0");
 		$my['name'] = str_replace($illegal, "", $my['name']);
+		// does this guy need bank slots?
+		// initialize 10 bank slots
+		$email = $_SESSION['email'];
+		$query = 'select count(row) from item where slotType="bank" and email=?';
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($dbcount);
+		while($stmt->fetch()){
+			$count = $dbcount;
+		}
+		if($count < 1){
+			$query = "insert into item (
+				`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
+			) VALUES 
+			(?, 'bank', '', 0, '', '', '', '', 'false'),
+			(?, 'bank', '', 1, '', '', '', '', 'false'),
+			(?, 'bank', '', 2, '', '', '', '', 'false'),
+			(?, 'bank', '', 3, '', '', '', '', 'false'),
+			(?, 'bank', '', 4, '', '', '', '', 'false'),
+			(?, 'bank', '', 5, '', '', '', '', 'false'),
+			(?, 'bank', '', 6, '', '', '', '', 'false'),
+			(?, 'bank', '', 7, '', '', '', '', 'false'),
+			(?, 'bank', '', 8, '', '', '', '', 'false'),
+			(?, 'bank', '', 9, '', '', '', '', 'false')";
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
+			$stmt->execute();
+			// hardcore mode
+			$query = "insert into item (
+				`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
+			) VALUES 
+			(?, 'bank', '', 0, '', '', '', '', 'true'),
+			(?, 'bank', '', 1, '', '', '', '', 'true'),
+			(?, 'bank', '', 2, '', '', '', '', 'true'),
+			(?, 'bank', '', 3, '', '', '', '', 'true'),
+			(?, 'bank', '', 4, '', '', '', '', 'true'),
+			(?, 'bank', '', 5, '', '', '', '', 'true'),
+			(?, 'bank', '', 6, '', '', '', '', 'true'),
+			(?, 'bank', '', 7, '', '', '', '', 'true'),
+			(?, 'bank', '', 8, '', '', '', '', 'true'),
+			(?, 'bank', '', 9, '', '', '', '', 'true')";
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
+			$stmt->execute();
+		}
 		// Check name constraint - only allow one name per season
 		$query = 'select count(row) from characters where name=? and season=1';
 		$stmt = $link->prepare($query);

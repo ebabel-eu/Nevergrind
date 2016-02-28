@@ -158,10 +158,14 @@
 				promo: $("#promoCode").val().toLowerCase()
 			}
 		}).done(function(data) {
-			QMsg(data + " Redirecting!");
-			setTimeout(function(){
-				$("#refer")[0].click();
-			}, 250);
+			if (data.indexOf("Account Created") === -1){
+				QMsg(data);
+			} else {
+				QMsg(data + " Redirecting!");
+				setTimeout(function(){
+					$("#refer")[0].click();
+				}, 500);
+			}
 			createAccountLock = false;
 		}).fail(function() {
 			QMsg("Could not contact the server!");
@@ -289,7 +293,7 @@
 	});
 	</script>
 	<?php
-		require("/includes/ga.html");
+		require("includes/ga.html");
 	?>
 </body>
 </html>

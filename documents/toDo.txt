@@ -1,7 +1,13 @@
 Todo:
-- put firmament wars /games/FirmamentWars
+- create main window menu -> logout button
+- create buttons/tabs for Create Join Options
+- Options should allow you to set nation name and flag
+- Create game -> creates a new game and initializes number of players, etc
+- join game -> allows you to rejoin a game at any time
+
 http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
-- build 1-0-99 for /games/nevergrind/
+
+- BUILD 1-0-99 for /games/nevergrind/ because it doesn't load
 - make header an include with account info?
 
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?

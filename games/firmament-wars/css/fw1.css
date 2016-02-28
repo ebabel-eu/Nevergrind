@@ -16,15 +16,9 @@ html{
 input{
 	cursor: text;
 }
-button{
-}
-button:disabled{
-}
-table{
-}
 body{
 	position: absolute;
-	margin: 0 auto;
+	visibility: hidden;
 	left:50%;
 	top:50%;
 	width:100%;
@@ -34,16 +28,13 @@ body{
 }
 header{
 	position: relative;
-	height:32px;
-	line-height: 32px;
-	font-size: 1em;
-	box-shadow: 0 32px rgba(0,32,92,1) inset;
-	border-bottom:1px solid #333;
+	font-size: 1em; 
+	background: rgba(0,14,88,.9);
+	border-bottom:1px solid #02b;
+	width: 100%;
 	overflow:hidden;
 	z-index:99999;
 	color: #fff;
-}
-*{
 }
 audio{
 	display: none;
@@ -54,8 +45,7 @@ h1,h2{
 	margin:0;
 	padding:0;
 }
-#fw{
-}
+/* common helpers */
 .crystalIcon{
 	background:url('/images1/currency.png') 100% 0 / 200% 100%;
 	width:30px;
@@ -85,15 +75,71 @@ h1,h2{
 	line-height:32px;
 	padding-right:16px;
 }
-.fancyHR{
+.fancyhr{
 	border: 0; 
 	height: 1px; 
-	background-image: -webkit-linear-gradient(left, rgba(176,176,176,0), rgba(176,176,176,0.75), rgba(176,176,176,0)); 
-	background-image: -moz-linear-gradient(left, rgba(176,176,176,0), rgba(176,176,176,0.75), rgba(176,176,176,0)); 
-	background-image: -ms-linear-gradient(left, rgba(176,176,176,0), rgba(176,176,176,0.75), rgba(176,176,176,0)); 
-	background-image: -o-linear-gradient(left, rgba(176,176,176,0), rgba(176,176,176,0.75), rgba(176,176,176,0)); 
-	margin:12px 0;
+	background-image: -webkit-linear-gradient(
+		left, 
+		rgba(16,64,176,.2), 
+		rgba(16,64,176,1), 
+		rgba(16,64,176,.2)
+	); 
+	background-image: -moz-linear-gradient(
+		left, 
+		rgba(16,64,176,.2), 
+		rgba(16,64,176,1), 
+		rgba(16,64,176,.2)
+	); 
+	background-image: -ms-linear-gradient(
+		left, 
+		rgba(16,64,176,.2), 
+		rgba(16,64,176,1), 
+		rgba(16,64,176,.2)
+	); 
+	background-image: -o-linear-gradient(
+		left, 
+		rgba(16,64,176,.2), 
+		rgba(16,64,176,1), 
+		rgba(16,64,176,.2)
+	); 
+	margin:8px 8px;
 }
+.shadow1{
+	text-shadow:
+		1px 1px #222,
+		-.4px .6px #222,
+		.6px -.6px #222,
+		-.4px 0 #222,
+		.6px 0 #222,
+		0 .6px #222,
+		0 -.6px #222,
+		.6px .6px #222;
+}
+.shadow2{
+	text-shadow:
+		.6px .6px #222,
+		-.4px .6px #222,
+		.6px -.6px #222,
+		-.4px 0 #222,
+		.6px 0 #222,
+		0 .6px #222,
+		0 -.6px #222,
+		0 0 5px #222,
+		0 0 10px #222,
+		0 0 20px #222;
+}
+.shadow3{
+	text-shadow:
+		.6px .6px #222,
+		-.4px .6px #222,
+		-.4px 0 #222,
+		.6px 0 #222,
+		0 .6px #222,
+		0 -.6px #222,
+		0px 0px 5px #222,
+		0px 0px 2px #222;
+}
+/* Firmament Wars */
 #chatId{
 	display: none;
 }
@@ -111,10 +157,10 @@ h1,h2{
 }
 #world{
 	position: absolute;
-	width: 1009px;
-	height: 652px;
+	top: 0;
+	left: 0;
 	width: 1868px;
-	height: 849px;
+	height: 931px;
 }
 .land{
 	fill: #002255;
@@ -124,6 +170,85 @@ h1,h2{
 	stroke-width: .5;
 	cursor: pointer;
 }
-.land{
-	cursor:
+#battle{
+	position: absolute;
+	bottom: 1%;
+	left: 2%;
+	width: 96%;
+	z-index: 2000;
+	pointer-events: none;
+}
+.block{
+	display: block;
+}
+.center{
+	position: relative;
+	margin: 0 auto;
+}
+.w60{
+	width: 6%;
+}
+.w120{
+	width: 12%;
+}
+.w200{
+	width: 20%;
+}
+.w240{
+	width: 24%;
+}
+.w320{
+	width: 32%;
+}
+.w480{
+	width: 48%;
+}
+.w100{
+	width: 100%;
+}
+.nation{
+	font-size: 3em;
+	font-family: Times New Roman, serif;
+}
+.fw-primary{
+	border: 1px solid #3377dd;
+	background: rgba(0,0,0,.5);
+	border-radius: 6px;
+	color: #eef;
+	z-index: 2020;
+	box-shadow: 0 0 5px #3377dd, 0 0 5px #3377dd inset;
+}
+#menu{
+	position: absolute;
+	top: 7%;
+	left: 2%;
+	width: 48%;
+}
+#menuHead{
+	padding: 8px;
+}
+#menuContent{
+	padding: 8px;
+	
+}
+#menuFoot{
+	padding: 8px;
+}
+#overlay{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.5);
+	z-index:9999999;
+}
+#configureNation{
+	display: none;
+	position: absolute;
+	padding: 8px;
+	top: 7%;
+	left: 52%;
+	width: 48%;
 }

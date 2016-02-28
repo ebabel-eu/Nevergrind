@@ -1,9 +1,17 @@
 $.ajaxSetup({
     type: 'POST',
-    url: '/php/master1.php'
+    url: 'php/master1.php'
 });
 TweenMax.defaultEase = Quad.easeOut;
 
+var g = {
+	lock: function(){
+		document.getElementById("overlay").style.display = "block";
+	},
+	unlock: function(){
+		document.getElementById("overlay").style.display = "none";
+	}
+}
 var GLB = {
     musicStatus: 100,
     soundStatus: 100,
@@ -43,8 +51,14 @@ function resizeWindow() {
     	e.style.width = w + 'px';
     	e.style.height = h + 'px';
     }
-    e.style.marginTop = (-h / 2) + 'px';
-    e.style.marginLeft = (-w / 2) + 'px';
+    // e.style.marginTop = (-h / 2) + 'px';
+    // e.style.marginLeft = (-w / 2) + 'px';
+	TweenMax.set("body", {
+		yPercent: -50,
+		xPercent: -50,
+		force3D: false
+	});
+	e.style.visibility = "visible";
 }
 
 
@@ -244,6 +258,56 @@ function playAudio(foo, multi, fade, volAdj) {
         }
     }
 }
+function Msg(foo, quest, map, duration) {
+    if (foo.indexOf("Quest Completed") !== -1) {
+        if (myZone() === "Salubrin Forest") {
+            if (P.Q[diff()].GreaterFaydark === 3) {
+                g.showPortal = true;
+            }
+        } else {
+            if (myZone() !== "Nimgaul") {
+                g.showPortal = true;
+            }
+        }
+    }
+    if (duration === undefined) {
+        duration = 3500;
+    }
+    duration /= 1000;
+    var H1 = D.createElement('span');
+    H1.className = "Msg";
+    H1.innerHTML = foo + "<br>";
+    NG.errorMsg.appendChild(H1);
+    T.delayedCall(duration, function() {
+        Remove(H1);
+    });
+    if (quest > 0) {
+        var x = $("#questNotify");
+    }
+    if (map > 0) {
+        var x = $("#mapNotify");
+    }
+    if (quest || map) {
+        T.to(x, .5, {
+            startAt: {
+                opacity: 1
+            },
+            opacity: .5,
+            ease: ez.lin,
+            repeat: -1,
+            yoyo: true
+        });
+        if (GLB.hideMenu === "On") {
+            T.to(D.getElementById('window5Id'), 0, {
+                startAt: {
+                    opacity: 1
+                },
+                delay: 8,
+                opacity: 0
+            });
+        }
+    }
+}
 function testAjax() {
     $.ajax({
         data: {
@@ -274,6 +338,29 @@ function checkSessionActive() {
 	});
 }
 
+function logout() {
+    g.lockScreen();
+    $('#logout').html("Logging Out");
+    Msg("Logging out...");
+    $.ajax({
+        data: {
+            run: "logout"
+        }
+    }).done(function(data) {
+        Msg("Logout successful");
+        for (var i = 1; i < 16; i++) {
+            $('#characterslot' + i).css('display', "none");
+        }
+        $("#createcharacter, #deletecharacter").remove();
+        $('#enterWorldWrap').css('display', "none");
+        $('#logout').html('');
+        $("#loginPassword").val('');
+        location.reload();
+    }).fail(function() {
+        Msg("Logout failed.");
+        $('#logout').html("[ " + GLB.account.split("")[0].toUpperCase() + GLB.account.slice(1) + "&nbsp;Logout&nbsp;]");
+    });
+}
 function keepSessionAlive() {
     $.ajax({
         url: "/php/ping.php",
@@ -452,71 +539,17 @@ function can(img, target, x, y, w, h, regCenter, first){
 	}
 	return e;
 }
-// events
-$(document).ready(function() {
-	$(window).on('load resize orientationchange', function() {
-		resizeWindow();
-	});
-	$("#bgmusic").on('ended', function() {
-		var x = document.getElementById('bgmusic');
-		x.currentTime = 0;
-		x.play();
-	});
-	$("#bgamb1").on('ended', function() {
-		var x = document.getElementById('bgamb1');
-		x.currentTime = 0;
-		x.play();
-	});
-	$("#bgamb2").on('ended', function() {
-		var x = document.getElementById('bgamb2');
-		x.currentTime = 0;
-		x.play();
-	});
-	$("#gameView").on('dragstart', 'img', function(e) {
-		e.preventDefault();
-	});
-    $("img").on('dragstart', function(event) {
-        event.preventDefault();
+
+function Msg(msg){
+}
+function logout(){
+    g.lock();
+    $.ajax({
+		type: 'GET',
+		url: 'php/logout.php'
+    }).done(function(data) {
+        location.reload();
+    }).fail(function() {
+        Msg("Logout failed.");
     });
-	// SVG
-	$(".land").on("mouseenter", function(){
-		console.info($(this).data("name"));
-		TweenMax.set($(this).get(0), {
-			fill: "#880000"
-		});
-	}).on("mouseleave", function(){
-		TweenMax.to($(this).get(0), .25, {
-			fill: "#002255"
-		});
-	}).on("click", function(e){
-		console.info($(this).data("name"));
-	});;
-	// startup game
-	// playMusic("WaitingBetweenWorlds");
-	// draw map
-	/*
-	var e = $(".land");
-	TweenMax.fromTo(e, 2, {
-		drawSVG: 0,
-		strokeOpacity: 1
-	}, {
-		drawSVG: "102%",
-		ease: Linear.easeNone
-	});
-	TweenMax.staggerFromTo(e, 1, {
-		fillOpacity: 0,
-	}, {
-		fillOpacity: 1,
-		delay: 6,
-		ease: Linear.easeNone
-	}, .033);
-	*/
-	
-	Draggable.create("#world", {
-		type: "x,y",
-		bounds: "#game",
-		overshootTolerance: 0,
-		throwProps: true
-	});
-	
-});
+}

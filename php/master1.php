@@ -135,46 +135,13 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('s', $email);
 		$stmt->execute();
-		// initialize 10 bank slots
-		$query = "insert into item (
-			`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
-		) VALUES 
-		(?, 'bank', '', 0, '', '', '', '', 'false'),
-		(?, 'bank', '', 1, '', '', '', '', 'false'),
-		(?, 'bank', '', 2, '', '', '', '', 'false'),
-		(?, 'bank', '', 3, '', '', '', '', 'false'),
-		(?, 'bank', '', 4, '', '', '', '', 'false'),
-		(?, 'bank', '', 5, '', '', '', '', 'false'),
-		(?, 'bank', '', 6, '', '', '', '', 'false'),
-		(?, 'bank', '', 7, '', '', '', '', 'false'),
-		(?, 'bank', '', 8, '', '', '', '', 'false'),
-		(?, 'bank', '', 9, '', '', '', '', 'false')";
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
-		$stmt->execute();
-		// hardcore mode
-		$query = "insert into item (
-			`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
-		) VALUES 
-		(?, 'bank', '', 0, '', '', '', '', 'true'),
-		(?, 'bank', '', 1, '', '', '', '', 'true'),
-		(?, 'bank', '', 2, '', '', '', '', 'true'),
-		(?, 'bank', '', 3, '', '', '', '', 'true'),
-		(?, 'bank', '', 4, '', '', '', '', 'true'),
-		(?, 'bank', '', 5, '', '', '', '', 'true'),
-		(?, 'bank', '', 6, '', '', '', '', 'true'),
-		(?, 'bank', '', 7, '', '', '', '', 'true'),
-		(?, 'bank', '', 8, '', '', '', '', 'true'),
-		(?, 'bank', '', 9, '', '', '', '', 'true')";
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
-		$stmt->execute();
+		
 		echo "Account Created!";
 		// send confirmation email
 		$msg1 = "<p>Hail, $account!</p><p>You have successfully registered for an account at Nevergrind. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
 		$msg2 = "Hail, $account,\n\nYou have successfully registered for an account at Nevergrind. Here is your information:\n\nUsername: $account\nEmail: $email\n\nYou can access the site at https://nevergrind.com/\n\nPlease confirm your email address to continue:\n\nhttps://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode\n\nHave a great day!";
 		
-		require '/php/PHPMailer/PHPMailerAutoload.php';
+		require 'PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP(); // Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
@@ -208,7 +175,7 @@
 		$msg1 = "<p>Hail, $account!</p><p>You have requested an account confirmation email. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
 		$msg2 = "Hail, $account,\n\nYou have requested an account confirmation email. Here is your information:\n\nUsername: $account\nEmail: $email\n\nYou can access the site at https://nevergrind.com/\n\nPlease confirm your email address to continue:\n\nhttps://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode\n\nHave a great day!";
 		
-		require $_SERVER['DOCUMENT_ROOT'] . '/php/PHPMailer/PHPMailerAutoload.php';
+		require 'PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP(); // Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
@@ -396,6 +363,50 @@
 		if($activeCharacters>=$maxCharacters){
 			echo "You must purchase additional character slots<br>to create another character.";
 			exit;
+		}
+		
+		// initialize 10 bank slots if none found
+		$email = $_SESSION['email'];
+		$query = "select row from item where slotType='bank' and email=?";
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+		$stmt->store_result();
+		$count = $stmt->num_rows;
+		if($count < 1){
+			$query = "insert into item (
+				`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
+			) VALUES 
+			(?, 'bank', '', 0, '', '', '', '', 'false'),
+			(?, 'bank', '', 1, '', '', '', '', 'false'),
+			(?, 'bank', '', 2, '', '', '', '', 'false'),
+			(?, 'bank', '', 3, '', '', '', '', 'false'),
+			(?, 'bank', '', 4, '', '', '', '', 'false'),
+			(?, 'bank', '', 5, '', '', '', '', 'false'),
+			(?, 'bank', '', 6, '', '', '', '', 'false'),
+			(?, 'bank', '', 7, '', '', '', '', 'false'),
+			(?, 'bank', '', 8, '', '', '', '', 'false'),
+			(?, 'bank', '', 9, '', '', '', '', 'false')";
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
+			$stmt->execute();
+			// hardcore mode
+			$query = "insert into item (
+				`email`, `slotType`, `name`, `slot`, `flavorText`, `itemSlot`, `proc`, `type`, `hardcoreMode`
+			) VALUES 
+			(?, 'bank', '', 0, '', '', '', '', 'true'),
+			(?, 'bank', '', 1, '', '', '', '', 'true'),
+			(?, 'bank', '', 2, '', '', '', '', 'true'),
+			(?, 'bank', '', 3, '', '', '', '', 'true'),
+			(?, 'bank', '', 4, '', '', '', '', 'true'),
+			(?, 'bank', '', 5, '', '', '', '', 'true'),
+			(?, 'bank', '', 6, '', '', '', '', 'true'),
+			(?, 'bank', '', 7, '', '', '', '', 'true'),
+			(?, 'bank', '', 8, '', '', '', '', 'true'),
+			(?, 'bank', '', 9, '', '', '', '', 'true')";
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('ssssssssss', $email, $email, $email, $email, $email, $email, $email, $email, $email, $email);
+			$stmt->execute();
 		}
 		
 		$my['story'] = "Intro";
@@ -827,7 +838,7 @@
 			}
 		}else{
 			// errors
-			require '/php/PHPMailer/PHPMailerAutoload.php';
+			require 'PHPMailer/PHPMailerAutoload.php';
 			$mail = new PHPMailer;
 			$mail->isSMTP(); // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
@@ -884,7 +895,7 @@
 		$hash = crypt($plainReset, '$2a$07$'.$_SESSION['salt'].'$'); // blowfish
 		$dbReset = crypt($plainReset, $hash);
 		
-		require '/php/PHPMailer/PHPMailerAutoload.php';
+		require 'PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
 		$mail->isSMTP(); // Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com

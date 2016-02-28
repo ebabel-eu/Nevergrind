@@ -64,7 +64,7 @@
 	<div id="mainBG">
 		<header id="currencyIndicator" class="strongShadow">
 		<?php
-				require_once('/php/connect_plain.php');
+				require_once('php/connect_plain.php');
 				// crystals
 				$query = "select crystals from accounts where email='".$_SESSION['email']."' limit 1";
 				$result = $link->query($query);
@@ -144,7 +144,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	
 	<?php
-		require("/includes/ga.html");
+		require("includes/ga.html");
 	?>
 	<script>
 		$.ajaxSetup({

@@ -4,7 +4,7 @@
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
 	}
-	require('/php/values.php');
+	require('php/values.php');
 	
 	if(!isset($_SESSION['email']) || !strlen($_SESSION['email'])){
 		header("Location: /login.php?back=store.php");
@@ -56,7 +56,7 @@
 	<div id="mainBG">
 		<header id="currencyIndicator" class="strongShadow">
 		<?php
-				require_once('/php/connect_plain.php');
+				require_once('php/connect_plain.php');
 				// crystals
 				$query = "select crystals from accounts where email='".$_SESSION['email']."' limit 1";
 				$result = $link->query($query);
@@ -135,7 +135,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	
 	<?php
-		require("/includes/ga.html");
+		require("includes/ga.html");
 	?>
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	<script>
