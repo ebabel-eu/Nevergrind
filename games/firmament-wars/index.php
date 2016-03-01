@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Firmament Wars | Ultimate Global Warfare Strategy Game</title>
+	<title>Firmament Wars | Grand Strategy Warfare</title>
 	<meta charset="utf-8">
 	<meta name="keywords" content="political, online, multiplayer, free, game, strategy">
 	<meta name="description" content="Firmament Wars is a turn-based warfare strategy game created by Neverworks Games. Establish your nation, choose your flag, and select your dictator and vie for global domination.">
@@ -60,20 +60,48 @@
 	<div id="game">
 		<div id="menu" class="fw-primary">
 			<div id="menuHead" class="btn-group" role="group">
-				<button id="" type="button" class="btn btn-primary btn-md shadow3">
-					Create
+				<button id="createWar" type="button" class="btn btn-primary btn-md shadow3">
+					Create War
 				</button>
-				<button id="" type="button" class="btn btn-primary btn-md shadow3">
-					Join
+				<button id="joinWar" type="button" class="btn btn-primary btn-md shadow3">
+					Join War
 				</button>
-				<button id="toggleConfigureNation" type="button" class="btn btn-primary btn-md shadow3">
+				<button id="toggleNation" type="button" class="btn btn-primary btn-md shadow3">
 					Configure Nation
 				</button>
 			</div>
-			
 			<hr class="fancyhr">
+			
 			<div id="menuContent" class="shadow3">
-				Contents stuffs goes here
+					<?php
+						$query = 'select row from fwWars';
+						$result = $link->query($query);
+						$count = $result->num_rows;
+						if($count > 0){
+							$str = 
+								'<table class="table table-condensed table-borderless">
+									<tr>
+										<th class="col-md-6 warCells">Game</th>
+										<th class="col-md-3 warCells">Players/Max</th>
+										<th class="col-md-3 warCells">Time Limit</th>
+									</tr>';
+							$query = 'select row, name, players, max, timer from fwWars';
+							$result = $link->query($query);
+							while($row = $result->fetch_assoc()){
+								$row['timer'] = $row['timer'] == 0 ? 'None' : $row['timer'];
+								$str .= 
+									"<tr class='wars' data-id='{$row['row']}'>
+										<td class='col-md-6 warCells'>{$row['name']}</td>
+										<td class='col-md-3 warCells'>{$row['players']}/{$row['max']}</td>
+										<td class='col-md-3 warCells'>{$row['timer']}</td>
+									</tr>";
+							}
+							$str .= "</table>";
+							echo $str;
+						} else {
+							echo "No active games found. Create a game to play!";
+						}
+					?>
 			</div>
 			<hr class="fancyhr">
 			
@@ -86,21 +114,77 @@
 		
 		<div id="configureNation" class="fw-primary">
 			<div class="row">
-				<div class="col-md-6">
-					<img class="w100" src="images/flags/usa.jpg">
+				<div class="col-xs-6">
+					<?php
+						$query = 'select count(row) from fwNations where email=?';
+						$stmt = $link->prepare($query);
+						$stmt->bind_param('s', $_SESSION['email']);
+						$stmt->execute();
+						$stmt->store_result();
+						$stmt->bind_result($dbcount);
+						while($stmt->fetch()){
+							$count = $dbcount;
+						}
+						$name = 'Kingdom of '.ucfirst($_SESSION['account']);
+						$flag = 'blank.jpg';
+						if($count > 0){
+							$query = "select name, flag from fwNations where email=?";
+							$stmt = $link->prepare($query);
+							$stmt->bind_param('s', $_SESSION['email']);
+							$stmt->execute();
+							$stmt->store_result();
+							$stmt->bind_result($dName, $dFlag);
+							while($stmt->fetch()){
+								$name = $dName;
+								$flag = $dFlag;
+							}
+						} else {
+							$query = "insert into fwNations (`email`, `name`, `flag`) VALUES (?, '$name', '$flag')";
+							$stmt = $link->prepare($query);
+							$stmt->bind_param('s', $_SESSION['email']);
+							$stmt->execute();
+						}
+					?>
+					<img class="w100" src="images/flags/<?php echo $flag; ?>">
 				</div>
-				<div class="col-md-6 shadow3 nation text-center">
-					Kingdom of <?php echo ucfirst($_SESSION['account']); ?>
+				<div class="col-xs-6 shadow3 nation text-center">
+					<?php echo $name; ?>
 				</div>
 			</div>
 			<hr class="fancyhr">
-			<div>Change Nation</div>
-			<div>Change Flag</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-primary shadow3" type="button">Change Nation's Name</button>
+						</span>
+						<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24">
+					</div>
+				</div>
+			</div>
+			<hr class="fancyhr">
+			<div class="row">
+				<div class="col-xs-6">
+					<select id="flagDropdown" class="js-states form-control">
+						<!-- flags -->
+					</select>
+					
+				</div>
+				<div class="col-xs-6">
+					<img id="updateNationFlag" class="w100 block center" src="images/flags/<?php echo $flag; ?>">
+				</div>
+			</div>
 		</div>
 	
 		<div id="battle">
-			<img class="flag" src="images/flags/un.jpg">
-			<img class="flag pull-right" src="images/flags/ussr.jpg">
+			<div class="row">
+				<div class="col-xs-6">
+					<img class="flag w66 block center" src="images/flags/confederate flag.jpg">
+				</div>
+				<div class="col-xs-6">
+					<img class="flag w66 block center" src="images/flags/ussr.jpg">
+				</div>
+			</div>
 		</div>
 	
 		<div id="chatId">
@@ -129,6 +213,7 @@
 <script src="js/libs/ThrowPropsPlugin.min.js"></script> 
 <script src="js/libs/MorphSVGPlugin.min.js"></script> 
 <script src="js/libs/AttrPlugin.min.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/findShapeIndex.js"></script>
 
 <script>

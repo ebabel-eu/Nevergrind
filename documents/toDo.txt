@@ -1,9 +1,10 @@
 Todo:
-- create main window menu -> logout button
-- create buttons/tabs for Create Join Options
 - Options should allow you to set nation name and flag
+- create buttons/tabs for Create Join Options
 - Create game -> creates a new game and initializes number of players, etc
 - join game -> allows you to rejoin a game at any time
+
+- add war medal achievements
 
 http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 
@@ -67,7 +68,10 @@ Capitals have: +5 DEF +3 MAN
 
 Flags with words on it:
 
-
+EXPANSION FLAGS:
+- Vatican City https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_the_Vatican_City.svg
+- War Ensign of Germany https://upload.wikimedia.org/wikipedia/commons/e/e9/War_Ensign_of_Germany_1935-1938.svg
+- Holy Roman Empire https://upload.wikimedia.org/wikipedia/commons/3/3f/Banner_of_the_Holy_Roman_Emperor_%28after_1400%29.svg
 
 Sword of Truth?
 Error in parsing value for 'text-shadow' Declaration dropped (103 instances) expected end of value but found 'l'. eorr in parsing value for 'top'. declaration dropped

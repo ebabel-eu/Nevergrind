@@ -212,6 +212,12 @@ function selectRows(){
     echo $string;
   }
 }
+
+<table class="table">
+  ...
+</table>
+
+
 function insertRow(){
   global $link;
   $query = "insert into chat (
@@ -232,3 +238,6 @@ function updateRow(){
   $link->query($query);
 }
 call_user_func($_POST['run']);
+
+insert into fwWars (`name`, `players`, `max`, `timer`, `player1`, `player2`, `player3`, `player4`, `player5`) values 
+("Test Game 2", 5, 8, 0, "tester", "asd", "krs1", "krs2", "krs3");

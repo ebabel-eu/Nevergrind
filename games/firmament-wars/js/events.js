@@ -128,9 +128,15 @@ var events = {
 	$("#logout").on('click', function() {
 		logout();
 	});
-	$("#toggleConfigureNation").on("click", function(){
-		var e = $("#configureNation");
-		$("#configureNation").css("display", e.css("display") === "none" ? "block" : "none");
+	$("#toggleNation").on("click", function(){
+		var e = document.getElementById("configureNation");
+		var s = e.style.visibility;
+		e.style.visibility = s === "hidden" || !s ? "visible" : "hidden";
+	});
+	$("#flagDropdown").on("change", function(e){
+		var x = $(this).val() === "Nepal" ? "nepal.png" : $(this).val().toLowerCase() + ".jpg";
+		$("#updateNationFlag").attr("src", "images/flags/" + x)
+			.css("display", "block");
 	});
 	/*
 	// findShapeIndex("#US", "#CA");
@@ -145,4 +151,7 @@ var events = {
 	
 	*/
 	// playMusic("WaitingBetweenWorlds");
+	$(".wars").on("click", function(){
+		console.info($(this).data("id"));
+	});
 })();
