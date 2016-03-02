@@ -25,11 +25,11 @@ body{
 	overflow: hidden;
 }
 header{
-	position: relative;
-	font-size: 1em; 
-	background: rgba(0,14,88,.9);
-	border-bottom:1px solid #02b;
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
+	font-size: 1em; 
 	overflow:hidden;
 	z-index:99999;
 	color: #fff;
@@ -220,6 +220,23 @@ h1,h2{
 #menuFoot{
 	padding: 8px;
 }
+#Msg{
+	position: absolute;
+	top: 15%;
+	left: 0%;
+	width: 100%;
+	background: rgba(0,0,0,.8);
+	text-align: center;
+	font-size: 1.5em;
+	color: #fff;
+	z-index:999999;
+}
+.msg{
+	border-top: 1px solid rgba(24,48,128,.8);
+	border-bottom: 1px solid rgba(24,48,128,.8);
+	box-shadow: 0 1px rgba(0,16,64,.5) inset,
+				0 -1px rgba(0,15,64,.5) inset;
+}
 #overlay{
 	display: none;
 	position: absolute;
@@ -264,9 +281,28 @@ table {
 	color: #222;
 }
 #flagDropdown{
-	max-height: 160px;
-	overflow-y: auto;
 }
 #updateNationFlag{
+	display: none;
+}
+#nationName{
+	overflow: hidden;
+	word-break: break-word;
+	max-height: 160px;
+	text-transform: capitalize;
+}
+#buyFlag{
+	font-size: 1.625em;
+}
+.crystal{
+	float: left;
+	background:url('/images1/currency.png') 100% 0 / 200% 100%;
+	width:32px;
+	height:32px;
+}
+#flagPurchased{
+	display: none;
+}
+#offerFlag{
 	display: none;
 }

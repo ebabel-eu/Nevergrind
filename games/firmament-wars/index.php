@@ -25,8 +25,9 @@
 	<meta name="twitter:widgets:csp" content="on">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel='stylesheet' type='text/css' href="css/fw1.css">
 	<link rel="shortcut icon" href="/images1/favicon.ico">
 </head>
@@ -145,9 +146,9 @@
 							$stmt->execute();
 						}
 					?>
-					<img class="w100" src="images/flags/<?php echo $flag; ?>">
+					<img id="nationFlag" class="w100" src="images/flags/<?php echo $flag; ?>">
 				</div>
-				<div class="col-xs-6 shadow3 nation text-center">
+				<div id="nationName" class="col-xs-6 shadow3 nation text-center">
 					<?php echo $name; ?>
 				</div>
 			</div>
@@ -156,21 +157,39 @@
 				<div class="col-xs-12">
 					<div class="input-group">
 						<span class="input-group-btn">
-							<button class="btn btn-primary shadow3" type="button">Change Nation's Name</button>
+							<button id="submitNationName" class="btn btn-primary shadow3" type="button">Change Nation's Name</button>
 						</span>
-						<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24">
+						<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus">
 					</div>
 				</div>
 			</div>
+			
 			<hr class="fancyhr">
 			<div class="row">
-				<div class="col-xs-6">
-					<select id="flagDropdown" class="js-states form-control">
+				<div class="col-xs-5">
+					<select id="flagDropdown" class="form-control">
 						<!-- flags -->
 					</select>
+					<div id="flagPurchased" class="flagPurchaseStatus">
+						<hr class="fancyhr">
+						<h4 class="text-center text-success">
+							<i class="fa fa-check"></i>
+							&ensp;Flag Purchased!
+						</h4>
+					</div>
+					<div id="offerFlag" class="flagPurchaseStatus">
+						<hr class="fancyhr">
+						<h5 class="text-center">Buy flag for 100 Never Crystals?</h5>
+						<button id="buyFlag" type="button" class="btn btn-primary shadow3 center block">
+							<span class="crystal"></span> 100
+						</button>
+						<h4 class="text-center">
+							<a target="_blank" href="/store.php">Purchase Crystals</a>
+						</h4>
+					</div>
 					
 				</div>
-				<div class="col-xs-6">
+				<div class="col-xs-7">
 					<img id="updateNationFlag" class="w100 block center" src="images/flags/<?php echo $flag; ?>">
 				</div>
 			</div>
@@ -200,7 +219,7 @@
 			$svg = file_get_contents("images/world6.svg");
 			echo $svg;
 		?>
-		
+	<div id="Msg" class="shadow3"></div>
 	<div id="overlay"></div>
 	</div>
 </body>

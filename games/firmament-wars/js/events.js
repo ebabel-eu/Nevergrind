@@ -134,9 +134,86 @@ var events = {
 		e.style.visibility = s === "hidden" || !s ? "visible" : "hidden";
 	});
 	$("#flagDropdown").on("change", function(e){
-		var x = $(this).val() === "Nepal" ? "nepal.png" : $(this).val().toLowerCase() + ".jpg";
+		$(".flagPurchaseStatus").css("display", "none");
+		var z = $(this).val();
+		var x = z === "Nepal" ? "Nepal.png" : z + ".jpg";
 		$("#updateNationFlag").attr("src", "images/flags/" + x)
 			.css("display", "block");
+		g.lock();
+		$.ajax({
+			url: 'php/updateFlag.php',
+			data: {
+				flag: x
+			}
+		}).done(function(data) {
+			$("#offerFlag").css("display", "none");
+			if (x !== "blank.jpg"){
+				$("#nationFlag").attr("src", "images/flags/" + x);
+				$("#flagPurchased").css("display", "block");
+				Msg("Your nation flag is now: " + z);
+			}
+		}).fail(function(e){
+			$("#flagPurchased").css("display", "none");
+			$("#offerFlag").css("display", "block");
+		}).always(function(){
+			g.unlock();
+		});
+	});
+	
+	$("#submitNationName").on("click", function(e){
+		var x = $("#updateNationName").val();
+		g.lock();
+		$.ajax({
+			url: 'php/updateNationName.php',
+			data: {
+				name: x
+			}
+		}).done(function(data) {
+			$("#nationName").text(data);
+			Msg("Your nation shall now be known as: " + data);
+		}).fail(function(e){
+			Msg(e.statusText);
+		}).always(function(){
+			g.unlock();
+		});
+	});
+	
+	g.focusUpdateNationName = false;
+	
+	$("#updateNationName").on("focus", function(){
+		g.focusUpdateNationName = true;
+	}).on("blur", function(){
+		g.focusUpdateNationName = false;
+	});
+	
+	$(window).on('keydown', function(e) {
+		var key = e.keyCode;
+		if (g.focusUpdateNationName){
+			if (key === 13){
+				$("#submitNationName").trigger("click");
+			}
+		}
+	});
+	
+	$("#buyFlag").on("click", function(){
+		var x = $("#flagDropdown").val() === "Nepal" ? "Nepal.png" : $("#flagDropdown").val() + ".jpg";
+		g.lock();
+		$.ajax({
+			url: 'php/buyFlag.php',
+			data: {
+				flag: x
+			}
+		}).done(function(data) {
+			$("#crystalCount").text(data);
+			$("#flagPurchased").css("display", "block");
+			$("#offerFlag").css("display", "none");
+			$("#nationFlag").attr("src", "images/flags/" + x);
+		}).fail(function(e){
+			// not enough money
+			Msg(e.statusText);
+		}).always(function(){
+			g.unlock();
+		});
 	});
 	/*
 	// findShapeIndex("#US", "#CA");

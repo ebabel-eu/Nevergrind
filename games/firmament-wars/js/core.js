@@ -63,7 +63,7 @@ function resizeWindow() {
 	});
 	e.style.visibility = "visible";
 	
-	var s = "<option value='blank' selected='selected'>Change Nation's Flag</option>";
+	var s = "<option value='blank' selected='selected'>Change Flag</option>";
 	var flagData = {
 		Africa: {
 			group: "Africa",
@@ -313,55 +313,16 @@ function playAudio(foo, multi, fade, volAdj) {
         }
     }
 }
-function Msg(foo, quest, map, duration) {
-    if (foo.indexOf("Quest Completed") !== -1) {
-        if (myZone() === "Salubrin Forest") {
-            if (P.Q[diff()].GreaterFaydark === 3) {
-                g.showPortal = true;
-            }
-        } else {
-            if (myZone() !== "Nimgaul") {
-                g.showPortal = true;
-            }
-        }
-    }
-    if (duration === undefined) {
-        duration = 3500;
-    }
-    duration /= 1000;
-    var H1 = D.createElement('span');
-    H1.className = "Msg";
-    H1.innerHTML = foo + "<br>";
-    NG.errorMsg.appendChild(H1);
-    T.delayedCall(duration, function() {
-        Remove(H1);
+function Msg(msg) {
+	console.info("OK");
+    var e = document.createElement('div');
+	e.className = "msg";
+    e.innerHTML = msg;
+    document.getElementById("Msg").appendChild(e);
+	console.info("OK");
+    TweenMax.delayedCall(8, function() {
+		e.parentNode.removeChild(e);
     });
-    if (quest > 0) {
-        var x = $("#questNotify");
-    }
-    if (map > 0) {
-        var x = $("#mapNotify");
-    }
-    if (quest || map) {
-        T.to(x, .5, {
-            startAt: {
-                opacity: 1
-            },
-            opacity: .5,
-            ease: ez.lin,
-            repeat: -1,
-            yoyo: true
-        });
-        if (GLB.hideMenu === "On") {
-            T.to(D.getElementById('window5Id'), 0, {
-                startAt: {
-                    opacity: 1
-                },
-                delay: 8,
-                opacity: 0
-            });
-        }
-    }
 }
 function testAjax() {
     $.ajax({
@@ -595,8 +556,6 @@ function can(img, target, x, y, w, h, regCenter, first){
 	return e;
 }
 
-function Msg(msg){
-}
 function logout(){
     g.lock();
     $.ajax({

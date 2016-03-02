@@ -1,4 +1,6 @@
 Todo:
+#337ab7  #2e6da4
+
 - Options should allow you to set nation name and flag
 - create buttons/tabs for Create Join Options
 - Create game -> creates a new game and initializes number of players, etc
