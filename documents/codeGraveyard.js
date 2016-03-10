@@ -1,3 +1,48 @@
+// flag code
+
+		TweenMax.fromTo("#nationFlag", 2, {
+			rotationY: 35,
+			transformPerspective: 400,
+			skewY: 1,
+			transformOrigin: "0% 50%"
+		}, {
+			rotationY: 0,
+			skewY: -1,
+			onComplete: function(){
+				TweenMax.fromTo("#nationFlag", 2, {
+					rotationY: 0,
+				}, {
+					rotationY: -1.5,
+					ease: SlowMo.ease.config(0.7, 0.7, false),
+					repeat: -1,
+					yoyo: true
+				});
+				TweenMax.fromTo("#nationFlag", 3.33, {
+					scale: 1,
+				}, {
+					scale: .98,
+					ease: SlowMo.ease.config(0.7, 0.7, false),
+					repeat: -1,
+					yoyo: true
+				});
+				TweenMax.fromTo("#nationFlag", 7, {
+					skewY: -1,
+				}, {
+					skewY: 1,
+					ease: RoughEase.ease.config({ 
+						template: Power0.easeNone, 
+						strength: 1, 
+						points: 20, 
+						taper: "none", 
+						randomize: true, 
+						clamp: false
+					}),
+					repeat: -1,
+					yoyo: true
+				});
+			}
+		});
+
 
 Warning: require(/includes/ga.php): failed to open stream: No such file or directory in C:\xampp\htdocs\games\firmament-wars\index.php on line 112
 

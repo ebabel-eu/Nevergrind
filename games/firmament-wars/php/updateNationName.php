@@ -3,13 +3,18 @@
 	function validateName($x){
 		// min/max length
 		$len = strlen($x);
-		$nospaces = str_replace(" ", "", $x);
+		$x = str_replace(" ", "", $x);
+		$x = str_replace("/", "", $x);
+		$x = str_replace(".", "", $x);
 		if ($len < 4){
 			header('HTTP/1.1 500 Nation name must be at least 4 characters.');
+			return false;
 		} else if ($len > 32){
 			header('HTTP/1.1 500 Nation name must contain less than 33 characters.');
-		} else if (!ctype_alnum($nospaces)){
+			return false;
+		} else if (!ctype_alnum($x)){
 			header('HTTP/1.1 500 Nation name must contain letters and numbers only.');
+			return false;
 		}
 		return true;
 	}

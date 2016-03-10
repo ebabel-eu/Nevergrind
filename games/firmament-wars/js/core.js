@@ -5,11 +5,18 @@ $.ajaxSetup({
 TweenMax.defaultEase = Quad.easeOut;
 
 var g = {
-	lock: function(){
-		document.getElementById("overlay").style.display = "block";
+	focusUpdateNationName: false,
+	focusGameName: false,
+	lock: function(clear){
+		var e = document.getElementById("overlay");
+		e.style.display = "block";
+		clear ? e.style.opacity = 0 : e.style.opacity = 1;
 	},
-	unlock: function(){
-		document.getElementById("overlay").style.display = "none";
+	unlock: function(clear){
+		var e = document.getElementById("overlay");
+		e.style.display = "none";
+		clear ? e.style.opacity = 0 : e.style.opacity = 1;
+		
 	}
 }
 var GLB = {
@@ -60,6 +67,17 @@ function resizeWindow() {
 		yPercent: -50,
 		xPercent: -50,
 		force3D: false
+	});
+	TweenMax.set("#worldTitle", {
+		x: -200,
+		y: -800
+	});
+	TweenMax.fromTo("#worldTitle", 316, {
+		rotation: -360
+	}, {
+		rotation: 0,
+		repeat: -1,
+		ease: Linear.easeNone
 	});
 	e.style.visibility = "visible";
 	
@@ -314,15 +332,27 @@ function playAudio(foo, multi, fade, volAdj) {
     }
 }
 function Msg(msg) {
-	console.info("OK");
     var e = document.createElement('div');
 	e.className = "msg";
     e.innerHTML = msg;
     document.getElementById("Msg").appendChild(e);
-	console.info("OK");
-    TweenMax.delayedCall(8, function() {
-		e.parentNode.removeChild(e);
+    TweenMax.to(e, 5, {
+		onComplete: function(){
+			this.target.parentNode.removeChild(e);
+		}
     });
+	var tl = new TimelineMax();
+	var split = new SplitText(e, {
+		type: "words,chars"
+	});
+	var chars = split.chars;
+	tl.staggerFromTo(chars, .01, {
+		immediateRender: true,
+		alpha: 0
+	}, {
+		delay: .1,
+		alpha: 1
+	}, .01);
 }
 function testAjax() {
     $.ajax({

@@ -243,8 +243,21 @@ var y = circY(200,  200,  angle);
 			$string.= $row['name']."||";
 		}
 		*/
+		$q2 = 'select game, count(row) c from `fwplayers` group by game';
+		$result = $link->query($q2);
 		
-			
+		$a = array();
+		
+		while($row = $result->fetch_assoc()){
+			$a[$row['game']] = $row['c'];
+		}
+		
+		insert into fwplayers (game, account, host) values (6, "abcdefg", 0);
+		
+		select w.name, count(p.game), p.account, w.max from fwwars w join fwplayers p on w.row=p.game group by p.game
+		
+		select w.row row, w.name name, count(p.game) players, w.max max, w.timer timer from fwwars w join fwplayers p on w.row=p.game group by p.game having players > 0
+		
 		/* ABANDONED METHOD
 		// account has heartbeat within 2 minutes?
 		$query = "select row from accountHeartbeat where email=? and timestamp > date_sub(now(),  interval 24 hour)";

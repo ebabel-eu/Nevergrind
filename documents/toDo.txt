@@ -1,7 +1,11 @@
-Todo:
-#337ab7  #2e6da4
+- member of a game? Join it immediately????
+- create game
+- join game
+- auto join game
 
-- Options should allow you to set nation name and flag
+- Create Game: requires 2 to join (make it like starcraft)
+
+
 - create buttons/tabs for Create Join Options
 - Create game -> creates a new game and initializes number of players, etc
 - join game -> allows you to rejoin a game at any time
@@ -16,6 +20,15 @@ http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
 
 - manage account page?
+
+Romans 3:23 "all have sinned"
+Romans 6:23
+Revelation 20:14-15
+Revelation 21:8 "all liars"
+Romans 5:8
+Acts 16:30
+John 3:16 and 18
+
 
 Rules:
 - Players start with 5 MAN in their capital + 3 MAN from capital. Turn order is randomly rolled for and goes in order players joined the game.

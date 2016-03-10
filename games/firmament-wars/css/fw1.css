@@ -15,6 +15,7 @@ html{
 }
 input{
 	cursor: text;
+	background: #059;
 }
 body{
 	position: absolute;
@@ -62,11 +63,11 @@ h1,h2{
 }
 .accountValueText{
 	line-height:32px;
+	margin: 0 2px;
 }
 .accountValueText2{
 	float:left;
 	line-height:32px;
-	margin-left:5px;
 }
 .modePanel{
 	float:right;
@@ -104,38 +105,38 @@ h1,h2{
 }
 .shadow1{
 	text-shadow:
-		1px 1px #222,
-		-.4px .6px #222,
-		.6px -.6px #222,
-		-.4px 0 #222,
-		.6px 0 #222,
-		0 .6px #222,
-		0 -.6px #222,
-		.6px .6px #222;
+		1px 1px #000,
+		-.4px .6px #000,
+		.6px -.6px #000,
+		-.4px 0 #000,
+		.6px 0 #000,
+		0 .6px #000,
+		0 -.6px #000,
+		.6px .6px #000;
 }
 .shadow2{
 	text-shadow:
-		.6px .6px #222,
-		-.4px .6px #222,
-		.6px -.6px #222,
-		-.4px 0 #222,
-		.6px 0 #222,
-		0 .6px #222,
-		0 -.6px #222,
-		0 0 5px #222,
-		0 0 10px #222,
-		0 0 20px #222;
+		.6px .6px #000,
+		-.4px .6px #000,
+		.6px -.6px #000,
+		-.4px 0 #000,
+		.6px 0 #000,
+		0 .6px #000,
+		0 -.6px #000,
+		0 0 5px #000,
+		0 0 10px #000,
+		0 0 20px #000;
 }
 .shadow3{
 	text-shadow:
-		.6px .6px #222,
-		-.4px .6px #222,
-		-.4px 0 #222,
-		.6px 0 #222,
-		0 .6px #222,
-		0 -.6px #222,
-		0px 0px 5px #222,
-		0px 0px 2px #222;
+		.6px .6px #000,
+		-.4px .6px #000,
+		-.4px 0 #000,
+		.6px 0 #000,
+		0 .6px #000,
+		0 -.6px #000,
+		0px 0px 5px #000,
+		0px 0px 2px #000;
 }
 /* Firmament Wars */
 #chatId{
@@ -153,12 +154,19 @@ h1,h2{
 	width: 100%;
 	height: 100%;
 }
+#worldTitle{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 2022px;
+	height: 2022px;
+}
 #world{
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 1868px;
-	height: 931px;
+	width: 2022px;
+	height: 2022px;
 }
 .land{
 	fill: #002255;
@@ -191,7 +199,7 @@ h1,h2{
 	width: 100%;
 }
 .nation{
-	font-size: 2.75em;
+	font-size: 2.5em;
 	font-family: Times New Roman, serif;
 	text-overflow: ellipsis;
 }
@@ -202,6 +210,23 @@ h1,h2{
 	color: #eef;
 	z-index: 2020;
 	box-shadow: 0 0 5px #3377dd, 0 0 5px #3377dd inset;
+}
+#lobby{
+	padding: 8px;
+}
+#lobbyHead{
+	font-size: 1.25em;
+}
+#lobbyFoot{
+}
+#joinGameLobby{
+	visibility: hidden;
+	position: absolute;
+	bottom: 5%;
+	margin: auto;
+	width: 90%;
+	left: 0;
+	right: 0;
 }
 #menu{
 	position: absolute;
@@ -222,7 +247,7 @@ h1,h2{
 }
 #Msg{
 	position: absolute;
-	top: 15%;
+	top: 14%;
 	left: 0%;
 	width: 100%;
 	background: rgba(0,0,0,.8);
@@ -246,6 +271,7 @@ h1,h2{
 	height: 100%;
 	background: rgba(0,0,0,.5);
 	z-index:9999999;
+	cursor: wait;
 }
 #configureNation{
 	visibility: hidden;
@@ -289,7 +315,16 @@ table {
 	overflow: hidden;
 	word-break: break-word;
 	max-height: 160px;
-	text-transform: capitalize;
+}
+.lobbyNationName{
+	word-break: break-word;
+	font-family: Times New Roman, serif;
+	font-size: 1.625em;
+}
+.lobbyNationInfo{
+	padding-top: 6px;
+	max-height: 150px;
+	overflow: hidden;
 }
 #buyFlag{
 	font-size: 1.625em;
@@ -305,4 +340,31 @@ table {
 }
 #offerFlag{
 	display: none;
+}
+/* bootstrap overwrites */
+.text-success{
+	color: #0d0;
+}
+.text-primary{
+	color: #8bf;
+}
+.text-warning{
+	color: #ee7;
+}
+.text-danger{
+	color: #f44;
+}
+.input-group-addon{
+	text-shadow: none;
+	color: #1a1a1a;
+}
+#createGameWrap{
+	margin: 0 10px;
+}
+.footMargin{
+	margin-bottom: 6px;
+}
+.text-overflow{
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

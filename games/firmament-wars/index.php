@@ -33,7 +33,7 @@
 </head>
 
 <body id="body">
-	<header class="strongShadow">
+	<header class="shadow3">
 	<?php
 		require_once('php/connect_plain.php');
 		// crystals
@@ -47,63 +47,25 @@
 		echo 
 		'<div class="accountDetails">
 			<a target="_blank" title="Manage Account" class="accountValues accountValueText" href="/account.php?back=games/firmament-wars">'.
-				$_SESSION['account'].
+				ucfirst($_SESSION['account']).
 			'</a>&ensp;
 			<div id="crystals" class="crystalIcon accountValues"></div>
 			<div id="crystalCount" class="accountValueText2">'.$crystals.'</div>
 		</div>
-		<div class="modePanel">
-			version 0.0.1
-		</div>';
+		<div class="modePanel">Firmament Wars 0.0.1</div>';
 		
 		?>
 	</header>
 	<div id="game">
 		<div id="menu" class="fw-primary">
 			<div id="menuHead" class="btn-group" role="group">
-				<button id="createWar" type="button" class="btn btn-primary btn-md shadow3">
-					Create War
-				</button>
-				<button id="joinWar" type="button" class="btn btn-primary btn-md shadow3">
-					Join War
-				</button>
-				<button id="toggleNation" type="button" class="btn btn-primary btn-md shadow3">
-					Configure Nation
-				</button>
+				<button id="create" type="button" class="btn btn-primary btn-md shadow3">Create</button>
+				<button id="join" type="button" class="btn btn-primary btn-md shadow3">Join</button>
+				<button id="toggleNation" type="button" class="btn btn-primary btn-md shadow3">Configure Nation</button>
 			</div>
 			<hr class="fancyhr">
 			
-			<div id="menuContent" class="shadow3">
-					<?php
-						$query = 'select row from fwWars';
-						$result = $link->query($query);
-						$count = $result->num_rows;
-						if($count > 0){
-							$str = 
-								'<table class="table table-condensed table-borderless">
-									<tr>
-										<th class="col-md-6 warCells">Game</th>
-										<th class="col-md-3 warCells">Players/Max</th>
-										<th class="col-md-3 warCells">Time Limit</th>
-									</tr>';
-							$query = 'select row, name, players, max, timer from fwWars';
-							$result = $link->query($query);
-							while($row = $result->fetch_assoc()){
-								$row['timer'] = $row['timer'] == 0 ? 'None' : $row['timer'];
-								$str .= 
-									"<tr class='wars' data-id='{$row['row']}'>
-										<td class='col-md-6 warCells'>{$row['name']}</td>
-										<td class='col-md-3 warCells'>{$row['players']}/{$row['max']}</td>
-										<td class='col-md-3 warCells'>{$row['timer']}</td>
-									</tr>";
-							}
-							$str .= "</table>";
-							echo $str;
-						} else {
-							echo "No active games found. Create a game to play!";
-						}
-					?>
-			</div>
+			<div id="menuContent" class="shadow3"><?php require('php/getWars.php'); ?></div>
 			<hr class="fancyhr">
 			
 			<div id="menuFoot" class="text-center">
@@ -148,9 +110,7 @@
 					?>
 					<img id="nationFlag" class="w100" src="images/flags/<?php echo $flag; ?>">
 				</div>
-				<div id="nationName" class="col-xs-6 shadow3 nation text-center">
-					<?php echo $name; ?>
-				</div>
+				<div id="nationName" class="col-xs-6 shadow3 nation text-center"><?php echo $name; ?></div>
 			</div>
 			<hr class="fancyhr">
 			<div class="row">
@@ -172,7 +132,7 @@
 					</select>
 					<div id="flagPurchased" class="flagPurchaseStatus">
 						<hr class="fancyhr">
-						<h4 class="text-center text-success">
+						<h4 class="text-center text-success shadow3">
 							<i class="fa fa-check"></i>
 							&ensp;Flag Purchased!
 						</h4>
@@ -183,7 +143,7 @@
 						<button id="buyFlag" type="button" class="btn btn-primary shadow3 center block">
 							<span class="crystal"></span> 100
 						</button>
-						<h4 class="text-center">
+						<h4 class="text-center shadow3">
 							<a target="_blank" href="/store.php">Purchase Crystals</a>
 						</h4>
 					</div>
@@ -193,6 +153,10 @@
 					<img id="updateNationFlag" class="w100 block center" src="images/flags/<?php echo $flag; ?>">
 				</div>
 			</div>
+		</div>
+		
+		<div id="joinGameLobby" class="fw-primary shadow3">
+			<hr class="fancyhr">
 		</div>
 	
 		<div id="battle">
@@ -216,7 +180,7 @@
 		<audio id="bgmusic" autoplay preload="auto"></audio>
 		
 		<?php
-			$svg = file_get_contents("images/world6.svg");
+			$svg = file_get_contents("images/flat5.svg");
 			echo $svg;
 		?>
 	<div id="Msg" class="shadow3"></div>
@@ -228,7 +192,9 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/EaselJS/0.7.1/easeljs.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/plugins/EaselPlugin.min.js"></script>
 <script src="js/libs/DrawSVGPlugin.min.js"></script>
-<script src="js/libs/Draggable.min.js"></script> 
+<script src="js/libs/Draggable.min.js"></script>
+<script src="js/libs/ScrambleTextPlugin.min.js"></script>
+<script src="js/libs/SplitText.min.js"></script>
 <script src="js/libs/ThrowPropsPlugin.min.js"></script> 
 <script src="js/libs/MorphSVGPlugin.min.js"></script> 
 <script src="js/libs/AttrPlugin.min.js"></script>
