@@ -29,7 +29,7 @@
 		}
 		
 		$email = strtolower($_POST['email']);
-		$account = strtolower($_POST['account']);
+		$account = $_POST['account'];
 		$password = $_POST['password'];
 		$verify = $_POST['verify'];
 		$promo = $_POST['promo'];

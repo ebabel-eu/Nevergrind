@@ -254,9 +254,9 @@ var y = circY(200,  200,  angle);
 		
 		insert into fwplayers (game, account, host) values (6, "abcdefg", 0);
 		
-		select w.name, count(p.game), p.account, w.max from fwwars w join fwplayers p on w.row=p.game group by p.game
+		select w.name, count(p.game), p.account, w.max from fwGames w join fwplayers p on w.row=p.game group by p.game
 		
-		select w.row row, w.name name, count(p.game) players, w.max max, w.timer timer from fwwars w join fwplayers p on w.row=p.game group by p.game having players > 0
+		select w.row row, w.name name, count(p.game) players, w.max max, w.timer timer from fwGames w join fwplayers p on w.row=p.game group by p.game having players > 0
 		
 		/* ABANDONED METHOD
 		// account has heartbeat within 2 minutes?

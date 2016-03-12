@@ -7,6 +7,7 @@ TweenMax.defaultEase = Quad.easeOut;
 var g = {
 	focusUpdateNationName: false,
 	focusGameName: false,
+	view: "title",
 	lock: function(clear){
 		var e = document.getElementById("overlay");
 		e.style.display = "block";
@@ -451,25 +452,17 @@ function keepSessionAlive() {
             keepSessionAlive();
         }, 20000);
     }).fail(function() {
-        failToCommunicate();
+        serverError();
     });
 }
 
 
 function serverLogout(){
-	$.ajax({
-		url: '/php/game1.php',
-		data: {
-			run: "camp"
-		}
-	}).done(function(data) {
-		window.onbeforeunload = null;
-		location.reload();
-	});
+	window.onbeforeunload = null;
+	location.reload();
 }
-function failToCommunicate() {
-    Chat("SERVER ERROR: Cannot contact the server", 1);
-    TweenMax.pauseAll();
+function serverError() {
+    Msg("Server Error: Cannot contact the server");
     setTimeout(function() {
         serverLogout();
     }, 5000);
@@ -597,3 +590,17 @@ function logout(){
         Msg("Logout failed.");
     });
 }
+
+
+$(window).on('keydown', function(e) {
+	var key = e.keyCode;
+	if (key === 13){
+		if (g.focusUpdateNationName){
+			$("#submitNationName").trigger("click");
+		} else if (g.focusGameName){
+			$("#createGame").trigger("click");
+		}
+	}
+}).on('load resize orientationchange', function() {
+	resizeWindow();
+});

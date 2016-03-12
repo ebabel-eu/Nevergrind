@@ -1,5 +1,6 @@
 <?php
 	require_once('connect1.php');
+	
 	function validateName($x){
 		// min/max length
 		$len = strlen($x);
@@ -21,9 +22,9 @@
 	$name = $_POST['name'];
 	
 	if (validateName($name)){
-		$query = 'update fwnations set name=? where email=?';
+		$query = 'update fwnations set nation=? where account=?';
 		$stmt = $link->prepare($query);
-		$stmt->bind_param('ss', $name, $_SESSION['email']);
+		$stmt->bind_param('ss', $name, $_SESSION['account']);
 		$stmt->execute();
 		echo $name;
 	} else {

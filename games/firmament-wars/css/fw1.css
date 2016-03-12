@@ -32,7 +32,6 @@ header{
 	width: 100%;
 	font-size: 1em; 
 	overflow:hidden;
-	z-index:99999;
 	color: #fff;
 }
 audio{
@@ -146,13 +145,18 @@ h1,h2{
 .pointer{
 	cursor: pointer;
 }
-#game{
+.portal{
 	position: absolute;
 	top: 0;
 	left: 0;
-	overflow: hidden;
-	width: 100%;
-	height: 100%;
+	width: 1024px;
+	height: 768px;
+}
+#overlay{
+	display: none;
+	background: rgba(0,0,0,.5);
+	z-index:9999999;
+	cursor: wait;
 }
 #worldTitle{
 	position: absolute;
@@ -208,7 +212,6 @@ h1,h2{
 	background: rgba(0,0,0,.5);
 	border-radius: 6px;
 	color: #eef;
-	z-index: 2020;
 	box-shadow: 0 0 5px #3377dd, 0 0 5px #3377dd inset;
 }
 #lobby{
@@ -218,6 +221,16 @@ h1,h2{
 	font-size: 1.25em;
 }
 #lobbyFoot{
+}
+.active{
+    background-color: #286090;
+    border-color: #204d74;
+}
+#getWars{
+	margin: 0;
+}
+#joinGame{
+	margin-top: 12px;
 }
 #joinGameLobby{
 	visibility: hidden;
@@ -262,17 +275,6 @@ h1,h2{
 	box-shadow: 0 1px rgba(0,16,64,.5) inset,
 				0 -1px rgba(0,15,64,.5) inset;
 }
-#overlay{
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,.5);
-	z-index:9999999;
-	cursor: wait;
-}
 #configureNation{
 	visibility: hidden;
 	position: absolute;
@@ -289,6 +291,12 @@ h1,h2{
 	cursor: pointer;
 }
 .wars:hover{
+	color: #9df;
+}
+.wars:active{
+	color: #7be;
+}
+.selected{
 	background: rgba(0,64,128,.8);
 }
 .table-borderless tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
@@ -323,8 +331,11 @@ table {
 }
 .lobbyNationInfo{
 	padding-top: 6px;
-	max-height: 150px;
 	overflow: hidden;
+	min-height: 145px;
+}
+.lobbyCell{
+	min-height: 145px;
 }
 #buyFlag{
 	font-size: 1.625em;
@@ -341,12 +352,16 @@ table {
 #offerFlag{
 	display: none;
 }
+/* helper classes */
 /* bootstrap overwrites */
 .text-success{
 	color: #0d0;
 }
 .text-primary{
 	color: #8bf;
+}
+.text-info{
+	color: #00bb00;
 }
 .text-warning{
 	color: #ee7;
@@ -367,4 +382,32 @@ table {
 .text-overflow{
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.btn:active,
+.btn:focus{
+	outline: none;
+}
+.btn-info{
+	background: #008811;
+	border-color: #005511;
+}
+.btn.btn-info:hover,
+.btn.btn-info:active,
+.btn.btn-info:focus{
+	outline: none;
+	background: #00660a;
+	border-color: #00440a;
+}
+.btn-default{
+	color: #fff;
+	background: #555;
+	border-color: #222;
+}
+.btn.btn-default:hover, 
+.btn.btn-default:active,
+.btn.btn-default:focus{
+	outline: none;
+	color: #fff;
+	background: #333;
+	border-color: #111;
 }

@@ -1,3 +1,5 @@
+- add lobby update interval
+- rejoin game if you're still in a game/lobby -> remove delete upon creation
 - member of a game? Join it immediately????
 - create game
 - join game

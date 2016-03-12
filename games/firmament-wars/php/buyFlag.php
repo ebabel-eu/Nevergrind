@@ -31,9 +31,9 @@
 			$stmt->bind_param('s', $_SESSION['email']);
 			$stmt->execute();
 			// set flag
-			$query = "update fwNations set flag=? where email=?";
+			$query = "update fwNations set flag=? where account=?";
 			$stmt = $link->prepare($query);
-			$stmt->bind_param('ss', $flag, $_SESSION['email']);
+			$stmt->bind_param('ss', $flag, $_SESSION['account']);
 			$stmt->execute();
 		}
 	}

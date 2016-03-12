@@ -20,7 +20,7 @@
 				TweenMax.fromTo("#nationFlag", 3.33, {
 					scale: 1,
 				}, {
-					scale: .98,
+					scale: 1.02,
 					ease: SlowMo.ease.config(0.7, 0.7, false),
 					repeat: -1,
 					yoyo: true
