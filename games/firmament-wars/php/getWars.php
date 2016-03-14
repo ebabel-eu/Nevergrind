@@ -17,7 +17,7 @@
 	if($count > 0){
 			
 		// game data
-		$query = 'select w.row row, w.name name, count(p.game) players, w.max max, w.timer timer from fwGames w join fwplayers p on w.row=p.game group by p.game having players > 0 and players < max';
+		$query = 'select g.row row, g.name name, count(p.game) players, g.max max, g.timer timer from fwGames g join fwplayers p on g.row=p.game and p.timestamp > date_sub(now(), interval 7 second) group by p.game having players > 0 order by p.account';
 		$result = $link->query($query);
 		$count = $result->num_rows;
 		if ($count > 0){

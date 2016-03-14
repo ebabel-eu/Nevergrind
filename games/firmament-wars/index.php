@@ -67,7 +67,7 @@
 			
 			<div id="menu" class="fw-primary">
 				<div id="menuHead" class="btn-group" role="group">
-					<button id="join" type="button" class="btn btn-primary btn-md shadow3 active btn-head">Join</button>
+					<button id="refreshGames" type="button" class="btn btn-primary btn-md shadow3 active btn-head">Refresh Games</button>
 					<button id="create" type="button" class="btn btn-primary btn-md shadow3 btn-head">Create</button>
 					<button id="toggleNation" type="button" class="btn btn-primary btn-md shadow3 btn-head">Configure Nation</button>
 				</div>
@@ -164,9 +164,21 @@
 			</div>
 		</div>
 	
-		<div id="joinGameLobby" class="fw-primary shadow3"></div>
+		<div id="joinGameLobby" class="fw-primary shadow3">
+		</div>
 		
 	</div>
+	<!--
+	<div id="gameWrap">
+		<?php
+			/*
+			$svg = file_get_contents("images/world6.svg");
+			echo $svg;
+			*/
+		?>
+		
+	</div>
+	-->
 
 	<div id="battle">
 		<div class="row">

@@ -6,9 +6,11 @@
 	}
 	require('php/values.php');
 	
-	if(strlen($_SESSION['email']) > 0){
-		header("Location: /");
-		exit();
+	if(isset($_SESSION['email'])){
+		if(strlen($_SESSION['email']) > 0){
+			header("Location: /");
+			exit();
+		}
 	}
 	$refer = isset($_GET['back']) ? "/".$_GET['back'] : "/";
 ?>

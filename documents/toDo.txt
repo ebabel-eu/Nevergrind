@@ -1,4 +1,5 @@
-- add lobby update interval
+
+- add a background default flag if no flag is used
 - rejoin game if you're still in a game/lobby -> remove delete upon creation
 - member of a game? Join it immediately????
 - create game
@@ -7,6 +8,16 @@
 
 - Create Game: requires 2 to join (make it like starcraft)
 
+$_SESSION values:
+$_SESSION['gameId']
+$_SESSION['players']
+$_SESSION['max']
+$_SESSION['timer']
+$_SESSION['gameName']
+$_SESSION['account']
+$_SESSION['email']
+$_SESSION['nation']
+$_SESSION['flag']
 
 - create buttons/tabs for Create Join Options
 - Create game -> creates a new game and initializes number of players, etc

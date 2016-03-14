@@ -220,8 +220,6 @@ h1,h2{
 #lobbyHead{
 	font-size: 1.25em;
 }
-#lobbyFoot{
-}
 .active{
     background-color: #286090;
     border-color: #204d74;
@@ -231,6 +229,9 @@ h1,h2{
 }
 #joinGame{
 	margin-top: 12px;
+}
+#titleMain{
+	visibility: hidden;
 }
 #joinGameLobby{
 	visibility: hidden;

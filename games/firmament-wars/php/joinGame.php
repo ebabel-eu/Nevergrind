@@ -3,7 +3,16 @@
 	
 	$gameId = $_POST['gameId']*1;
 	
-	$query = 'select w.name, count(p.game) players, w.max max, w.timer timer from fwGames w join fwplayers p on w.row=p.game where w.row=? group by p.game';
+	if (isset($_SESSION['gameId'])){
+		$gameId = $_SESSION['gameId'];
+	}
+	
+	$query = 'select g.name, count(p.game) players, g.max max, g.timer timer 
+				from fwGames g 
+				join fwplayers p 
+				on g.row=p.game and p.timestamp > date_sub(now(), interval 5 second)
+				where g.row=? 
+				group by p.game';
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
@@ -16,14 +25,6 @@
 		$timer = $dtimer;
 	}
 	
-	$_SESSION['gameId'] = $gameId;
-	$_SESSION['gameName'] = $gameName;
-	$_SESSION['players'] = $players;
-	$_SESSION['max'] = $max;
-	$_SESSION['timer'] = $timer;
-	/* ??
-	*/
-	
 	$count = $stmt->num_rows;
 	if ($players == 0){
 		header('HTTP/1.1 500 All players have left the game');
@@ -34,9 +35,15 @@
 		exit;
 	}
 	
+	$_SESSION['gameId'] = $gameId;
+	$_SESSION['gameName'] = $gameName;
+	$_SESSION['players'] = $players;
+	$_SESSION['max'] = $max;
+	$_SESSION['timer'] = $timer;
+	
 	// get account flag
-	$nation = "";
-	$flag = "";
+	$_SESSION['nation'] = "";
+	$_SESSION['flag'] = "";
 
 	$query = "select nation, flag from fwNations where account=?";
 	$stmt = $link->prepare($query);
@@ -50,21 +57,11 @@
 		exit;
 	}
 	while($stmt->fetch()){
-		$nation = $dNation;
-		$flag = $dFlag;
+		$_SESSION['nation'] = $dNation;
+		$_SESSION['flag'] = $dFlag;
 	}
-
-	// delete from fwPlayers
-	$query = 'delete from fwPlayers where account=?';
-	$stmt = $link->prepare($query);
-	$stmt->bind_param('s', $_SESSION['account']);
-	$stmt->execute();
 	
-	// insert into fwplayers
-	$query = "insert into fwPlayers (`game`, `account`, `host`, `nation`, `flag`) values (?, ?, 0, ?, ?)";
-	$stmt = $link->prepare($query);
-	$stmt->bind_param('isss', $gameId, $_SESSION['account'], $nation, $flag);
-	$stmt->execute();
+	require('pingLobby.php');
 	
-	require('refreshLobby.php');
+	require('updateLobby.php');
 ?>

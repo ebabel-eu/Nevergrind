@@ -118,7 +118,7 @@ function resizeWindow() {
 		},
 		Miscellaneous: {
 			group: "Miscellaneous",
-			name: ['Anarcho-Capitalist', 'European Union', 'ISIS', 'Northwest Front', 'Pan-African Flag', 'Rainbow Flag', 'United Nations']
+			name: ['Anarcho-Capitalist', 'European Union', 'High Energy', 'ISIS', 'Northwest Front', 'Pan-African Flag', 'Rainbow Flag', 'United Nations']
 		},
 		SouthAmerica: {
 			group: "South America",
@@ -589,6 +589,57 @@ function logout(){
     }).fail(function() {
         Msg("Logout failed.");
     });
+}
+
+
+(function repeat(){
+	$.ajax({
+		type: "GET",
+		url: "php/keepAlive.php"
+	}).always(function(){
+		setTimeout(function(){
+			repeat();
+		}, 300000);
+	});
+})();
+function refreshGames(){
+	g.lock();
+	$.ajax({
+		type: 'GET',
+		url: 'php/getWars.php'
+	}).done(function(data) {
+		$("#menuContent").html(data);
+		$(".wars").filter(":first").trigger("click");
+	}).fail(function(e){
+		Msg("Server error.");
+	}).always(function(){
+		g.unlock();
+	});
+}
+
+function exitGame(){
+	g.lock(1);
+	$.ajax({
+		type: "GET",
+		url: 'php/exitGame.php'
+	}).done(function(data) {
+		g.view = "title";
+		var tl = new TimelineMax();
+		tl.to("#joinGameLobby", .5, {
+			scale: 1.02,
+			autoAlpha: 0,
+			onComplete: function(){
+				g.unlock(1);
+				refreshGames();
+			}
+		}).to("#titleMain", .5, {
+			scale: 1,
+			autoAlpha: 1
+		});
+	}).fail(function(e){
+		Msg(e.statusText);
+		g.unlock(1);
+	});
 }
 
 

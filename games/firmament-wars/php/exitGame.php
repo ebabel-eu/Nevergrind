@@ -11,6 +11,7 @@
 		unset($_SESSION['players']);
 		unset($_SESSION['max']);
 		unset($_SESSION['timer']);
+		unset($_SESSION['gameName']);
 	} else {
 		header('HTTP/1.1 500 Game session data not found.');
 	}

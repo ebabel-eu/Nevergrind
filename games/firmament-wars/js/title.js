@@ -48,19 +48,8 @@
 		gameId = $(this).data("id");
 	});
 	
-	$("#join").on("click", function(){
-		g.lock();
-		$.ajax({
-			type: 'GET',
-			url: 'php/getWars.php'
-		}).done(function(data) {
-			$("#menuContent").html(data);
-			$(".wars").filter(":first").trigger("click");
-		}).fail(function(e){
-			Msg("Server error.");
-		}).always(function(){
-			g.unlock();
-		});
+	$("#refreshGames").on("click", function(){
+		refreshGames();
 	}).trigger("click");
 	
 	$("#create").on("click", function(){
@@ -89,14 +78,6 @@
 		$("#menuContent").html(x);
 		$("#gameName").focus();
 	});
-	function verticallyCenterLobby(){
-		var e = $("#joinGameLobby");
-		var h = e.height();
-		var y = ~~((((768 - h) /2) / 768) * 100);
-		TweenMax.set(e, {
-			bottom: y + '%'
-		});
-	}
 	
 	$("#menu").on("click", "#createGame", function(){
 		var name = $("#gameName").val();
@@ -114,7 +95,9 @@
 					players: players
 				}
 			}).done(function(data) {
-				joinLobby(data);
+				joinLobby();
+				var e = document.getElementById("joinGameLobby");
+				e.innerHTML = data;
 			}).fail(function(e){
 				Msg(e.statusText);
 				g.unlock(1);
@@ -122,37 +105,58 @@
 		}
 	});
 	
+	function joinGame(){
+		g.lock();
+		$.ajax({
+			url: 'php/joinGame.php',
+			data: {
+				gameId: gameId
+			}
+		}).done(function(data) {
+			joinLobby();
+			var e = document.getElementById("joinGameLobby");
+			e.innerHTML = data;
+		}).fail(function(e){
+			Msg(e.statusText);
+		}).always(function(){
+			g.unlock();
+		});
+	}
+	
+	(function(){
+		g.lock();
+		$.ajax({
+			type: "GET",
+			url: 'php/initGame.php'
+		}).done(function(data) {
+			var id = data*1;
+			if (data){
+				joinLobby(0);
+			} else {
+				document.getElementById("titleMain").style.visibility = "visible";
+			}
+		}).fail(function(e){
+			Msg("Failed to contact server");
+		}).always(function(){
+			g.unlock();
+		});
+	})();
+	
 	$("#menu").on("click", "#joinGame", function(){
-		if (gameId){
-			g.lock();
-			$.ajax({
-				url: 'php/joinGame.php',
-				data: {
-					gameId: gameId
-				}
-			}).done(function(data) {
-				joinLobby(data);
-			}).fail(function(e){
-				Msg(e.statusText);
-			}).always(function(){
-				g.unlock();
-			});
-		} else {
-			Msg("Select a game to join");
-		}
+		joinGame();
 	});
 	
-	function joinLobby(data){
+	function joinLobby(d){
+		if (d === undefined){
+			d = .5;
+		}
 		g.view = "lobby";
-		var e = document.getElementById("joinGameLobby");
-		e.innerHTML = data;
-		TweenMax.to("#titleMain", .5, {
+		TweenMax.to("#titleMain", d, {
 			scale: 1.02,
 			autoAlpha: 0,
 			onComplete: function(){
 				g.unlock(1);
-				verticallyCenterLobby();
-				TweenMax.fromTo(e, .5, {
+				TweenMax.fromTo('#joinGameLobby', .5, {
 					scale: 1.02,
 					autoAlpha: 0
 				}, {
@@ -165,18 +169,25 @@
 			if (g.view === "lobby"){
 				$.ajax({
 					type: "GET",
-					url: "php/refreshLobby.php"
+					url: "php/updateLobby.php"
 				}).done(function(data){
 					document.getElementById("joinGameLobby").innerHTML = data;
 					if (g.view === "lobby"){
 						setTimeout(repeat, 2000);
 					}
+					var e = $("#joinGameLobby");
+					var h = e.height();
+					var y = ~~((((768 - h) /2) / 768) * 100);
+					TweenMax.set(e, {
+						bottom: y + '%'
+					});
 				}).fail(function(data){
 					serverError();
 				});
 			}
 		})();
 	}
+	
 	function animateNationName(){
 		/*
 		tl.to('#nationName', 1, {

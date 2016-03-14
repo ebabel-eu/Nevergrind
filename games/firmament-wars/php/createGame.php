@@ -35,16 +35,18 @@
 	
 	// get created game ID
 	$min = 2;
-	$query = "select row from fwGames where max>=? order by row desc limit 1";
+	$query = "select row, timer from fwGames where max>=? order by row desc limit 1";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $min);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dRow);
+	$stmt->bind_result($dRow, $dTimer);
 	while($stmt->fetch()){
 		$gameId = $dRow;
+		$timer = $dTimer;
 	}
 	$_SESSION['gameId'] = $gameId*1;
+	$_SESSION['timer'] = $timer;
 
 	// get account flag
 	$nation = "";
@@ -62,21 +64,11 @@
 		exit;
 	}
 	while($stmt->fetch()){
-		$nation = $dNation;
-		$flag = $dFlag;
+		$_SESSION['nation'] = $dNation;
+		$_SESSION['flag'] = $dFlag;
 	}
-
-	// delete from fwPlayers
-	$query = 'delete from fwPlayers where account=?';
-	$stmt = $link->prepare($query);
-	$stmt->bind_param('s', $_SESSION['account']);
-	$stmt->execute();
 	
-	// insert into fwplayers
-	$query = "insert into fwPlayers (`game`, `account`, `host`, `nation`, `flag`) values (?, ?, 1, ?, ?)";
-	$stmt = $link->prepare($query);
-	$stmt->bind_param('isss', $gameId, $_SESSION['account'], $nation, $flag);
-	$stmt->execute();
+	require('pingLobby.php');
 	
-	require('refreshLobby.php');
+	require('updateLobby.php');
 ?>
