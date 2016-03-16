@@ -353,6 +353,34 @@ table {
 #offerFlag{
 	display: none;
 }
+.defaultFlag{
+	min-height: 120px;
+	box-shadow: 0 0 12px #111 inset;
+}
+.player1{
+	background: #f00;
+}
+.player2{
+	background: #00f;
+}
+.player3{
+	background: #080;
+}
+.player4{
+	background: #ff0;
+}
+.player5{
+	background: #f88;
+}
+.player6{
+	background: #08f;
+}
+.player7{
+	background: #f80;
+}
+.player8{
+	background: #80f;
+}
 /* helper classes */
 /* bootstrap overwrites */
 .text-success{

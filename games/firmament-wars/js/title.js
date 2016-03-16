@@ -43,9 +43,12 @@
 	var gameId = 0;
 	
 	$("#menu").on("click", ".wars", function(){
+	
 		$(".wars").removeClass("selected");
 		$(this).addClass("selected");
 		gameId = $(this).data("id");
+		
+		console.info("CLICK: "+gameId);
 	});
 	
 	$("#refreshGames").on("click", function(){
@@ -129,8 +132,8 @@
 			type: "GET",
 			url: 'php/initGame.php'
 		}).done(function(data) {
-			var id = data*1;
-			if (data){
+			console.info(data);
+			if (data*1 > 0){
 				joinLobby(0);
 			} else {
 				document.getElementById("titleMain").style.visibility = "visible";
@@ -143,6 +146,7 @@
 	})();
 	
 	$("#menu").on("click", "#joinGame", function(){
+		console.info("JOINING: "+gameId);
 		joinGame();
 	});
 	
@@ -227,38 +231,36 @@
 		animateNationName();
 	});
 	
-	$("#flagDropdown").on("change", function(e){
+	$("#flagDropdown").on("click", function(e){
 		$(".flagPurchaseStatus").css("display", "none");
 		var z = $(this).val();
 		var x = z === "Nepal" ? "Nepal.png" : z + ".jpg";
 		$("#updateNationFlag").attr("src", "images/flags/" + x)
 			.css("display", "block");
-		if (x !== "blank.jpg"){
-			g.lock(1);
-			$.ajax({
-				url: 'php/updateFlag.php',
-				data: {
-					flag: x
-				}
-			}).done(function(data) {
-				$("#offerFlag").css("display", "none");
-				$("#nationFlag").attr("src", "images/flags/" + x);
-				$("#flagPurchased").css("display", "block");
-				Msg("Your nation's flag is now: " + z);
-			}).fail(function(e){
-				$("#flagPurchased").css("display", "none");
-				$("#offerFlag").css("display", "block");
-			}).always(function(){
-				g.unlock(1);
-				TweenMax.fromTo("#updateNationFlag", 1, {
-					alpha: .25,
-					scale: .9
-				}, {
-					alpha: 1,
-					scale: 1
-				});
+		g.lock(1);
+		$.ajax({
+			url: 'php/updateFlag.php',
+			data: {
+				flag: x
+			}
+		}).done(function(data) {
+			$("#offerFlag").css("display", "none");
+			$("#nationFlag").attr("src", "images/flags/" + x);
+			$("#flagPurchased").css("display", "block");
+			Msg("Your nation's flag is now: " + z);
+		}).fail(function(e){
+			$("#flagPurchased").css("display", "none");
+			$("#offerFlag").css("display", "block");
+		}).always(function(){
+			g.unlock(1);
+			TweenMax.fromTo("#updateNationFlag", 1, {
+				alpha: .25,
+				scale: .9
+			}, {
+				alpha: 1,
+				scale: 1
 			});
-		}
+		});
 	});
 	
 	$("#submitNationName").on("click", function(e){

@@ -1,4 +1,4 @@
-
+- GAME IS NOT AUTO JOINING?
 - add a background default flag if no flag is used
 - rejoin game if you're still in a game/lobby -> remove delete upon creation
 - member of a game? Join it immediately????
@@ -8,14 +8,19 @@
 
 - Create Game: requires 2 to join (make it like starcraft)
 
-$_SESSION values:
+SESSION VALUES:
+LOGOUT:
+$_SESSION['account']
+$_SESSION['email']
+
+GAME:
 $_SESSION['gameId']
-$_SESSION['players']
 $_SESSION['max']
 $_SESSION['timer']
 $_SESSION['gameName']
-$_SESSION['account']
-$_SESSION['email']
+$_SESSION['player']
+
+NATION:
 $_SESSION['nation']
 $_SESSION['flag']
 

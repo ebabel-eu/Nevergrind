@@ -8,12 +8,21 @@
 	$stmt->execute();
 	$stmt->store_result();
 	$count = $stmt->num_rows;
-	if($count > 0){
+	
+	function updateFlag($link, $flag){
 		$query = "update fwNations set flag=? where account=?";
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('ss', $flag, $_SESSION['account']);
 		$stmt->execute();
+	}
+	
+	if($count > 0){
+		updateFlag($link, $flag);
 	} else {
-		header('HTTP/1.1 500 You must purchase this flag to use it.');
+		if ($flag == "Default.jpg"){
+			updateFlag($link, $flag);
+		} else {
+			header('HTTP/1.1 500 You must purchase this flag to use it.');
+		}
 	}
 ?>

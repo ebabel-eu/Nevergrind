@@ -1,7 +1,7 @@
 <?php
 	require_once('connect1.php');
 
-	$noGameFound = "<tr><td colspan='3' class='text-info col-md-12 warCells'>No active games found. Create a game to play!</td></tr>";
+	$noGameFound = "<tr><td colspan='3' class='text-warning text-center col-md-12 warCells'>No active games found. Create a game to play!</td></tr>";
 
 	$query = 'select row from fwGames';
 	$result = $link->query($query);
@@ -17,7 +17,7 @@
 	if($count > 0){
 			
 		// game data
-		$query = 'select g.row row, g.name name, count(p.game) players, g.max max, g.timer timer from fwGames g join fwplayers p on g.row=p.game and p.timestamp > date_sub(now(), interval 7 second) group by p.game having players > 0 order by p.account';
+		$query = "select g.row row, g.name name, count(p.game) players, g.max max, g.timer timer from fwGames g join fwplayers p on g.row=p.game and p.timestamp > date_sub(now(), interval {$_SESSION['lag']} second) group by p.game having players > 0 order by p.account";
 		$result = $link->query($query);
 		$count = $result->num_rows;
 		if ($count > 0){

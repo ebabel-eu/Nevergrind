@@ -21,20 +21,23 @@
 		<div class='clearfix'>";
 		
 
-		$query = "select account, nation, flag from fwPlayers where game=? and timestamp > date_sub(now(), interval 7 second) order by account";
+		$query = "select account, nation, flag, player from fwPlayers where game=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second) order by player";
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('i', $_SESSION['gameId']);
 		$stmt->execute();
 		$stmt->store_result();
-		$stmt->bind_result($account, $nation, $flag);
+		$stmt->bind_result($account, $nation, $flag, $player);
 
 		$players = 0;
 		while($stmt->fetch()){
-			$players++;
-			$str .= "<div class='col-xs-3 pull-left'>
-				<img src='images/flags/{$flag}' class='w100 block center'>
-			</div>
-			<div class='col-xs-3 text-center lobbyNationInfo  pull-left'>
+			$str .= "<div class='col-xs-3 pull-left'>";
+			if ($flag != "Default.jpg"){
+				$str .= "<img src='images/flags/{$flag}' class='w100 block center'>";
+			} else {
+				$str .= "<div class='defaultFlag player{$player} w100 block center'></div>";
+			}
+			$str .= "</div>
+			<div class='col-xs-3 text-center lobbyNationInfo pull-left'>
 				<div class='text-warning'>{$account}</div>
 				<div class='lobbyNationName'>{$nation}</div>
 			</div>";

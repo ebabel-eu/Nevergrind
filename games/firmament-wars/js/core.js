@@ -82,7 +82,7 @@ function resizeWindow() {
 	});
 	e.style.visibility = "visible";
 	
-	var s = "<option value='blank' selected='selected'>Change Flag</option>";
+	var s = "<option value='Default' selected='selected'>Default</option>";
 	var flagData = {
 		Africa: {
 			group: "Africa",

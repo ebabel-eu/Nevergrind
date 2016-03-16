@@ -7,9 +7,9 @@
 		$stmt->execute();
 		
 		// insert into fwplayers
-		$query = "insert into fwPlayers (`game`, `account`, `host`, `nation`, `flag`) values (?, ?, 1, ?, ?)";
+		$query = "insert into fwPlayers (`game`, `account`, `host`, `nation`, `flag`, `player`) values (?, ?, 1, ?, ?, ?)";
 		$stmt = $link->prepare($query);
-		$stmt->bind_param('isss', $_SESSION['gameId'], $_SESSION['account'], $_SESSION['nation'], $_SESSION['flag']);
+		$stmt->bind_param('isssi', $_SESSION['gameId'], $_SESSION['account'], $_SESSION['nation'], $_SESSION['flag'], $_SESSION['player']);
 		$stmt->execute();
 	}
 ?>

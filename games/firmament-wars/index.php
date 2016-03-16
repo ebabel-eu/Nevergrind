@@ -97,7 +97,7 @@
 								$count = $dbcount;
 							}
 							$nation = 'Kingdom of '.ucfirst($_SESSION['account']);
-							$flag = 'blank.jpg';
+							$flag = 'Default.jpg';
 							if($count > 0){
 								$query = "select nation, flag from fwNations where account=?";
 								$stmt = $link->prepare($query);

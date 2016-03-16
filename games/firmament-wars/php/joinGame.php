@@ -3,43 +3,57 @@
 	
 	$gameId = $_POST['gameId']*1;
 	
-	if (isset($_SESSION['gameId'])){
-		$gameId = $_SESSION['gameId'];
-	}
-	
-	$query = 'select g.name, count(p.game) players, g.max max, g.timer timer 
+	$query = "select g.name, count(p.game) activePlayers, g.max max, g.timer timer 
 				from fwGames g 
 				join fwplayers p 
-				on g.row=p.game and p.timestamp > date_sub(now(), interval 5 second)
+				on g.row=p.game and p.timestamp > date_sub(now(), interval {$_SESSION['lag']} second)
 				where g.row=? 
-				group by p.game';
+				group by p.game";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dgameName, $dplayers, $dmax, $dtimer);
+	$stmt->bind_result($dgameName, $dactivePlayers, $dmax, $dtimer);
 	while($stmt->fetch()){
 		$gameName = $dgameName;
-		$players = $dplayers;
+		$activePlayers = $dactivePlayers;
 		$max = $dmax;
 		$timer = $dtimer;
 	}
 	
 	$count = $stmt->num_rows;
-	if ($players == 0){
-		header('HTTP/1.1 500 All players have left the game');
+	if ($activePlayers == 0){
+		header('HTTP/1.1 500 All players have left the game.');
 		exit;
 	}
-	if ($players >= $max){
+	if ($activePlayers >= $max){
 		header('HTTP/1.1 500 The game is full');
 		exit;
 	}
 	
 	$_SESSION['gameId'] = $gameId;
 	$_SESSION['gameName'] = $gameName;
-	$_SESSION['players'] = $players;
 	$_SESSION['max'] = $max;
 	$_SESSION['timer'] = $timer;
+	
+	// determine player number
+	$query = "select player from fwPlayers where game=?;";
+	$stmt = $link->prepare($query);
+	$stmt->bind_param('i', $gameId);
+	$stmt->execute();
+	$stmt->store_result();
+	$stmt->bind_result($player);
+	$a = array();
+	while($stmt->fetch()){
+		array_push($a, $player);
+	}
+	for ($i=1; $i < $_SESSION['max']; $i++){
+		if (!in_array($i, $a)){
+			if (!isset($_SESSION['player'])){
+				$_SESSION['player'] = $i;
+			}
+		}
+	}
 	
 	// get account flag
 	$_SESSION['nation'] = "";

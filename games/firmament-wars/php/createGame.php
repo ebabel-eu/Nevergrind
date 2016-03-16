@@ -16,7 +16,8 @@
 	$_SESSION['gameName'] = $name;
 	$_SESSION['max'] = $players;
 	
-	$query = "select name from fwGames where name=?";
+	$query = "select count(p.game) players, g.name from fwGames g join fwPlayers p on g.row=p.game and g.name=? group by p.game having players > 0";
+	
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('s', $name);
 	$stmt->execute();
@@ -25,6 +26,12 @@
 	if ($count > 0){
 		header('HTTP/1.1 500 Game name already exists.');
 		exit;
+	} else {
+		// delete old game
+		$query = 'delete from fwGames where name=?';
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $name);
+		$stmt->execute();
 	}
 	
 	// create game
@@ -47,6 +54,7 @@
 	}
 	$_SESSION['gameId'] = $gameId*1;
 	$_SESSION['timer'] = $timer;
+	$_SESSION['player'] = 1;
 
 	// get account flag
 	$nation = "";
