@@ -1,3 +1,10 @@
+Bizarre lobby behavior? Not showing all 5 properly? 
+	overwriting player number?
+	make more airtight
+	not auto joining? or is it?
+Fix top bar in Safari 
+Account Store?
+
 - GAME IS NOT AUTO JOINING?
 - add a background default flag if no flag is used
 - rejoin game if you're still in a game/lobby -> remove delete upon creation

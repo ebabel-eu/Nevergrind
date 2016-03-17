@@ -42,6 +42,7 @@
 	
 		<div id="titleMain" class="portal">
 			<header class="shadow3">
+				<div id="headerWrap">
 			<?php
 				require_once('php/connect_plain.php');
 				// crystals
@@ -54,15 +55,15 @@
 					
 				echo 
 				'<div class="accountDetails">
-					<a target="_blank" title="Manage Account" class="accountValues accountValueText" href="/account.php?back=games/firmament-wars">'.
-						ucfirst($_SESSION['account']).
-					'</a>&ensp;
-					<div id="crystals" class="crystalIcon accountValues"></div>
-					<div id="crystalCount" class="accountValueText2">'.$crystals.'</div>
+					<a target="_blank" title="Manage Account" href="/account.php?back=games/firmament-wars">Account</a>&ensp;
+					<a target="_blank" title="Store" href="/store.php">Store</a>&ensp;
+					<i class="fa fa-diamond text-primary" title="Never Crystals"></i>
+					<span id="crystalCount" class="text-primary" title="Crystals Remaining">'.$crystals.'</span>
 				</div>
-				<div class="modePanel">Firmament Wars 0.0.1</div>';
+				<div class="pull-right text-primary">Firmament Wars 0.0.1</div>';
 				
 				?>
+				</div>
 			</header>
 			
 			<div id="menu" class="fw-primary">
@@ -145,13 +146,15 @@
 								&ensp;Flag Purchased!
 							</h4>
 						</div>
-						<div id="offerFlag" class="flagPurchaseStatus">
+						<div id="offerFlag" class="flagPurchaseStatus shadow3">
 							<hr class="fancyhr">
 							<h5 class="text-center">Buy flag for 100 Never Crystals?</h5>
-							<button id="buyFlag" type="button" class="btn btn-primary shadow3 center block">
-								<span class="crystal"></span> 100
-							</button>
-							<h4 class="text-center shadow3">
+							<div class="center block">
+								<button id="buyFlag" type="button" class="btn btn-primary shadow3 text-primary" title="Purchase Flag">
+									<i class="fa fa-diamond" title="Never Crystals"></i> 100
+								</button>
+							</div>
+							<h4 class="text-center">
 								<a target="_blank" href="/store.php">Purchase Crystals</a>
 							</h4>
 						</div>

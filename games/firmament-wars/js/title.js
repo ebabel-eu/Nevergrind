@@ -231,7 +231,7 @@
 		animateNationName();
 	});
 	
-	$("#flagDropdown").on("click", function(e){
+	$("#flagDropdown").on("change", function(e){
 		$(".flagPurchaseStatus").css("display", "none");
 		var z = $(this).val();
 		var x = z === "Nepal" ? "Nepal.png" : z + ".jpg";

@@ -32,7 +32,7 @@
 		while($stmt->fetch()){
 			$str .= "<div class='col-xs-3 pull-left'>";
 			if ($flag != "Default.jpg"){
-				$str .= "<img src='images/flags/{$flag}' class='w100 block center'>";
+				$str .= "<img src='images/flags/{$flag}' class='player{$player} w100 block center'>";
 			} else {
 				$str .= "<div class='defaultFlag player{$player} w100 block center'></div>";
 			}

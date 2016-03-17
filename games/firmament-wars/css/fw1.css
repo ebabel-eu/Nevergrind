@@ -30,9 +30,13 @@ header{
 	top: 0;
 	left: 0;
 	width: 100%;
-	font-size: 1em; 
+	font-size: 1.125em; 
+	letter-spacing: 1px;
 	overflow:hidden;
 	color: #fff;
+}
+#headerWrap{
+	padding: 0 6px;
 }
 audio{
 	display: none;
@@ -42,6 +46,10 @@ h1,h2{
 	color:#fff;
 	margin:0;
 	padding:0;
+}
+a:hover{
+	color: #8bf;
+	text-decoration: none;
 }
 /* common helpers */
 .crystalIcon{
@@ -59,6 +67,11 @@ h1,h2{
 	height:30px;
 	line-height:30px;
 	text-indent:5px;
+}
+#crystals{
+	width:16px;
+	height:16px;
+	display: inline-block;
 }
 .accountValueText{
 	line-height:32px;
@@ -341,6 +354,9 @@ table {
 #buyFlag{
 	font-size: 1.625em;
 }
+#buyFlag:hover{
+	color: #00bb00;
+}
 .crystal{
 	float: left;
 	background:url('/images1/currency.png') 100% 0 / 200% 100%;
@@ -352,6 +368,7 @@ table {
 }
 #offerFlag{
 	display: none;
+	text-align: center;
 }
 .defaultFlag{
 	min-height: 120px;
@@ -359,27 +376,43 @@ table {
 }
 .player1{
 	background: #f00;
+	outline: 2px groove #f00;
+	box-shadow: 0 0 10px #f00;
 }
 .player2{
 	background: #00f;
+	outline: 2px groove #00f;
+	box-shadow: 0 0 10px #00f;
 }
 .player3{
 	background: #080;
+	outline: 2px groove #080;
+	box-shadow: 0 0 10px #080;
 }
 .player4{
 	background: #ff0;
+	outline: 2px groove #ff0;
+	box-shadow: 0 0 10px #ff0;
 }
 .player5{
-	background: #f88;
+	background: #f8f;
+	outline: 2px groove #f8f;
+	box-shadow: 0 0 10px #f8f;
 }
 .player6{
 	background: #08f;
+	outline: 2px groove #08f;
+	box-shadow: 0 0 10px #08f;
 }
 .player7{
 	background: #f80;
+	outline: 2px groove #f80;
+	box-shadow: 0 0 10px #f80;
 }
 .player8{
 	background: #80f;
+	outline: 2px groove #80f;
+	box-shadow: 0 0 10px #80f;
 }
 /* helper classes */
 /* bootstrap overwrites */
@@ -439,4 +472,7 @@ table {
 	color: #fff;
 	background: #333;
 	border-color: #111;
+}
+.text-crystal{
+	color: #8bf;
 }

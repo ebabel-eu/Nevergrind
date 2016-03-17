@@ -47,12 +47,19 @@
 	while($stmt->fetch()){
 		array_push($a, $player);
 	}
-	for ($i=1; $i < $_SESSION['max']; $i++){
+	
+	unset($_SESSION['player']);
+	for ($i=1; $i <= $_SESSION['max']; $i++){
 		if (!in_array($i, $a)){
 			if (!isset($_SESSION['player'])){
 				$_SESSION['player'] = $i;
 			}
 		}
+	}
+	// sanity check
+	if ($_SESSION['player'] < 1 || $_SESSION['player'] > $_SESSION['max']){
+		header('HTTP/1.1 500 Failed to join game: (player: ' . $_SESSION['player'] . ')');
+		exit;
 	}
 	
 	// get account flag
@@ -74,6 +81,9 @@
 		$_SESSION['nation'] = $dNation;
 		$_SESSION['flag'] = $dFlag;
 	}
+	// cleanup stale player data
+	$query = "delete from fwPlayers where timestamp < date_sub(now(), interval {$_SESSION['lag']} second)";
+	$stmt = $link->query($query);
 	
 	require('pingLobby.php');
 	
