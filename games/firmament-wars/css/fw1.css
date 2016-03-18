@@ -18,12 +18,28 @@ input{
 	background: #059;
 }
 body{
+	font-size: 1.5em;
 	position: absolute;
 	width:100%;
 	height:100%;
 	opacity: 0;
 	background: #050c22;
 	overflow: hidden;
+}
+@media only screen and (max-width: 824px) {
+	body { 
+		font-size: 1.25em; 
+	}
+}
+@media only screen and (max-width: 724px) {
+	body { 
+		font-size: 1em; 
+	}
+}
+@media only screen and (max-width: 624px) {
+	body { 
+		font-size: .75em; 
+	}
 }
 header{
 	position: absolute;
@@ -162,8 +178,8 @@ a:hover{
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 1024px;
-	height: 768px;
+	width: 100%;
+	height: 100%;
 }
 #overlay{
 	display: none;
@@ -177,12 +193,16 @@ a:hover{
 	left: 0;
 	width: 2022px;
 	height: 2022px;
+	width: 197.461%;
+	height: 2022px;
 }
 #world{
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 2022px;
+	height: 2022px;
+	width: 197.461%;
 	height: 2022px;
 }
 .land{
@@ -249,9 +269,9 @@ a:hover{
 #joinGameLobby{
 	visibility: hidden;
 	position: absolute;
-	bottom: 5%;
-	margin: auto;
+	top: 2%;
 	width: 90%;
+	margin: 0 auto;
 	left: 0;
 	right: 0;
 }
@@ -338,18 +358,20 @@ table {
 	word-break: break-word;
 	max-height: 160px;
 }
+.lobbyRow{
+	margin-bottom: 12px;
+}
 .lobbyNationName{
 	word-break: break-word;
 	font-family: Times New Roman, serif;
 	font-size: 1.625em;
+	overflow: hidden;
 }
 .lobbyNationInfo{
 	padding-top: 6px;
 	overflow: hidden;
-	min-height: 145px;
 }
 .lobbyCell{
-	min-height: 145px;
 }
 #buyFlag{
 	font-size: 1.625em;
@@ -370,51 +392,50 @@ table {
 	display: none;
 	text-align: center;
 }
-.defaultFlag{
-	min-height: 120px;
-	box-shadow: 0 0 12px #111 inset;
-}
 .player1{
 	background: #f00;
-	outline: 2px groove #f00;
+	border: 2px groove #f00;
 	box-shadow: 0 0 10px #f00;
 }
 .player2{
 	background: #00f;
-	outline: 2px groove #00f;
+	border: 2px groove #00f;
 	box-shadow: 0 0 10px #00f;
 }
 .player3{
 	background: #080;
-	outline: 2px groove #080;
+	border: 2px groove #080;
 	box-shadow: 0 0 10px #080;
 }
 .player4{
 	background: #ff0;
-	outline: 2px groove #ff0;
+	border: 2px groove #ff0;
 	box-shadow: 0 0 10px #ff0;
 }
 .player5{
 	background: #f8f;
-	outline: 2px groove #f8f;
+	border: 2px groove #f8f;
 	box-shadow: 0 0 10px #f8f;
 }
 .player6{
 	background: #08f;
-	outline: 2px groove #08f;
+	border: 2px groove #08f;
 	box-shadow: 0 0 10px #08f;
 }
 .player7{
 	background: #f80;
-	outline: 2px groove #f80;
+	border: 2px groove #f80;
 	box-shadow: 0 0 10px #f80;
 }
 .player8{
 	background: #80f;
-	outline: 2px groove #80f;
+	border: 2px groove #80f;
 	box-shadow: 0 0 10px #80f;
 }
 /* helper classes */
+.pad-top{
+	padding-top: 6px;
+}
 /* bootstrap overwrites */
 .text-success{
 	color: #0d0;

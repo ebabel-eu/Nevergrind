@@ -81,58 +81,7 @@ function resizeWindow() {
 		ease: Linear.easeNone
 	});
 	e.style.visibility = "visible";
-	
-	var s = "<option value='Default' selected='selected'>Default</option>";
-	var flagData = {
-		Africa: {
-			group: "Africa",
-			name: ['Algeria', 'Botswana', 'Cameroon', 'Cape Verde', 'Ivory Coast', 'Egypt', 'Ghana', 'Kenya', 'Liberia', 'Morocco', 'Mozambique', 'Namibia', 'Nigeria', 'South Africa', 'Uganda']
-		},
-		Asia: {
-			group: "Asia",
-			name: ['Bangladesh', 'Cambodia', 'China', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Ireland', 'Japan', 'Malaysia', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Pakistan', 'Philippines', 'Singapore', 'South Korea', 'Sri Lanka', 'Suriname', 'Taiwan', 'Thailand', 'Vietnam']
-		},
-		Europe: {
-			group: "Europe",
-			name: ['Albania', 'Austria', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'England', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Italy', 'Kosovo', 'Latvia', 'Lithuania', 'Macedonia', 'Montenegro', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'Scotland', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Kingdom', 'United States']
-		},
-		Eurasia: {
-			group: "Eurasia",
-			name: ['Armenia', 'Azerbaijan', 'Georgia', 'Kazakhstan', 'Uzbekistan']
-		},
-		Historic: {
-			group: "Historic",
-			name: ['Confederate Flag', 'Flanders', 'Gadsden Flag', 'Isle of Man', 'Rising Sun Flag', 'NSDAP Flag', 'Shahanshahi', 'USSR', 'Welsh']
-		},
-		MiddleEast: {
-			group: "Middle East",
-			name: ['Israel', 'Jordan', 'Lebanon', 'Palestine', 'Qatar', 'Saudi Arabia', 'Syria', 'Turkey']
-		},
-		NorthAmerica: {
-			group: "North America",
-			name: ['Bahamas', 'Barbados', 'Canada', 'Costa Rica', 'Cuba', 'Haiti', 'Honduras', 'Mexico', 'Saint Lucia', 'Trinidad and Tobago']
-		},
-		Oceania: {
-			group: "Oceania",
-			name: ['Australia', 'New Zealand']
-		},
-		Miscellaneous: {
-			group: "Miscellaneous",
-			name: ['Anarcho-Capitalist', 'European Union', 'High Energy', 'ISIS', 'Northwest Front', 'Pan-African Flag', 'Rainbow Flag', 'United Nations']
-		},
-		SouthAmerica: {
-			group: "South America",
-			name: ['Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Paraguay', 'Peru', 'Uruguay', 'Venezuela']
-		},
-	}
-	for (x in flagData){
-		s += "<optgroup label='" + flagData[x].group + "'>";
-		flagData[x].name.forEach(function(e){
-			s += "<option value='" + e + "'>" + e + "</option>";
-		});
-		s += "</optgroup>";
-	}
-	document.getElementById("flagDropdown").innerHTML = s;
+	console.info("resize");
 }
 
 
