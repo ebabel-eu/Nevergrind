@@ -1,17 +1,6 @@
-Bizarre lobby behavior? Not showing all 5 properly? 
-	overwriting player number?
-	make more airtight
-	not auto joining? or is it?
-Fix top bar in Safari 
-Account Store?
-
-- GAME IS NOT AUTO JOINING?
-- add a background default flag if no flag is used
-- rejoin game if you're still in a game/lobby -> remove delete upon creation
-- member of a game? Join it immediately????
-- create game
-- join game
-- auto join game
+- START GAME
+- confirm 2+ players are present
+- init game in fwTiles 
 
 - Create Game: requires 2 to join (make it like starcraft)
 
@@ -26,6 +15,8 @@ $_SESSION['max']
 $_SESSION['timer']
 $_SESSION['gameName']
 $_SESSION['player']
+$_SESSION['map']
+$_SESSION['turn']
 
 NATION:
 $_SESSION['nation']
@@ -37,6 +28,14 @@ $_SESSION['flag']
 
 - add war medal achievements
 
+					/*
+					var e = $("#joinGameLobby");
+					var h = e.height();
+					var y = ~~((((768 - h) /2) / 768) * 100);
+					TweenMax.set(e, {
+						bottom: y + '%'
+					});
+					*/
 http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 
 - BUILD 1-0-99 for /games/nevergrind/ because it doesn't load
@@ -46,14 +45,32 @@ http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 
 - manage account page?
 
-Romans 3:23 "all have sinned"
-Romans 6:23
-Revelation 20:14-15
-Revelation 21:8 "all liars"
-Romans 5:8
-Acts 16:30
-John 3:16 and 18
+Romans 3:23 
+For all have sinned, and come short of the glory of God;
 
+Romans 6:23 
+For the wages of sin is death; but the gift of God is eternal life through
+ Jesus Christ our Lord.
+ 
+Revelation 20:14-15
+14 And death and hell were cast into the lake of fire. This is the second death.
+15 And whosoever was not found written in the book of life was cast into the lake of fire.
+
+Revelation 21:8 
+But the fearful, and unbelieving, and the abominable, and murderers, and whoremongers, and sorcerers, and idolaters, and all liars, shall have their part in the lake which burneth with fire and brimstone: which is the second death.
+
+Romans 5:8
+8 But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us. 
+9 Much more then, being now justified by his blood, we shall be saved from wrath through him.
+
+Acts 16:30
+30 And brought them out, and said, Sirs, what must I do to be saved?
+31 And they said, Believe on the Lord Jesus Christ, and thou shalt be saved, and thy house.
+
+John 3:16 and 18
+16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+17 For God sent not his Son into the world to condemn the world; but that the world through him might be saved.
+18 He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God.
 
 Rules:
 - Players start with 5 MAN in their capital + 3 MAN from capital. Turn order is randomly rolled for and goes in order players joined the game.

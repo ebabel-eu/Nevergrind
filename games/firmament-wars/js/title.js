@@ -24,14 +24,14 @@
 	// SVG
 	$(".land").on("mouseenter", function(){
 		TweenMax.set($(this).get(0), {
-			fill: "#888800"
+			fill: "#aa0000"
 		});
 	}).on("mouseleave", function(){
 		TweenMax.to($(this).get(0), .25, {
 			fill: "#002255"
 		});
-	}).on("click", function(e){
-		console.info($(this).data("name"));
+	}).on("mousedown", function(e){
+		console.info(this.id);
 	});
 	$("#logout").on('click', function() {
 		logout();
@@ -98,10 +98,9 @@
 					players: players
 				}
 			}).done(function(data) {
-				joinLobby();
-				var e = document.getElementById("joinGameLobby");
-				e.innerHTML = data;
+				joinLobby(); // create
 			}).fail(function(e){
+				console.info(e.responseText);
 				Msg(e.statusText);
 				g.unlock(1);
 			});
@@ -116,9 +115,7 @@
 				gameId: gameId
 			}
 		}).done(function(data) {
-			joinLobby();
-			var e = document.getElementById("joinGameLobby");
-			e.innerHTML = data;
+			joinLobby(); // normal join
 		}).fail(function(e){
 			Msg(e.statusText);
 		}).always(function(){
@@ -183,13 +180,17 @@
 		g.lock();
 		$.ajax({
 			type: "GET",
-			url: 'php/initGame.php'
+			url: 'php/initGame.php' // check if already in a game
 		}).done(function(data) {
-			console.info(data);
+			console.info("init: ", data);
 			if (data*1 > 0){
-				joinLobby(0);
+				// join lobby in progress
+				joinLobby(0); // autojoin
 			} else {
+				// show title screen
 				document.getElementById("titleMain").style.visibility = "visible";
+				// hide everything title screen for game map testing
+				// document.getElementById("mainWrap").style.display = "none";
 			}
 		}).fail(function(e){
 			Msg("Failed to contact server");
@@ -222,41 +223,60 @@
 				});
 			}
 		});
+		
 		(function repeat(){
 			if (g.view === "lobby"){
 				$.ajax({
 					type: "GET",
 					url: "php/updateLobby.php"
-				}).done(function(data){
-					document.getElementById("joinGameLobby").innerHTML = data;
-					if (g.view === "lobby"){
+				}).done(function(x){
+					document.getElementById("lobbyGameName").innerHTML = x.name;
+					document.getElementById("lobbyGameMax").innerHTML = x.max;
+					document.getElementById("lobbyGameTimer").innerHTML = x.timer === 0 ? "None" : x.timer;
+					document.getElementById("lobbyGameMap").innerHTML = x.map;
+					
+					document.getElementById("lobbyPlayers").innerHTML = x.lobbyData;
+					
+					var z = x.player === 1 ? "block" : "none";
+					document.getElementById("startGame").style.display = z;
+					
+					if (!x.hostFound){
+						Msg("The host has left the game.");
+						setTimeout(function(){
+							exitGame();
+						}, 1000);
+					} else if (g.view === "lobby"){
 						setTimeout(repeat, 2000);
 					}
-					/*
-					var e = $("#joinGameLobby");
-					var h = e.height();
-					var y = ~~((((768 - h) /2) / 768) * 100);
-					TweenMax.set(e, {
-						bottom: y + '%'
-					});
-					*/
 				}).fail(function(data){
 					serverError();
 				});
 			}
 		})();
 	}
+	function startGame(){
+		console.info("Start game");
+		g.view = "game";
+		g.lock();
+		$.ajax({
+			type: "GET",
+			url: "php/startGame.php"
+		}).done(function(data){
+			console.info(data);
+		}).fail(function(data){
+			serverError();
+		}).always(function(){
+			g.unlock();
+		});
+	}
+	
+	$("#mainWrap").on("click", "#cancelGame", function(){
+		exitGame();
+	}).on("click", "#startGame", function(){
+		startGame();
+	});
 	
 	function animateNationName(){
-		/*
-		tl.to('#nationName', 1, {
-			scrambleText: {
-				text: nation.name,
-				chars: "lowerCase",
-				ease: Linear.easeNone
-			}
-		});
-		*/
 		var tl = new TimelineMax();
 		var split = new SplitText("#nationName", {
 			type: "words,chars"

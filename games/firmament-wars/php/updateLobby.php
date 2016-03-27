@@ -1,62 +1,45 @@
 <?php
+	header('Content-Type: application/json');
 	require_once('connect1.php');
 	
 	require('pingLobby.php');
 
-	$str =  
-	"<div id='lobby'>
-		<div id='lobbyHead' class='row'>
-			<div class='col-xs-12'>
-				<button id='startGame' type='button' class='btn btn-info btn-md shadow3'>Start Game</button>
-				<button id='cancelGame' type='button' class='btn btn-default btn-md shadow3'>Exit</button>
-			
-				<div class='pull-right pad-top'>
-					<span class='text-primary'>Game Name:</span> {$_SESSION['gameName']}
-					<span class='text-primary'>Max Players:</span> {$_SESSION['max']}
-				</div>
-				
-			</div>
-		</div>
-		<hr class='fancyhr'>
-		<div id='lobbyBody' class='clearfix'>";
-		
-
-		$query = "select distinct account, nation, flag, player from fwPlayers where game=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second) order by player";
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('i', $_SESSION['gameId']);
-		$stmt->execute();
-		$stmt->store_result();
-		$stmt->bind_result($account, $nation, $flag, $player);
-
-		$players = 0;
-		$count = 0;
-		while($stmt->fetch()){
-			$count++;
-			if ($count % 2 == 1){
-				$str .= "<div class='row lobbyRow'>";
-			}
-			$str .= "<div class='col-xs-3'>";
-			if ($flag != "Default.jpg"){
-				$str .= "<img src='images/flags/{$flag}' class='player{$player} w100 block center'>";
-			} else {
-				$str .= "<img src='images/flags/Player{$player}.jpg' class='player{$player} w100 block center'>";
-			}
-			$str .= "</div>
-			<div class='col-xs-3 text-center lobbyNationInfo'>
+	$query = "select account, nation, flag, player from fwPlayers where game=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second) order by player";
+	
+	$stmt = $link->prepare($query);
+	$stmt->bind_param('i', $_SESSION['gameId']);
+	$stmt->execute();
+	$stmt->store_result();
+	$stmt->bind_result($account, $nation, $flag, $player);
+	
+	$x = new stdClass();
+	$x->lobbyData = "";
+	$x->hostFound = false;
+	while($stmt->fetch()){
+		if ($player === 1){
+			$x->hostFound = true;
+		}
+		$x->lobbyData .= 
+		"<div class='row lobbyRow'>
+			<div class='col-xs-3'>";
+		if ($flag != "Default.jpg"){
+			$x->lobbyData .= "<img src='images/flags/{$flag}' class='player{$player} w100 block center'>";
+		} else {
+			$x->lobbyData .= "<img src='images/flags/Player{$player}.jpg' class='player{$player} w100 block center'>";
+		}
+		$x->lobbyData .= 
+			"</div>
+			<div class='col-xs-9 text-center lobbyNationInfo'>
 				<div class='text-warning'>{$account}</div>
 				<div class='lobbyNationName'>{$nation}</div>
-			</div>";
-			if ($count % 2 == 0){
-				$str .= "</div>";
-			}
-		}
-		if ($count % 2 == 1){
-			$str .= "</div>";
-		}
-		
-		$str .= 
-		"</div>
-	</div>";
-
-	echo $str;
+			</div>
+		</div>";
+	}
+	
+	$x->name = $_SESSION['gameName'];
+	$x->max = $_SESSION['max'];
+	$x->timer = $_SESSION['timer'];
+	$x->map = $_SESSION['map'];
+	$x->player = $_SESSION['player'];
+	echo json_encode($x);
 ?>

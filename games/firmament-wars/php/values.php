@@ -9,5 +9,5 @@
 	$_SESSION['salt'] = "IJPOIJpj9823f98jhjlkjj984jv22j8SLKJDF:LKJ";
 	date_default_timezone_set('UTC');
 	// Firmament Wars values
-	$_SESSION['lag'] = 30;
+	$_SESSION['lag'] = 20;
 ?>

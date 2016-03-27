@@ -46,7 +46,7 @@ header{
 	top: 0;
 	left: 0;
 	width: 100%;
-	font-size: 1.125em; 
+	font-size: 1.5em; 
 	letter-spacing: 1px;
 	overflow:hidden;
 	color: #fff;
@@ -167,6 +167,16 @@ a:hover{
 		0px 0px 2px #000;
 }
 /* Firmament Wars */
+#mainWrap{
+}
+#gameWrap{
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 #chatId{
 	display: none;
 }
@@ -191,19 +201,15 @@ a:hover{
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 2022px;
-	height: 2022px;
 	width: 197.461%;
 	height: 2022px;
 }
 #world{
 	position: absolute;
-	top: 0;
+	top: 0; 
 	left: 0;
-	width: 2022px;
-	height: 2022px;
-	width: 197.461%;
-	height: 2022px;
+	width: 195.3125%;
+	height: 1001px;
 }
 .land{
 	fill: #002255;
@@ -269,11 +275,33 @@ a:hover{
 #joinGameLobby{
 	visibility: hidden;
 	position: absolute;
-	top: 2%;
-	width: 90%;
-	margin: 0 auto;
+	top: 0%;
+	width: 100%;
+	height: 100%;
 	left: 0;
 	right: 0;
+}
+#lobbyPlayers{
+	position: absolute;
+	top: 2%;
+	width: 55%;
+	height: 95%;
+	left: 2%;
+}
+#lobbyGame{
+	position: absolute;
+	top: 10%;
+	width: 35%;
+	left: 60%;
+	padding: 10px;
+	font-size: 1.25em;
+}
+#lobbyButtons{
+	position: absolute;
+	top: 70%;
+	width: 35%;
+	left: 60%;
+	padding: 20px 60px;
 }
 #menu{
 	position: absolute;
@@ -359,16 +387,15 @@ table {
 	max-height: 160px;
 }
 .lobbyRow{
-	margin-bottom: 12px;
+	margin: 6px 0;
 }
 .lobbyNationName{
 	word-break: break-word;
 	font-family: Times New Roman, serif;
-	font-size: 1.625em;
+	font-size: 1.5em;
 	overflow: hidden;
 }
 .lobbyNationInfo{
-	padding-top: 6px;
 	overflow: hidden;
 }
 .lobbyCell{
@@ -432,9 +459,12 @@ table {
 	border: 2px groove #80f;
 	box-shadow: 0 0 10px #80f;
 }
+#startGame{
+	display: none;
+}
 /* helper classes */
-.pad-top{
-	padding-top: 6px;
+.margin-top{
+	margin-top: 12px;
 }
 /* bootstrap overwrites */
 .text-success{
@@ -496,4 +526,7 @@ table {
 }
 .text-crystal{
 	color: #8bf;
+}
+.btn-responsive{
+	font-size: 1.75vw;
 }

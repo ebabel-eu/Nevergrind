@@ -3,7 +3,7 @@
 	
 	$gameId = $_POST['gameId']*1;
 	
-	$query = "select g.name, count(p.game) activePlayers, g.max max, g.timer timer 
+	$query = "select g.name, count(p.game) activePlayers, g.max max, g.timer timer, g.map map 
 				from fwGames g 
 				join fwplayers p 
 				on g.row=p.game and p.timestamp > date_sub(now(), interval {$_SESSION['lag']} second)
@@ -13,12 +13,13 @@
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dgameName, $dactivePlayers, $dmax, $dtimer);
+	$stmt->bind_result($dgameName, $dactivePlayers, $dmax, $dtimer, $dmap);
 	while($stmt->fetch()){
 		$gameName = $dgameName;
 		$activePlayers = $dactivePlayers;
 		$max = $dmax;
 		$timer = $dtimer;
+		$map = $dmap;
 	}
 	
 	$count = $stmt->num_rows;
@@ -30,11 +31,12 @@
 		header('HTTP/1.1 500 The game is full');
 		exit;
 	}
-	
 	$_SESSION['gameId'] = $gameId;
-	$_SESSION['gameName'] = $gameName;
 	$_SESSION['max'] = $max;
 	$_SESSION['timer'] = $timer;
+	$_SESSION['gameName'] = $gameName;
+	$_SESSION['map'] = $map;
+	$_SESSION['turn'] = 1;
 	
 	// determine player number
 	$query = "select player from fwPlayers where game=?;";
@@ -47,7 +49,7 @@
 	while($stmt->fetch()){
 		array_push($a, $player);
 	}
-	
+	// set session values
 	unset($_SESSION['player']);
 	for ($i=1; $i <= $_SESSION['max']; $i++){
 		if (!in_array($i, $a)){

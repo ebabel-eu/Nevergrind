@@ -3,6 +3,8 @@
 	if(php_uname('n')=="JOE-PC"){
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
+	} else {
+		error_reporting(0);
 	}
 	require('php/values.php');
 	
@@ -60,7 +62,15 @@
 					<i class="fa fa-diamond text-primary" title="Never Crystals"></i>
 					<span id="crystalCount" class="text-primary" title="Crystals Remaining">'.$crystals.'</span>
 				</div>
-				<div class="pull-right text-primary">Firmament Wars 0.0.1</div>';
+				<div class="pull-right text-primary">
+					<a target="_blank" href="//twitter.com/neverworksgames">
+						<i class="fa fa-twitter-square text-primary" title="Twitter"></i>
+					</a>
+					<a target="_blank" href="//www.facebook.com/neverworksgames">
+						<i class="fa fa-facebook-square text-primary" title="Facebook"></i>
+					</a>
+					Firmament Wars
+				</div>';
 				
 				?>
 				</div>
@@ -167,21 +177,37 @@
 			</div>
 		</div>
 	
-		<div id="joinGameLobby" class="fw-primary shadow3">
+		<div id="joinGameLobby" class="shadow3">
+			<div id="lobbyPlayers" class="fw-primary">
+				<div id='lobby'>
+					<div id='lobbyBody' class='clearfix'>
+					</div>
+				</div>
+			</div>
+			<div id="lobbyGame" class="fw-primary">
+				<div class='text-primary text-center margin-top'>Game Name:</div> 
+				<div id='lobbyGameName' class='text-center'></div>
+				<div class='text-primary text-center margin-top'>Max Players:</div>
+				<div id='lobbyGameMax' class='text-center'></div>
+				<div class='text-primary text-center margin-top'>Turn Timer:</div>
+				<div id='lobbyGameTimer' class='text-center'></div>
+				<div class='text-primary text-center margin-top'>Map:</div>
+				<div id='lobbyGameMap' class='text-center'></div>
+			</div>
+			<div id="lobbyButtons" class="fw-primary text-center">
+				<button id='startGame' type='button' class='btn btn-info btn-md btn-block btn-responsive shadow3'>Start Game</button>
+				<button id='cancelGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow3'>Exit</button>
+			</div>
 		</div>
 		
 	</div>
-	<!--
+	
 	<div id="gameWrap">
 		<?php
-			/*
-			$svg = file_get_contents("images/world6.svg");
+			$svg = file_get_contents("images/world_simple2.svg");
 			echo $svg;
-			*/
 		?>
-		
 	</div>
-	-->
 
 	<div id="battle">
 		<div class="row">
@@ -227,7 +253,6 @@
 			var _scriptLoader = [
 				'core',
 				'title',
-				'lobby',
 				'map'
 			];
 		}else{

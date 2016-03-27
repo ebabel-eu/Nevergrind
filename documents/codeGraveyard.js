@@ -1,5 +1,15 @@
 // flag code
 
+		/*
+		tl.to('#nationName', 1, {
+			scrambleText: {
+				text: nation.name,
+				chars: "lowerCase",
+				ease: Linear.easeNone
+			}
+		});
+		*/
+
 		TweenMax.fromTo("#nationFlag", 2, {
 			rotationY: 35,
 			transformPerspective: 400,

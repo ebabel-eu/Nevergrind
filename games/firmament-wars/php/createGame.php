@@ -13,9 +13,6 @@
 		$players = 2;
 	}
 	
-	$_SESSION['gameName'] = $name;
-	$_SESSION['max'] = $players;
-	
 	$query = "select count(p.game) players, g.name from fwGames g join fwPlayers p on g.row=p.game and g.name=? group by p.game having players > 0";
 	
 	$stmt = $link->prepare($query);
@@ -33,11 +30,12 @@
 		$stmt->bind_param('s', $name);
 		$stmt->execute();
 	}
-	
+	// if maps are added, this will have to be POST'd
+	$map = "Earth Alpha";
 	// create game
-	$query = "insert into fwGames (`name`, `max`) values (?, ?)";
+	$query = "insert into fwGames (`name`, `max`, `map`) values (?, ?, ?)";
 	$stmt = $link->prepare($query);
-	$stmt->bind_param('si', $name, $players);
+	$stmt->bind_param('sis', $name, $players, $map);
 	$stmt->execute();
 	
 	// get created game ID
@@ -52,9 +50,15 @@
 		$gameId = $dRow;
 		$timer = $dTimer;
 	}
+	
+	// set session values
+	$_SESSION['gameName'] = $name;
+	$_SESSION['max'] = $players;
 	$_SESSION['gameId'] = $gameId*1;
 	$_SESSION['timer'] = $timer;
 	$_SESSION['player'] = 1;
+	$_SESSION['map'] = $map;
+	$_SESSION['turn'] = 1;
 
 	// get account flag
 	$nation = "";

@@ -4,8 +4,8 @@
 			mouseZoom: 100,
 			mouseTransX: 50,
 			mouseTransY: 50,
-			mapSizeX: 2022,
-			mapSizeY: 2022
+			mapSizeX: 2000,
+			mapSizeY: 1001
 		}
 		// map zooming and scrolling
 		function mouseZoomIn(e){
@@ -29,8 +29,8 @@
 			}
 		}
 		function mouseZoomOut(e){
-			if (events.mouseZoom <= 60){
-				events.mouseZoom = 60;
+			if (events.mouseZoom <= 100){
+				events.mouseZoom = 100;
 			} else {
 				events.mouseZoom -= 5;
 				TweenMax.to("#world", .5, {
@@ -71,7 +71,7 @@
 				worldMap[0].applyBounds();
 			});
 		} else {
-			$("body").on("DOMMouseScroll", function(){
+			$("body").on("DOMMouseScroll", function(e){
 				setMousePosition(e);
 				worldMap[0].applyBounds();
 			});
@@ -81,7 +81,7 @@
 		});
 		var worldMap = Draggable.create("#world", {
 			type: "x,y",
-			bounds: "#game",
+			bounds: "#gameWrap",
 			dragResistance: .2,
 			throwProps: true,
 			onRelease: function(){
@@ -99,5 +99,5 @@
 			}
 		});
 	}
-	
+	initMapEvents();
 })();

@@ -200,7 +200,8 @@
 				password: $("#loginPassword").val()
 			}
 		}).done(function(data) {
-			data === "Login successful!" ? $("#refer")[0].click() : QMsg(data);
+			var target = "https://" + location.host + $("#refer").attr("href");
+			data === "Login successful!" ? location.replace(target) : QMsg(data);
 		}).fail(function() {
 			QMsg("Could not contact the server!");
 		}).always(function(){
