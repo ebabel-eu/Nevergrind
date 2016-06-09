@@ -1,13 +1,21 @@
 - START GAME
-- confirm 2+ players are present
-- init game in fwTiles 
+// startGame.php
+// allocate initial units
+// players transition to world map view and see starting units
 
-- Create Game: requires 2 to join (make it like starcraft)
+- host leaves -> game dies :( ???
+- init game in fwTiles 
+- display UI
+- accumulate resources
+- 
+
 
 SESSION VALUES:
 LOGOUT:
 $_SESSION['account']
 $_SESSION['email']
+
+
 
 GAME:
 $_SESSION['gameId']
@@ -43,34 +51,32 @@ http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
 
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
 
-- manage account page?
 
-Romans 3:23 
-For all have sinned, and come short of the glory of God;
 
-Romans 6:23 
-For the wages of sin is death; but the gift of God is eternal life through
- Jesus Christ our Lord.
- 
-Revelation 20:14-15
-14 And death and hell were cast into the lake of fire. This is the second death.
-15 And whosoever was not found written in the book of life was cast into the lake of fire.
+-----------------------------------------------------
+FCC:
+1 thess 1: 
+1 thess 4:9-12 how then shall we now live?
+-----------------------------------------------------
 
-Revelation 21:8 
-But the fearful, and unbelieving, and the abominable, and murderers, and whoremongers, and sorcerers, and idolaters, and all liars, shall have their part in the lake which burneth with fire and brimstone: which is the second death.
+(function(e){
+	var count = 0;
+	for (var i=0, len=e.length; i<len; i++){
+		if (e[i].className.indexOf("arrow up ") > -1){
+			count++;
+			(function(j){
+				setTimeout(function(){
+					e[j].click();
+				}, j*1000);
+			})(i);
+		}
+	}
+	return "Clicking " + count + " arrows!";
+})(document.getElementsByClassName("arrow"));
 
-Romans 5:8
-8 But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us. 
-9 Much more then, being now justified by his blood, we shall be saved from wrath through him.
 
-Acts 16:30
-30 And brought them out, and said, Sirs, what must I do to be saved?
-31 And they said, Believe on the Lord Jesus Christ, and thou shalt be saved, and thy house.
 
-John 3:16 and 18
-16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
-17 For God sent not his Son into the world to condemn the world; but that the world through him might be saved.
-18 He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God.
+
 
 Rules:
 - Players start with 5 MAN in their capital + 3 MAN from capital. Turn order is randomly rolled for and goes in order players joined the game.
@@ -130,7 +136,6 @@ EXPANSION FLAGS:
 - War Ensign of Germany https://upload.wikimedia.org/wikipedia/commons/e/e9/War_Ensign_of_Germany_1935-1938.svg
 - Holy Roman Empire https://upload.wikimedia.org/wikipedia/commons/3/3f/Banner_of_the_Holy_Roman_Emperor_%28after_1400%29.svg
 
-Sword of Truth?
-Error in parsing value for 'text-shadow' Declaration dropped (103 instances) expected end of value but found 'l'. eorr in parsing value for 'top'. declaration dropped
-[Stratin] whispers: Error in parsing value for 'bottom'. declaration dropped.
-[Stratin] whispers: Error in parsing value for 'left' declaration dropped
+MONETIZATION IDEAS:
+- Leader pics
+- 
