@@ -8,17 +8,26 @@ var g = {
 	focusUpdateNationName: false,
 	focusGameName: false,
 	view: "title",
+	overlay: document.getElementById("overlay"),
 	lock: function(clear){
-		var e = document.getElementById("overlay");
-		e.style.display = "block";
-		clear ? e.style.opacity = 0 : e.style.opacity = 1;
+		g.overlay.style.display = "block";
+		clear ? g.overlay.style.opacity = 0 : g.overlay.style.opacity = 1;
 	},
 	unlock: function(clear){
-		var e = document.getElementById("overlay");
-		e.style.display = "none";
-		clear ? e.style.opacity = 0 : e.style.opacity = 1;
+		g.overlay.style.display = "none";
+		clear ? g.overlay.style.opacity = 0 : g.overlay.style.opacity = 1;
 		
 	}
+}
+var color = {
+	p1: "#aa0000",
+	p2: "#0000aa",
+	p3: "#005500",
+	p4: "#aaaa00",
+	p5: "#aa55aa",
+	p6: "#0055aa",
+	p7: "#aa5500",
+	p8: "#5500aa"
 }
 var GLB = {
     musicStatus: 100,
@@ -27,6 +36,7 @@ var GLB = {
     showCombatLog: "On",
     debugMode: "Off"
 }
+var worldMap = [];
 function checkMobile(){
 	var x = false;
 	if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
@@ -69,8 +79,10 @@ function resizeWindow() {
     // e.style.marginTop = (-h / 2) + 'px';
     // e.style.marginLeft = (-w / 2) + 'px';
 	TweenMax.set("body", {
-		left: "50%",
-		top: "50%",
+		// left: "50%",
+		// top: "50%",
+		x: w/2 + (window.innerWidth - w) / 2,
+		y: h/2 + (window.innerHeight - h) / 2,
 		opacity: 1,
 		yPercent: -50,
 		xPercent: -50,
@@ -88,6 +100,9 @@ function resizeWindow() {
 		ease: Linear.easeNone
 	});
 	e.style.visibility = "visible";
+	if (typeof worldMap[0] !== 'undefined'){
+		worldMap[0].applyBounds();
+	}
 }
 
 
@@ -578,6 +593,8 @@ function exitGame(){
 		type: "GET",
 		url: 'php/exitGame.php'
 	}).done(function(data) {
+		location.reload();
+		/*
 		g.view = "title";
 		var tl = new TimelineMax();
 		tl.to("#joinGameLobby", .5, {
@@ -591,6 +608,7 @@ function exitGame(){
 			scale: 1,
 			autoAlpha: 1
 		});
+		*/
 	}).fail(function(e){
 		Msg(e.statusText);
 		g.unlock(1);

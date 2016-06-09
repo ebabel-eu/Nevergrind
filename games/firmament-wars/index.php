@@ -195,7 +195,7 @@
 				<div id='lobbyGameMap' class='text-center'></div>
 			</div>
 			<div id="lobbyButtons" class="fw-primary text-center">
-				<button id='startGame' type='button' class='btn btn-info btn-md btn-block btn-responsive shadow3'>Start Game</button>
+				<button id='startGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow3'>Start Game</button>
 				<button id='cancelGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow3'>Exit</button>
 			</div>
 		</div>
@@ -203,8 +203,13 @@
 	</div>
 	
 	<div id="gameWrap">
+		<div id="game-ui" class="text-center">
+			<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
+				<i class="fa fa-flag"></i> Surrender
+			</button>
+		</div>
 		<?php
-			$svg = file_get_contents("images/world_simple2.svg");
+			$svg = file_get_contents("images/world_simple3.svg");
 			echo $svg;
 		?>
 	</div>
@@ -237,7 +242,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/EaselJS/0.7.1/easeljs.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/plugins/EaselPlugin.min.js"></script>
 <script src="js/libs/DrawSVGPlugin.min.js"></script>
-<script src="js/libs/Draggable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/utils/Draggable.min.js"></script>
 <script src="js/libs/ScrambleTextPlugin.min.js"></script>
 <script src="js/libs/SplitText.min.js"></script>
 <script src="js/libs/ThrowPropsPlugin.min.js"></script> 

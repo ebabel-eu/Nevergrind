@@ -29,6 +29,12 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('s', $name);
 		$stmt->execute();
+		
+		// delete from lobby
+		$query = 'delete from fwPlayers where account=?';
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $_SESSION['account']);
+		$stmt->execute();
 	}
 	// if maps are added, this will have to be POST'd
 	$map = "Earth Alpha";
@@ -59,7 +65,7 @@
 	$_SESSION['player'] = 1;
 	$_SESSION['map'] = $map;
 	$_SESSION['turn'] = 1;
-
+	
 	// get account flag
 	$nation = "";
 	$flag = "";
@@ -79,8 +85,5 @@
 		$_SESSION['nation'] = $dNation;
 		$_SESSION['flag'] = $dFlag;
 	}
-	
-	require('pingLobby.php');
-	
 	require('updateLobby.php');
 ?>

@@ -15,7 +15,9 @@
 	$x = new stdClass();
 	$x->lobbyData = "";
 	$x->hostFound = false;
+	$totalPlayers = 0;
 	while($stmt->fetch()){
+		$totalPlayers++;
 		if ($player === 1){
 			$x->hostFound = true;
 		}
@@ -35,11 +37,20 @@
 			</div>
 		</div>";
 	}
+	// is my gameId started?
+	$query = "SELECT row FROM `fwgames` where row=? and start > 0";
+	$stmt = $link->prepare($query);
+	$stmt->bind_param('i', $_SESSION['gameId']);
+	$stmt->execute();
+	$stmt->store_result();
+	$startedGame = $stmt->num_rows;
 	
 	$x->name = $_SESSION['gameName'];
 	$x->max = $_SESSION['max'];
 	$x->timer = $_SESSION['timer'];
 	$x->map = $_SESSION['map'];
 	$x->player = $_SESSION['player'];
+	$x->gameStarted = $startedGame;
+	$x->totalPlayers = $totalPlayers;
 	echo json_encode($x);
 ?>

@@ -20,8 +20,6 @@ input{
 body{
 	font-size: 1.5em;
 	position: absolute;
-	width:100%;
-	height:100%;
 	opacity: 0;
 	background: #050c22;
 	overflow: hidden;
@@ -46,7 +44,7 @@ header{
 	top: 0;
 	left: 0;
 	width: 100%;
-	font-size: 1.5em; 
+	font-size: 1.25em; 
 	letter-spacing: 1px;
 	overflow:hidden;
 	color: #fff;
@@ -177,6 +175,32 @@ a:hover{
 	width: 100%;
 	height: 100%;
 }
+#battle{
+	position: absolute;
+	bottom: 2%;
+	left: 8%;
+	width: 84%;
+	background: rgba(0,0,0,.25);
+	padding: 10px;
+	border-radius: 6px;
+	border: 2px #333 ridge;
+	z-index: 9999;
+}
+#game-ui{
+	position: absolute;
+	top: 2%;
+	left: 2%;
+	width: 25%;
+	padding: 8px;
+	z-index: 9999;
+	color: #fff;
+	font-size: 1.25em;
+	border: 1px solid #3af;
+	background: rgba(0,0,0,.5);
+}
+.fa{
+	cursor: pointer;
+}
 #chatId{
 	display: none;
 }
@@ -210,22 +234,51 @@ a:hover{
 	left: 0;
 	width: 195.3125%;
 	height: 1001px;
+    background: -webkit-radial-gradient(center center, cover, 
+		#001a4a 0%, 
+		#001a4a 25%, 
+		#000a2a 100%);
+    background: -moz-radial-gradient(center center, cover, 
+		#001a4a 0%, 
+		#001a4a 25%, 
+		#000a2a 100%);
+    background: -ms-radial-gradient(center center, cover, 
+		#001a4a 0%, 
+		#001a4a 25%, 
+		#000a2a 100%);
+    background: -o-radial-gradient(center center, cover, 
+		#001a4a 0%, 
+		#001a4a 25%, 
+		#000a2a 100%);
 }
 .land{
-	fill: #002255;
+	/* 002255 2288ff */
+	fill: #333;
 	fill-opacity: 1;
-	stroke: #2288ff;
+	stroke: #ffffff;
 	stroke-opacity: 1;
 	stroke-width: .5;
 	cursor: pointer;
+	overflow: visible;
 }
-#battle{
-	display: none;
-	position: absolute;
-	bottom: 2%;
-	left: 2%;
-	width: 96%;
-	z-index: 2000;
+.unit{
+	text-anchor: middle;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	font-family: Arial;
+	fill: #ffffff;
+	stroke: #111111;
+	stroke-width: 0px;
+	pointer-events: none;
+}
+.paths{
+	fill: #ff0000;
+	stroke: #ff0000;
+	stroke-width:2;
+	stroke-miterlimit:4;
+	stroke-dasharray:none;
+	stroke-opacity:1;
 	pointer-events: none;
 }
 .block{
@@ -529,4 +582,22 @@ table {
 }
 .btn-responsive{
 	font-size: 1.75vw;
+}
+@media all and (min-width: 1024px){
+	.btn-responsive{
+		font-size: 18px;
+		padding: 4px 8px;
+	}
+}
+@media all and (max-width: 1024px) and (min-width: 600px){
+	.btn-responsive{
+		font-size: 1.75vw;
+		padding: 3px 6px;
+	}
+}
+@media all and (max-width: 599px) and (min-width: 50px){
+	.btn-responsive{
+		font-size: 1.75vw;
+		padding: 2px 4px;
+	}
 }

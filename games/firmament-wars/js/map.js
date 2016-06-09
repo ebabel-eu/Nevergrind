@@ -1,4 +1,33 @@
 (function(){
+	(function repeat(){
+		// delayed to allow svg to load
+		if ($("#world").length > 0){
+			try {
+				worldMap = Draggable.create("#world", {
+					type: "left,top",
+					bounds: "#gameWrap",
+					throwProps: true,
+					onRelease: function(){
+						(function go(c){
+							if (c < 30){
+									worldMap[0].applyBounds();
+								setTimeout(function(){
+									go(++c);
+								}, 50);
+							}
+						})(0);
+					},
+					onThrowComplete : function(){
+							worldMap[0].applyBounds();
+					}
+				});
+			} catch (err){
+				setTimeout(repeat, 100);
+			}
+		} else {
+			setTimeout(repeat, 100);
+		}
+	})();
 	function initMapEvents(){
 		var events = {
 			mouseZoom: 100,
@@ -9,8 +38,8 @@
 		}
 		// map zooming and scrolling
 		function mouseZoomIn(e){
-			if (events.mouseZoom >= 300){
-				events.mouseZoom = 300;
+			if (events.mouseZoom >= 150){
+				events.mouseZoom = 150;
 			} else {
 				events.mouseZoom += 5;
 				TweenMax.to("#world", .5, {
@@ -18,7 +47,6 @@
 					force3D: false,
 					smoothOrigin: true,
 					scale: events.mouseZoom / 100,
-					ease: Power2.easeOut,
 					onUpdate: function(){
 						worldMap[0].applyBounds();
 					}, 
@@ -28,12 +56,13 @@
 				});
 			}
 		}
+		
 		function mouseZoomOut(e){
 			if (events.mouseZoom <= 100){
 				events.mouseZoom = 100;
 			} else {
 				events.mouseZoom -= 5;
-				TweenMax.to("#world", .5, {
+				TweenMax.to("#world", .25, {
 					force3D: false,
 					smoothOrigin: true,
 					transformOrigin: events.mouseTransX + "% " + events.mouseTransY + "%",
@@ -48,6 +77,7 @@
 			}
 			worldMap[0].applyBounds();
 		}
+		
 		if (!isFirefox){
 			$("#world").on("mousewheel", function(e){
 				e.originalEvent.wheelDelta > 0 ? mouseZoomIn(e) : mouseZoomOut(e);
@@ -59,45 +89,45 @@
 				worldMap[0].applyBounds();
 			});
 		}
-		function setMousePosition(e){
-			var x = ~~((e.offsetX / events.mapSizeX) * 100);
-			var y = ~~((e.offsetY / events.mapSizeY) * 100);
+		function setMousePosition(X, Y){
+			var x = ~~((X / events.mapSizeX) * 100);
+			var y = ~~((Y / events.mapSizeY) * 100);
 			events.mouseTransX = x;
 			events.mouseTransY = y;
 		}
 		if (!isFirefox){
 			$("body").on("mousewheel", function(e){
-				setMousePosition(e);
+				setMousePosition(e.offsetX, e.offsetY);
 				worldMap[0].applyBounds();
 			});
 		} else {
 			$("body").on("DOMMouseScroll", function(e){
-				setMousePosition(e);
+				setMousePosition(e.originalEvent.layerX, e.originalEvent.layerY);
 				worldMap[0].applyBounds();
 			});
 		}
+		
 		$("#world").on("mousemove", function(e){
-			setMousePosition(e);
-		});
-		var worldMap = Draggable.create("#world", {
-			type: "x,y",
-			bounds: "#gameWrap",
-			dragResistance: .2,
-			throwProps: true,
-			onRelease: function(){
-				(function go(c){
-					if (c < 30){
-						worldMap[0].applyBounds();
-						setTimeout(function(){
-							go(++c);
-						}, 50);
-					}
-				})(0);
-			},
-			onThrowComplete : function(){
-				worldMap[0].applyBounds();
+			if (isFirefox){
+				setMousePosition(e.originalEvent.layerX, e.originalEvent.layerY);
+			} else {
+				setMousePosition(e.offsetX, e.offsetY);
 			}
 		});
 	}
 	initMapEvents();
+	
+	$("#quitGame").on("click", function(){
+		console.info("quitGame!");
+		return;
+		exitGame();
+	});
+	$("#game-ui").on("click", function(){
+		console.info("UI!");
+		return;
+	});
+	$("#battle").on("click", function(){
+		console.info("battle!");
+		return;
+	});
 })();

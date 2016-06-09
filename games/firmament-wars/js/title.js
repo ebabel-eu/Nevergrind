@@ -22,16 +22,16 @@
         event.preventDefault();
     });
 	// SVG
-	$(".land").on("mouseenter", function(){
-		TweenMax.set($(this).get(0), {
+	$(".land").on("click", function(e){
+		console.info(this.id, e.offsetX, e.offsetY);
+	}).on("mouseenter", function(){
+		TweenMax.set(this, {
 			fill: "#aa0000"
 		});
 	}).on("mouseleave", function(){
-		TweenMax.to($(this).get(0), .25, {
-			fill: "#002255"
+		TweenMax.to(this, .25, {
+			fill: "#333333"
 		});
-	}).on("mousedown", function(e){
-		console.info(this.id);
 	});
 	$("#logout").on('click', function() {
 		logout();
@@ -48,7 +48,6 @@
 		$(this).addClass("selected");
 		gameId = $(this).data("id");
 		
-		console.info("CLICK: "+gameId);
 	});
 	
 	$("#refreshGames").on("click", function(){
@@ -98,6 +97,7 @@
 					players: players
 				}
 			}).done(function(data) {
+				console.info("Creating: ", data);
 				joinLobby(); // create
 			}).fail(function(e){
 				console.info(e.responseText);
@@ -149,7 +149,7 @@
 			},
 			MiddleEast: {
 				group: "Middle East",
-				name: ['Israel', 'Jordan', 'Lebanon', 'Palestine', 'Qatar', 'Saudi Arabia', 'Syria', 'Turkey']
+				name: ['Israel', 'Jordan', 'Kurdistan', 'Lebanon', 'Palestine', 'Qatar', 'Saudi Arabia', 'Syria', 'Turkey']
 			},
 			NorthAmerica: {
 				group: "North America",
@@ -182,8 +182,8 @@
 			type: "GET",
 			url: 'php/initGame.php' // check if already in a game
 		}).done(function(data) {
-			console.info("init: ", data);
-			if (data*1 > 0){
+			if ((data*1) > 0){
+				console.info("Auto joined game:" + (data*1));
 				// join lobby in progress
 				joinLobby(0); // autojoin
 			} else {
@@ -224,50 +224,182 @@
 			}
 		});
 		
-		(function repeat(){
+		var lobby = {
+			gameWindowSet: false,
+			data: "",
+			startClassOn: "btn btn-info btn-md btn-block btn-responsive shadow3",
+			startClassOff: "btn btn-default btn-md btn-block btn-responsive shadow3"
+		};
+		
+		(function repeat(lobby){
 			if (g.view === "lobby"){
 				$.ajax({
 					type: "GET",
 					url: "php/updateLobby.php"
 				}).done(function(x){
-					document.getElementById("lobbyGameName").innerHTML = x.name;
-					document.getElementById("lobbyGameMax").innerHTML = x.max;
-					document.getElementById("lobbyGameTimer").innerHTML = x.timer === 0 ? "None" : x.timer;
-					document.getElementById("lobbyGameMap").innerHTML = x.map;
+					if (!lobby.gameWindowSet){
+						lobby.gameWindowSet = true;
+						document.getElementById("lobbyGameName").innerHTML = x.name;
+						document.getElementById("lobbyGameMax").innerHTML = x.max;
+						document.getElementById("lobbyGameTimer").innerHTML = x.timer === 0 ? "None" : x.timer;
+						document.getElementById("lobbyGameMap").innerHTML = x.map;
+						var z = x.player === 1 ? "block" : "none";
+						document.getElementById("startGame").style.display = z;
+					}
 					
-					document.getElementById("lobbyPlayers").innerHTML = x.lobbyData;
-					
-					var z = x.player === 1 ? "block" : "none";
-					document.getElementById("startGame").style.display = z;
-					
+					if (lobby.data !== x.lobbyData){
+						lobby.data = x.lobbyData;
+						if (g.view === "lobby"){
+							document.getElementById("lobbyPlayers").innerHTML = x.lobbyData;
+							// console.info("Lobby: ", x.hostFound, x.gameStarted);
+						}
+						if (x.player === 1){
+							var e = document.getElementById("startGame");
+							if (x.totalPlayers === 1){
+								e.className = lobby.startClassOff;
+							} else {
+								e.className = lobby.startClassOn;
+							}
+						}
+					}
 					if (!x.hostFound){
 						Msg("The host has left the game.");
 						setTimeout(function(){
 							exitGame();
 						}, 1000);
+						// TODO: remove game when done testing
+					} else if (x.gameStarted){
+						joinStartedGame();
 					} else if (g.view === "lobby"){
-						setTimeout(repeat, 2000);
+						setTimeout(repeat, 1000, lobby);
 					}
 				}).fail(function(data){
 					serverError();
 				});
 			}
-		})();
+		})(lobby);
 	}
-	function startGame(){
-		console.info("Start game");
-		g.view = "game";
-		g.lock();
+	function startGame(d){
+		if ($(".lobbyNationName").length > 1){
+			document.getElementById("startGame").style.display = "none";
+			g.lock(1);
+			console.info("Start game");
+			var e1 = document.getElementById("mainWrap");
+			TweenMax.to(e1, .5, {
+				alpha: 0
+			});
+			$.ajax({
+				type: "GET",
+				url: "php/startGame.php"
+			}).done(function(data){
+				console.info(data);
+				$("#mainWrap").remove();
+				g.unlock();
+				g.view = "game";
+				var e = document.getElementById("gameWrap");
+				TweenMax.fromTo(e, 1, {
+					autoAlpha: 0,
+					scale: 1.02
+				}, {
+					autoAlpha: 1,
+					scale: 1
+				});
+				getGameState();
+			}).fail(function(data){
+				serverError();
+			}).always(function(){
+				g.unlock();
+			});
+		} else {
+			
+		}
+	}
+	
+	function joinStartedGame(){
+		g.lock(1);
+		console.info("Joining started game");
+		var e1 = document.getElementById("mainWrap");
+		TweenMax.to(e1, .5, {
+			alpha: 0
+		});
 		$.ajax({
 			type: "GET",
-			url: "php/startGame.php"
+			url: "php/getGameState.php"
 		}).done(function(data){
 			console.info(data);
+			$("#mainWrap").remove();
+			g.unlock();
+			g.view = "game";
+			var e = document.getElementById("gameWrap");
+			TweenMax.fromTo(e, 1, {
+				autoAlpha: 0,
+				scale: 1.02
+			}, {
+				autoAlpha: 1,
+				scale: 1
+			});
+			getGameState();
+			/*
+			// output approximate text nodes for a map
+			function addText(p){
+				var s = '';
+				if (typeof p === 'object'){
+					var t = document.createElementNS("Use http://www.w3.org/2000/svg", "text");
+					var id = p.getAttribute("id");
+					var b = p.getBBox();
+					var x = ~~((b.x + b.width/2) + 10);
+					var y = ~~(b.y + b.height/2);
+					id = id.replace(/land/g, "");
+					s += "<text transform='translate(" + x + " " + y + ")' class='unit' id='unit"+ id + "'>0</text>";
+					p.parentNode.appendChild(t);
+				} else {
+					console.info("FAIL: ", typeof p, p);
+				}
+				return s;
+			}
+			var paths = document.getElementsByClassName("land");
+			var str = '';
+			for (var p in paths){
+				str += addText(paths[p]);
+			}
+			console.info(str);
+			*/
 		}).fail(function(data){
 			serverError();
 		}).always(function(){
 			g.unlock();
 		});
+	}
+	
+	function getGameState(){
+		(function repeat(){
+			$.ajax({
+				type: "GET",
+				url: "php/getGameState.php"
+			}).done(function(data){
+				console.info("game state: ", data);
+				setTimeout(repeat, 1500);
+			}).fail(function(data){
+				serverError();
+			});
+		})();
+			/*
+			(function repeat(count){
+				var foo = color['p' + (~~(Math.random()*8) + 1)];
+				var bar = "#land" + ((count % 101) + 1);
+				TweenMax.to(bar, 1, {
+				  fill: foo
+				});
+				setTimeout(function(){
+					repeat(++count);
+				}, 100);
+			})(0);
+			*/
+			/*
+			TweenMax.set("#land62", {
+			  fill: "#008800"
+			});
+			*/
 	}
 	
 	$("#mainWrap").on("click", "#cancelGame", function(){
@@ -404,7 +536,9 @@
 	}); 
 	
 	*/
-	// playMusic("WaitingBetweenWorlds");
+	if (isChrome){
+		// playMusic("WaitingBetweenWorlds");
+	}
 	
 	$("#Msg").on("click", ".msg", function(){
 		var e = this;
