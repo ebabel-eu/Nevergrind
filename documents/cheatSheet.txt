@@ -282,3 +282,25 @@ var y = circY(200,  200,  angle);
 		}
 		echo $online;
 		*/
+		
+		
+		
+	/*
+	// get game players
+	$query = "select player, account, nation, flag from `fwPlayers` where game=?";
+	$stmt = $link->prepare($query);
+	$stmt->bind_param('i', $_SESSION['gameId']);
+	$stmt->execute();
+	$stmt->store_result();
+	$stmt->bind_result($dPlayer, $dAccount, $dNation, $dFlag);
+	
+	$players = array();
+	while($stmt->fetch()){
+		$x = new stdClass();
+		$x->player = $dPlayer;
+		$x->account = $dAccount;
+		$x->nation = $dNation;
+		$x->flag = $dFlag;
+		array_push($players, $x);
+	}
+	*/

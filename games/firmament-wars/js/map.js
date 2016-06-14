@@ -119,15 +119,12 @@
 	
 	$("#quitGame").on("click", function(){
 		console.info("quitGame!");
-		return;
 		exitGame();
 	});
 	$("#game-ui").on("click", function(){
 		console.info("UI!");
-		return;
 	});
 	$("#battle").on("click", function(){
 		console.info("battle!");
-		return;
 	});
 })();

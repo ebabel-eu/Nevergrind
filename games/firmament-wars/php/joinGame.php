@@ -3,7 +3,7 @@
 	
 	$gameId = $_POST['gameId']*1;
 	
-	$query = "select g.name, count(p.game) activePlayers, g.max max, g.timer timer, g.map map 
+	$query = "select g.name, count(p.game) activePlayers, g.max max, g.map map 
 				from fwGames g 
 				join fwplayers p 
 				on g.row=p.game and p.timestamp > date_sub(now(), interval {$_SESSION['lag']} second)
@@ -13,12 +13,11 @@
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dgameName, $dactivePlayers, $dmax, $dtimer, $dmap);
+	$stmt->bind_result($dgameName, $dactivePlayers, $dmax, $dmap);
 	while($stmt->fetch()){
 		$gameName = $dgameName;
 		$activePlayers = $dactivePlayers;
 		$max = $dmax;
-		$timer = $dtimer;
 		$map = $dmap;
 	}
 	
@@ -33,7 +32,6 @@
 	}
 	$_SESSION['gameId'] = $gameId;
 	$_SESSION['max'] = $max;
-	$_SESSION['timer'] = $timer;
 	$_SESSION['gameName'] = $gameName;
 	$_SESSION['map'] = $map;
 	$_SESSION['turn'] = 1;

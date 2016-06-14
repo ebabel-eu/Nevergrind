@@ -46,22 +46,20 @@
 	
 	// get created game ID
 	$min = 2;
-	$query = "select row, timer from fwGames where max>=? order by row desc limit 1";
+	$query = "select row from fwGames where max>=? order by row desc limit 1";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $min);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dRow, $dTimer);
+	$stmt->bind_result($dRow);
 	while($stmt->fetch()){
 		$gameId = $dRow;
-		$timer = $dTimer;
 	}
 	
 	// set session values
 	$_SESSION['gameName'] = $name;
 	$_SESSION['max'] = $players;
 	$_SESSION['gameId'] = $gameId*1;
-	$_SESSION['timer'] = $timer;
 	$_SESSION['player'] = 1;
 	$_SESSION['map'] = $map;
 	$_SESSION['turn'] = 1;

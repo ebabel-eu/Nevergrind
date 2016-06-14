@@ -26,11 +26,13 @@
 		console.info(this.id, e.offsetX, e.offsetY);
 	}).on("mouseenter", function(){
 		TweenMax.set(this, {
-			fill: "#aa0000"
+			fill: "#ff0000"
 		});
 	}).on("mouseleave", function(){
+		var land = this.id.slice(4)*1;
+		var player = game.tiles[land].player;
 		TweenMax.to(this, .25, {
-			fill: "#333333"
+			fill: color[player]
 		});
 	});
 	$("#logout").on('click', function() {
@@ -59,9 +61,9 @@
 		"<div id='createGameWrap'>" +
 			"<form class='form-horizontal'>" +
 				"<div class='form-group'>" +
-					'<label for="gameName" class="col-xs-3 control-label">Game Name:</label>' +
+					'<label id="gameNameLabel" for="gameName" class="col-xs-3 control-label">Game Name:</label>' +
 					"<div class='col-xs-9'>" +
-						'<input id="gameName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24">' +
+						'<input id="gameName" class="form-control" type="text" maxlength="32" autocomplete="off" size="20">' +
 					"</div>" +
 				"</div>" +
 				"<div class='form-group'>" +
@@ -241,7 +243,6 @@
 						lobby.gameWindowSet = true;
 						document.getElementById("lobbyGameName").innerHTML = x.name;
 						document.getElementById("lobbyGameMax").innerHTML = x.max;
-						document.getElementById("lobbyGameTimer").innerHTML = x.timer === 0 ? "None" : x.timer;
 						document.getElementById("lobbyGameMap").innerHTML = x.map;
 						var z = x.player === 1 ? "block" : "none";
 						document.getElementById("startGame").style.display = z;
@@ -292,6 +293,7 @@
 				type: "GET",
 				url: "php/startGame.php"
 			}).done(function(data){
+				document.getElementById('serverData').innerHTML = data;
 				console.info(data);
 				$("#mainWrap").remove();
 				g.unlock();
@@ -371,21 +373,125 @@
 		});
 	}
 	
+	game = {
+		tiles: [],
+		playerTiles: [0,0,0,0,0,0,0,0,0],
+		tileDataInitialized: false,
+		players: []
+	}
+	function Nation(){
+		return {
+			nation: "",
+			flag: "",
+			units: 0
+		}
+	}
+	
 	function getGameState(){
+		// add function to get player data list?
 		(function repeat(){
 			$.ajax({
 				type: "GET",
 				url: "php/getGameState.php"
 			}).done(function(data){
-				console.info("game state: ", data);
-				setTimeout(repeat, 1500);
+				// console.info(data);
+				var start = new Date();
+				var i=0,
+					len=data.tiles.length,
+					tiles = data.tiles;
+				// get tile data
+				if (game.tileDataInitialized){
+					for (; i<9; i++){
+						game.playerTiles[i] = 0;
+					}
+					for (var i=0; i<len; i++){
+						var d = data.tiles[i];
+						if (d.player !== game.tiles[i].player){
+							// only update client data if there's a difference
+							game.tiles[i].player = d.player;
+							game.tiles[i].units = d.units;
+							TweenMax.to(document.getElementById('land' + i), .5, {
+								fill: color[d.player]
+							});
+						}
+						if (d.units !== game.tiles[i].units){
+							var unitColor = d.units > game.tiles[i].units ? '#00dd00' : '#cc0000';
+							game.tiles[i].units = d.units;
+							var e = document.getElementById('unit' + i);
+							e.textContent = game.tiles[i].units;
+							var x = game.tiles[i].units.length * 3;
+							console.info(unitColor);
+							TweenMax.fromTo(e, .25, {
+								scale: 2,
+								fill: unitColor,
+								transformOrigin: x + ' 10'
+							}, {
+								scale: 1,
+								fill: '#ffffff'
+							});
+							
+						}
+						// count total units for each player
+						game.playerTiles[d.player] += d.units;
+						
+						// set player data
+						var units = [0,0,0,0,0,0,0,0,0];
+						for (var i=0, len=tiles.length; i<len; i++){
+							var t = tiles[i],
+								p = t.player;
+							units[p] += t.units;
+						}
+						for (var i=0, len=units.length; i<len; i++){
+							game.players[i].units = units[i];
+						}
+						// console.info(game.players[1], game.players[2]);
+					}
+				} else {
+					// initialize client data
+					for (; i<len; i++){
+						var d = data.tiles[i];
+						game.tiles[i] = {
+							player: d.player,
+							units: d.units
+						}
+						document.getElementById('unit' + i).textContent = d.units;
+						if (data.tiles[i].player){
+							TweenMax.set(document.getElementById('land' + i), {
+								fill: color[d.player]
+							});
+						}
+					}
+					game.tileDataInitialized = true;
+					// set player data
+					for (var i=0, len=game.playerTiles.length; i<len; i++){
+						game.players[i] = new Nation();
+					}
+					for (var i=0, len=tiles.length; i<len; i++){
+						var t = tiles[i],
+							p = t.player;
+						if (game.players[p].nation){
+							game.players[p].units += t.units;
+						} else {
+							game.players[p] = {
+								nation: t.nation,
+								flag: t.flag,
+								units: t.units
+							}
+						}
+					}
+					// console.info(game.players[1], game.players[2]);
+				}
+				console.info(Date.now() - start);
+				// get player data
 			}).fail(function(data){
 				serverError();
+			}).always(function(){
+				setTimeout(repeat, 1000);
 			});
 		})();
 			/*
 			(function repeat(count){
-				var foo = color['p' + (~~(Math.random()*8) + 1)];
+				var foo = color[(~~(Math.random()*8) + 1)];
 				var bar = "#land" + ((count % 101) + 1);
 				TweenMax.to(bar, 1, {
 				  fill: foo

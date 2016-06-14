@@ -47,7 +47,6 @@
 	
 	$x->name = $_SESSION['gameName'];
 	$x->max = $_SESSION['max'];
-	$x->timer = $_SESSION['timer'];
 	$x->map = $_SESSION['map'];
 	$x->player = $_SESSION['player'];
 	$x->gameStarted = $startedGame;

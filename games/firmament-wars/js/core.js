@@ -19,16 +19,17 @@ var g = {
 		
 	}
 }
-var color = {
-	p1: "#aa0000",
-	p2: "#0000aa",
-	p3: "#005500",
-	p4: "#aaaa00",
-	p5: "#aa55aa",
-	p6: "#0055aa",
-	p7: "#aa5500",
-	p8: "#5500aa"
-}
+var color = [
+	"#333333",
+	"#880000",
+	"#0000aa",
+	"#999900",
+	"#008800",
+	"#aa55aa",
+	"#0055aa",
+	"#aa5500",
+	"#5500aa"
+]
 var GLB = {
     musicStatus: 100,
     soundStatus: 100,
@@ -76,18 +77,36 @@ function resizeWindow() {
     	e.style.width = w + 'px';
     	e.style.height = h + 'px';
     }
-    // e.style.marginTop = (-h / 2) + 'px';
-    // e.style.marginLeft = (-w / 2) + 'px';
-	TweenMax.set("body", {
-		// left: "50%",
-		// top: "50%",
-		x: w/2 + (window.innerWidth - w) / 2,
-		y: h/2 + (window.innerHeight - h) / 2,
-		opacity: 1,
-		yPercent: -50,
+	/* various responsive options
+		// e.style.marginTop = (-h / 2) + 'px';
+		// e.style.marginLeft = (-w / 2) + 'px';
+		x: 0,
+		y: 0,
 		xPercent: -50,
-		force3D: false
-	});
+		yPercent: -50,
+		left: '50%',
+		top: '50%'
+	*/
+	if (isFirefox){
+		TweenMax.set("body", {
+			left: '50%',
+			top: '50%',
+			marginLeft: (-w / 2),
+			marginTop: (-h / 2),
+			opacity: 1,
+			force3D: false
+		});
+	} else {
+		TweenMax.set("body", {
+			x: w/2 + ((window.innerWidth - w) / 2),
+			y: h/2 + ((window.innerHeight - h) / 2),
+			opacity: 1,
+			yPercent: -50,
+			xPercent: -50,
+			force3D: false
+		});
+	}
+	// background map
 	TweenMax.set("#worldTitle", {
 		x: -200,
 		y: -800
@@ -576,7 +595,7 @@ function refreshGames(){
 	g.lock();
 	$.ajax({
 		type: 'GET',
-		url: 'php/getWars.php'
+		url: 'php/refreshGames.php'
 	}).done(function(data) {
 		$("#menuContent").html(data);
 		$(".wars").filter(":first").trigger("click");

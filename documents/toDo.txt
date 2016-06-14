@@ -1,6 +1,5 @@
 - START GAME
-// startGame.php
-// allocate initial units
+// account 16, nation 32 , flag 64
 // players transition to world map view and see starting units
 
 - host leaves -> game dies :( ???
@@ -20,7 +19,6 @@ $_SESSION['email']
 GAME:
 $_SESSION['gameId']
 $_SESSION['max']
-$_SESSION['timer']
 $_SESSION['gameName']
 $_SESSION['player']
 $_SESSION['map']

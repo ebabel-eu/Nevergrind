@@ -78,9 +78,9 @@
 			
 			<div id="menu" class="fw-primary">
 				<div id="menuHead" class="btn-group" role="group">
-					<button id="refreshGames" type="button" class="btn btn-primary btn-md shadow3 active btn-head">Refresh Games</button>
-					<button id="create" type="button" class="btn btn-primary btn-md shadow3 btn-head">Create</button>
-					<button id="toggleNation" type="button" class="btn btn-primary btn-md shadow3 btn-head">Configure Nation</button>
+					<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow3 active btn-head">Refresh Games</button>
+					<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow3 btn-head">Create</button>
+					<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow3 btn-head">Configure Nation</button>
 				</div>
 				<hr class="fancyhr">
 				
@@ -189,8 +189,6 @@
 				<div id='lobbyGameName' class='text-center'></div>
 				<div class='text-primary text-center margin-top'>Max Players:</div>
 				<div id='lobbyGameMax' class='text-center'></div>
-				<div class='text-primary text-center margin-top'>Turn Timer:</div>
-				<div id='lobbyGameTimer' class='text-center'></div>
 				<div class='text-primary text-center margin-top'>Map:</div>
 				<div id='lobbyGameMap' class='text-center'></div>
 			</div>
@@ -204,6 +202,8 @@
 	
 	<div id="gameWrap">
 		<div id="game-ui" class="text-center">
+			<div id="serverData"></div>
+			<div id="players"></div>
 			<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
 				<i class="fa fa-flag"></i> Surrender
 			</button>

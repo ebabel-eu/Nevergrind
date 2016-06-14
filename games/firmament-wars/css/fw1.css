@@ -24,21 +24,6 @@ body{
 	background: #050c22;
 	overflow: hidden;
 }
-@media only screen and (max-width: 824px) {
-	body { 
-		font-size: 1.25em; 
-	}
-}
-@media only screen and (max-width: 724px) {
-	body { 
-		font-size: 1em; 
-	}
-}
-@media only screen and (max-width: 624px) {
-	body { 
-		font-size: .75em; 
-	}
-}
 header{
 	position: absolute;
 	top: 0;
@@ -176,6 +161,7 @@ a:hover{
 	height: 100%;
 }
 #battle{
+	display: none;
 	position: absolute;
 	bottom: 2%;
 	left: 8%;
@@ -265,8 +251,8 @@ a:hover{
 	text-anchor: middle;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 20px;
-	font-family: Arial;
+	font-size: 18px;
+	font-family: Consolas, "Courier New", "Lucida Console", Monospace;
 	fill: #ffffff;
 	stroke: #111111;
 	stroke-width: 0px;
@@ -316,7 +302,7 @@ a:hover{
     background-color: #286090;
     border-color: #204d74;
 }
-#getWars{
+#refreshGames{
 	margin: 0;
 }
 #joinGame{
@@ -542,6 +528,10 @@ table {
 #createGameWrap{
 	margin: 0 10px;
 }
+#gameNameLabel{
+	white-space: nowrap;
+	padding: 6px 0;
+}
 .footMargin{
 	margin-bottom: 6px;
 }
@@ -580,24 +570,29 @@ table {
 .text-crystal{
 	color: #8bf;
 }
-.btn-responsive{
-	font-size: 1.75vw;
-}
 @media all and (min-width: 1024px){
+	body { 
+		font-size: 1.5em; 
+	}
 	.btn-responsive{
-		font-size: 18px;
 		padding: 4px 8px;
 	}
 }
-@media all and (max-width: 1024px) and (min-width: 600px){
+@media all and (max-width: 1023px) and (min-width: 640px){
+	body { 
+		font-size: 1.325em; 
+	}
 	.btn-responsive{
-		font-size: 1.75vw;
+		font-size: 1em; 
 		padding: 3px 6px;
 	}
 }
-@media all and (max-width: 599px) and (min-width: 50px){
+@media all and (max-width: 639px){
+	body { 
+		font-size: 1em; 
+	}
 	.btn-responsive{
-		font-size: 1.75vw;
+		font-size: 1.125em; 
 		padding: 2px 4px;
 	}
 }
