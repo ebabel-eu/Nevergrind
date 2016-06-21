@@ -336,3 +336,214 @@ var s2 = s1.cacheCanvas;
 	}
 	clearRight(Slot);
 	*/
+	
+	
+			<!--
+			<div id="mapUnits" class="shadow4">
+				<div style='left: 481px; top:298px' class='unit' id='unit0'>0</div>
+				<div style='left: 1339px; top:380px' class='unit' id='unit1'>0</div>
+				<div style='left: 1071px; top:688px' class='unit' id='unit2'>0</div>
+				<div style='left: 1089px; top:590px' class='unit' id='unit3'>0</div>
+				<div style='left: 1084px; top:298px' class='unit' id='unit4'>0</div>
+				<div style='left: 1291px; top:441px' class='unit' id='unit5'>0</div>
+				<div style='left: 622px; top:864px' class='unit' id='unit6'>0</div>
+				<div style='left: 631px; top:768px' class='unit' id='unit7'>0</div>
+				<div style='left: 1157px; top:330px' class='unit' id='unit8'>0</div>
+				<div style='left: 1735px; top:776px' class='unit' id='unit9'>0</div>
+				<div style='left: 1637px; top:759px' class='unit' id='unit10'>0</div>
+				<div style='left: 1682px; top:713px' class='unit' id='unit11'>0</div>
+				<div style='left: 1756px; top:720px' class='unit' id='unit12'>0</div>
+				<div style='left: 1024px; top:256px' class='unit' id='unit13'>0</div>
+				<div style='left: 1266px; top:373px' class='unit' id='unit14'>0</div>
+				<div style='left: 1175px; top:606px' class='unit' id='unit15'>0</div>
+				<div style='left: 989px; top:284px' class='unit' id='unit16'>0</div>
+				<div style='left: 1034px; top:301px' class='unit' id='unit17'>0</div>
+				<div style='left: 944px; top:511px' class='unit' id='unit18'>0</div>
+				<div style='left: 1405px; top:475px' class='unit' id='unit19'>0</div>
+				<div style='left: 1425px; top:420px' class='unit' id='unit20'>0</div>
+				<div style='left: 541px; top:240px' class='unit' id='unit21'>0</div>
+				<div style='left: 1101px; top:237px' class='unit' id='unit22'>0</div>
+				<div style='left: 471px; top:474px' class='unit' id='unit23'>0</div>
+				<div style='left: 625px; top:690px' class='unit' id='unit24'>0</div>
+				<div style='left: 740px; top:649px' class='unit' id='unit25'>0</div>
+				<div style='left: 697px; top:716px' class='unit' id='unit26'>0</div>
+				<div style='left: 655px; top:602px' class='unit' id='unit27'>0</div>
+				<div style='left: 1411px; top:325px' class='unit' id='unit28'>0</div>
+				<div style='left: 1144px; top:691px' class='unit' id='unit29'>0</div>
+				<div style='left: 1115px; top:766px' class='unit' id='unit30'>0</div>
+				<div style='left: 1119px; top:500px' class='unit' id='unit31'>0</div>
+				<div style='left: 648px; top:232px' class='unit' id='unit32'>0</div>
+				<div style='left: 429px; top:234px' class='unit' id='unit33'>0</div>
+				<div style='left: 551px; top:170px' class='unit' id='unit34'>0</div>
+				<div style='left: 416px; top:175px' class='unit' id='unit35'>0</div>
+				<div style='left: 1579px; top:397px' class='unit' id='unit36'>0</div>
+				<div style='left: 1482px; top:354px' class='unit' id='unit37'>0</div>
+				<div style='left: 1599px; top:305px' class='unit' id='unit38'>0</div>
+				<div style='left: 584px; top:541px' class='unit' id='unit39'>0</div>
+				<div style='left: 583px; top:460px' class='unit' id='unit40'>0</div>
+				<div style='left: 1067px; top:255px' class='unit' id='unit41'>0</div>
+				<div style='left: 1210px; top:532px' class='unit' id='unit42'>0</div>
+				<div style='left: 996px; top:392px' class='unit' id='unit43'>0</div>
+				<div style='left: 559px; top:629px' class='unit' id='unit44'>0</div>
+				<div style='left: 1139px; top:408px' class='unit' id='unit45'>0</div>
+				<div style='left: 1038px; top:193px' class='unit' id='unit46'>0</div>
+				<div style='left: 968px; top:243px' class='unit' id='unit47'>0</div>
+				<div style='left: 814px; top:129px' class='unit' id='unit48'>0</div>
+				<div style='left: 1242px; top:480px' class='unit' id='unit49'>0</div>
+				<div style='left: 1196px; top:363px' class='unit' id='unit50'>0</div>
+				<div style='left: 894px; top:174px' class='unit' id='unit51'>0</div>
+				<div style='left: 1708px; top:347px' class='unit' id='unit52'>0</div>
+				<div style='left: 1307px; top:291px' class='unit' id='unit53'>0</div>
+				<div style='left: 1537px; top:470px' class='unit' id='unit54'>0</div>
+				<div style='left: 1072px; top:409px' class='unit' id='unit55'>0</div>
+				<div style='left: 917px; top:441px' class='unit' id='unit56'>0</div>
+				<div style='left: 1131px; top:270px' class='unit' id='unit57'>0</div>
+				<div style='left: 1231px; top:713px' class='unit' id='unit58'>0</div>
+				<div style='left: 407px; top:411px' class='unit' id='unit59'>0</div>
+				<div style='left: 1491px; top:286px' class='unit' id='unit60'>0</div>
+				<div style='left: 1026px; top:496px' class='unit' id='unit61'>0</div>
+				<div style='left: 1040px; top:103px' class='unit' id='unit62'>0</div>
+				<div style='left: 1860px; top:845px' class='unit' id='unit63'>0</div>
+				<div style='left: 1668px; top:510px' class='unit' id='unit64'>0</div>
+				<div style='left: 1617px; top:575px' class='unit' id='unit65'>0</div>
+				<div style='left: 330px; top:170px' class='unit' id='unit66'>0</div>
+				<div style='left: 1785px; top:619px' class='unit' id='unit67'>0</div>
+				<div style='left: 954px; top:325px' class='unit' id='unit68'>0</div>
+				<div style='left: 1220px; top:426px' class='unit' id='unit69'>0</div>
+				<div style='left: 1350px; top:136px' class='unit' id='unit70'>0</div>
+				<div style='left: 1349px; top:204px' class='unit' id='unit71'>0</div>
+				<div style='left: 1147px; top:197px' class='unit' id='unit72'>0</div>
+				<div style='left: 1167px; top:245px' class='unit' id='unit73'>0</div>
+				<div style='left: 1241px; top:195px' class='unit' id='unit74'>0</div>
+				<div style='left: 1568px; top:193px' class='unit' id='unit75'>0</div>
+				<div style='left: 1671px; top:176px' class='unit' id='unit76'>0</div>
+				<div style='left: 1456px; top:236px' class='unit' id='unit77'>0</div>
+				<div style='left: 1469px; top:163px' class='unit' id='unit78'>0</div>
+				<div style='left: 378px; top:322px' class='unit' id='unit79'>0</div>
+				<div style='left: 578px; top:319px' class='unit' id='unit80'>0</div>
+				<div style='left: 542px; top:359px' class='unit' id='unit81'>0</div>
+				<div style='left: 459px; top: 361px' class='unit' id='unit82'>0</div>
+			</div>
+		</div>
+		-->
+		
+		
+		
+		Ribbon ideas:
+
+- Confirmed email address
+- 5 Account referrals
+- Beat Nevergrind
+- Kickstarter backer
+- Purchased a flag
+- Purchased a dictator
+- Launched an ICBM
+- Launched a missile
+- Received a Great General
+- Received a Great Artist
+- Received a Great Humanitarian
+- Received a Great Explorer
+- Received a Great Scientist
+
+Great People:
+
+Great Humanitarian: Double population of highest tile
+Great Artist: Steal largest enemy army
+Great General: +1 attack and defense to all armies
+Great Leader: Boost all unit production
+Great Explorer: Boost all gold production
+Great Builder: Builds a wall 
+Great Scientist: Builds a nuclear weapon (reduces tile to 1 and destroys all structures)
+
+Produce:
+10 Army
+35 Trench +1 defense
+75 +1 defense
+90 +1 offense
+
+
+80 Fortress +2 defense
+
+
+
+
+200 Wall +3 defense
+500 Nuke
+
+(function(Math){
+	function battle(x, y){
+		var oBonus = 0,
+			dBonus = 0;
+		
+		while (y && x > 1){
+			var diceX = x > 2 ? 3 : 2,
+				diceY = y > 1 ? 2 : 1,
+				xRoll = [],
+				yRoll = [];
+			
+			x -= diceX;
+			y -= diceY;
+			
+			for (var i=0; i<diceX; i++){
+				xRoll.push( ~~(Math.random() * (6 + oBonus)) + 1);
+			}
+			
+			for (var i=0; i<diceY; i++){
+				yRoll.push( ~~(Math.random() * (6 + dBonus)) + 1);
+			}
+			
+			xRoll.sort().reverse();
+			yRoll.sort().reverse();
+			
+			while( (x && xRoll.length || !x && xRoll.length > 1) && yRoll.length){
+				xRoll[0] > yRoll[0] ? diceY-=1 : diceX-=1;
+				xRoll = xRoll.slice(1);
+				yRoll = yRoll.slice(1);
+			}
+			x += diceX;
+			y += diceY;
+		}
+		
+		return x > y ? true : false;
+	}
+	var wins = 0,
+		battles = 1000,
+		team = [10, 10],
+		i = 0;
+		
+	for (; i<battles; i++){
+		wins = battles(team[0], team[1]) ? wins+=1 : wins;
+	}
+	console.info('victory ratio: ', ((wins/battles) * 100).toFixed(1) + "%");
+})(Math);
+
+$.getJSON('http://freegeoip.net/json/', function(result) {
+    alert(result.country_code);
+  });
+  
+  
+  
+  
+  
+  
+var currentPlayers = game.countPlayers();
+// set player list
+var str = '';
+for (var i=1; i<=currentPlayers; i++){
+	var p = game.player[i];
+	console.info(currentPlayers, i, p);
+	str += "<div class='row lobbyRow'>" +
+		"<div class='col-xs-3'>";
+		if (p.flag !== "Default.jpg"){
+			str += "<img src='images/flags/" + p.flag + "' class='player" + i + " w100 block center'>";
+		} else {
+			str += "<img src='images/flags/Player" + i + ".jpg' class='player" + i + " w100 block center'>";
+		}
+		str += "</div>" +
+		"<div class='col-xs-9 lobbyNationInfo'>" +
+			"<div class='gameNationName'>" + p.nation + "&nbsp;" + p.units + "</div>" +
+		"</div>" +
+	"</div>";
+						console.info('loop: ', i, 'total: ', currentPlayers);
+					}
+					document.getElementById('players').innerHTML = str;

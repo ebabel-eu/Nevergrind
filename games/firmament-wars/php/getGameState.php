@@ -5,12 +5,12 @@
 	
 	require('pingLobby.php');
 	// get game tiles
-	$query = "select tile, player, units, nation, flag from `fwTiles` where game=?";
+	$query = "select tile, player, units, nation, flag, account from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dTile, $dPlayer, $dUnits, $dNation, $dFlag);
+	$stmt->bind_result($dTile, $dPlayer, $dUnits, $dNation, $dFlag, $dAccount);
 	
 	$tiles = array();
 	while($stmt->fetch()){
@@ -20,6 +20,7 @@
 		$x->units = $dUnits;
 		$x->nation = $dNation;
 		$x->flag = $dFlag;
+		$x->account = $dAccount;
 		array_push($tiles, $x);
 	}
 	

@@ -17,7 +17,7 @@
 	}
 	if($count == 0){
 		if ($crystals < 100){
-			header("HTTP/1.1 500 You don't have enough Never Crystals. <a target='_blank' href='/store.php'>Visit the Store to purchase more!</a>");
+			header("HTTP/1.1 500 You don't have enough Never Crystals. <a target='_blank' href='/store/'>Visit the Store to purchase more!</a>");
 		} else {
 			$crystals = $crystals - 100;
 			// give flag

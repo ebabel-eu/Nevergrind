@@ -5653,6 +5653,46 @@ function glow(e, color, amount) {
     e.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
 }
 
+function initBmpTint(Slot, mType, d) {
+    var i = "#0f0";
+    if (mType === "magic") {
+        i = "#f0f"
+    } else if (mType === "lightning") {
+        i = "#fff"
+    } else if (mType === "fire") {
+        i = "#f80"
+    } else if (mType === "cold") {
+        i = "#0ff"
+    }
+    bmpTint[Slot][mType].name = mob[Slot].image;
+    T.set(bmpTint[Slot][mType], {
+        easel: {
+            tint: i,
+            tintAmount: .5
+        }
+    });
+    tint(Slot, mType, d);
+}
+
+function tint(Slot, mType, d) {
+    if (mType === 'physical' || !mType) {
+        return;
+    }
+    if (isFirefox === true || isChrome === true || isOpera === true) {
+        if (GLB.videoSetting === "High") {
+            if (bmpTint[Slot][mType].name !== mob[Slot].image) {
+                initBmpTint(Slot, mType, d)
+            } else {
+                tintTimer[Slot][mType].kill();
+                bmpTint[Slot][mType].alpha = 1;
+                tintTimer[Slot][mType] = T.delayedCall(d, function() {
+                    bmpTint[Slot][mType].alpha = 0;
+                });
+            }
+        }
+    }
+}
+
 function loadingScreen() {
     T.set('#curtainfade', {
         display: 'block',
@@ -11210,8 +11250,6 @@ function loadServerCharacters() {
 							data: {
 								run: "sendEmailConfirmation"
 							}
-						}).done(function(data) {
-							console.info(data);
 						}).fail(function(data) {
 							failToCommunicate();
 						});

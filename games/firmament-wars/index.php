@@ -57,8 +57,8 @@
 					
 				echo 
 				'<div class="accountDetails">
-					<a target="_blank" title="Manage Account" href="/account.php?back=games/firmament-wars">Account</a>&ensp;
-					<a target="_blank" title="Store" href="/store.php">Store</a>&ensp;
+					<a target="_blank" title="Manage Account" href="/account/?back=games/firmament-wars">Account</a>&ensp;
+					<a target="_blank" title="Store" href="/store/">Store</a>&ensp;
 					<i class="fa fa-diamond text-primary" title="Never Crystals"></i>
 					<span id="crystalCount" class="text-primary" title="Crystals Remaining">'.$crystals.'</span>
 				</div>
@@ -165,7 +165,7 @@
 								</button>
 							</div>
 							<h4 class="text-center">
-								<a target="_blank" href="/store.php">Purchase Crystals</a>
+								<a target="_blank" href="/store/">Purchase Crystals</a>
 							</h4>
 						</div>
 						
@@ -201,17 +201,20 @@
 	</div>
 	
 	<div id="gameWrap">
-		<div id="game-ui" class="text-center">
-			<div id="serverData"></div>
-			<div id="players"></div>
-			<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
-				<i class="fa fa-flag"></i> Surrender
-			</button>
+		<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
+			<i class="fa fa-flag"></i> Surrender
+		</button>
+		<div id="game-ui" class="row">
+			<div id="target" class="col-xs-4 text-center no-select">
+			</div>
+			<div id="actions" class="col-xs-8">
+			</div>
 		</div>
-		<?php
-			$svg = file_get_contents("images/world_simple3.svg");
-			echo $svg;
-		?>
+		<div id="worldWrap">
+			<?php
+				$svg = file_get_contents("images/world_simple3.svg");
+				echo $svg;
+			?>
 	</div>
 
 	<div id="battle">
@@ -252,6 +255,10 @@
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/findShapeIndex.js"></script>
 
 <script>
+	if (location.host === 'nevergrind.com'){
+		if (location.hash !== "#beta"){
+		}
+	}
 	patchVersion="0-0-1";
 	(function(d){
 		if(location.host==='localhost'){

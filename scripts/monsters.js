@@ -12887,6 +12887,14 @@ function loadSlotData(Slot, summoned) {
     }
 }
 
+function failToCommunicate() {
+	Chat("SERVER ERROR: Cannot contact the server", 1);
+	T.pauseAll();
+	setTimeout(function() {
+		serverLogout();
+	}, 5000);
+}
+
 function champString(Slot) {
     var foo = "";
     var zag = 1;

@@ -8,6 +8,8 @@ var g = {
 	focusUpdateNationName: false,
 	focusGameName: false,
 	view: "title",
+	resizeX: 1,
+	resizeY: 1,
 	overlay: document.getElementById("overlay"),
 	lock: function(clear){
 		g.overlay.style.display = "block";
@@ -20,14 +22,14 @@ var g = {
 	}
 }
 var color = [
-	"#333333",
+	"#00003a",
 	"#880000",
-	"#0000aa",
-	"#999900",
-	"#008800",
-	"#aa55aa",
-	"#0055aa",
+	"#0000dd",
 	"#aa5500",
+	"#005500",
+	"#cccc00",
+	"#3399ff",
+	"#cc66cc",
 	"#5500aa"
 ]
 var GLB = {
@@ -94,7 +96,7 @@ function resizeWindow() {
 			marginLeft: (-w / 2),
 			marginTop: (-h / 2),
 			opacity: 1,
-			force3D: false
+			force3D: true
 		});
 	} else {
 		TweenMax.set("body", {
@@ -103,25 +105,15 @@ function resizeWindow() {
 			opacity: 1,
 			yPercent: -50,
 			xPercent: -50,
-			force3D: false
+			force3D: true
 		});
 	}
-	// background map
-	TweenMax.set("#worldTitle", {
-		x: -200,
-		y: -800
-	});
-	TweenMax.fromTo("#worldTitle", 316, {
-		rotation: -360
-	}, {
-		rotation: 0,
-		repeat: -1,
-		ease: Linear.easeNone
-	});
 	e.style.visibility = "visible";
 	if (typeof worldMap[0] !== 'undefined'){
 		worldMap[0].applyBounds();
 	}
+	g.resizeX = w / 1024;
+	g.resizeY = h / 768;
 }
 
 
@@ -644,6 +636,20 @@ $(window).on('keydown', function(e) {
 			$("#createGame").trigger("click");
 		}
 	}
-}).on('load resize orientationchange', function() {
+}).on('resize orientationchange', function() {
 	resizeWindow();
+}).on('load', function(){
+	resizeWindow();
+	// background map
+	TweenMax.set("#worldTitle", {
+		x: -200,
+		y: -800
+	});
+	TweenMax.fromTo("#worldTitle", 316, {
+		rotation: -360
+	}, {
+		rotation: 0,
+		repeat: -1,
+		ease: Linear.easeNone
+	});
 });

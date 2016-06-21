@@ -13,7 +13,7 @@
 		$_SESSION['customerId'] = '';
 	}
 	if(!isset($_SESSION['email']) || !strlen($_SESSION['email'])){
-		header("Location: /login.php?back=games/nevergrind");
+		header("Location: /login.php?back=");
 		exit();
 	}
 ?>
@@ -72,7 +72,7 @@
 						echo
 						'<div id="sendEmailConfirmation" class="accountDetails accountValueText pointer raceClassButtonsOn ccActive">Confirm Account</div>';
 						echo "<div class='modePanel'>";
-							echo "Server Mode | Version 1-0-98";
+							echo "Server Mode | Version 1-0-100";
 						echo '</div>';
 					?>
 				</header>;
@@ -128,7 +128,7 @@
 				<div id="leftPaneBG">
 				<?php
 						echo 
-						'<a id="showCrystalWrap" target="_blank" href="/store.php">
+						'<a id="showCrystalWrap" target="_blank" href="/store/">
 							<div id="showCrystals" class="strongShadow2 NGgradient">
 								<i class="crystals crystals2 pointer"></i>
 								Buy Crystals
@@ -489,7 +489,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/EaselJS/0.7.1/easeljs.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/plugins/EaselPlugin.min.js"></script>
 	<script>
-		patchVersion="1-0-98";
+		patchVersion="1-0-100";
 		(function(d){
 			if(location.host==='localhost'){
 				var _scriptLoader = [

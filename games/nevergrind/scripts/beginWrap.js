@@ -1,1 +1,0 @@
-(function($,Math,document,location){

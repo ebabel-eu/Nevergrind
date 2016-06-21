@@ -1,5 +1,34 @@
 // events
 (function(){
+	var my = {
+		player: 1,
+		tgt: 1
+	}
+	var game = {
+		tiles: [],
+		playerTiles: [0,0,0,0,0,0,0,0,0],
+		tileDataInitialized: false,
+		player: [],
+		countPlayers: function(){
+			var players = 0;
+			for (var i=0, len=game.player.length; i<len; i++){
+				if (game.player[i].account){
+					players++;
+				}
+			}
+			return players;
+		}
+	}
+	
+	function Nation(){
+		return {
+			account: "",
+			nation: "",
+			flag: "",
+			units: 0
+		}
+	}
+	
 	$("#bgmusic").on('ended', function() {
 		var x = document.getElementById('bgmusic');
 		x.currentTime = 0;
@@ -21,19 +50,61 @@
     $("img").on('dragstart', function(event) {
         event.preventDefault();
     });
+	function showTarget(id){
+		my.tgt = id;
+		var t = game.tiles[id];
+		console.info(id, t);
+		var flag = "",
+			nation = "",
+			account = "",
+			unitWord = t.units === 1 ? "Army" : "Armies";
+		if (t.player === 0){
+			flag = "Player0.jpg";
+			if (t.units > 0){
+				nation = "Barbarian Tribe";
+			} else {
+				nation = "Uninhabited Territory";
+			}
+		} else {
+			if (t.flag === "Default.jpg"){
+				flag = "Player" + t.player + ".jpg";
+			} else {
+				flag = t.flag;
+			}
+			nation = t.nation;
+			account = t.account;
+		}
+		
+		var str = '<img src="images/flags/' + flag + '" class="player' + t.player + ' w100 block center">' +
+			'<div id="nation-ui">' + nation + '</div>';
+		document.getElementById("target").innerHTML = str;
+		// actions panel
+		var str = '<div id="tileInfo" class="no-select">'+
+					'<div id="tile-ui">' + t.name + '</div>'+
+					'<div class="text-warning text-center">' + t.account + '</div>' +
+				'</div>'+
+				'<div id="units-ui">' + t.units + ' ' + unitWord + '</div>';
+				// add tile's resource values below tile name
+		document.getElementById("actions").innerHTML = str;
+	}
 	// SVG
 	$(".land").on("click", function(e){
-		console.info(this.id, e.offsetX, e.offsetY);
+		var tile = this.id.slice(4)*1;
+		var d = game.tiles[tile];
+		console.info(this.id, d.nation, d.flag, d.units, d.name);
+		showTarget(tile);
 	}).on("mouseenter", function(){
 		TweenMax.set(this, {
 			fill: "#ff0000"
 		});
 	}).on("mouseleave", function(){
 		var land = this.id.slice(4)*1;
-		var player = game.tiles[land].player;
-		TweenMax.to(this, .25, {
-			fill: color[player]
-		});
+		if (game.tiles.length > 0){
+			var player = game.tiles[land].player;
+			TweenMax.to(this, .25, {
+				fill: color[player]
+			});
+		}
 	});
 	$("#logout").on('click', function() {
 		logout();
@@ -67,14 +138,14 @@
 					"</div>" +
 				"</div>" +
 				"<div class='form-group'>" +
-					"<label for='gamePlayers' class='col-xs-9 control-label'>Maximum Number of Players:</label>" +
-					"<div class='col-xs-3'>" +
+					"<label for='gamePlayers' class='col-xs-8 control-label'>Maximum Number of Players:</label>" +
+					"<div class='col-xs-4'>" +
 						"<input type='number' class='form-control' id='gamePlayers' value='4' min='2' max='8'>" +
 					"</div>" +
 				"</div>" +
 				"<div class='form-group '>" +
 					"<div class='col-xs-12'>" +
-						"<button id='createGame' type='button' class='btn btn-md btn-info pull-right shadow3'>Create Game Lobby</button>" +
+						"<button id='createGame' type='button' class='btn btn-md btn-info btn-responsive pull-right shadow3'>Create Game Lobby</button>" +
 					"</div>" +
 				"</div>" +
 			"</form>" +
@@ -293,7 +364,6 @@
 				type: "GET",
 				url: "php/startGame.php"
 			}).done(function(data){
-				document.getElementById('serverData').innerHTML = data;
 				console.info(data);
 				$("#mainWrap").remove();
 				g.unlock();
@@ -328,6 +398,7 @@
 			type: "GET",
 			url: "php/getGameState.php"
 		}).done(function(data){
+			my.player = data.player;
 			console.info(data);
 			$("#mainWrap").remove();
 			g.unlock();
@@ -373,61 +444,53 @@
 		});
 	}
 	
-	game = {
-		tiles: [],
-		playerTiles: [0,0,0,0,0,0,0,0,0],
-		tileDataInitialized: false,
-		players: []
-	}
-	function Nation(){
-		return {
-			nation: "",
-			flag: "",
-			units: 0
-		}
-	}
-	
 	function getGameState(){
 		// add function to get player data list?
 		(function repeat(){
+			function updateTile(i, d){
+				game.tiles[i].player = d.player;
+				game.tiles[i].account = d.account;
+				game.tiles[i].nation = d.nation;
+				game.tiles[i].flag = d.flag;
+				game.tiles[i].units = d.units;
+			}
+			var lag = Date.now();
 			$.ajax({
 				type: "GET",
 				url: "php/getGameState.php"
 			}).done(function(data){
-				// console.info(data);
+				console.info('lag: ' + (Date.now() - lag), data);
 				var start = new Date();
-				var i=0,
-					len=data.tiles.length,
+				var len=data.tiles.length,
 					tiles = data.tiles;
 				// get tile data
 				if (game.tileDataInitialized){
-					for (; i<9; i++){
-						game.playerTiles[i] = 0;
+					for (var z=0; z<9; z++){
+						game.playerTiles[z] = 0;
 					}
 					for (var i=0; i<len; i++){
 						var d = data.tiles[i];
+						// check player value
 						if (d.player !== game.tiles[i].player){
 							// only update client data if there's a difference
-							game.tiles[i].player = d.player;
-							game.tiles[i].units = d.units;
+							updateTile(i, d);
 							TweenMax.to(document.getElementById('land' + i), .5, {
 								fill: color[d.player]
 							});
 						}
+						// check unit value
 						if (d.units !== game.tiles[i].units){
-							var unitColor = d.units > game.tiles[i].units ? '#00dd00' : '#cc0000';
+							var unitColor = d.units > game.tiles[i].units ? '#00ff00' : '#ff0000';
 							game.tiles[i].units = d.units;
 							var e = document.getElementById('unit' + i);
 							e.textContent = game.tiles[i].units;
-							var x = game.tiles[i].units.length * 3;
-							console.info(unitColor);
-							TweenMax.fromTo(e, .25, {
+							TweenMax.fromTo(e, .5, {
+								transformOrigin: (game.tiles[i].units.length * 3) + ' 12',
 								scale: 2,
-								fill: unitColor,
-								transformOrigin: x + ' 10'
+								fill: unitColor
 							}, {
 								scale: 1,
-								fill: '#ffffff'
+								fill: "#ffffff"
 							});
 							
 						}
@@ -436,22 +499,25 @@
 						
 						// set player data
 						var units = [0,0,0,0,0,0,0,0,0];
-						for (var i=0, len=tiles.length; i<len; i++){
-							var t = tiles[i],
+						for (var j=0, len2=tiles.length; j<len2; j++){
+							var t = tiles[j],
 								p = t.player;
 							units[p] += t.units;
 						}
-						for (var i=0, len=units.length; i<len; i++){
-							game.players[i].units = units[i];
+						for (var k=0, len3=units.length; k<len3; k++){
+							game.player[k].units = units[k];
 						}
-						// console.info(game.players[1], game.players[2]);
 					}
 				} else {
 					// initialize client data
-					for (; i<len; i++){
+					for (var i=0; i<len; i++){
 						var d = data.tiles[i];
 						game.tiles[i] = {
+							name: document.getElementById('land'+i).getAttribute("data-name"),
+							account: d.account,
 							player: d.player,
+							nation: d.nation,
+							flag: d.flag,
 							units: d.units
 						}
 						document.getElementById('unit' + i).textContent = d.units;
@@ -460,28 +526,47 @@
 								fill: color[d.player]
 							});
 						}
+						if (my.player === d.player){
+							var e = document.getElementById("land" + i);
+							var box = e.getBBox();
+							// init map position & check max/min values
+							var x = (-box.x + 512);
+							if (x > 0){ x = 0; }
+							if (x < -976){ x = -976; }
+							
+							var y = (-box.y + 384);
+							if (y > 0){ y = 0; }
+							if (y < -233){ y = -233; }
+							TweenMax.set("#worldWrap", {
+								x: x * g.resizeX,
+								y: y * g.resizeY
+							});
+							$(e).trigger("click");
+						}
+						
 					}
 					game.tileDataInitialized = true;
 					// set player data
 					for (var i=0, len=game.playerTiles.length; i<len; i++){
-						game.players[i] = new Nation();
+						game.player[i] = new Nation();
 					}
 					for (var i=0, len=tiles.length; i<len; i++){
 						var t = tiles[i],
 							p = t.player;
-						if (game.players[p].nation){
-							game.players[p].units += t.units;
+						if (game.player[p].nation){
+							game.player[p].units += t.units;
 						} else {
-							game.players[p] = {
+							game.player[p] = new Nation();
+							game.player[p] = {
+								account: t.account,
 								nation: t.nation,
 								flag: t.flag,
 								units: t.units
 							}
 						}
 					}
-					// console.info(game.players[1], game.players[2]);
 				}
-				console.info(Date.now() - start);
+				console.info('client lag: ', Date.now() - start);
 				// get player data
 			}).fail(function(data){
 				serverError();
@@ -489,23 +574,6 @@
 				setTimeout(repeat, 1000);
 			});
 		})();
-			/*
-			(function repeat(count){
-				var foo = color[(~~(Math.random()*8) + 1)];
-				var bar = "#land" + ((count % 101) + 1);
-				TweenMax.to(bar, 1, {
-				  fill: foo
-				});
-				setTimeout(function(){
-					repeat(++count);
-				}, 100);
-			})(0);
-			*/
-			/*
-			TweenMax.set("#land62", {
-			  fill: "#008800"
-			});
-			*/
 	}
 	
 	$("#mainWrap").on("click", "#cancelGame", function(){

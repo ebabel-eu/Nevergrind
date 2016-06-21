@@ -3,7 +3,7 @@
 		// delayed to allow svg to load
 		if ($("#world").length > 0){
 			try {
-				worldMap = Draggable.create("#world", {
+				worldMap = Draggable.create("#worldWrap", {
 					type: "left,top",
 					bounds: "#gameWrap",
 					throwProps: true,
@@ -38,11 +38,11 @@
 		}
 		// map zooming and scrolling
 		function mouseZoomIn(e){
-			if (events.mouseZoom >= 150){
-				events.mouseZoom = 150;
+			if (events.mouseZoom >= 200){
+				events.mouseZoom = 200;
 			} else {
 				events.mouseZoom += 5;
-				TweenMax.to("#world", .5, {
+				TweenMax.to("#worldWrap", .5, {
 					transformOrigin: events.mouseTransX + "% " + events.mouseTransY + "%",
 					force3D: false,
 					smoothOrigin: true,
@@ -62,7 +62,7 @@
 				events.mouseZoom = 100;
 			} else {
 				events.mouseZoom -= 5;
-				TweenMax.to("#world", .25, {
+				TweenMax.to("#worldWrap", .25, {
 					force3D: false,
 					smoothOrigin: true,
 					transformOrigin: events.mouseTransX + "% " + events.mouseTransY + "%",
@@ -79,12 +79,12 @@
 		}
 		
 		if (!isFirefox){
-			$("#world").on("mousewheel", function(e){
+			$("#worldWrap").on("mousewheel", function(e){
 				e.originalEvent.wheelDelta > 0 ? mouseZoomIn(e) : mouseZoomOut(e);
 				worldMap[0].applyBounds();
 			});
 		} else {
-			$("#world").on("DOMMouseScroll", function(e){
+			$("#worldWrap").on("DOMMouseScroll", function(e){
 				e.originalEvent.detail > 0 ? mouseZoomOut(e) : mouseZoomIn(e);
 				worldMap[0].applyBounds();
 			});
@@ -107,7 +107,7 @@
 			});
 		}
 		
-		$("#world").on("mousemove", function(e){
+		$("#worldWrap").on("mousemove", function(e){
 			if (isFirefox){
 				setMousePosition(e.originalEvent.layerX, e.originalEvent.layerY);
 			} else {
@@ -117,14 +117,7 @@
 	}
 	initMapEvents();
 	
-	$("#quitGame").on("click", function(){
-		console.info("quitGame!");
+	$("#actions").on("click", "#quitGame", function(){
 		exitGame();
-	});
-	$("#game-ui").on("click", function(){
-		console.info("UI!");
-	});
-	$("#battle").on("click", function(){
-		console.info("battle!");
 	});
 })();
