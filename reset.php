@@ -146,7 +146,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<?php
-		require("includes/ga.html");
+		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
 	?>
 	<script>
 		

@@ -30,11 +30,14 @@
 		header('HTTP/1.1 500 The game is full');
 		exit;
 	}
+	// set session values
 	$_SESSION['gameId'] = $gameId;
 	$_SESSION['max'] = $max;
 	$_SESSION['gameName'] = $gameName;
 	$_SESSION['map'] = $map;
-	$_SESSION['turn'] = 1;
+	$_SESSION['food'] = 0;
+	$_SESSION['production'] = 0;
+	$_SESSION['culture'] = 0;
 	
 	// determine player number
 	$query = "select player from fwPlayers where game=?;";
@@ -47,7 +50,7 @@
 	while($stmt->fetch()){
 		array_push($a, $player);
 	}
-	// set session values
+	// set player session value
 	unset($_SESSION['player']);
 	for ($i=1; $i <= $_SESSION['max']; $i++){
 		if (!in_array($i, $a)){

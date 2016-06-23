@@ -296,7 +296,7 @@
 	});
 	</script>
 	<?php
-		require("includes/ga.html");
+		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
 	?>
 </body>
 </html>

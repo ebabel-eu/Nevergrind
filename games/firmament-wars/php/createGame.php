@@ -57,12 +57,14 @@
 	}
 	
 	// set session values
-	$_SESSION['gameName'] = $name;
-	$_SESSION['max'] = $players;
 	$_SESSION['gameId'] = $gameId*1;
+	$_SESSION['max'] = $players;
+	$_SESSION['gameName'] = $name;
 	$_SESSION['player'] = 1;
 	$_SESSION['map'] = $map;
-	$_SESSION['turn'] = 1;
+	$_SESSION['food'] = 0;
+	$_SESSION['production'] = 0;
+	$_SESSION['culture'] = 0;
 	
 	// get account flag
 	$nation = "";

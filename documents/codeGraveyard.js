@@ -547,3 +547,46 @@ for (var i=1; i<=currentPlayers; i++){
 						console.info('loop: ', i, 'total: ', currentPlayers);
 					}
 					document.getElementById('players').innerHTML = str;
+
+					
+					
+					
+					
+			/*
+			// output approximate text nodes for a map
+			function addText(p){
+				var s = '';
+				if (typeof p === 'object'){
+					var t = document.createElementNS("Use http://www.w3.org/2000/svg", "text");
+					var id = p.getAttribute("id");
+					var b = p.getBBox();
+					var x = ~~((b.x + b.width/2) + 10);
+					var y = ~~(b.y + b.height/2);
+					id = id.replace(/land/g, "");
+					s += "<text transform='translate(" + x + " " + y + ")' class='unit' id='unit"+ id + "'>0</text>";
+					p.parentNode.appendChild(t);
+				} else {
+					console.info("FAIL: ", typeof p, p);
+				}
+				return s;
+			}
+			var paths = document.getElementsByClassName("land");
+			var str = '';
+			for (var p in paths){
+				str += addText(paths[p]);
+			}
+			console.info(str);
+			*/
+			
+			
+			
+			$.ajax({
+				type: "GET",
+				url: "php/getGameState.php"
+			}).done(function(data){
+				console.info(data);
+			}).fail(function(data){
+				serverError();
+			}).always(function(){
+				setTimeout(repeat, 1000);
+			});

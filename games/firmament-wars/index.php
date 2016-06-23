@@ -204,6 +204,17 @@
 		<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
 			<i class="fa fa-flag"></i> Surrender
 		</button>
+		<div id="resources">
+			<div class="resourceWrap shadow4">
+				<i class="food fa fa-user-plus"></i><span id="food">0</span>
+			</div>
+			<div class="resourceWrap shadow4">
+				<i class="production fa fa-gavel"></i><span id="production">0</span>
+			</div>
+			<div class="resourceWrap shadow4">
+				<i class="culture fa fa-flag"></i><span id="culture">0</span>
+			</div>
+		</div>
 		<div id="game-ui" class="row">
 			<div id="target" class="col-xs-4 text-center no-select">
 			</div>

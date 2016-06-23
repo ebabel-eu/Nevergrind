@@ -31,7 +31,43 @@ if ($_SESSION['player'] === 1){
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
-	
+	// resource functions
+	function getFood(){
+		$x = 2;
+		$roll = rand(1, 20);
+		if ($roll === 20){
+			$x = 4;
+		} else if ($roll >=18){
+			$x = 3;
+		}
+		return $x;
+	}
+	function getProduction(){
+		$x = 0;
+		$roll = rand(1, 20);
+		if ($roll === 20){
+			$x = 5;
+		} else if ($roll >=18){
+			$x = 4;
+		} else if ($roll >=15){
+			$x = 3;
+		} else if ($roll >= 10){
+			$x = 2;
+		}
+		return $x;
+	}
+	function getCulture(){
+		$x = 0;
+		$roll = rand(1, 20);
+		if ($roll === 20){
+			$x = rand(5, 7);
+		} else if ($roll >=17){
+			$x = rand(3, 4);
+		} else if ($roll >=13){
+			$x = 2;
+		}
+		return $x;
+	}
 	// determine map and 8 possible start points
 	$map = $_SESSION['map'];
 	$maxTiles = 1;
@@ -40,8 +76,11 @@ if ($_SESSION['player'] === 1){
 		// set barbarians
 		for ($i = 0; $i < $maxTiles; $i++){
 			$barbarianUnits = rand(0, 7) > 5 ? rand(1,2) : 0;
-			$query = "insert into fwTiles (`game`, `tile`, `units`) 
-				VALUES (?, $i, $barbarianUnits)";
+			$food = getFood();
+			$production = getProduction();
+			$culture = getCulture();
+			$query = "insert into fwTiles (`game`, `tile`, `units`, `food`, `production`, `culture`) 
+				VALUES (?, $i, $barbarianUnits, $food, $production, $culture)";
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('i', $_SESSION['gameId']);
 			$stmt->execute();
@@ -63,7 +102,7 @@ if ($_SESSION['player'] === 1){
 			$stmt->execute();
 			
 			// set starting units
-			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=7 where tile=$startTile and game=?";
+			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=7, food=5, production=3, culture=8 where tile=$startTile and game=?";
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('sissi', $players[$i]->account, $players[$i]->player, $players[$i]->nation, $players[$i]->flag, $_SESSION['gameId']);
 			$stmt->execute();
@@ -73,6 +112,5 @@ if ($_SESSION['player'] === 1){
 	} else {
 		// another map
 	}
-	var_dump($players);
 }
 ?>

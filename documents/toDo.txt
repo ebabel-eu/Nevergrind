@@ -1,6 +1,7 @@
 - START GAME
-- add data tile values
-- add tick resource increments in upper-right corner
+- Add attacking tile -> battle -> conquer or not?
+- Add deployable unit indicator
+- Add unit deployments
 
 - VIDS
 - civ 6 reaction
@@ -27,7 +28,9 @@ $_SESSION['max']
 $_SESSION['gameName']
 $_SESSION['player']
 $_SESSION['map']
-$_SESSION['turn']
+$_SESSION['food']
+$_SESSION['production']
+$_SESSION['culture']
 
 NATION:
 $_SESSION['nation']

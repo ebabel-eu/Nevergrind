@@ -193,7 +193,7 @@ a:hover{
 	z-index: 9999;
 	color: #fff;
 	font-size: 1.25em;
-	border: 1px solid #3af;
+	border: 1px solid #0a0a0a;
 	background: rgba(0,0,0,.5);
 }
 .no-select{
@@ -209,10 +209,42 @@ a:hover{
 	left: 1%;
 	z-index: 9999;
 }
+#resources{
+	font-size: 1.25em;
+	position: absolute;
+	top: 0%;
+	right: .25%;
+	z-index: 9999;
+	color: #fff;
+	width: 25%;
+	font-family: "Times New Roman", serif;
+	white-space: nowrap;
+	letter-spacing: .1em;
+}
+.resourceWrap{
+	display: inline-block;
+	width: 31%;
+}
+.food{
+	color: #8d0;
+	cursor: default;
+	margin: 0 .25em;
+}
+.production{
+	color: #d60;
+	cursor: default;
+	margin: 0 .25em;
+}
+.culture{
+	color: #d2d;
+	cursor: default;
+	margin: 0 .25em;
+}
 #target{
 	padding: 0;
 }
 #actions{
+	line-height: 1.125em;
 }
 #players{
 	height: 30%;
@@ -274,7 +306,7 @@ a:hover{
 	/* 002255 2288ff */
 	fill: #00003a;
 	fill-opacity: 1;
-	stroke: #3399ff;
+	stroke: #00bbff;
 	stroke-opacity: 1;
 	stroke-width: 1;
 	cursor: pointer;
@@ -284,22 +316,24 @@ a:hover{
 	white-space: nowrap;
 	color: #ff0000;
 	background-color: #ff0000;
-	font-weight: bold;
 	font-size: 22px;
 	font-family: Consolas, Monospace;
 	pointer-events: none;
-	/* svg props */
-	fill: #ffffff;
 	text-anchor: middle;
 	alignment-baseline: center;
 }
+text{
+	fill: rgba(255,255,255,1);
+	stroke: rgba(0,0,0,1);
+	stroke-width: 3px;
+	stroke-linejoin: round;
+	paint-order: stroke;
+}
 .paths{
-	fill: #ffff00;
-	stroke: #ffff00;
+	stroke: rgba(255,255,0,1);
 	stroke-width:2;
 	stroke-miterlimit:4;
-	stroke-dasharray:none;
-	stroke-opacity:1;
+	stroke-dasharray:2,2;
 	pointer-events: none;
 }
 .block{
@@ -331,14 +365,13 @@ a:hover{
 }
 #tile-ui{
 	font-size: 1em;
-	font-family: Times New Roman, serif;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	text-align: center;
 	overflow: hidden;
 }
-#units-ui{
-	text-align: center;
+#tileInfo{
+	font-family: Times New Roman, serif;
 }
 .fw-primary{
 	border: 1px solid #3377dd;
@@ -519,45 +552,41 @@ table {
 	display: none;
 	text-align: center;
 }
+.player0{
+	background: #00003a;
+	border: 2px groove #00bbff;
+}
 .player1{
 	background: #f00;
 	border: 2px groove #f00;
-	box-shadow: 0 0 10px #f00;
 }
 .player2{
 	background: #00f;
 	border: 2px groove #00f;
-	box-shadow: 0 0 10px #00f;
 }
 .player3{
 	background: #080;
 	border: 2px groove #080;
-	box-shadow: 0 0 10px #080;
 }
 .player4{
 	background: #ff0;
 	border: 2px groove #ff0;
-	box-shadow: 0 0 10px #ff0;
 }
 .player5{
 	background: #f8f;
 	border: 2px groove #f8f;
-	box-shadow: 0 0 10px #f8f;
 }
 .player6{
 	background: #08f;
 	border: 2px groove #08f;
-	box-shadow: 0 0 10px #08f;
 }
 .player7{
 	background: #f80;
 	border: 2px groove #f80;
-	box-shadow: 0 0 10px #f80;
 }
 .player8{
 	background: #80f;
 	border: 2px groove #80f;
-	box-shadow: 0 0 10px #80f;
 }
 #startGame{
 	display: none;

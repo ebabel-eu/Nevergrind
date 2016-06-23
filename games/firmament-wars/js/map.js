@@ -117,7 +117,7 @@
 	}
 	initMapEvents();
 	
-	$("#actions").on("click", "#quitGame", function(){
+	$("#gameWrap").on("click", "#quitGame", function(){
 		exitGame();
 	});
 })();

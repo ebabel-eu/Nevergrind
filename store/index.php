@@ -142,7 +142,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	
 	<?php
-		require("../includes/ga.html");
+		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
 	?>
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	<script>

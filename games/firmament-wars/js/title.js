@@ -2,7 +2,16 @@
 (function(){
 	var my = {
 		player: 1,
-		tgt: 1
+		tgt: 1,
+		food: 0,
+		production: 0,
+		culture: 0
+	}
+	
+	var DOM = {
+		food: document.getElementById('food'),
+		production: document.getElementById('production'),
+		culture: document.getElementById('culture')
 	}
 	var game = {
 		tiles: [],
@@ -25,7 +34,10 @@
 			account: "",
 			nation: "",
 			flag: "",
-			units: 0
+			units: 0,
+			food: 2,
+			production: 0,
+			culture: 0
 		}
 	}
 	
@@ -79,11 +91,15 @@
 			'<div id="nation-ui">' + nation + '</div>';
 		document.getElementById("target").innerHTML = str;
 		// actions panel
-		var str = '<div id="tileInfo" class="no-select">'+
-					'<div id="tile-ui">' + t.name + '</div>'+
-					'<div class="text-warning text-center">' + t.account + '</div>' +
-				'</div>'+
-				'<div id="units-ui">' + t.units + ' ' + unitWord + '</div>';
+		var str = '<div id="tileInfo" class="no-select text-center">'+
+					'<div id="tile-ui">' + t.name + '</div>' +
+					'<div>' +
+						'<i class="food fa fa-user-plus"></i> ' + t.food + 
+						' <i class="production fa fa-gavel"></i> ' + t.production + 
+						' <i class="culture fa fa-flag"></i> ' + t.culture + 
+					'</div>' +
+					'<div>' + t.units + ' ' + unitWord + '</div>'+
+				'</div>';
 				// add tile's resource values below tile name
 		document.getElementById("actions").innerHTML = str;
 	}
@@ -196,6 +212,20 @@
 		});
 	}
 	
+	function setResources(d){
+		TweenMax.to(my, .5, {
+			food: d.food,
+			production: d.production,
+			culture: d.culture,
+			onUpdate: function(){
+				DOM.food.textContent = ~~my.food;
+				DOM.production.textContent = ~~my.production;
+				DOM.culture.textContent = ~~my.culture;
+			},
+			ease: Linear.easeNone
+		});
+	}
+	
 	(function(){
 		// init 
 		var s = "<option value='Default' selected='selected'>Default</option>";
@@ -249,16 +279,17 @@
 			s += "</optgroup>";
 		}
 		document.getElementById("flagDropdown").innerHTML = s;
-	
 		g.lock();
 		$.ajax({
 			type: "GET",
 			url: 'php/initGame.php' // check if already in a game
 		}).done(function(data) {
-			if ((data*1) > 0){
-				console.info("Auto joined game:" + (data*1));
+			console.info(data);
+			if (data.gameId > 0){
+				console.info("Auto joined game:" + (data.gameId));
 				// join lobby in progress
 				joinLobby(0); // autojoin
+				setResources(data);
 			} else {
 				// show title screen
 				document.getElementById("titleMain").style.visibility = "visible";
@@ -267,8 +298,10 @@
 			}
 		}).fail(function(e){
 			Msg("Failed to contact server");
+			console.info('fail');
 		}).always(function(){
 			g.unlock();
+			console.info('always');
 		});
 	})();
 	
@@ -412,31 +445,6 @@
 				scale: 1
 			});
 			getGameState();
-			/*
-			// output approximate text nodes for a map
-			function addText(p){
-				var s = '';
-				if (typeof p === 'object'){
-					var t = document.createElementNS("Use http://www.w3.org/2000/svg", "text");
-					var id = p.getAttribute("id");
-					var b = p.getBBox();
-					var x = ~~((b.x + b.width/2) + 10);
-					var y = ~~(b.y + b.height/2);
-					id = id.replace(/land/g, "");
-					s += "<text transform='translate(" + x + " " + y + ")' class='unit' id='unit"+ id + "'>0</text>";
-					p.parentNode.appendChild(t);
-				} else {
-					console.info("FAIL: ", typeof p, p);
-				}
-				return s;
-			}
-			var paths = document.getElementsByClassName("land");
-			var str = '';
-			for (var p in paths){
-				str += addText(paths[p]);
-			}
-			console.info(str);
-			*/
 		}).fail(function(data){
 			serverError();
 		}).always(function(){
@@ -460,7 +468,6 @@
 				url: "php/getGameState.php"
 			}).done(function(data){
 				console.info('lag: ' + (Date.now() - lag), data);
-				var start = new Date();
 				var len=data.tiles.length,
 					tiles = data.tiles;
 				// get tile data
@@ -518,7 +525,10 @@
 							player: d.player,
 							nation: d.nation,
 							flag: d.flag,
-							units: d.units
+							units: d.units,
+							food: d.food,
+							production: d.production,
+							culture: d.culture
 						}
 						document.getElementById('unit' + i).textContent = d.units;
 						if (data.tiles[i].player){
@@ -566,13 +576,25 @@
 						}
 					}
 				}
-				console.info('client lag: ', Date.now() - start);
-				// get player data
 			}).fail(function(data){
 				serverError();
 			}).always(function(){
 				setTimeout(repeat, 1000);
 			});
+		})();
+		
+		(function(){
+			setInterval(function(){
+				$.ajax({
+					type: "GET",
+					url: "php/updateResources.php"
+				}).done(function(data){
+					console.info('resource: ', data);
+					setResources(data);
+				}).fail(function(data){
+					serverError();
+				});
+			}, 5000);
 		})();
 	}
 	
