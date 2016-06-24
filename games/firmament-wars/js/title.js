@@ -5,13 +5,62 @@
 		tgt: 1,
 		food: 0,
 		production: 0,
-		culture: 0
+		culture: 0,
+		attackOn: false,
+		hud: function(msg, d){
+			timer.hud.kill();
+			DOM.hud.style.visibility = 'visible';
+			DOM.hud.textContent = msg;
+			if (d){
+				timer.hud = TweenMax.to(DOM.hud, 5, {
+					onComplete: function(){
+						DOM.hud.style.visibility = 'hidden';
+					}
+				});
+			}
+		},
+		clearHud: function(){
+			timer.hud.kill();
+			DOM.hud.style.visibility = 'hidden';
+		}
+	}
+	var timer = {
+		hud: g.TDC()
+	}
+	
+	var click = {
+		attack: function(){
+			console.info('match? ', my.player, game.tiles[my.tgt].player);
+			if (my.player === game.tiles[my.tgt].player){
+				my.attackOn = true;
+				my.hud(game.tiles[my.tgt].name + ": Select Target");
+			}
+		},
+		attackTile: function(that){
+			var attacker = my.tgt;
+			var defender = that.id.slice(4);
+			if (my.player === game.tiles[defender].player){
+				// Can't attack yourself!
+				console.warn("ERROR!");
+			} else {
+				my.attackOn = false;
+				// send attack to server
+				console.info('Attacking: ', attacker, 'vs', defender);
+				// update mouse
+				showTarget(that);
+				// report attack message
+				
+				// report battle results
+				my.clearHud();
+			}
+		}
 	}
 	
 	var DOM = {
 		food: document.getElementById('food'),
 		production: document.getElementById('production'),
-		culture: document.getElementById('culture')
+		culture: document.getElementById('culture'),
+		hud: document.getElementById("hud")
 	}
 	var game = {
 		tiles: [],
@@ -32,6 +81,7 @@
 	function Nation(){
 		return {
 			account: "",
+			player: 0,
 			nation: "",
 			flag: "",
 			units: 0,
@@ -62,57 +112,84 @@
     $("img").on('dragstart', function(event) {
         event.preventDefault();
     });
-	function showTarget(id){
-		my.tgt = id;
-		var t = game.tiles[id];
-		console.info(id, t);
-		var flag = "",
-			nation = "",
-			account = "",
-			unitWord = t.units === 1 ? "Army" : "Armies";
-		if (t.player === 0){
-			flag = "Player0.jpg";
-			if (t.units > 0){
-				nation = "Barbarian Tribe";
-			} else {
-				nation = "Uninhabited Territory";
-			}
-		} else {
-			if (t.flag === "Default.jpg"){
-				flag = "Player" + t.player + ".jpg";
-			} else {
-				flag = t.flag;
-			}
-			nation = t.nation;
-			account = t.account;
-		}
+	function clearTarget(){
+		document.getElementById("target").innerHTML = "";
+		document.getElementById("actions").innerHTML = "";
+		my.attackOn = false;
+		my.tgt = -1;
 		
-		var str = '<img src="images/flags/' + flag + '" class="player' + t.player + ' w100 block center">' +
-			'<div id="nation-ui">' + nation + '</div>';
-		document.getElementById("target").innerHTML = str;
-		// actions panel
-		var str = '<div id="tileInfo" class="no-select text-center">'+
-					'<div id="tile-ui">' + t.name + '</div>' +
-					'<div>' +
-						'<i class="food fa fa-user-plus"></i> ' + t.food + 
-						' <i class="production fa fa-gavel"></i> ' + t.production + 
-						' <i class="culture fa fa-flag"></i> ' + t.culture + 
-					'</div>' +
-					'<div>' + t.units + ' ' + unitWord + '</div>'+
-				'</div>';
-				// add tile's resource values below tile name
-		document.getElementById("actions").innerHTML = str;
 	}
-	// SVG
-	$(".land").on("click", function(e){
-		var tile = this.id.slice(4)*1;
-		var d = game.tiles[tile];
-		console.info(this.id, d.nation, d.flag, d.units, d.name);
-		showTarget(tile);
+	function showTarget(e, hover){
+		if (typeof e === 'object'){
+			var tileId = e.id.slice(4)*1;
+			var d = game.tiles[tileId];
+			console.info(e.id, d.nation, d.flag, d.units, d.name);
+			if (!hover){
+				my.tgt = tileId;
+			}
+			var t = game.tiles[tileId];
+			console.info('tileId: ', t);
+			var flag = "",
+				nation = "",
+				account = "",
+				unitWord = t.units === 1 ? "Army" : "Armies";
+			if (t.player === 0){
+				flag = "Player0.jpg";
+				if (t.units > 0){
+					nation = "Barbarian Tribe";
+				} else {
+					nation = "Uninhabited Territory";
+				}
+			} else {
+				if (t.flag === "Default.jpg"){
+					flag = "Player" + t.player + ".jpg";
+				} else {
+					flag = t.flag;
+				}
+				nation = t.nation;
+				account = t.account;
+			}
+			
+			var str = '<img src="images/flags/' + flag + '" class="player' + t.player + ' w100 block center">' +
+				'<div id="nation-ui">' + nation + '</div>';
+			document.getElementById("target").innerHTML = str;
+			// actions panel
+			var str = '<div id="tileInfo" class="no-select text-center">'+
+						'<div id="tile-ui">' + t.name + '</div>' +
+						'<div>' +
+							'<i class="food fa fa-user-plus"></i> ' + t.food + 
+							' <i class="production fa fa-gavel"></i> ' + t.production + 
+							' <i class="culture fa fa-flag"></i> ' + t.culture + 
+						'</div>' +
+						// tile's resource values below tile name
+						'<div>' + t.units + ' ' + unitWord + '</div>' +
+					'</div>' +
+					'<div id="tileActions" class="shadow4">';
+						// action buttons
+						if (my.player === t.player){
+							str += '<button id="attack" type="button" class="btn btn-info btn-responsive btn-md shadow4">Attack</button>';
+						}
+					str += '<div>';
+			document.getElementById("actions").innerHTML = str;
+		} else {
+			clearTarget();
+		}
+	}
+	
+	$(".land").on("click", function(){
+		if (my.attackOn){
+			click.attackTile(this);
+		} else {
+			showTarget(this);
+		}
 	}).on("mouseenter", function(){
-		TweenMax.set(this, {
-			fill: "#ff0000"
-		});
+		if (my.attackOn){
+			showTarget(this, true);
+		} else {
+			TweenMax.set(this, {
+				fill: "#ff0000"
+			});
+		}
 	}).on("mouseleave", function(){
 		var land = this.id.slice(4)*1;
 		if (game.tiles.length > 0){
@@ -490,7 +567,7 @@
 							var unitColor = d.units > game.tiles[i].units ? '#00ff00' : '#ff0000';
 							game.tiles[i].units = d.units;
 							var e = document.getElementById('unit' + i);
-							e.textContent = game.tiles[i].units;
+							e.textContent = game.tiles[i].units === 0 ? "" : game.tiles[i].units;
 							TweenMax.fromTo(e, .5, {
 								transformOrigin: (game.tiles[i].units.length * 3) + ' 12',
 								scale: 2,
@@ -520,7 +597,7 @@
 					for (var i=0; i<len; i++){
 						var d = data.tiles[i];
 						game.tiles[i] = {
-							name: document.getElementById('land'+i).getAttribute("data-name"),
+							name: document.getElementById('land' + i).getAttribute("data-name"),
 							account: d.account,
 							player: d.player,
 							nation: d.nation,
@@ -530,7 +607,7 @@
 							production: d.production,
 							culture: d.culture
 						}
-						document.getElementById('unit' + i).textContent = d.units;
+						document.getElementById('unit' + i).textContent = d.units === 0 ? "" : d.units;
 						if (data.tiles[i].player){
 							TweenMax.set(document.getElementById('land' + i), {
 								fill: color[d.player]
@@ -589,7 +666,7 @@
 					type: "GET",
 					url: "php/updateResources.php"
 				}).done(function(data){
-					console.info('resource: ', data);
+					// console.info('resource: ', data);
 					setResources(data);
 				}).fail(function(data){
 					serverError();
@@ -742,17 +819,21 @@
 		e.parentNode.removeChild(e);
 	});
 	
-})();
-/*
-	var source = new EventSource('php/stream.php');
-
-	source.addEventListener('message', function(e) {
-		console.info(e.data);
-	}, false);
-
-	source.addEventListener('error', function(e) {
-		if (e.readyState == EventSource.CLOSED) {
-			console.error("ERROR");
+	$("#actions").on("click", '#attack', function(){
+		click.attack();
+	});
+	// key bindings
+	$(document).on('keyup', function(e) {
+		var x = e.keyCode;
+		console.info(x);
+		if (g.view === 'game'){
+			if (x === 65){
+				// attack
+				click.attack();
+			} else if (x === 27){
+				clearTarget();
+				my.clearHud();
+			}
 		}
-	}, false);
-*/
+	});
+})();

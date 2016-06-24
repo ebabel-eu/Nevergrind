@@ -73,7 +73,7 @@
 				
 				echo 
 				'<div class="accountDetails">
-					<div class="accountValueText2 accountValueText3">'.$_SESSION['account'].'</div>
+					<div class="accountValueText2 accountValueText3"><a title="Manage Account" href="/account/?back=games/firmament-wars">'.$_SESSION['account'].'</a></div>
 					<div id="crystals" class="crystalIcon accountValues"></div>
 					<div id="crystalCount" class="accountValueText2">'.$crystals.'</div>
 				</div>';

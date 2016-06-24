@@ -246,6 +246,9 @@ a:hover{
 #actions{
 	line-height: 1.125em;
 }
+#tileActions{
+	margin-top: .25%;
+}
 #players{
 	height: 30%;
 }
@@ -258,6 +261,9 @@ a:hover{
 /* helper classes */
 .pointer{
 	cursor: pointer;
+}
+.crosshair{
+	cursor: crosshair;
 }
 .portal{
 	position: absolute;
@@ -309,7 +315,6 @@ a:hover{
 	stroke: #00bbff;
 	stroke-opacity: 1;
 	stroke-width: 1;
-	cursor: pointer;
 	overflow: visible;
 }
 .unit{
@@ -457,6 +462,20 @@ text{
 	font-size: 1.5em;
 	color: #fff;
 	z-index:999999;
+}
+#hud{
+	font-family: "Times New Roman", serif;
+	letter-spacing: .125em;
+	position: absolute;
+	top: 5%;
+	left: 0%;
+	width: 100%;
+	text-align: center;
+	font-size: 2em;
+	color: #d22;
+	z-index:999999;
+	pointer-events: none;
+	visibility: hidden;
 }
 .msg{
 	border-top: 1px solid rgba(24,48,128,.8);

@@ -247,7 +247,8 @@
 	</div>
 
 	<audio id="bgmusic" autoplay preload="auto"></audio>
-		
+	
+	<div id="hud" class="shadow4">Select Target</div>
 	<div id="Msg" class="shadow3"></div>
 	<div id="overlay" class="portal"></div>
 </body>

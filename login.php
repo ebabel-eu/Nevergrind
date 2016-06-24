@@ -294,6 +294,7 @@
 			}
 		}
 	});
+	$("#loginEmail").focus();
 	</script>
 	<?php
 		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");

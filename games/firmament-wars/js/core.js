@@ -18,7 +18,9 @@ var g = {
 	unlock: function(clear){
 		g.overlay.style.display = "none";
 		clear ? g.overlay.style.opacity = 0 : g.overlay.style.opacity = 1;
-		
+	},
+	TDC: function(){
+		return new TweenMax.delayedCall(0, '');
 	}
 }
 var color = [
@@ -455,7 +457,7 @@ function glow(e, color, amount) {
     e.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
 }
 
-function blur(Slot, amount) {
+function blurBmp(Slot, amount) {
     if (isFirefox === true || isOpera === true || isChrome === true) {
         if (amount === undefined) {
             amount = 1;

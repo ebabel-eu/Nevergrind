@@ -1,6 +1,3 @@
-nevergrind.com cPanel:
-nevergrind2 / !M6a1e8l2f4y6n
-
 NEVERGRIND BUILD:
 - minify & update into new incremented file name
 - test new minified js using /#test to trigger test mode in dev
@@ -29,6 +26,8 @@ MONETIZATION:
 	
 	
 	select count(row) total, name, rarity from item where rarity>=3 and rarity<=4 group by name;
+
+
 	
 MAJOR BUGS:
 - add payment via paypal/peanut

@@ -1,5 +1,6 @@
 - START GAME
 - Add attacking tile -> battle -> conquer or not?
+- Add code to determine if a tile is adjacent
 - Add deployable unit indicator
 - Add unit deployments
 
@@ -36,24 +37,93 @@ NATION:
 $_SESSION['nation']
 $_SESSION['flag']
 
-- create buttons/tabs for Create Join Options
-- Create game -> creates a new game and initializes number of players, etc
-- join game -> allows you to rejoin a game at any time
+Ribbon ideas:
 
-- add war medal achievements
+- Confirmed email address
+- 5 Account referrals
+- Beat Nevergrind
+- Kickstarter backer
+- Purchased a flag
+- Purchased a dictator
+- Launched an ICBM
+- Launched a missile
+- Received a Great General
+- Received a Great Artist
+- Received a Great Humanitarian
+- Received a Great Explorer
+- Received a Great Scientist
 
-					/*
-					var e = $("#joinGameLobby");
-					var h = e.height();
-					var y = ~~((((768 - h) /2) / 768) * 100);
-					TweenMax.set(e, {
-						bottom: y + '%'
-					});
-					*/
-http://www.inmotionhosting.com/support/edu/wordpress/329-move-folders
+Great People:
 
-- BUILD 1-0-100 for /games/nevergrind/ because it doesn't load
-- make header an include with account info?
+Great Humanitarian: Double population of highest tile
+Great Artist: Steal largest enemy army
+Great General: +1 attack and defense to all armies
+Great Leader: Boost all unit production
+Great Explorer: Boost all gold production
+Great Builder: Builds a wall 
+Great Scientist: Builds a nuclear weapon (reduces tile to 1 and destroys all structures)
+
+Produce:
+10 Army
+35 Trench +1 defense
+75 +1 defense
+90 +1 offense
+
+
+80 Fortress +2 defense
+
+
+
+
+200 Wall +3 defense
+500 Nuke
+
+(function(Math){
+	function battle(x, y){
+		var oBonus = 0,
+			dBonus = 0;
+		
+		while (y && x > 1){
+			var diceX = x > 2 ? 3 : 2,
+				diceY = y > 1 ? 2 : 1,
+				xRoll = [],
+				yRoll = [];
+			
+			x -= diceX;
+			y -= diceY;
+			
+			for (var i=0; i<diceX; i++){
+				xRoll.push( ~~(Math.random() * (6 + oBonus)) + 1);
+			}
+			
+			for (var i=0; i<diceY; i++){
+				yRoll.push( ~~(Math.random() * (6 + dBonus)) + 1);
+			}
+			
+			xRoll.sort().reverse();
+			yRoll.sort().reverse();
+			
+			while( (x && xRoll.length || !x && xRoll.length > 1) && yRoll.length){
+				xRoll[0] > yRoll[0] ? diceY-=1 : diceX-=1;
+				xRoll = xRoll.slice(1);
+				yRoll = yRoll.slice(1);
+			}
+			x += diceX;
+			y += diceY;
+		}
+		
+		return x > y ? true : false;
+	}
+	var wins = 0,
+		battles = 1000,
+		team = [10, 10],
+		i = 0;
+		
+	for (; i<battles; i++){
+		wins = battles(team[0], team[1]) ? wins+=1 : wins;
+	}
+	console.info('victory ratio: ', ((wins/battles) * 100).toFixed(1) + "%");
+})(Math);
 
 - make main page a list of links to games/other stuff? Put blog as main page? Link to games etc?
 
