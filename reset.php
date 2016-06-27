@@ -15,17 +15,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="author" content="Joe Leonard">
-	<meta name="referrer" content="always">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<meta name="twitter:widgets:csp" content="on">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
 	<title>Nevergrind | Password Reset</title>
-	<link rel="shortcut icon" href="/images1/favicon.ico">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<meta name="viewport" content="width=1280,user-scalable=no">
+	<?php
+		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+	?>
 	<style>
 		#currencyIndicator{
 			width: 100%;

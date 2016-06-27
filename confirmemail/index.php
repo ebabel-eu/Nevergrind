@@ -4,8 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Nevergrind - Email Confirmation</title>
-		<link rel="shortcut icon" href="//nevergrind.com/images1/favicon.ico">
+		<title>Nevergrind | Email Confirmation</title>
+		<?php
+			include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+		?>
 		<style>
 			html{
 				background:#000;

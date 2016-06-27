@@ -5,18 +5,13 @@
 <html lang="en">
 <head>
 	<title>The Nevergrounds | Character Profiles, Items, and More</title>
-	<meta charset="UTF-8">
 	<meta name="keywords" content="browser, indie, rpg, game, player, profiles">
 	<meta name="description" content="The Nevergrounds is where you can share character profiles and game data about Nevergrind.">
-	<meta name="author" content="Joe Leonard">
-	<meta name="referrer" content="always">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=1044,user-scalable=no">
-	<meta name="twitter:widgets:csp" content="on">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
 	<link rel='stylesheet' type='text/css' href="css/style9.css">
-	<link rel="shortcut icon" href="//nevergrind.com/images1/favicon.ico">
+	<?php
+		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+	?>
 </head>
 
 <body>
@@ -26,7 +21,7 @@
 				<a href='//nevergrind.com/nevergrounds/'>The Nevergrounds</a>
 			</h1>
 			<a href="//nevergrind.com" title="Play Nevergrind">
-				<img id="nevergrind" src="//d3t6yj0r8qins4.cloudfront.net/ng_logo_532x428.png" title="Nevergrind">
+				<img id="nevergrind" src="/images1/ng_logo_532x428.png" title="Nevergrind">
 			</a>
 			<nav id='menu'>
 				<a class='links' href="//nevergrind.com" title="Play Nevergrind">Play Nevergrind</a>

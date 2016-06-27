@@ -1,0 +1,1 @@
+<link rel="shortcut icon" href="//nevergrind.com/images1/favicon.png">

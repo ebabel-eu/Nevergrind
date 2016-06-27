@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
 	<title>Nevergrind Leaderboards | Hardcore Mode</title>
-	<meta charset="UTF-8">
 	<meta name="keywords" content="html5, indie, online, browser, free, game, rpg">
 	<meta name="description" content="The Nevergrind leaderboards shows this season's leaders in experience and combos.">
-	<meta name="author" content="Joe Leonard">
-	<meta name="referrer" content="always">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=1280,user-scalable=no">
-	<meta name="twitter:widgets:csp" content="on">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
 	<link rel='stylesheet' type='text/css' href="../css/style4.css">
-	<link rel="shortcut icon" href="//nevergrind.com/images1/favicon.ico">
+	<?php
+		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+	?>
 </head>
 
 <body>
@@ -76,11 +71,7 @@
 				}
 				$url1 = urlBoard();
 				$url3 = urlClass();
-				if(php_uname('n')=="JOE-PC"){
-					$path = '/ng/leaderboards/';
-				}else{
-					$path = '/leaderboards/';
-				}
+				$path = '/leaderboards/';
 				
 				if($_GET['board']==='exp'){
 					echo "<a id='expFilter' class='modeFilterActive' href='{$path}{$hardcoreURL}?board=exp{$url3}'>EXP</a>";

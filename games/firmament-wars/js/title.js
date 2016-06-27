@@ -39,20 +39,27 @@
 		attackTile: function(that){
 			var attacker = my.tgt;
 			var defender = that.id.slice(4);
-			if (my.player === game.tiles[defender].player){
-				// Can't attack yourself!
-				console.warn("ERROR!");
-			} else {
-				my.attackOn = false;
-				// send attack to server
-				console.info('Attacking: ', attacker, 'vs', defender);
-				// update mouse
-				showTarget(that);
-				// report attack message
-				
-				// report battle results
-				my.clearHud();
-			}
+			my.attackOn = false;
+			// send attack to server
+			console.info('Attacking: ', attacker, 'vs', defender);
+			$.ajax({
+				url: 'php/attackTile.php',
+				data: {
+					attacker: attacker,
+					defender: defender
+				}
+			}).done(function(data) {
+				console.info("data: ", data);
+			}).fail(function(e){
+				console.info("fail! ", e);
+			}).always(function(){
+			});
+			// update mouse
+			showTarget(that);
+			// report attack message
+			
+			// report battle results
+			my.clearHud();
 		}
 	}
 	
@@ -64,17 +71,8 @@
 	}
 	var game = {
 		tiles: [],
-		playerTiles: [0,0,0,0,0,0,0,0,0],
-		tileDataInitialized: false,
-		player: [],
 		countPlayers: function(){
-			var players = 0;
-			for (var i=0, len=game.player.length; i<len; i++){
-				if (game.player[i].account){
-					players++;
-				}
-			}
-			return players;
+			// is this needed?
 		}
 	}
 	
@@ -122,13 +120,12 @@
 	function showTarget(e, hover){
 		if (typeof e === 'object'){
 			var tileId = e.id.slice(4)*1;
+			console.info('tileId: ', tileId);
 			var d = game.tiles[tileId];
-			console.info(e.id, d.nation, d.flag, d.units, d.name);
 			if (!hover){
 				my.tgt = tileId;
 			}
 			var t = game.tiles[tileId];
-			console.info('tileId: ', t);
 			var flag = "",
 				nation = "",
 				account = "",
@@ -531,34 +528,36 @@
 	
 	function getGameState(){
 		// add function to get player data list?
+		function updateTilePlayer(i, d){
+			game.tiles[i].player = d.player;
+			game.tiles[i].account = d.account;
+			game.tiles[i].nation = d.nation;
+			game.tiles[i].flag = d.flag;
+		}
 		(function repeat(){
-			function updateTile(i, d){
-				game.tiles[i].player = d.player;
-				game.tiles[i].account = d.account;
-				game.tiles[i].nation = d.nation;
-				game.tiles[i].flag = d.flag;
-				game.tiles[i].units = d.units;
-			}
 			var lag = Date.now();
 			$.ajax({
 				type: "GET",
 				url: "php/getGameState.php"
 			}).done(function(data){
-				console.info('lag: ' + (Date.now() - lag), data);
+				// console.info('lag: ' + (Date.now() - lag), data);
 				var len=data.tiles.length,
 					tiles = data.tiles;
 				// get tile data
-				if (game.tileDataInitialized){
-					for (var z=0; z<9; z++){
-						game.playerTiles[z] = 0;
-					}
+				if (game.tiles.length){
 					for (var i=0; i<len; i++){
-						var d = data.tiles[i];
+						var d = data.tiles[i],
+							updateTargetStatus = false;
 						// check player value
 						if (d.player !== game.tiles[i].player){
 							// only update client data if there's a difference
-							updateTile(i, d);
-							TweenMax.to(document.getElementById('land' + i), .5, {
+							updateTilePlayer(i, d);
+							var e1 = document.getElementById('land' + i);
+							if (my.tgt === i){
+								// attacker won 
+								updateTargetStatus = true;
+							}
+							TweenMax.to(e1, .5, {
 								fill: color[d.player]
 							});
 						}
@@ -566,9 +565,13 @@
 						if (d.units !== game.tiles[i].units){
 							var unitColor = d.units > game.tiles[i].units ? '#00ff00' : '#ff0000';
 							game.tiles[i].units = d.units;
-							var e = document.getElementById('unit' + i);
-							e.textContent = game.tiles[i].units === 0 ? "" : game.tiles[i].units;
-							TweenMax.fromTo(e, .5, {
+							var e2 = document.getElementById('unit' + i);
+							e2.textContent = game.tiles[i].units === 0 ? "" : game.tiles[i].units;
+							if (my.tgt === i){
+								// defender won
+								updateTargetStatus = true;
+							}
+							TweenMax.fromTo(e2, .5, {
 								transformOrigin: (game.tiles[i].units.length * 3) + ' 12',
 								scale: 2,
 								fill: unitColor
@@ -576,20 +579,9 @@
 								scale: 1,
 								fill: "#ffffff"
 							});
-							
 						}
-						// count total units for each player
-						game.playerTiles[d.player] += d.units;
-						
-						// set player data
-						var units = [0,0,0,0,0,0,0,0,0];
-						for (var j=0, len2=tiles.length; j<len2; j++){
-							var t = tiles[j],
-								p = t.player;
-							units[p] += t.units;
-						}
-						for (var k=0, len3=units.length; k<len3; k++){
-							game.player[k].units = units[k];
+						if (updateTargetStatus){
+							showTarget(document.getElementById('land' + i));
 						}
 					}
 				} else {
@@ -607,6 +599,7 @@
 							production: d.production,
 							culture: d.culture
 						}
+						console.info('tileId: ', i, game.tiles[i].name);
 						document.getElementById('unit' + i).textContent = d.units === 0 ? "" : d.units;
 						if (data.tiles[i].player){
 							TweenMax.set(document.getElementById('land' + i), {
@@ -631,26 +624,6 @@
 							$(e).trigger("click");
 						}
 						
-					}
-					game.tileDataInitialized = true;
-					// set player data
-					for (var i=0, len=game.playerTiles.length; i<len; i++){
-						game.player[i] = new Nation();
-					}
-					for (var i=0, len=tiles.length; i<len; i++){
-						var t = tiles[i],
-							p = t.player;
-						if (game.player[p].nation){
-							game.player[p].units += t.units;
-						} else {
-							game.player[p] = new Nation();
-							game.player[p] = {
-								account: t.account,
-								nation: t.nation,
-								flag: t.flag,
-								units: t.units
-							}
-						}
 					}
 				}
 			}).fail(function(data){

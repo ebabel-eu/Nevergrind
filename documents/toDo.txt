@@ -1,6 +1,7 @@
 - START GAME
-- Add attacking tile -> battle -> conquer or not?
 - Add code to determine if a tile is adjacent
+- add manpower milestones
+- add manpower milestone rewards and gets
 - Add deployable unit indicator
 - Add unit deployments
 
@@ -120,7 +121,7 @@ Produce:
 		i = 0;
 		
 	for (; i<battles; i++){
-		wins = battles(team[0], team[1]) ? wins+=1 : wins;
+		wins = battle(team[0], team[1]) ? wins+=1 : wins;
 	}
 	console.info('victory ratio: ', ((wins/battles) * 100).toFixed(1) + "%");
 })(Math);

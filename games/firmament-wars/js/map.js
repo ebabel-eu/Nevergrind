@@ -112,6 +112,7 @@
 				setMousePosition(e.originalEvent.layerX, e.originalEvent.layerY);
 			} else {
 				setMousePosition(e.offsetX, e.offsetY);
+				// console.info(e.offsetX, e.offsetY);
 			}
 		});
 	}

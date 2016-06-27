@@ -14,17 +14,12 @@
 <html lang="en">
 <head>
 	<title>Nevergrind | Manage Account</title>
-	<meta charset="utf-8">
-	<meta name="author" content="Joe Leonard">
-	<meta name="referrer" content="always">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=1024,user-scalable=no">
-	<meta name="twitter:widgets:csp" content="on">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="shortcut icon" href="/images1/favicon.ico">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<?php
+		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+	?>
 	<style>
 		.title{
 			margin-top: 12px;

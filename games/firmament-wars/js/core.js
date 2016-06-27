@@ -61,7 +61,10 @@ var isXbox = /Xbox/i.test(navigator.userAgent),
 	dev = location.host === "localhost" ? true : false,
 	chatDragStatus = false,
 	dom = {};
-
+// browser dependent
+if (isMSIE || isMSIE11){
+	$("head").append('<style> text { stroke-width: 2px; stroke: rgba(255,255,255,1) } </style>');
+}
 
 function resizeWindow() {
     var e = document.getElementById('body');
@@ -95,15 +98,15 @@ function resizeWindow() {
 		TweenMax.set("body", {
 			left: '50%',
 			top: '50%',
-			marginLeft: (-w / 2),
-			marginTop: (-h / 2),
+			marginLeft: ~~(-w / 2),
+			marginTop: ~~(-h / 2),
 			opacity: 1,
 			force3D: true
 		});
 	} else {
 		TweenMax.set("body", {
-			x: w/2 + ((window.innerWidth - w) / 2),
-			y: h/2 + ((window.innerHeight - h) / 2),
+			x: ~~(w/2 + ((window.innerWidth - w) / 2)),
+			y: ~~(h/2 + ((window.innerHeight - h) / 2)),
 			opacity: 1,
 			yPercent: -50,
 			xPercent: -50,

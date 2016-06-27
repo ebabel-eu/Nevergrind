@@ -18,16 +18,11 @@
 <html lang="en">
 <head>
 	<title>Nevergrind | Login & Account Creation</title>
-	<meta charset="utf-8">
-	<meta name="author" content="Joe Leonard">
-	<meta name="referrer" content="always">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=1280,user-scalable=no">
-	<meta name="twitter:widgets:csp" content="on">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
-	<link rel="shortcut icon" href="/images1/favicon.ico">
+	<?php
+		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+	?>
 	<style>
 		#currencyIndicator{
 			width: 100%;
@@ -44,11 +39,6 @@
 	<div id="mainBG">
 		<header id="currencyIndicator" class="strongShadow">
 		<?php
-			echo 
-			'<div class="accountDetails">
-				<div id="crystals" class="crystalIcon accountValues"></div>
-				<div id="crystalCount" class="accountValueText2">0</div>
-			</div>';
 			echo "<div class='modePanel'>";
 				echo "Login & Account Creation";
 			echo '</div>';

@@ -21,19 +21,14 @@
 <html lang="en">
 <head>
 	<title>Nevergrind | Browser RPG | Free Online Game</title>
-	<meta charset="utf-8">
 	<meta name="keywords" content="fantasy, online, browser, free, game, rpg">
 	<meta name="description" content="Nevergrind is a fantasy browser RPG created by Neverworks Games. Nevergrind is a free online game with paid premium features.">
-	<meta name="author" content="Joe Leonard">
-	<meta name="referrer" content="always">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=1280,user-scalable=no">
-	<meta name="twitter:widgets:csp" content="on">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<link rel='stylesheet' type='text/css' href="css/style84.css">
-	<link rel="shortcut icon" href="/images1/favicon.ico">
+	<?php
+		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
+	?>
 </head>
 
 <body id="curtain">

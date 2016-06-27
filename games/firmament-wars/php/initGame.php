@@ -3,9 +3,9 @@
 	require_once('connect1.php');
 	
 	$x = new stdClass();
-	$x->food = isset($_SESSION['food']) ? $_SESSION['food'] : 0;
-	$x->production = isset($_SESSION['production']) ? $_SESSION['production'] : 0;
-	$x->culture = isset($_SESSION['culture']) ? $_SESSION['culture'] : 0;
+	$x->food = isset($_SESSION['food']) ? $_SESSION['food'] > 9999 ? 9999 : $_SESSION['food']: 0;
+	$x->production = isset($_SESSION['production']) ? $_SESSION['production'] > 9999 ? 9999 : $_SESSION['production']: 0;
+	$x->culture = isset($_SESSION['culture']) ? $_SESSION['culture'] > 9999 ? 9999 : $_SESSION['culture'] : 0;
 	$x->gameId = 0;
 	
 	$query = "select game from fwPlayers where account=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second)";

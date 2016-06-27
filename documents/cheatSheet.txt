@@ -1,3 +1,17 @@
+
+	$.ajax({
+		type: 'GET',
+		url: 'php/createGame.php',
+		data: {
+			name: name,
+			players: players
+		}
+	}).done(function(data) {
+		console.info("data: ", data);
+	}).fail(function(e){
+	}).always(function(){
+	});
+
 NEVERGRIND BUILD:
 - minify & update into new incremented file name
 - test new minified js using /#test to trigger test mode in dev

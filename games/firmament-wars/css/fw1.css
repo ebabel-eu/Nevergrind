@@ -319,8 +319,6 @@ a:hover{
 }
 .unit{
 	white-space: nowrap;
-	color: #ff0000;
-	background-color: #ff0000;
 	font-size: 22px;
 	font-family: Consolas, Monospace;
 	pointer-events: none;
