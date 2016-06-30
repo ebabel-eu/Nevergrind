@@ -29,24 +29,17 @@
 		}
 	})();
 	function initMapEvents(){
-		var events = {
-			mouseZoom: 100,
-			mouseTransX: 50,
-			mouseTransY: 50,
-			mapSizeX: 2000,
-			mapSizeY: 1001
-		}
 		// map zooming and scrolling
 		function mouseZoomIn(e){
-			if (events.mouseZoom >= 200){
-				events.mouseZoom = 200;
+			if (g.mouse.mouseZoom >= 200){
+				g.mouse.mouseZoom = 200;
 			} else {
-				events.mouseZoom += 5;
+				g.mouse.mouseZoom += 5;
 				TweenMax.to("#worldWrap", .5, {
-					transformOrigin: events.mouseTransX + "% " + events.mouseTransY + "%",
+					transformOrigin: g.mouse.mouseTransX + "% " + g.mouse.mouseTransY + "%",
 					force3D: false,
 					smoothOrigin: true,
-					scale: events.mouseZoom / 100,
+					scale: g.mouse.mouseZoom / 100,
 					onUpdate: function(){
 						worldMap[0].applyBounds();
 					}, 
@@ -58,15 +51,15 @@
 		}
 		
 		function mouseZoomOut(e){
-			if (events.mouseZoom <= 100){
-				events.mouseZoom = 100;
+			if (g.mouse.mouseZoom <= 100){
+				g.mouse.mouseZoom = 100;
 			} else {
-				events.mouseZoom -= 5;
+				g.mouse.mouseZoom -= 5;
 				TweenMax.to("#worldWrap", .25, {
 					force3D: false,
 					smoothOrigin: true,
-					transformOrigin: events.mouseTransX + "% " + events.mouseTransY + "%",
-					scale: events.mouseZoom / 100,
+					transformOrigin: g.mouse.mouseTransX + "% " + g.mouse.mouseTransY + "%",
+					scale: g.mouse.mouseZoom / 100,
 					onUpdate: function(){
 						worldMap[0].applyBounds();
 					}, 
@@ -90,10 +83,10 @@
 			});
 		}
 		function setMousePosition(X, Y){
-			var x = ~~((X / events.mapSizeX) * 100);
-			var y = ~~((Y / events.mapSizeY) * 100);
-			events.mouseTransX = x;
-			events.mouseTransY = y;
+			var x = ~~((X / g.mouse.mapSizeX) * 100);
+			var y = ~~((Y / g.mouse.mapSizeY) * 100);
+			g.mouse.mouseTransX = x;
+			g.mouse.mouseTransY = y;
 		}
 		if (!isFirefox){
 			$("body").on("mousewheel", function(e){

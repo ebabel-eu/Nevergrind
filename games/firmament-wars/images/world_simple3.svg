@@ -6,11 +6,11 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    id="world"
-   enable_background="new 0 0 2000 1001"
+   enable_background="new 0 0 2000 1150"
    pretty_print="False"
    style="stroke-linejoin: round; stroke:#000; fill: none;"
    version="1.1"
-   viewBox="0 0 2000 1001">
+   viewBox="0 0 2000 1150">
   <metadata
      id="metadata107">
     <rdf:RDF>

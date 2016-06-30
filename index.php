@@ -64,8 +64,6 @@
 						<div class="accountValueText accountDetails">
 							Bank Slots: <span id="bankSlots">0</span>
 						</div>';
-						echo
-						'<div id="sendEmailConfirmation" class="accountDetails accountValueText pointer raceClassButtonsOn ccActive">Confirm Account</div>';
 						echo "<div class='modePanel'>";
 							echo "<a title='Manage Account' href='/account/?back=games/firmament-wars'>{$_SESSION['account']}</a> | Version 1-0-100";
 						echo '</div>';

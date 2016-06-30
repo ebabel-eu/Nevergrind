@@ -5,31 +5,27 @@
 	
 	require('pingLobby.php');
 	// get game tiles
-	$query = "select tile, player, units, nation, flag, account, food, production, culture from `fwTiles` where game=?";
+	$query = "select tile, player, units, food, production, culture from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dTile, $dPlayer, $dUnits, $dNation, $dFlag, $dAccount, $dFood, $dProduction, $dCulture);
-	
-	$tiles = array();
-	while($stmt->fetch()){
-		$x = new stdClass();
-		$x->tile = $dTile;
-		$x->player = $dPlayer;
-		$x->units = $dUnits;
-		$x->nation = $dNation;
-		$x->flag = $dFlag;
-		$x->account = $dAccount;
-		$x->food = $dFood;
-		$x->production = $dProduction;
-		$x->culture = $dCulture;
-		array_push($tiles, $x);
-	}
+	$stmt->bind_result($tile, $player, $units, $food, $production, $culture);
 	
 	$x = new stdClass();
-	$x->player = $_SESSION['player'];
-	$x->tiles = $tiles;
+	$x->tiles = array();
+	while($stmt->fetch()){
+		$t = (object) array(
+			'tile' => $tile, 
+			'player' => $player, 
+			'units' => $units, 
+			'food' => $food, 
+			'production' => $production, 
+			'culture' => $culture
+		);
+		array_push($x->tiles, $t);
+	}
+	
 	$x->delay = microtime(true) - $start;
 	echo json_encode($x);
 ?>

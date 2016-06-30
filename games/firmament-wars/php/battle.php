@@ -1,15 +1,4 @@
-<?php
-	require('values.php');
-	require('connect1.php');
-	
-	$start = microtime(true);
-	
-	$attacker = new stdClass();
-	$attacker->units = 10;
-	
-	$defender = new stdClass();
-	$defender->units = 10;
-	
+<?php	
 	function battle($x, $y){
 		$oBonus = 0; // + atk 500
 		$dBonus = 0; // + def 500
@@ -55,22 +44,10 @@
 		
 		return array($x, $y);
 	}
-	
 	function isAdjacent($x, $y){
 		if ($_SESSION['map'] == 'Earth Alpha'){
 			require('adjEarthAlpha.php');
 		}
 		return in_array($y, $adj[$x]);
 	}
-	
-	
-	$result = battle($attacker->units, $defender->units);
-	$foo = ceil(mt_rand(0, 6000 + 0)/1000);
-	echo $foo.'<br>';
-	
-	echo "Is adjacent? ". isAdjacent(0, 1) . "<BR>";
-	echo $result[0] . " " . $result[1] . "<BR>";
-	$delay = microtime(true) - $start;
-	echo $delay;
-
 ?>

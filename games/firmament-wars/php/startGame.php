@@ -34,7 +34,7 @@ if ($_SESSION['player'] === 1){
 	// resource functions
 	function getFood(){
 		$x = 2;
-		$roll = rand(1, 20);
+		$roll = mt_rand(1, 20);
 		if ($roll === 20){
 			$x = 4;
 		} else if ($roll >=18){
@@ -44,7 +44,7 @@ if ($_SESSION['player'] === 1){
 	}
 	function getProduction(){
 		$x = 0;
-		$roll = rand(1, 20);
+		$roll = mt_rand(1, 20);
 		if ($roll === 20){
 			$x = 5;
 		} else if ($roll >=18){
@@ -58,11 +58,11 @@ if ($_SESSION['player'] === 1){
 	}
 	function getCulture(){
 		$x = 0;
-		$roll = rand(1, 20);
+		$roll = mt_rand(1, 20);
 		if ($roll === 20){
-			$x = rand(5, 7);
+			$x = mt_rand(5, 7);
 		} else if ($roll >=17){
-			$x = rand(3, 4);
+			$x = mt_rand(3, 4);
 		} else if ($roll >=13){
 			$x = 2;
 		}
@@ -75,7 +75,7 @@ if ($_SESSION['player'] === 1){
 		$maxTiles = 83;
 		// set barbarians
 		for ($i = 0; $i < $maxTiles; $i++){
-			$barbarianUnits = rand(0, 7) > 5 ? rand(1,2) : 0;
+			$barbarianUnits = mt_rand(0, 7) > 5 ? mt_rand(1,2) : 0;
 			$food = getFood();
 			$production = getProduction();
 			$culture = getCulture();
@@ -91,7 +91,7 @@ if ($_SESSION['player'] === 1){
 		$len = count($players);
 		for ($i=0; $i<$len; $i++){
 			$startLen = count($start);
-			$startIndex = rand(0, $startLen-1);
+			$startIndex = mt_rand(0, $startLen-1);
 			$startTile = $start[$startIndex];
 			$players[$i]->start = $startTile;
 			array_splice($start, $startIndex, 1);

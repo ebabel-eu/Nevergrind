@@ -28,7 +28,6 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel='stylesheet' type='text/css' href="css/fw1.css">
 	<link rel="shortcut icon" href="/images1/favicon.png">
@@ -204,17 +203,61 @@
 		<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
 			<i class="fa fa-flag"></i> Surrender
 		</button>
-		<div id="resources">
-			<div class="resourceWrap shadow4">
-				<i class="food fa fa-user-plus"></i><span id="food">0</span>
+		
+		<div id="resources" class="container no-select shadow4">
+			
+			<div class="row">
+				<div class="col-sm-12 no-padding food">
+					<i class="fa fa-user-plus"></i> Food
+				</div>
 			</div>
-			<div class="resourceWrap shadow4">
-				<i class="production fa fa-gavel"></i><span id="production">0</span>
+			
+			<div class="row">
+				<div class="col-sm-12 no-padding">
+					<div>
+						<span id="food">0</span>/<span id="foodMax">150</span>
+					</div>
+					<div>
+						+<span id="sumFood">0</span> per turn
+					</div>
+				</div>
 			</div>
-			<div class="resourceWrap shadow4">
-				<i class="culture fa fa-flag"></i><span id="culture">0</span>
+			
+			<div class="row">
+				<div class="col-sm-12 no-padding production">
+					<i class="fa fa-gavel"></i> Production
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 no-padding nowrap">
+					<div>
+						<span id="production">0</span> 
+					</div>
+					<div>
+						+<span id="sumProduction">0</span> per turn
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 no-padding culture">
+					<i class="fa fa-flag"></i> Culture
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 no-padding">
+					<div>
+						<span id="culture">0</span>/<span id="cultureMax">400</span>
+					</div>
+					<div>
+						+<span id="sumCulture">0</span> per turn
+					</div>
+				</div>
 			</div>
 		</div>
+		
 		<div id="game-ui" class="row">
 			<div id="target" class="col-xs-4 text-center no-select">
 			</div>

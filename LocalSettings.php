@@ -10,7 +10,7 @@
 # Further documentation for configuration settings may be found at:
 # https://www.mediawiki.org/wiki/Manual:Configuration_settings
 
-# Protect against web entry
+# Protect against web entry 
 if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
@@ -37,8 +37,7 @@ $wgStylePath = "$wgScriptPath/skins";
 
 ## The relative URL path to the logo.  Make sure you change this from the default,
 ## or else you'll overwrite your logo when you upgrade!
-$wgLogo = "$wgScriptPath/resources/assets/wikiLogo135.jpg";
-
+$wgLogo = "$wgScriptPath/resources/assets/wikiLogo135.png";
 ## UPO means: this is also a user preference option
 
 $wgEnableEmail = true;

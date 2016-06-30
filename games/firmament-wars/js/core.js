@@ -21,6 +21,13 @@ var g = {
 	},
 	TDC: function(){
 		return new TweenMax.delayedCall(0, '');
+	},
+	mouse: {
+		mouseZoom: 100,
+		mouseTransX: 50,
+		mouseTransY: 50,
+		mapSizeX: 2000,
+		mapSizeY: 1150
 	}
 }
 var color = [

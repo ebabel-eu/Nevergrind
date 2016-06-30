@@ -24,6 +24,9 @@
 		.title{
 			margin-top: 12px;
 		}
+		.align-right{
+			text-align: right;
+		}
 		#currencyIndicator{
 			width: 100%;
 		}
@@ -46,8 +49,10 @@
 			box-shadow: 0 0 12px #000 inset, 0 0 5px #000 inset;
 		}
 		#sendEmailConfirmation{
+			position: relative;
 			display: block;
-			margin: 4px 6px;
+			margin: 2px auto 16px;
+			border: 1px solid #08f;
 		}
 		#payment-form{
 			width: 640px;
@@ -70,7 +75,6 @@
 				
 				echo 
 				'<div class="accountDetails">
-					<span class="accountValues accountValueText">'.$_SESSION['email'].' | </span>
 					<span class="accountValues accountValueText">'.$_SESSION['account'].'</span>&ensp;
 					<div id="crystals" class="crystalIcon accountValues"></div>
 					<div id="crystalCount" class="accountValueText2">'.
@@ -78,18 +82,18 @@
 					'</div>';
 					
 					require_once('../php/connect_plain.php');
-					$query = "select confirmed, subscribed from accounts where email='".$_SESSION['email']."' limit 1";
+					$query = "select row, created, confirmed, subscribed, characters, bankSlots, hcBankSlots, kstier from accounts where email='".$_SESSION['email']."' limit 1";
 					$result = $link->query($query);
 					$confirmed = '0';
 					while($row = $result->fetch_assoc()){
+						$number = $row['row'];
+						$created = $row['created'];
 						$confirmed = $row['confirmed'];
 						$subscribed = $row['subscribed'];
-					}
-					if ($confirmed == '0'){
-						echo 
-						'<button id="sendEmailConfirmation" type="button" class="btn btn-primary btn-md pull-left">
-							Confirm Account
-						</button>';
+						$characters = $row['characters'];
+						$bankSlots = $row['bankSlots'];
+						$hcBankSlots = $row['hcBankSlots'];
+						$kstier = $row['kstier'];
 					}
 				echo '</div>
 				<div class="modePanel">
@@ -97,29 +101,98 @@
 				</div>';
 			?>
 		</header>
+	
 		<?php
+			$phpdate = strtotime($created);
+			$mysqldate = date('F j, Y', $phpdate);
+			
 			$confirmed = $confirmed ? "ON" : "OFF";
 			$subscribed = $subscribed ? "ON" : "OFF";
 			echo 
 			'<div id="payment-form">
+				<p class="title">
+					<div class="centerize">Email Address: '.$_SESSION['email'].'</div>
+					<div class="centerize">Account Name: '.$_SESSION['account'].'</div>
+					<div class="centerize">Member Number: '.$number.'</div>
+					<div class="centerize">Member Since '.$mysqldate.'</div>';
+					
+					if ($confirmed == 'OFF'){
+						echo 
+						'<div class="col-md-12 center-block text-center">
+							<button id="sendEmailConfirmation" type="button" class="btn btn-primary center-block strongShadow">
+								Confirm Email Account
+							</button>
+						</div>';
+					}
+				echo '</p>
 				<p class="centerize title">
-					Manage your Nevergrind account settings
+					<div class="centerize">Manage your Nevergrind account settings</div>
 				</p>
 				<hr class="fancyHR">
 				
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-9">
 						Email Address Confirmed
 					</div>
-					<div class="col-md-2">'.$confirmed.'</div>
+					<div class="col-md-3">'.$confirmed.'</div>
 				</div>
 				
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-9">
 						Subscribed to Email Notifications
 					</div>
-					<div class="col-md-2">
-						<button id="subscribed" type="button" class="btn btn-info btn-sm strongShadow">'.$subscribed.'</button>
+					<div class="col-md-3">
+						<button id="subscribed" type="button" class="btn btn-info btn-xs strongShadow">'.$subscribed.'</button>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-9">
+						Kickstarter Tier
+					</div>
+					<div class="col-md-3">'.$kstier.'</div>
+				</div>
+					
+				<hr class="fancyHR">
+				
+				<div class="row">
+					<div class="col-md-12 centerize">
+						Nevergrind
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-9">
+						Character Slots:
+					</div>
+					<div class="col-md-3">'.$characters.'</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-9">
+						Bank Slots:
+					</div>
+					<div class="col-md-3">'.$bankSlots.'</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-9">
+						Hardcore Bank Slots:
+					</div>
+					<div class="col-md-3">'.$hcBankSlots.'</div>
+				</div>
+					
+				<hr class="fancyHR">
+				
+				<div class="row">
+					<div class="col-md-12 centerize">
+						Firmament Wars
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12 centerize">
+						Coming Soon!
 					</div>
 				</div>
 					
@@ -191,7 +264,7 @@
 			g.lockScreen();
 			console.info("SENDING: ", settings.subscribed);
 			$.ajax({
-				url: 'php/updateAccount.php',
+				url: '/php/updateAccount.php',
 				data: {
 					settings: settings
 				}

@@ -210,34 +210,36 @@ a:hover{
 	z-index: 9999;
 }
 #resources{
-	font-size: 1.25em;
+	font-size: 1em;
 	position: absolute;
 	top: 0%;
-	right: .25%;
+	right: 0%;
 	z-index: 9999;
 	color: #fff;
-	width: 25%;
-	font-family: "Times New Roman", serif;
-	white-space: nowrap;
-	letter-spacing: .1em;
+	padding: 0;
+	text-align: right;
+	padding-right: .5em;
+	pointer-events: none;
 }
-.resourceWrap{
-	display: inline-block;
-	width: 31%;
+#resources > .row{
+	margin: 0;
+}
+.no-padding{
+	padding: 0;
+}
+.fa{
+	cursor: default !important;
 }
 .food{
 	color: #8d0;
-	cursor: default;
 	margin: 0 .25em;
 }
 .production{
 	color: #d60;
-	cursor: default;
 	margin: 0 .25em;
 }
 .culture{
 	color: #d2d;
-	cursor: default;
 	margin: 0 .25em;
 }
 #target{
@@ -290,7 +292,8 @@ a:hover{
 	top: 0%;
 	left: 0%;
 	width: 195.3125%;
-	height: 130.3385%;
+	/*height: 130.3385%;*/
+	height: 149.739583%;
 }
 #world{
 	position: absolute;
@@ -571,38 +574,56 @@ table {
 }
 .player0{
 	background: #00003a;
+}
+.p0b{
 	border: 2px groove #00bbff;
 }
 .player1{
 	background: #f00;
+}
+.p1b{
 	border: 2px groove #f00;
 }
 .player2{
 	background: #00f;
+}
+.p2b{
 	border: 2px groove #00f;
 }
 .player3{
 	background: #080;
+}
+.p3b{
 	border: 2px groove #080;
 }
 .player4{
 	background: #ff0;
+}
+.p4b{
 	border: 2px groove #ff0;
 }
 .player5{
 	background: #f8f;
+}
+.p5b{
 	border: 2px groove #f8f;
 }
 .player6{
 	background: #08f;
+}
+.p6b{
 	border: 2px groove #08f;
 }
 .player7{
 	background: #f80;
+}
+.p7b{
 	border: 2px groove #f80;
 }
 .player8{
 	background: #80f;
+}
+.p8b{
 	border: 2px groove #80f;
 }
 #startGame{

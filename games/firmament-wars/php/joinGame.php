@@ -36,8 +36,10 @@
 	$_SESSION['gameName'] = $gameName;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
+	$_SESSION['foodMax'] = 150;
 	$_SESSION['production'] = 0;
 	$_SESSION['culture'] = 0;
+	$_SESSION['cultureMax'] = 400;
 	
 	// determine player number
 	$query = "select player from fwPlayers where game=?;";

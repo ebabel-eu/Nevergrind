@@ -25,9 +25,9 @@
 		"<div class='row lobbyRow'>
 			<div class='col-xs-3'>";
 		if ($flag != "Default.jpg"){
-			$x->lobbyData .= "<img src='images/flags/{$flag}' class='player{$player} w100 block center'>";
+			$x->lobbyData .= "<img src='images/flags/{$flag}' class='player{$player} p{$player}b w100 block center'>";
 		} else {
-			$x->lobbyData .= "<img src='images/flags/Player{$player}.jpg' class='player{$player} w100 block center'>";
+			$x->lobbyData .= "<img src='images/flags/Player{$player}.jpg' class='player{$player} p{$player}b w100 block center'>";
 		}
 		$x->lobbyData .= 
 			"</div>

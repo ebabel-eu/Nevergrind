@@ -63,8 +63,10 @@
 	$_SESSION['player'] = 1;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
+	$_SESSION['foodMax'] = 150;
 	$_SESSION['production'] = 0;
 	$_SESSION['culture'] = 0;
+	$_SESSION['cultureMax'] = 400;
 	
 	// get account flag
 	$nation = "";
