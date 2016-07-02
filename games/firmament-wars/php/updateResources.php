@@ -1,9 +1,10 @@
 <?php
 	header('Content-Type: application/json');
 	require_once('connect1.php');
+	require_once('pingLobby.php');
 	$start = microtime(true);
 	// get game tiles
-	$query = "select sum(food), sum(production), sum(culture) from `fwTiles` where account=? and game=? limit 1";
+	$query = 'select sum(food), sum(production), sum(culture) from `fwTiles` where account=? and game=? limit 1';
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('si', $_SESSION['account'], $_SESSION['gameId']);
 	$stmt->execute();
@@ -27,9 +28,67 @@
 	$x->foodMax = $_SESSION['foodMax'];
 	$x->cultureMax = $_SESSION['cultureMax'];
 	
+	// milestones?
+	if ($x->food >= $_SESSION['foodMax']){
+		function getManpowerReward(){
+			$reward = 3 + $_SESSION['foodMilestone'];
+			$foo = $_SESSION['foodMilestone'];
+			if ($foo > 1){
+				$reward++;
+			}
+			if ($foo > 5){
+				$reward+=2;
+			}
+			if ($foo > 9){
+				$reward+=4;
+			}
+			if ($foo > 14){
+				$reward+=6;
+			}
+			if ($foo > 20){
+				$reward+=8;
+			}
+			if ($foo > 27){
+				$reward+=12; 
+			}
+			if ($foo > 35){
+				$reward+=20; // max bonus 53 + 2 + 35
+			}
+			return $reward;
+		}
+		function getReward($bar){
+			
+			return 0;
+		}
+		$x->food -= $_SESSION['foodMax'];
+		$_SESSION['manpower'] += getManpowerReward();
+		$_SESSION['foodMilestone']++;
+		$_SESSION['foodMax'] = $_SESSION['foodMax'] + 25;
+		// GET?!
+		$query = "insert into fwGets (`account`) VALUES (?)";
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $_SESSION['account']);
+		$stmt->execute();
+		
+		$query = mysqli_query($link, "select row from fwGets order by row desc limit 1");
+		while ($row = mysqli_fetch_array($query)){
+			$get = $row[0];
+		}
+		$x->get = $get;
+		$_SESSION['manpower'] += getReward($get);
+		
+		if ($_SESSION['manpower'] > 999){
+			$_SESSION['manpower'] = 999;
+		}
+	}
+	
 	$_SESSION['food'] = $x->food;
 	$_SESSION['production'] = $x->production;
 	$_SESSION['culture'] = $x->culture;
+	
+	$x->manpower = $_SESSION['manpower'];
+	$x->foodMax = $_SESSION['foodMax'];
+	
 	$x->delay = microtime(true) - $start;
 	echo json_encode($x);
 ?>

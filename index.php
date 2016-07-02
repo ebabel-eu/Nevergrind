@@ -13,7 +13,7 @@
 		$_SESSION['customerId'] = '';
 	}
 	if(!isset($_SESSION['email']) || !strlen($_SESSION['email'])){
-		header("Location: /login.php?back=");
+		header("Location: /login.php?back=/");
 		exit();
 	}
 ?>

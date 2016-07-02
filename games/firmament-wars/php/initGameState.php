@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	require_once('connect1.php');
 	
-	require('pingLobby.php');
+	require_once('pingLobby.php');
 	// get game tiles
 	$query = "select account, flag, nation, tile, player, units, food, production, culture from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);
@@ -28,6 +28,8 @@
 	
 	$x = new stdClass();
 	$x->player = $_SESSION['player'];
+	$x->flag = $_SESSION['flag'];
+	$x->nation = $_SESSION['nation'];
 	$x->tiles = $tiles;
 	echo json_encode($x);
 ?>

@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	require_once('connect1.php');
 	
-	require('pingLobby.php');
+	require_once('pingLobby.php');
 
 	$query = "select account, nation, flag, player from fwPlayers where game=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second) order by player";
 	

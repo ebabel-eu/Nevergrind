@@ -1,11 +1,16 @@
 <?php
 	header('Content-Type: application/json');
 	$start = microtime(true);
-	require_once('connect1.php');
+	// connect1.php
+	session_start();
+	if(php_uname('n')=="JOE-PC"){
+		$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
+	}else{
+		$link = mysqli_connect("localhost", "nevergri_ng", "!M6a1e8l2f4y6n", "nevergri_ngLocal");
+	}
 	
-	require('pingLobby.php');
 	// get game tiles
-	$query = "select tile, player, units, food, production, culture from `fwTiles` where game=?";
+	$query = 'select tile, player, units, food, production, culture from `fwTiles` where game=?';
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
@@ -14,8 +19,9 @@
 	
 	$x = new stdClass();
 	$x->tiles = array();
+	$count = 0;
 	while($stmt->fetch()){
-		$t = (object) array(
+		$x->tiles[$count++] = (object) array(
 			'tile' => $tile, 
 			'player' => $player, 
 			'units' => $units, 
@@ -23,7 +29,6 @@
 			'production' => $production, 
 			'culture' => $culture
 		);
-		array_push($x->tiles, $t);
 	}
 	
 	$x->delay = microtime(true) - $start;

@@ -36,31 +36,37 @@
 	$_SESSION['gameName'] = $gameName;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
-	$_SESSION['foodMax'] = 150;
+	$_SESSION['foodMax'] = 25;
 	$_SESSION['production'] = 0;
 	$_SESSION['culture'] = 0;
 	$_SESSION['cultureMax'] = 400;
+	$_SESSION['manpower'] = 0;
 	
 	// determine player number
-	$query = "select player from fwPlayers where game=?;";
+	$query = "select player, startTile from fwPlayers where game=?;";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($player);
+	$stmt->bind_result($player, $startTile);
 	$a = array();
 	while($stmt->fetch()){
+		$capital = $startTile;
 		array_push($a, $player);
 	}
 	// set player session value
 	unset($_SESSION['player']);
+	unset($_SESSION['capital']);
 	for ($i=1; $i <= $_SESSION['max']; $i++){
 		if (!in_array($i, $a)){
 			if (!isset($_SESSION['player'])){
 				$_SESSION['player'] = $i;
+				$_SESSION['capital'] = $capital;
 			}
 		}
 	}
+	// set capital value
+	
 	// sanity check
 	if ($_SESSION['player'] < 1 || $_SESSION['player'] > $_SESSION['max']){
 		header('HTTP/1.1 500 Failed to join game: (player: ' . $_SESSION['player'] . ')');
@@ -90,7 +96,7 @@
 	$query = "delete from fwPlayers where timestamp < date_sub(now(), interval {$_SESSION['lag']} second)";
 	$stmt = $link->query($query);
 	
-	require('pingLobby.php');
+	require_once('pingLobby.php');
 	
 	require('updateLobby.php');
 ?>

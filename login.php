@@ -12,7 +12,7 @@
 			exit();
 		}
 	}
-	$refer = isset($_GET['back']) ? "/".$_GET['back'] : "/";
+	$refer = isset($_GET['back']) ? $_GET['back'] : "/";
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,9 +1,19 @@
 - START GAME
-- add manpower milestones
 - add manpower milestone rewards and gets
-- Add deployable unit indicator
-- Add unit deployments
 - add animated target SVG dotted line
+- muster units -2 food +3 units?
+- Get rewards from barb tiles... 
+	Barb Rewards:
+	+30/40/50 production
+	+30/40/50 food
+	+3 units to capital
+	+2 manpower join us
+	+4 to capital culture
+	+2 to capital food
+	+2 to capital production
+- Add production milestones????????? -> Capital bonuses?
+
+
 
 - VIDS
 - civ 6 reaction
@@ -31,8 +41,12 @@ $_SESSION['gameName']
 $_SESSION['player']
 $_SESSION['map']
 $_SESSION['food'] / $_SESSION['foodMax']
+$_SESSION['foodMilestone']
 $_SESSION['production']
 $_SESSION['culture'] / $_SESSION['cultureMax']
+$_SESSION['cultureMilestone']
+$_SESSION['manpower']
+$_SESSION['capital']
 
 NATION:
 $_SESSION['nation']

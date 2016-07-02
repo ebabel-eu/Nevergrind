@@ -1,7 +1,6 @@
 <?php
-	$start = microtime(true);
-	require_once('connect1.php');
-	require_once('battle.php');
+	require('connect1.php');
+	require('battle.php');
 	
 	$attacker = new stdClass();
 	$attacker->tile = $_POST['attacker'];
@@ -10,7 +9,7 @@
 	$defender->tile = $_POST['defender'];
 	
 	if (isAdjacent($attacker->tile, $defender->tile)){
-		$query = "select tile, nation, flag, units, player, account from fwTiles where (tile=? or tile=?) and game=?";
+		$query = 'select tile, nation, flag, units, player, account from fwTiles where (tile=? or tile=?) and game=?';
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('iii', $attacker->tile, $defender->tile, $_SESSION['gameId']);
 		$stmt->execute();
@@ -40,12 +39,12 @@
 			$defender->units = $defender->units + $attacker->units - 1;
 			$attacker->units = 1;
 			// update attacker
-			$query = "update fwTiles set units=? where tile=? and game=?";
+			$query = 'update fwTiles set units=? where tile=? and game=?';
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('iii', $attacker->units, $attacker->tile, $_SESSION['gameId']);
 			$stmt->execute();
 			// update defender
-			$query = "update fwTiles set units=? where tile=? and game=?";
+			$query = 'update fwTiles set units=? where tile=? and game=?';
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('iii', $defender->units, $defender->tile, $_SESSION['gameId']);
 			$stmt->execute();
@@ -64,7 +63,7 @@
 					$stmt->bind_param('iii', $attacker->units, $attacker->tile, $_SESSION['gameId']);
 					$stmt->execute();
 					// update defender
-					$query = "update fwTiles set nation=?, flag=?, units=?, player=?, account=? where tile=? and game=?";
+					$query = 'update fwTiles set nation=?, flag=?, units=?, player=?, account=? where tile=? and game=?';
 					$stmt = $link->prepare($query);
 					$stmt->bind_param('ssiisii', $attacker->nation, $attacker->flag, $defender->units, $attacker->player, $attacker->account, $defender->tile, $_SESSION['gameId']);
 					$stmt->execute();
@@ -73,23 +72,24 @@
 					$attacker->units = $result[0];
 					$defender->units = $result[1];
 					// update attacker
-					$query = "update fwTiles set units=? where tile=? and game=?";
+					$query = 'update fwTiles set units=? where tile=? and game=?';
 					$stmt = $link->prepare($query);
 					$stmt->bind_param('iii', $attacker->units, $attacker->tile, $_SESSION['gameId']);
 					$stmt->execute();
 					// update defender
-					$query = "update fwTiles set units=? where tile=? and game=?";
+					$query = 'update fwTiles set units=? where tile=? and game=?';
 					$stmt = $link->prepare($query);
 					$stmt->bind_param('iii', $defender->units, $defender->tile, $_SESSION['gameId']);
 					$stmt->execute();
 				}
 			} else {
 				header('HTTP/1.1 500 Invalid attack command.');
+				exit();
 			}
 		}
 	} else {
 		header('HTTP/1.1 500 Invalid attack command.');
+		exit();
 	}
-	$delay = microtime(true) - $start;
-	echo "BATTLE COMPLETE: $delay";
+	echo "BATTLE COMPLETE:";
 ?>

@@ -33,38 +33,32 @@ if ($_SESSION['player'] === 1){
 	$stmt->execute();
 	// resource functions
 	function getFood(){
-		$x = 2;
+		$x = 4;
 		$roll = mt_rand(1, 20);
-		if ($roll === 20){
-			$x = 4;
-		} else if ($roll >=18){
-			$x = 3;
+		if ($roll >= 17){
+			$x = 6;
+		} else if ($roll >=11){
+			$x = 5;
 		}
 		return $x;
 	}
 	function getProduction(){
-		$x = 0;
+		$x = 3;
 		$roll = mt_rand(1, 20);
-		if ($roll === 20){
+		if ($roll >= 17){
 			$x = 5;
-		} else if ($roll >=18){
+		} else if ($roll >=11){
 			$x = 4;
-		} else if ($roll >=15){
-			$x = 3;
-		} else if ($roll >= 10){
-			$x = 2;
 		}
 		return $x;
 	}
 	function getCulture(){
-		$x = 0;
+		$x = 2;
 		$roll = mt_rand(1, 20);
-		if ($roll === 20){
+		if ($roll >= 17){
 			$x = mt_rand(5, 7);
-		} else if ($roll >=17){
+		} else if ($roll >=11){
 			$x = mt_rand(3, 4);
-		} else if ($roll >=13){
-			$x = 2;
 		}
 		return $x;
 	}
@@ -75,10 +69,20 @@ if ($_SESSION['player'] === 1){
 		$maxTiles = 83;
 		// set barbarians
 		for ($i = 0; $i < $maxTiles; $i++){
-			$barbarianUnits = mt_rand(0, 7) > 5 ? mt_rand(1,2) : 0;
-			$food = getFood();
-			$production = getProduction();
-			$culture = getCulture();
+			$barbarianUnits = mt_rand(0, 9) > 6 ? 2 : 0;
+			$food = 2;
+			$production = 1;
+			$culture = 0;
+			if ($barbarianUnits === 2){
+				$foo = mt_rand(0, 2);
+				if ($foo === 0){
+					$food = getFood();
+				} else if ($foo === 1){
+					$production = getProduction();
+				} else {
+					$culture = getCulture();
+				}
+			}
 			$query = "insert into fwTiles (`game`, `tile`, `units`, `food`, `production`, `culture`) 
 				VALUES (?, $i, $barbarianUnits, $food, $production, $culture)";
 			$stmt = $link->prepare($query);
@@ -102,11 +106,14 @@ if ($_SESSION['player'] === 1){
 			$stmt->execute();
 			
 			// set starting units
-			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=7, food=5, production=3, culture=8 where tile=$startTile and game=?";
+			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=8, food=5, production=3, culture=8 where tile=$startTile and game=?";
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('sissi', $players[$i]->account, $players[$i]->player, $players[$i]->nation, $players[$i]->flag, $_SESSION['gameId']);
 			$stmt->execute();
-			
+			// set my capital
+			if ($_SESSION['player'] === 1){
+				$_SESSION['capital'] = $startTile;
+			}
 		}
 		
 	} else {

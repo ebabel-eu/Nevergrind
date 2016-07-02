@@ -9,13 +9,13 @@
 	require('php/values.php');
 	
 	if(!isset($_SESSION['email']) || !strlen($_SESSION['email'])){
-		header("Location: /login.php?back=games/firmament-wars");
+		header("Location: /login.php?back=/games/firmament-wars");
 		exit();
 	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head id='head'>
 	<title>Firmament Wars | Grand Strategy Warfare</title>
 	<meta charset="utf-8">
 	<meta name="keywords" content="political, online, multiplayer, free, game, strategy">
@@ -200,11 +200,23 @@
 	</div>
 	
 	<div id="gameWrap">
-		<button type="button" class="btn btn-danger btn-responsive" id="quitGame">
-			<i class="fa fa-flag"></i> Surrender
-		</button>
 		
-		<div id="resources" class="container no-select shadow4">
+		<div id="diplomacy-ui" class="no-select shadow4 ui-window">
+			<img id='manpowerFlag' src='images/flags/Player0.jpg' class='player0 p0b w100 block center'>
+			<div class="no-padding manpower">
+				<i class="fa fa-angle-double-up"></i> Manpower <span id="manpower">0</span> 
+			</div>
+			
+			<div id="diplomacy-actions" class="text-center">
+				<button type="button" class="btn btn-primary btn-responsive btn-sm" id="quitGame">
+					<i class="fa fa-flag"></i> Surrender
+				</button>
+			</div>
+			
+			
+		</div>
+		
+		<div id="resources" class="container no-select shadow4 ui-window">
 			
 			<div class="row">
 				<div class="col-sm-12 no-padding food">
@@ -214,10 +226,10 @@
 			
 			<div class="row">
 				<div class="col-sm-12 no-padding">
-					<div>
-						<span id="food">0</span>/<span id="foodMax">150</span>
+					<div class="resourceIndicator">
+						<span id="food">0</span>/<span id="foodMax">25</span>
 					</div>
-					<div>
+					<div class="resourceIndicator">
 						+<span id="sumFood">0</span> per turn
 					</div>
 				</div>
@@ -231,10 +243,10 @@
 			
 			<div class="row">
 				<div class="col-sm-12 no-padding nowrap">
-					<div>
+					<div class="resourceIndicator">
 						<span id="production">0</span> 
 					</div>
-					<div>
+					<div class="resourceIndicator">
 						+<span id="sumProduction">0</span> per turn
 					</div>
 				</div>
@@ -248,22 +260,25 @@
 			
 			<div class="row">
 				<div class="col-sm-12 no-padding">
-					<div>
+					<div class="resourceIndicator">
 						<span id="culture">0</span>/<span id="cultureMax">400</span>
 					</div>
-					<div>
+					<div class="resourceIndicator">
 						+<span id="sumCulture">0</span> per turn
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div id="game-ui" class="row">
-			<div id="target" class="col-xs-4 text-center no-select">
-			</div>
-			<div id="actions" class="col-xs-8">
+		<div id="game-ui" class="container ui-window">
+			<div class="row">
+				<div id="target" class="col-xs-4 text-center no-select">
+				</div>
+				<div id="actions" class="col-xs-8">
+				</div>
 			</div>
 		</div>
+		
 		<div id="worldWrap">
 			<?php
 				$svg = file_get_contents("images/world_simple3.svg");
@@ -320,7 +335,8 @@
 			var _scriptLoader = [
 				'core',
 				'title',
-				'map'
+				'map',
+				'actions'
 			];
 		}else{
 			var _scriptLoader = [

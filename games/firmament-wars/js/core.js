@@ -1,3 +1,4 @@
+// core.js
 $.ajaxSetup({
     type: 'POST',
     url: 'php/master1.php'
@@ -29,6 +30,62 @@ var g = {
 		mapSizeX: 2000,
 		mapSizeY: 1150
 	}
+}
+var game = {
+	tiles: [],
+	countPlayers: function(){
+		// to determine how many players are in game every tile update
+		// use to trigger game end, etc
+	},
+	initialized: false,
+	player: [0,0,0,0,0,0,0,0,0], // cached values on client to reduce DB load
+	
+}
+var my = {
+	player: 1,
+	tgt: 1,
+	units: 0,
+	food: 0,
+	production: 0,
+	culture: 0,
+	manpower: 0,
+	flag: "",
+	attackOn: false,
+	hud: function(msg, d){
+		timer.hud.kill();
+		DOM.hud.style.visibility = 'visible';
+		DOM.hud.textContent = msg;
+		if (d){
+			timer.hud = TweenMax.to(DOM.hud, 5, {
+				onComplete: function(){
+					DOM.hud.style.visibility = 'hidden';
+				}
+			});
+		}
+	},
+	clearHud: function(){
+		timer.hud.kill();
+		DOM.hud.style.visibility = 'hidden';
+		$DOM.head.append('<style>.land{ cursor: pointer; }</style>');
+	}
+}
+var timer = {
+	hud: g.TDC()
+}
+
+var DOM = {
+	food: document.getElementById('food'),
+	production: document.getElementById('production'),
+	culture: document.getElementById('culture'),
+	hud: document.getElementById("hud"),
+	sumFood: document.getElementById("sumFood"),
+	foodMax: document.getElementById("foodMax"),
+	manpower: document.getElementById("manpower"),
+	sumProduction: document.getElementById("sumProduction"),
+	sumCulture: document.getElementById("sumCulture")
+}
+var $DOM = {
+	head: $("#head")
 }
 var color = [
 	"#00003a",
@@ -611,31 +668,34 @@ function refreshGames(){
 }
 
 function exitGame(){
-	g.lock(1);
-	$.ajax({
-		type: "GET",
-		url: 'php/exitGame.php'
-	}).done(function(data) {
-		location.reload();
-		/*
-		g.view = "title";
-		var tl = new TimelineMax();
-		tl.to("#joinGameLobby", .5, {
-			scale: 1.02,
-			autoAlpha: 0,
-			onComplete: function(){
-				g.unlock(1);
-				refreshGames();
-			}
-		}).to("#titleMain", .5, {
-			scale: 1,
-			autoAlpha: 1
+	var r = confirm("Are you sure you want to surrender?");
+	if (r){
+		g.lock(1);
+		$.ajax({
+			type: "GET",
+			url: 'php/exitGame.php'
+		}).done(function(data) {
+			location.reload();
+			/*
+			g.view = "title";
+			var tl = new TimelineMax();
+			tl.to("#joinGameLobby", .5, {
+				scale: 1.02,
+				autoAlpha: 0,
+				onComplete: function(){
+					g.unlock(1);
+					refreshGames();
+				}
+			}).to("#titleMain", .5, {
+				scale: 1,
+				autoAlpha: 1
+			});
+			*/
+		}).fail(function(e){
+			Msg(e.statusText);
+			g.unlock(1);
 		});
-		*/
-	}).fail(function(e){
-		Msg(e.statusText);
-		g.unlock(1);
-	});
+	}
 }
 
 
