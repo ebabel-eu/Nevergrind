@@ -1,6 +1,6 @@
 - START GAME
-- add manpower milestone rewards and gets
 - add animated target SVG dotted line
+- add chat mechanism that reports GETs to all
 - muster units -2 food +3 units?
 - Get rewards from barb tiles... 
 	Barb Rewards:
@@ -11,7 +11,13 @@
 	+4 to capital culture
 	+2 to capital food
 	+2 to capital production
+- smooth alpha transition, not scale on maps/lobby
 - Add production milestones????????? -> Capital bonuses?
+- More maps
+- FFA & H2H mode
+- leaderboard
+- achievements/ribbons
+- icon to indicate top player, #1, etc
 
 
 

@@ -27,6 +27,8 @@
 	}
 	$x->foodMax = $_SESSION['foodMax'];
 	$x->cultureMax = $_SESSION['cultureMax'];
+	$x->bonus = 0;
+	$x->get = -1;
 	
 	// milestones?
 	if ($x->food >= $_SESSION['foodMax']){
@@ -56,10 +58,7 @@
 			}
 			return $reward;
 		}
-		function getReward($bar){
-			
-			return 0;
-		}
+		require('getReward.php');
 		$x->food -= $_SESSION['foodMax'];
 		$_SESSION['manpower'] += getManpowerReward();
 		$_SESSION['foodMilestone']++;
@@ -74,8 +73,10 @@
 		while ($row = mysqli_fetch_array($query)){
 			$get = $row[0];
 		}
-		$x->get = $get;
-		$_SESSION['manpower'] += getReward($get);
+		$x->get = $get*1;
+		$bonus = getReward($get);
+		$x->bonus = $bonus;
+		$_SESSION['manpower'] += $bonus;
 		
 		if ($_SESSION['manpower'] > 999){
 			$_SESSION['manpower'] = 999;

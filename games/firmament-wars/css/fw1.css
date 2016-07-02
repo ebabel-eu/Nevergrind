@@ -212,7 +212,7 @@ a:hover{
 	text-overflow: ellipsis;
 	z-index: 9999;
 	color: #fff;
-	text-align: left;
+	text-align: center;
 }
 #diplomacy-actions{
 	margin-top: .5em;

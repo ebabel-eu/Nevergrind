@@ -203,7 +203,7 @@
 		
 		<div id="diplomacy-ui" class="no-select shadow4 ui-window">
 			<img id='manpowerFlag' src='images/flags/Player0.jpg' class='player0 p0b w100 block center'>
-			<div class="no-padding manpower">
+			<div id='manpowerWrap' class="no-padding manpower">
 				<i class="fa fa-angle-double-up"></i> Manpower <span id="manpower">0</span> 
 			</div>
 			

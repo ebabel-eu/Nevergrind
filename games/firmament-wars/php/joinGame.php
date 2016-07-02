@@ -37,9 +37,11 @@
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
 	$_SESSION['foodMax'] = 25;
+	$_SESSION['foodMilestone'] = 0;
 	$_SESSION['production'] = 0;
 	$_SESSION['culture'] = 0;
 	$_SESSION['cultureMax'] = 400;
+	$_SESSION['cultureMilestone'] = 0;
 	$_SESSION['manpower'] = 0;
 	
 	// determine player number

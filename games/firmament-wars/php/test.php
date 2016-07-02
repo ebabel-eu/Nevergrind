@@ -78,27 +78,10 @@
 		require_once('adjEarthAlpha.php');
     }
 	*/
-    $get = (string)1199;
-	$len = strlen($get);
-	$arr = str_split($get);
-	var_dump($arr);
-	
-	/*
-GET +MAN BONUSES: 
-+3 DUBS: 11, 22, 33, 44, 55 etc
-+4 NAZI DUBS: 88
-+7 TRIPS: 111, 222, 333, 444, etc
-+9 SATANIC TRIPS: 666
-+10 MAN SMOKE WEED EVERY DAY: 420
-+12 HOLY TRIPS: 777
-+15 JESUS CHRIST GET: 316
-+18 QUADS: 1111, 2222
-+21 HITLER GET: 1488
-+21 LEET GET: 1337
-+21 MURICA GET: 1776
-+25 GET: X0000
-	*/
-	
-	
-
+	$x = new stdClass();
+	$x->reward = 0;
+	function getReward(){
+	}
+	getReward();
+	echo "<br>". (microtime(true) - $start);
 ?>

@@ -667,9 +667,11 @@ function refreshGames(){
 	});
 }
 
-function exitGame(){
-	var r = confirm("Are you sure you want to surrender?");
-	if (r){
+function exitGame(bypass){
+	if (!bypass){
+		var r = confirm("Are you sure you want to surrender?");
+	}
+	if (r || bypass){
 		g.lock(1);
 		$.ajax({
 			type: "GET",

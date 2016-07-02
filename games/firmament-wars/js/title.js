@@ -123,8 +123,18 @@ function setResources(d){
 		},
 		ease: Linear.easeNone
 	});
-	my.manpower = d.manpower;
-	DOM.manpower.textContent = d.manpower;
+	if (my.manpower !== d.manpower){
+		if (d.manpower > my.manpower && game.initialized){
+			TweenMax.fromTo('#manpowerWrap', 2, {
+			  color: '#ffff00'
+			}, {
+			  color: '#77ddff',
+			  ease: Linear.easeNone
+			});
+		}
+		my.manpower = d.manpower;
+		DOM.manpower.textContent = d.manpower;
+	}
 	DOM.sumFood.textContent = d.sumFood;
 	DOM.foodMax.textContent = d.foodMax;
 	DOM.sumProduction.textContent = d.sumProduction;
@@ -284,15 +294,12 @@ function joinLobby(d){
 	}
 	g.view = "lobby";
 	TweenMax.to("#titleMain", d, {
-		scale: 1.02,
 		autoAlpha: 0,
 		onComplete: function(){
 			g.unlock(1);
 			TweenMax.fromTo('#joinGameLobby', .5, {
-				scale: 1.02,
 				autoAlpha: 0
 			}, {
-				scale: 1,
 				autoAlpha: 1
 			});
 		}
@@ -311,6 +318,7 @@ function joinLobby(d){
 				type: "GET",
 				url: "php/updateLobby.php"
 			}).done(function(x){
+				console.info(x.delay);
 				if (!lobby.gameWindowSet){
 					lobby.gameWindowSet = true;
 					document.getElementById("lobbyGameName").innerHTML = x.name;
@@ -335,14 +343,14 @@ function joinLobby(d){
 						}
 					}
 				}
-				if (!x.hostFound){
-					Msg("The host has left the game.");
-					setTimeout(function(){
-						exitGame();
-					}, 1000);
-					// TODO: remove game when done testing
-				} else if (x.gameStarted){
+				if (x.gameStarted){
 					joinStartedGame();
+				} else if (!x.hostFound){
+					Msg("The host has left the lobby.");
+					setTimeout(function(){
+						exitGame(true);
+					}, 500);
+					// TODO: remove game when done testing
 				} else if (g.view === "lobby"){
 					setTimeout(repeat, 1000, lobby);
 				}
@@ -370,11 +378,9 @@ function startGame(d){
 			g.view = "game";
 			var e = document.getElementById("gameWrap");
 			TweenMax.fromTo(e, 1, {
-				autoAlpha: 0,
-				scale: 1.02
+				autoAlpha: 0
 			}, {
-				autoAlpha: 1,
-				scale: 1
+				autoAlpha: 1
 			});
 			joinStartedGame();
 		}).fail(function(data){
@@ -494,11 +500,9 @@ function joinStartedGame(){
 		g.view = "game";
 		var e = document.getElementById("gameWrap");
 		TweenMax.fromTo(e, 1, {
-			autoAlpha: 0,
-			scale: 1.02
+			autoAlpha: 0
 		}, {
-			autoAlpha: 1,
-			scale: 1
+			autoAlpha: 1
 		});
 		getGameState();
 	}).fail(function(data){
@@ -582,6 +586,7 @@ function getGameState(){
 				url: "php/updateResources.php"
 			}).done(function(data){
 				console.info('resource: ', data);
+				console.info('get: ', data.get);
 				setResources(data);
 			}).fail(function(data){
 				serverError();

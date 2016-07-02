@@ -106,7 +106,7 @@ if ($_SESSION['player'] === 1){
 			$stmt->execute();
 			
 			// set starting units
-			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=8, food=5, production=3, culture=8 where tile=$startTile and game=?";
+			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=12, food=5, production=3, culture=8 where tile=$startTile and game=?";
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('sissi', $players[$i]->account, $players[$i]->player, $players[$i]->nation, $players[$i]->flag, $_SESSION['gameId']);
 			$stmt->execute();
