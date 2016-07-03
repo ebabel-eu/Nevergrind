@@ -28,7 +28,6 @@
 	$x->foodMax = $_SESSION['foodMax'];
 	$x->cultureMax = $_SESSION['cultureMax'];
 	$x->bonus = 0;
-	$x->get = -1;
 	
 	// milestones?
 	if ($x->food >= $_SESSION['foodMax']){
@@ -69,18 +68,29 @@
 		$stmt->bind_param('s', $_SESSION['account']);
 		$stmt->execute();
 		
-		$query = mysqli_query($link, "select row from fwGets order by row desc limit 1");
+		$query = mysqli_query($link, 'select row from fwGets order by row desc limit 1');
 		while ($row = mysqli_fetch_array($query)){
 			$get = $row[0];
 		}
 		$x->get = $get*1;
 		$bonus = getReward($get);
-		$x->bonus = $bonus;
+		$x->getBonus = $bonus;
 		$_SESSION['manpower'] += $bonus;
-		
 		if ($_SESSION['manpower'] > 999){
 			$_SESSION['manpower'] = 999;
 		}
+		// write GET to chat
+		if ($bonus > 0){
+			$msg = $get . '! ' . $_SESSION['nation'] . ' receives ' . $bonus . ' bonus troops!';
+			$msgType = "chat-get";
+			$query = 'insert into fwchat (`message`, `gameId`, `msgType`) values (?, ?, ?);';
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('sis', $msg, $_SESSION['gameId'], $msgType);
+			$stmt->execute();
+			
+			mysqli_query($link, 'delete from fwchat where timestamp < date_sub(now(), interval 30 second)');
+		}
+		
 	}
 	
 	$_SESSION['food'] = $x->food;

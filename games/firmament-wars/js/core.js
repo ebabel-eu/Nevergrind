@@ -11,6 +11,7 @@ var g = {
 	view: "title",
 	resizeX: 1,
 	resizeY: 1,
+	delay: 2500,
 	overlay: document.getElementById("overlay"),
 	lock: function(clear){
 		g.overlay.style.display = "block";
@@ -82,7 +83,8 @@ var DOM = {
 	foodMax: document.getElementById("foodMax"),
 	manpower: document.getElementById("manpower"),
 	sumProduction: document.getElementById("sumProduction"),
-	sumCulture: document.getElementById("sumCulture")
+	sumCulture: document.getElementById("sumCulture"),
+	chatContent: document.getElementById("chat-content")
 }
 var $DOM = {
 	head: $("#head")
@@ -186,44 +188,25 @@ function resizeWindow() {
 }
 
 
-function Chat(entry, fg) {
-	var e = document.getElementById("chat");
-	if (e.childNodes.length > 100) {
-		e.removeChild(e.firstChild);
-	}
-    var color;
-    if (fg !== undefined) {
-		if (fg === 0) {
-            color = "white";
-        } else if (fg === 1) {
-            color = "red";
-        } else if (fg === 2) {
-            color = "yellow";
-        } else if (fg === 3) {
-            color = "blue1";
-        } else if (fg === 4) {
-            color = "blue2";
-        } else if (fg === 5) {
-            color = "darkgreen";
-        } else if (fg === 6) {
-            color = "green3";
-        }  else if (fg === 7) {
-            color = "purple";
-        } else if (fg === 8){
-			color = "yellow2";
-		} else {
-            color = "grey";
-        }
-    }
+function chat(msg, type) {
     var z = document.createElement('div');
-    if (color!==undefined) {
-        z.className = color;
+    if (type) {
+        z.className = type;
     }
-    z.innerHTML = entry;
-    e.appendChild(z);
-	if(!chatDragStatus){
-		NG.combatLog.scrollTop = NG.combatLog.scrollHeight;
-	}
+    z.innerHTML = msg;
+    DOM.chatContent.appendChild(z);
+	TweenMax.delayedCall(15, function(){
+		TweenMax.to(z, .5, {
+			alpha: 0,
+			color: '#ffffff',
+			skewX: -90,
+			textShadow: '2px 2px 0 #ffffff',
+			onComplete: function(){
+					z.parentNode.removeChild(z);
+			},
+			ease: Linear.easeNone
+		});
+	});
 }
 
 // sound functions

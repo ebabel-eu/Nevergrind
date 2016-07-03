@@ -1,4 +1,7 @@
 - START GAME
+- send chat
+- add flags to chat messages
+- battle reports to chat
 - add animated target SVG dotted line
 - add chat mechanism that reports GETs to all
 - muster units -2 food +3 units?
@@ -53,6 +56,7 @@ $_SESSION['culture'] / $_SESSION['cultureMax']
 $_SESSION['cultureMilestone']
 $_SESSION['manpower']
 $_SESSION['capital']
+$_SESSION['chatId']
 
 NATION:
 $_SESSION['nation']

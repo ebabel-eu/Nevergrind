@@ -203,12 +203,12 @@
 		
 		<div id="diplomacy-ui" class="no-select shadow4 ui-window">
 			<img id='manpowerFlag' src='images/flags/Player0.jpg' class='player0 p0b w100 block center'>
-			<div id='manpowerWrap' class="no-padding manpower">
-				<i class="fa fa-angle-double-up"></i> Manpower <span id="manpower">0</span> 
+			<div id='manpowerWrap' class="no-padding">
+				<span class="manpower"><i class="fa fa-angle-double-up"></i> Troops</span> <span id="manpower">0</span>
 			</div>
 			
 			<div id="diplomacy-actions" class="text-center">
-				<button type="button" class="btn btn-primary btn-responsive btn-sm" id="quitGame">
+				<button type="button" class="btn btn-primary btn-responsive btn-sm shadow4" id="quitGame">
 					<i class="fa fa-flag"></i> Surrender
 				</button>
 			</div>
@@ -269,6 +269,14 @@
 				</div>
 			</div>
 		</div>
+		
+		<table id="chat-ui" class="fw-text noselect">
+			<tr>
+				<td id="chat-content">
+				</td>
+			</tr>
+		</table>
+		<input id="chat-input" class="fw-text noselect"/>
 		
 		<div id="game-ui" class="container ui-window">
 			<div class="row">

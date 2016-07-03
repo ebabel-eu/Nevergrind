@@ -125,15 +125,22 @@ function setResources(d){
 	});
 	if (my.manpower !== d.manpower){
 		if (d.manpower > my.manpower && game.initialized){
-			TweenMax.fromTo('#manpowerWrap', 2, {
+			TweenMax.fromTo('#manpower', 2, {
 			  color: '#ffff00'
 			}, {
-			  color: '#77ddff',
-			  ease: Linear.easeNone
+			  color: '#fff',
+			  ease: Quad.easeIn
 			});
+			TweenMax.to(my, .5, {
+				manpower: d.manpower,
+				onUpdate: function(){
+					DOM.manpower.textContent = ~~my.manpower;
+				}
+			});
+		} else {
+			DOM.manpower.textContent = d.manpower;
+			my.manpower = d.manpower;
 		}
-		my.manpower = d.manpower;
-		DOM.manpower.textContent = d.manpower;
 	}
 	DOM.sumFood.textContent = d.sumFood;
 	DOM.foodMax.textContent = d.foodMax;
@@ -237,8 +244,7 @@ function showTarget(e, hover){
 		var t = game.tiles[tileId];
 		var flag = "",
 			nation = "",
-			account = "",
-			unitWord = t.units === 1 ? "Army" : "Armies";
+			account = "";
 		if (t.player === 0){
 			flag = "Player0.jpg";
 			if (t.units > 0){
@@ -263,12 +269,11 @@ function showTarget(e, hover){
 		var str = '<div id="tileInfo" class="no-select text-center">'+
 					'<div id="tile-ui">' + t.name + '</div>' +
 					'<div>' +
-						'<i class="food fa fa-user-plus"></i> ' + t.food + 
-						' <i class="production fa fa-gavel"></i> ' + t.production + 
-						' <i class="culture fa fa-flag"></i> ' + t.culture + 
+						'<i class="manpower fa fa-angle-double-up"></i> <span id="tileArmies">' + t.units + '</span>' +
+						'&emsp;<i class="food fa fa-user-plus"></i> ' + t.food + 
+						'&emsp;<i class="production fa fa-gavel"></i> ' + t.production + 
+						'&emsp;<i class="culture fa fa-flag"></i> ' + t.culture + 
 					'</div>' +
-					// tile's resource values below tile name
-					'<div>' + t.units + ' ' + unitWord + '</div>' +
 				'</div>' +
 				'<div id="tileActions" class="shadow4">';
 					// action buttons
@@ -464,7 +469,8 @@ function joinStartedGame(){
 				showTarget(this, true);
 			} else {
 				TweenMax.set(this, {
-					fill: "#ff0000"
+					// fill: "#ff0000"
+					fill: "hsl(+=0%, +=30%, +=15%)"
 				});
 			}
 		}).on("mouseleave", function(){
@@ -534,11 +540,13 @@ function getGameState(){
 	}
 	(function repeat(){
 		var lag = Date.now();
+		var repeatDelay = 2500;
 		$.ajax({
 			type: "GET",
 			url: "php/getGameState.php"
 		}).done(function(data){
 			console.info('lag: ' + (Date.now() - lag), data);
+			repeatDelay = data.timeout;
 			var tiles = data.tiles;
 			// get tile data
 			for (var i=0, len=data.tiles.length; i<len; i++){
@@ -572,10 +580,16 @@ function getGameState(){
 					showTarget(document.getElementById('land' + i));
 				}
 			}
+			var len = data.chat.length;
+			if (len > 0){
+				for (var i=0; i<len; i++){
+					chat(data.chat[i].message, data.chat[i].msgType);
+				}
+			}
 		}).fail(function(data){
 			serverError();
-		}).always(function(){
-			setTimeout(repeat, 1000);
+		}).always(function(data){
+			setTimeout(repeat, repeatDelay);
 		});
 	})();
 	

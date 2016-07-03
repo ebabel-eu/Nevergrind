@@ -38,6 +38,7 @@ var action = {
 			DOM.manpower.textContent = my.manpower;
 			game.tiles[my.tgt].units++;
 			setTileUnits(my.tgt, '#00ff00');
+			showTarget(document.getElementById('land' + my.tgt));
 			$.ajax({
 				url: 'php/deploy.php',
 				data: {
