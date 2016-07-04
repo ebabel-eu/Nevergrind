@@ -1,25 +1,28 @@
 - START GAME
-- send chat
-- add flags to chat messages
-- battle reports to chat
+- add deploy all
+- show all flags and account names in diplomacy window on init
 - add animated target SVG dotted line
-- add chat mechanism that reports GETs to all
 - muster units -2 food +3 units?
+- resolve when game is finished:
+	add win/loss/rating adjustments & achievements????
+	display game stats etc
 - Get rewards from barb tiles... 
 	Barb Rewards:
-	+30/40/50 production
-	+30/40/50 food
+	+15/20/25 production
+	+15/20/25 food
 	+3 units to capital
 	+2 manpower join us
 	+4 to capital culture
 	+2 to capital food
 	+2 to capital production
-- smooth alpha transition, not scale on maps/lobby
+	
+// 1.0 stuff
 - Add production milestones????????? -> Capital bonuses?
 - More maps
 - FFA & H2H mode
 - leaderboard
 - achievements/ribbons
+- lobby chat
 - icon to indicate top player, #1, etc
 
 

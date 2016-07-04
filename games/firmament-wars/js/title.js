@@ -142,10 +142,16 @@ function setResources(d){
 			my.manpower = d.manpower;
 		}
 	}
-	DOM.sumFood.textContent = d.sumFood;
 	DOM.foodMax.textContent = d.foodMax;
-	DOM.sumProduction.textContent = d.sumProduction;
-	DOM.sumCulture.textContent = d.sumCulture;
+	if (d.sumFood){
+		DOM.sumFood.textContent = d.sumFood;
+		DOM.sumProduction.textContent = d.sumProduction;
+		DOM.sumCulture.textContent = d.sumCulture;
+	} else {
+		DOM.sumFood.textContent = 0;
+		DOM.sumProduction.textContent = 0;
+		DOM.sumCulture.textContent = 0;
+	}
 }
 
 (function(){
@@ -236,6 +242,7 @@ function Nation(){
 function showTarget(e, hover){
 	if (typeof e === 'object'){
 		var tileId = e.id.slice(4)*1;
+		console.info(tileId);
 		// console.info('tileId: ', tileId);
 		var d = game.tiles[tileId];
 		if (!hover){
@@ -429,7 +436,7 @@ function joinStartedGame(){
 		for (var i=0, len=data.tiles.length; i<len; i++){
 			var d = data.tiles[i];
 			game.tiles[i] = {
-				name: document.getElementById('land' + i).getAttribute("data-name"),
+				name: d.tileName,
 				account: d.account,
 				player: d.player,
 				nation: d.nation,
@@ -456,7 +463,6 @@ function joinStartedGame(){
 				focusTile = i;
 			}
 		}
-		console.info('tiles: ', game.tiles);
 		// SVG mouse events
 		$(".land").on("click", function(){
 			if (my.attackOn){
@@ -583,10 +589,11 @@ function getGameState(){
 			var len = data.chat.length;
 			if (len > 0){
 				for (var i=0; i<len; i++){
-					chat(data.chat[i].message, data.chat[i].msgType);
+					chat(data.chat[i].message);
 				}
 			}
 		}).fail(function(data){
+			console.info(data.responseText);
 			serverError();
 		}).always(function(data){
 			setTimeout(repeat, repeatDelay);

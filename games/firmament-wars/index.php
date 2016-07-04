@@ -204,7 +204,7 @@
 		<div id="diplomacy-ui" class="no-select shadow4 ui-window">
 			<img id='manpowerFlag' src='images/flags/Player0.jpg' class='player0 p0b w100 block center'>
 			<div id='manpowerWrap' class="no-padding">
-				<span class="manpower"><i class="fa fa-angle-double-up"></i> Troops</span> <span id="manpower">0</span>
+				<span class="manpower"><i class="fa fa-angle-double-up"></i> Soldiers</span> <span id="manpower">0</span>
 			</div>
 			
 			<div id="diplomacy-actions" class="text-center">
@@ -230,7 +230,7 @@
 						<span id="food">0</span>/<span id="foodMax">25</span>
 					</div>
 					<div class="resourceIndicator">
-						+<span id="sumFood">0</span> per turn
+						+<span id="sumFood">0</span> per tick
 					</div>
 				</div>
 			</div>
@@ -247,7 +247,7 @@
 						<span id="production">0</span> 
 					</div>
 					<div class="resourceIndicator">
-						+<span id="sumProduction">0</span> per turn
+						+<span id="sumProduction">0</span> per tick
 					</div>
 				</div>
 			</div>
@@ -264,7 +264,7 @@
 						<span id="culture">0</span>/<span id="cultureMax">400</span>
 					</div>
 					<div class="resourceIndicator">
-						+<span id="sumCulture">0</span> per turn
+						+<span id="sumCulture">0</span> per tick
 					</div>
 				</div>
 			</div>
@@ -276,7 +276,7 @@
 				</td>
 			</tr>
 		</table>
-		<input id="chat-input" class="fw-text noselect"/>
+		<input id="chat-input" class="fw-text noselect nobg" type='text' maxlength="240" autocomplete="off"/>
 		
 		<div id="game-ui" class="container ui-window">
 			<div class="row">
@@ -292,24 +292,6 @@
 				$svg = file_get_contents("images/world_simple3.svg");
 				echo $svg;
 			?>
-	</div>
-
-	<div id="battle">
-		<div class="row">
-			<div class="col-xs-6">
-				<img class="flag w66 block center" src="images/flags/confederate flag.jpg">
-			</div>
-			<div class="col-xs-6">
-				<img class="flag w66 block center" src="images/flags/ussr.jpg">
-			</div>
-		</div>
-	</div>
-
-	<div id="chatId">
-		<div id="chatLogWrap">
-			<div id="chatLog" class='chatLogs'></div>
-			<input type='text' id="chatInput" maxlength="240" autocomplete="off"></input>
-		</div>
 	</div>
 
 	<audio id="bgmusic" autoplay preload="auto"></audio>

@@ -67,6 +67,7 @@ if ($_SESSION['player'] === 1){
 	$maxTiles = 1;
 	if ($map === "Earth Alpha"){
 		$maxTiles = 83;
+		$tileName = array('Chicago','Pakistan','Namibia','Congo','Greece','Oman','Punta Arenas','Buenos Aires','Turkey','Sydney','Perth','Gibson Desert','Queensland','Germany','Persia','Kenya','France','Italy','Mali','Sri Lanka','India','Ontario','Estonia','Panama','Bolivia','Brazil','Rio de Janeiro','Guyana','Kyrgyzstan','Zimbabwe','South Africa','Sudan','Quebec','Alberta','Nunavut','British Colombia','Shanghai','Tibet','Beijing','Colombia','Cuba','Poland','Ethiopia','Algeria','Peru','Egypt','Scandinavia','United Kingdom','Greenland','Yemen','Babylon','Iceland','Japan','Kazakhstan','Thailand','Libya','Morocco','Ukraine','Madagascar','Mexico','Mongolia','Nigeria','Svalbard','New Zealand','Philippines','Indonesia','Alaska','Papua New Guinea','Spain','Saudi Arabia','Norilsk','Tomsk','St. Petersburg','Moscow','Ural','Yakutsk','Kamchatka','Irkutsk','Syberia','California','New York','Florida','Texas');
 		// set barbarians
 		for ($i = 0; $i < $maxTiles; $i++){
 			$barbarianUnits = mt_rand(0, 9) > 6 ? 2 : 0;
@@ -83,10 +84,10 @@ if ($_SESSION['player'] === 1){
 					$culture = getCulture();
 				}
 			}
-			$query = "insert into fwTiles (`game`, `tile`, `units`, `food`, `production`, `culture`) 
-				VALUES (?, $i, $barbarianUnits, $food, $production, $culture)";
+			$query = "insert into fwTiles (`game`, `tile`, `tileName`, `units`, `food`, `production`, `culture`) 
+				VALUES (?, $i, ?, $barbarianUnits, $food, $production, $culture)";
 			$stmt = $link->prepare($query);
-			$stmt->bind_param('i', $_SESSION['gameId']);
+			$stmt->bind_param('is', $_SESSION['gameId'], $tileName[$i]);
 			$stmt->execute();
 		}
 		

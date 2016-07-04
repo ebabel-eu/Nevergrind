@@ -10,6 +10,11 @@
 		header("Location: /login.php?back=/store");
 		exit();
 	}
+	if(php_uname('n')=="JOE-PC"){
+		$_SESSION['STRIPE_TEST'] = 'sk_test_NdwqRX25HqcjJA1zM6YFW3VM';
+	}else{
+		$_SESSION['STRIPE_LIVE'] = 'sk_live_TeWhVic0lsvuZ0knFBFlTEy6';
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,9 +152,9 @@
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	<script>
 		if(location.host==="localhost"){
-			Stripe.setPublishableKey('pk_test_I7D5QZ64HRxIkWvYIVLhomLs');
+			Stripe.setPublishableKey('pk_test_GtNfTRB1vYUiMv1GY2kSSRRh');
 		}else{
-			Stripe.setPublishableKey('pk_live_1EVTTTw84wpPdLgWSIfB8d5E');
+			Stripe.setPublishableKey('pk_live_rPSfoOYjUrmJyQYLnYJw71Zm');
 		}
 	</script>
 	<script>
@@ -157,6 +162,7 @@
 			type: 'POST',
 			url: '/php/master1.php'
 		});
+		
 		var g = {
 			lockScreen: function(){
 				$("#screenLock").css('display', 'block');
@@ -165,7 +171,7 @@
 				$("#screenLock").css('display', 'none');
 			}
 		}
-		location.host==="localhost" ? Stripe.setPublishableKey('pk_test_I7D5QZ64HRxIkWvYIVLhomLs') : Stripe.setPublishableKey('pk_live_1EVTTTw84wpPdLgWSIfB8d5E');
+		
 		// init
 		$("#last-credit-card").css({
 			background: '#777',
@@ -397,8 +403,8 @@
 								});
 							}
 							g.unlockScreen();
-						}).fail(function() {
-							QMsg("Failed to communicate with the server!");
+						}).fail(function(data) {
+							QMsg("Error: " + data.responseText);
 						});
 					}
 				}

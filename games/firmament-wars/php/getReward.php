@@ -120,7 +120,9 @@
 		}
 		// start checking
 		$get = (string)$bar;
-		$reward = 0;
+		$reward = new stdClass();
+		$reward->units = 0;
+		$reward->msg = '';
 		$len = strlen($get);
 		$arr = str_split($get);
 		// init values
@@ -157,57 +159,74 @@
 		// check rewards
 		if ($eight > -1){
 			if (checkOcts($eight, $seven, $six, $five, $four, $three, $two, $one)){
-				$reward = 50;
+				$reward->units = 50;
+				$reward->msg = 'Almighty octs';
 			}
 		}
-		if ($seven > -1 && $reward === 0){
+		if ($seven > -1 && $reward->units === 0){
 			if (checkSects($seven, $six, $five, $four, $three, $two, $one)){
-				$reward = 42;
+				$reward->units = 42;
+				$reward->msg = 'Righteous sects';
 			}
 		} 
-		if ($six > -1 && $reward === 0){
+		if ($six > -1 && $reward->units === 0){
 			if (checkHex($six, $five, $four, $three, $two, $one)){
-				$reward = 33;
+				$reward->units = 33;
+				$reward->msg = 'Accursed hex';
 			}
 		} 
-		if ($five > -1 && $reward === 0){
+		if ($five > -1 && $reward->units === 0){
 			if (checkBoobs($five, $four, $three, $two, $one)){
-				$reward = 30;
+				$reward->units = 30;
+				$reward->msg = 'Kek boobs';
 			} else if (checkPents($five, $four, $three, $two, $one)){
-				$reward = 25;
+				$reward->units = 25;
+				$reward->msg = 'Glorious pents';
 			}
 		} 
-		if ($four > -1 && $reward === 0){
+		if ($four > -1 && $reward->units === 0){
 			if (checkAmericaQuads($four, $three, $two, $one)){
-				$reward = 21;
+				$reward->units = 21;
+				$reward->msg = 'Liberty quads';
 			} else if (checkLeetQuads($four, $three, $two, $one)){
-				$reward = 21;
+				$reward->units = 21;
+				$reward->msg = 'Leet quads';
 			} else if (checkHitlerQuads($four, $three, $two, $one)){
-				$reward = 21;
+				$reward->units = 21;
+				$reward->msg = 'Nazi quads';
 			} else if (checkQuads($four, $three, $two, $one)){
-				$reward = 18;
+				$reward->units = 18;
+				$reward->msg = 'Sweet quads';
 			}
 		} 
-		if ($three > -1 && $reward === 0){
+		if ($three > -1 && $reward->units === 0){
 			if (checkEternalSalvationTrips($three, $two, $one)){
-				$reward = 15;
+				$reward->units = 15;
+				$reward->msg = 'Jesus trips';
 			} else if (checkHolyTrips($three, $two, $one)){
-				$reward = 12;
+				$reward->units = 12;
+				$reward->msg = 'Holy trips';
 			} else if (checkDankTrips($three, $two, $one)){
-				$reward = 10;
+				$reward->units = 11;
+				$reward->msg = 'Dank ass trips';
 			} else if (checkSatanicTrips($three, $two, $one)){
-				$reward = 9;
+				$reward->units = 10;
+				$reward->msg = 'Satanic trips';
 			} else if(checkTrips($three, $two, $one)){
-				$reward = 7;
+				$reward->units = 9;
+				$reward->msg = 'Cool trips';
 			}
 		}
-		if ($two > -1 && $reward === 0){
+		if ($two > -1 && $reward->units === 0){
 			if (check69($two, $one)){
-				$reward = 3;
+				$reward->units = 4;
+				$reward->msg = 'Sexy dubs';
 			} else if (checkHitlerDubs($two, $one)){
-				$reward = 3;
+				$reward->units = 4;
+				$reward->msg = 'Hitler dubs';
 			} else if (checkDubs($two, $one)){
-				$reward = 2;
+				$reward->units = 3;
+				$reward->msg = 'Nice dubs';
 			}
 		}
 		return $reward;

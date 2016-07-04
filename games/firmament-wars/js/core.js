@@ -11,7 +11,7 @@ var g = {
 	view: "title",
 	resizeX: 1,
 	resizeY: 1,
-	delay: 2500,
+	chatOn: false,
 	overlay: document.getElementById("overlay"),
 	lock: function(clear){
 		g.overlay.style.display = "block";
@@ -84,10 +84,12 @@ var DOM = {
 	manpower: document.getElementById("manpower"),
 	sumProduction: document.getElementById("sumProduction"),
 	sumCulture: document.getElementById("sumCulture"),
-	chatContent: document.getElementById("chat-content")
+	chatContent: document.getElementById("chat-content"),
+	chatInput: document.getElementById("chat-input")
 }
 var $DOM = {
-	head: $("#head")
+	head: $("#head"),
+	chatInput: $("#chat-input")
 }
 var color = [
 	"#00003a",
@@ -188,19 +190,13 @@ function resizeWindow() {
 }
 
 
-function chat(msg, type) {
+function chat(msg) {
     var z = document.createElement('div');
-    if (type) {
-        z.className = type;
-    }
     z.innerHTML = msg;
     DOM.chatContent.appendChild(z);
-	TweenMax.delayedCall(15, function(){
+	TweenMax.delayedCall(10, function(){
 		TweenMax.to(z, .5, {
 			alpha: 0,
-			color: '#ffffff',
-			skewX: -90,
-			textShadow: '2px 2px 0 #ffffff',
 			onComplete: function(){
 					z.parentNode.removeChild(z);
 			},
@@ -684,16 +680,7 @@ function exitGame(bypass){
 }
 
 
-$(window).on('keydown', function(e) {
-	var key = e.keyCode;
-	if (key === 13){
-		if (g.focusUpdateNationName){
-			$("#submitNationName").trigger("click");
-		} else if (g.focusGameName){
-			$("#createGame").trigger("click");
-		}
-	}
-}).on('resize orientationchange', function() {
+$(window).on('resize orientationchange', function() {
 	resizeWindow();
 }).on('load', function(){
 	resizeWindow();

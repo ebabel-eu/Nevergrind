@@ -59,7 +59,8 @@
 		}
 		require('getReward.php');
 		$x->food -= $_SESSION['foodMax'];
-		$_SESSION['manpower'] += getManpowerReward();
+		$manpowerBonus = getManpowerReward();
+		$_SESSION['manpower'] += $manpowerBonus;
 		$_SESSION['foodMilestone']++;
 		$_SESSION['foodMax'] = $_SESSION['foodMax'] + 25;
 		// GET?!
@@ -74,22 +75,26 @@
 		}
 		$x->get = $get*1;
 		$bonus = getReward($get);
-		$x->getBonus = $bonus;
-		$_SESSION['manpower'] += $bonus;
+		$x->getBonus = $bonus->units;
+		$_SESSION['manpower'] += $bonus->units;
 		if ($_SESSION['manpower'] > 999){
 			$_SESSION['manpower'] = 999;
 		}
 		// write GET to chat
-		if ($bonus > 0){
-			$msg = $get . '! ' . $_SESSION['nation'] . ' receives ' . $bonus . ' bonus troops!';
-			$msgType = "chat-get";
-			$query = 'insert into fwchat (`message`, `gameId`, `msgType`) values (?, ?, ?);';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('sis', $msg, $_SESSION['gameId'], $msgType);
-			$stmt->execute();
+		$flag = $_SESSION['flag'] === 'Default.jpg' ? 
+			'<img src="images/flags/Player'.$_SESSION['player'].'" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">' :
+			'<img src="images/flags/'.$_SESSION['flag'].'" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">';
 			
-			mysqli_query($link, 'delete from fwchat where timestamp < date_sub(now(), interval 30 second)');
+		if ($bonus->units){
+			$msg = $flag.'<span class="chat-get">' . $get . ' '.$bonus->msg.'! ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' (+' . $bonus->units . ' bonus) soldiers!</span>';
+		} else {
+			$msg = $flag.$get . ': ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' soldiers!';
 		}
+		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+		$stmt->bind_param('si', $msg, $_SESSION['gameId']);
+		$stmt->execute();
+		
+		mysqli_query($link, 'delete from fwchat where timestamp < date_sub(now(), interval 20 second)');
 		
 	}
 	

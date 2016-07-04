@@ -59,18 +59,70 @@ $("#actions").on("mousedown", '#attack', function(){
 	action.deploy();
 });
 // key bindings
+function toggleChatMode(send){
+		g.chatOn = g.chatOn ? false : true;
+		console.info('CHAT', g.chatOn);
+		if (g.chatOn){
+			$DOM.chatInput.focus();
+			DOM.chatInput.className = 'fw-text noselect nobg chatOn';
+		} else {
+			var message = $DOM.chatInput.val();
+			if (send && message){
+				// send ajax chat msg
+				$.ajax({
+					url: 'php/insertChat.php',
+					data: {
+						message: message
+					}
+				}).done(function(data) {
+					console.info("data: ", data);
+				}).fail(function(e){
+					console.info("fail! ", e);
+				});
+			}
+			$DOM.chatInput.val('').blur();
+			DOM.chatInput.className = 'fw-text noselect nobg';
+		}
+		
+}
 $(document).on('keyup', function(e) {
 	var x = e.keyCode;
 	console.info(x);
-	if (g.view === 'game'){
-		if (x === 65){
-			// attack
-			action.attack();
-		} else if (x === 27){
-			my.attackOn = false;
-			my.clearHud();
-		} else if (x === 68){
-			action.deploy();
+	if (g.view === 'title'){
+		if (x === 13){
+			if (g.focusUpdateNationName){
+				$("#submitNationName").trigger("click");
+			} else if (g.focusGameName){
+				$("#createGame").trigger("click");
+			}
+		}
+	} else if (g.view === 'game'){
+		if (g.chatOn){
+			if (x === 13){
+				// enter - sends chat
+				toggleChatMode(true);
+			} else if (x === 27){
+				// esc
+				toggleChatMode(true);
+			}
+		} else {
+			if (x === 65){
+				// a
+				action.attack();
+			} else if (x === 27){
+				// esc
+				my.attackOn = false;
+				my.clearHud();
+				if (g.chatOn){
+					toggleChatMode();
+				}
+			} else if (x === 68){
+				// d
+				action.deploy();
+			} else if (x === 13){
+				// enter
+				toggleChatMode();
+			}
 		}
 	}
 });

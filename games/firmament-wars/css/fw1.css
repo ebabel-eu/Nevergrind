@@ -209,7 +209,6 @@ a:hover{
 	font-size: 1em;
 	vertical-align: bottom;
 	pointer-events: none;
-	
 }
 #game-ui{
 	position: absolute;
@@ -228,15 +227,23 @@ a:hover{
 }
 #chat-input{
 	position: absolute;
-	bottom: 30.5%;
+	bottom: 31%;
 	left: .5%;
 	width: 40%;
-	padding: 1%;
+	padding: .5% 1%;
 	z-index: 9999;
 	font-size: 1em;
-	background: none;
-	border: none;
 	font-family: Consolas, monospace;
+	border-radius: 4px;
+	pointer-events: none;
+}
+.nobg{
+	border: none;
+	background: none;
+}
+.chatOn{
+	background: rgba(0,0,0,.3);
+	border: 1px solid rgba(192,240,255,.2);
 }
 #diplomacy-ui{
 	font-size: 1em;
@@ -692,6 +699,12 @@ table {
 }
 .p8b{
 	border: 2px groove #80f;
+}
+.inlineFlag{
+	display: inline-block;
+	margin-right: 5px;
+	width: 5%;
+	border-width: 1px;
 }
 #startGame{
 	display: none;

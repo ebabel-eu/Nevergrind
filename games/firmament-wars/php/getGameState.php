@@ -10,8 +10,7 @@
 	}
 	
 	// get game tiles
-	$query = 'select tile, player, units, food, production, culture from `fwTiles` where game=?';
-	$stmt = $link->prepare($query);
+	$stmt = $link->prepare('select tile, player, units, food, production, culture from `fwTiles` where game=?');
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
 	$stmt->store_result();
@@ -31,18 +30,16 @@
 		);
 	}
 	// get chat/get $_SESSION['chatId'] = 0;
-	$query = 'select row, message, msgType from fwchat where row > ? and gameId=? order by row';
-	$stmt = $link->prepare($query);
+	$stmt = $link->prepare('select row, message from fwchat where row > ? and gameId=? order by row');
 	$stmt->bind_param('ii', $_SESSION['chatId'], $_SESSION['gameId']);
 	$stmt->execute();
-	$stmt->bind_result($row, $message, $msgType);
+	$stmt->bind_result($row, $message);
 	$x->chat = array();
 	$i = 0;
 	while($stmt->fetch()){
 		$o = new stdClass();
 		$_SESSION['chatId'] = $row;
 		$o->message = $message;
-		$o->msgType = $msgType;
 		$x->chat[$i++] = $o;
 	}
 	$x->chatId = $_SESSION['chatId'];

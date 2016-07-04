@@ -734,7 +734,7 @@
 		global $link;
 		$amount = $_POST['amount']*1;
 		$oldcard = $_POST['oldcard'];
-		require('/php/lib/Stripe.php');
+		require($_SERVER['DOCUMENT_ROOT'] . '/php/lib/Stripe.php');
 		if(php_uname('n')=="JOE-PC"){
 			$stripeKey = $_SESSION['STRIPE_TEST'];
 		}else{
@@ -767,7 +767,7 @@
 				}
 			}
 		}else{
-			echo 'The order cannot be processed. You have not been charged.';
+			header('HTTP/1.1 500 The order cannot be processed. You have not been charged.');
 			exit;
 		}
 		//record last four if rememberMe
@@ -853,6 +853,7 @@
 			$mail->Subject = 'Server Error';
 			$mail->Body = $errorMessage;
 			$mail->send();
+			header('HTTP/1.1 500 ' . $errorMessage);
 		}
 	}
 	function forgotPassword(){

@@ -1080,3 +1080,129 @@ Stack trace:
 [16-Jun-2016 06:25:56 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
 [16-Jun-2016 06:25:56 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
 [16-Jun-2016 07:23:51 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
+[21-Jun-2016 12:54:23 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
+[24-Jun-2016 04:06:16 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
+[25-Jun-2016 22:10:25 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[25-Jun-2016 22:15:14 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[26-Jun-2016 03:04:42 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
+[27-Jun-2016 00:21:10 America/Denver] PHP Warning:  mysqli_connect(): (HY000/2002): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/nevergrind2/public_html/php/connect_plain.php on line 5
+[27-Jun-2016 00:21:10 America/Denver] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, string given in /home/nevergrind2/public_html/php/connect_plain.php on line 8
+[27-Jun-2016 00:21:11 America/Denver] PHP Warning:  mysqli_connect(): (HY000/2002): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/nevergrind2/public_html/php/connect_plain.php on line 5
+[27-Jun-2016 00:21:11 America/Denver] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, string given in /home/nevergrind2/public_html/php/connect_plain.php on line 8
+[27-Jun-2016 00:21:13 America/Denver] PHP Warning:  mysqli_connect(): (HY000/2002): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/nevergrind2/public_html/php/connect_plain.php on line 5
+[27-Jun-2016 00:21:13 America/Denver] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, string given in /home/nevergrind2/public_html/php/connect_plain.php on line 8
+[27-Jun-2016 00:21:14 America/Denver] PHP Warning:  mysqli_connect(): (HY000/2002): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/nevergrind2/public_html/php/ping.php on line 8
+[27-Jun-2016 00:21:14 America/Denver] PHP Warning:  mysqli_connect(): (HY000/2002): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /home/nevergrind2/public_html/php/connect_plain.php on line 5
+[27-Jun-2016 00:21:14 America/Denver] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, string given in /home/nevergrind2/public_html/php/connect_plain.php on line 8
+[27-Jun-2016 00:21:21 America/Denver] PHP Warning:  Creating default object from empty value in /home/nevergrind2/public_html/php/game1.php on line 10
+[27-Jun-2016 14:29:54 America/Denver] PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, no array or string given in /home/nevergrind2/public_html/php/loadData1.php on line 857
+[27-Jun-2016 21:57:10 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[27-Jun-2016 22:10:33 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 251
+[27-Jun-2016 22:10:33 America/Denver] PHP Fatal error:  Call to a member function bind_param() on a non-object in /home/nevergrind2/public_html/php/loadData1.php on line 677
+[27-Jun-2016 22:14:17 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[27-Jun-2016 22:14:23 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[27-Jun-2016 23:23:01 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[03-Jul-2016 11:40:41 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[03-Jul-2016 11:42:06 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[03-Jul-2016 11:42:07 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151
+[03-Jul-2016 16:54:08 America/Denver] PHP Fatal error:  Uncaught exception 'Stripe_AuthenticationError' with message 'Expired API Key provided: sk_live_********************etYp' in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php:151
+Stack trace:
+#0 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(268): Stripe_ApiRequestor->handleApiError('{\n  "eeror": {\n...., 401, Array)
+#1 /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php(109): Stripe_ApiRequestor->_interpretResponse('{\n  "eeror": {\n...., 401)
+#2 /home/nevergrind2/public_html/php/lib/Stripe/ApiResource.php(143): Stripe_ApiRequestor->request('post', '/v1/customers', Array, Array)
+#3 /home/nevergrind2/public_html/php/lib/Stripe/Customer.php(38): Stripe_ApiResource::_scopedCreate('Stripe_Customer', Array, NULL)
+#4 /home/nevergrind2/public_html/php/master1.php(941): Stripe_Customer::create(Array)
+#5 [internal function]: submitCC()
+#6 /home/nevergrind2/public_html/php/master1.php(1210): call_user_func('submitCC')
+#7 {main}
+  thrown in /home/nevergrind2/public_html/php/lib/Stripe/ApiRequestor.php on line 151

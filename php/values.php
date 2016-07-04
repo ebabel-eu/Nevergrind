@@ -1,10 +1,5 @@
 <?php
 	$_SESSION['protocol'] = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https:" : "http:";
-	if(php_uname('n')=="JOE-PC"){
-		$_SESSION['STRIPE_TEST'] = 'sk_test_3zyOCnInUEhcpkM6H0FDegZr';
-	}else{
-		$_SESSION['STRIPE_LIVE'] = 'sk_live_GtiutFgWYDWNyXnaaL4ShHQt';
-	}
 	$_SESSION['characterSlots'] = 1;
 	$_SESSION['salt'] = "IJPOIJpj9823f98jhjlkjj984jv22j8SLKJDF:LKJ";
 	$_SESSION['queryBank'] = "update item set abjuration=?,
