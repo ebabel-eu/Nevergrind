@@ -1,7 +1,3 @@
-- START GAME
-- add deploy all
-- show all flags and account names in diplomacy window on init
-- add animated target SVG dotted line
 - muster units -2 food +3 units?
 - resolve when game is finished:
 	add win/loss/rating adjustments & achievements????
@@ -15,6 +11,7 @@
 	+4 to capital culture
 	+2 to capital food
 	+2 to capital production
+- add server lag indicator
 	
 // 1.0 stuff
 - Add production milestones????????? -> Capital bonuses?
@@ -25,7 +22,9 @@
 - lobby chat
 - icon to indicate top player, #1, etc
 
-
+// site stuff
+- make login page separate from create account
+- make login page remember login/pw standard login form
 
 - VIDS
 - civ 6 reaction
@@ -35,7 +34,7 @@
 - host leaves -> game dies :( ???
 - init game in fwTiles 
 - display UI
-- accumulate resources
+- accumulate resources-ui
 - 
 
 

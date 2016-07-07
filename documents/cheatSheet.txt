@@ -1,4 +1,18 @@
 
+/*
+// findShapeIndex("#US", "#CA");
+TweenMax.fromTo("#US", 5, { 
+	morphSVG: '#US'
+}, {
+	morphSVG: {
+		shape: "#CA",
+		shapeIndex: 258
+	}
+}); 
+
+*/
+
+
 	$.ajax({
 		type: 'GET',
 		url: 'php/createGame.php',

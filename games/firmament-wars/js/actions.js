@@ -1,16 +1,30 @@
 // actions.js
 var action = {
 	attack: function(){
-		console.info('match? ', my.player, game.tiles[my.tgt].player);
 		if (my.player === game.tiles[my.tgt].player){
 			my.attackOn = true;
 			my.hud(game.tiles[my.tgt].name + ": Select Target");
-		$DOM.head.append('<style>.land{ cursor: crosshair; }</style>');
+			$DOM.head.append('<style>.land{ cursor: crosshair; }</style>');
+			
+			var e = document.getElementById('unit' + my.tgt);
+			my.targetLine[0] = e.getAttribute('x')*1;
+			my.targetLine[1] = e.getAttribute('y')*1;
 		}
 	},
 	attackTile: function(that){
 		var attacker = my.tgt;
-		var defender = that.id.slice(4);
+		var defender = that.id.slice(4)*1;
+		if (game.tiles[my.tgt].units === 1){
+			Msg("You need at least 2 soldiers to move/attack!", 1.5);
+			my.attackOn = false;
+			my.clearHud();
+			return;
+		}
+		console.info(my.tgt, defender);
+		if (my.tgt === defender){
+			Msg('You can\'t attack yourself!', 1);
+			return;
+		}
 		my.attackOn = false;
 		// send attack to server
 		console.info('Attacking: ', attacker, 'vs', defender);
@@ -24,6 +38,7 @@ var action = {
 			console.info("data: ", data);
 		}).fail(function(e){
 			console.info("fail! ", e);
+			Msg('You can only move/attack adjacent territories.', 1.5);
 		});
 		// update mouse
 		showTarget(that);
@@ -32,16 +47,29 @@ var action = {
 		// report battle results
 		my.clearHud();
 	},
-	deploy: function(){
+	deploy: function(all){
 		if (my.player === game.tiles[my.tgt].player && my.manpower && game.tiles[my.tgt].units <= 254){
-			my.manpower--;
+			if (all){
+				var foo = my.manpower;
+				var rem = 0;
+				if (game.tiles[my.tgt].units + foo > 255){
+					rem = (game.tiles[my.tgt].units + foo) - 255;
+					foo = 255 - game.tiles[my.tgt].units;
+				}
+				game.tiles[my.tgt].units += foo;
+				my.manpower = rem;
+			} else {
+				all = 0;
+				my.manpower--;
+				game.tiles[my.tgt].units++;
+			}
 			DOM.manpower.textContent = my.manpower;
-			game.tiles[my.tgt].units++;
 			setTileUnits(my.tgt, '#00ff00');
 			showTarget(document.getElementById('land' + my.tgt));
 			$.ajax({
 				url: 'php/deploy.php',
 				data: {
+					all: all,
 					target: my.tgt
 				}
 			}).done(function(data) {
@@ -57,6 +85,8 @@ $("#actions").on("mousedown", '#attack', function(){
 	action.attack();
 }).on('mousedown', '#deploy', function(){
 	action.deploy();
+}).on('mousedown', '#deployAll', function(){
+	action.deploy(1);
 });
 // key bindings
 function toggleChatMode(send){
@@ -119,6 +149,9 @@ $(document).on('keyup', function(e) {
 			} else if (x === 68){
 				// d
 				action.deploy();
+			} else if (x === 69){
+				// e
+				action.deploy(1);
 			} else if (x === 13){
 				// enter
 				toggleChatMode();

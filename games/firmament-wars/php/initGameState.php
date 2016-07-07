@@ -12,6 +12,7 @@
 	$stmt->bind_result($dAccount, $dFlag, $dNation, $dTile, $dTileName, $dPlayer, $dUnits, $dFood, $dProduction, $dCulture);
 	
 	$tiles = array();
+	$count = 0;
 	while($stmt->fetch()){
 		$x = new stdClass();
 		$x->account = $dAccount;
@@ -24,13 +25,15 @@
 		$x->food = $dFood;
 		$x->production = $dProduction;
 		$x->culture = $dCulture;
-		array_push($tiles, $x);
+		$tiles[$count++] = $x;
 	}
 	
 	$x = new stdClass();
 	$x->player = $_SESSION['player'];
 	$x->flag = $_SESSION['flag'];
 	$x->nation = $_SESSION['nation'];
+	$x->foodMax = $_SESSION['foodMax'];
+	$x->cultureMax = $_SESSION['cultureMax'];
 	$x->tiles = $tiles;
 	echo json_encode($x);
 ?>

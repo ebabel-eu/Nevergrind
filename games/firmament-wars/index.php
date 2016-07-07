@@ -42,7 +42,7 @@
 		?>
 	
 		<div id="titleMain" class="portal">
-			<header class="shadow3">
+			<header class="shadow4">
 				<div id="headerWrap">
 			<?php
 				require_once('php/connect_plain.php');
@@ -77,17 +77,17 @@
 			
 			<div id="menu" class="fw-primary">
 				<div id="menuHead" class="btn-group" role="group">
-					<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow3 active btn-head">Refresh Games</button>
-					<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow3 btn-head">Create</button>
-					<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow3 btn-head">Configure Nation</button>
+					<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active btn-head">Refresh Games</button>
+					<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Create</button>
+					<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Configure Nation</button>
 				</div>
 				<hr class="fancyhr">
 				
-				<div id="menuContent" class="shadow3"></div>
+				<div id="menuContent" class="shadow4"></div>
 				<hr class="fancyhr">
 				
 				<div id="menuFoot" class="text-center">
-					<button id="logout" type="button" class="btn btn-primary btn-xs shadow3">
+					<button id="logout" type="button" class="btn btn-primary btn-xs shadow4">
 						Logout
 					</button>
 				</div>
@@ -128,14 +128,14 @@
 						?>
 						<img id="nationFlag" class="w100" src="images/flags/<?php echo $flag; ?>">
 					</div>
-					<div id="nationName" class="col-xs-6 shadow3 nation text-center"><?php echo $nation; ?></div>
+					<div id="nationName" class="col-xs-6 shadow4 nation text-center"><?php echo $nation; ?></div>
 				</div>
 				<hr class="fancyhr">
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="input-group">
 							<span class="input-group-btn">
-								<button id="submitNationName" class="btn btn-primary shadow3" type="button">Change Nation's Name</button>
+								<button id="submitNationName" class="btn btn-primary shadow4" type="button">Change Nation's Name</button>
 							</span>
 							<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus">
 						</div>
@@ -150,16 +150,16 @@
 						</select>
 						<div id="flagPurchased" class="flagPurchaseStatus">
 							<hr class="fancyhr">
-							<h4 class="text-center text-success shadow3">
+							<h4 class="text-center text-success shadow4">
 								<i class="fa fa-check"></i>
 								&ensp;Flag Purchased!
 							</h4>
 						</div>
-						<div id="offerFlag" class="flagPurchaseStatus shadow3">
+						<div id="offerFlag" class="flagPurchaseStatus shadow4">
 							<hr class="fancyhr">
 							<h5 class="text-center">Buy flag for 100 Never Crystals?</h5>
 							<div class="center block">
-								<button id="buyFlag" type="button" class="btn btn-primary shadow3 text-primary" title="Purchase Flag">
+								<button id="buyFlag" type="button" class="btn btn-primary shadow4 text-primary" title="Purchase Flag">
 									<i class="fa fa-diamond" title="Never Crystals"></i> 100
 								</button>
 							</div>
@@ -176,7 +176,7 @@
 			</div>
 		</div>
 	
-		<div id="joinGameLobby" class="shadow3">
+		<div id="joinGameLobby" class="shadow4">
 			<div id="lobbyPlayers" class="fw-primary">
 				<div id='lobby'>
 					<div id='lobbyBody' class='clearfix'>
@@ -192,79 +192,82 @@
 				<div id='lobbyGameMap' class='text-center'></div>
 			</div>
 			<div id="lobbyButtons" class="fw-primary text-center">
-				<button id='startGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow3'>Start Game</button>
-				<button id='cancelGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow3'>Exit</button>
+				<button id='startGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow4'>Start Game</button>
+				<button id='cancelGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow4'>Exit</button>
 			</div>
 		</div>
 		
 	</div>
 	
 	<div id="gameWrap">
-		
-		<div id="diplomacy-ui" class="no-select shadow4 ui-window">
-			<img id='manpowerFlag' src='images/flags/Player0.jpg' class='player0 p0b w100 block center'>
-			<div id='manpowerWrap' class="no-padding">
-				<span class="manpower"><i class="fa fa-angle-double-up"></i> Soldiers</span> <span id="manpower">0</span>
-			</div>
-			
-			<div id="diplomacy-actions" class="text-center">
-				<button type="button" class="btn btn-primary btn-responsive btn-sm shadow4" id="quitGame">
-					<i class="fa fa-flag"></i> Surrender
-				</button>
-			</div>
-			
-			
-		</div>
-		
-		<div id="resources" class="container no-select shadow4 ui-window">
-			
-			<div class="row">
-				<div class="col-sm-12 no-padding food">
-					<i class="fa fa-user-plus"></i> Food
+		<div id="wrap-ui" class="ui-window">
+			<div id="diplomacy-ui" class="no-select shadow4">
+				<div id="diplomacyPlayers"></div>
+				<!--
+				<div id="diplomacy-actions" class="text-center">
+					<button type="button" data-placement="top" data-toggle="tooltip" title="Surrender" class="btn btn-primary btn-responsive btn-sm shadow4 tooltips" id="quitGame">
+						<i class="fa fa-flag" data-placement="top" data-toggle="tooltip" title="Surrender"></i>
+					</button>
 				</div>
+				-->
 			</div>
 			
-			<div class="row">
-				<div class="col-sm-12 no-padding">
-					<div class="resourceIndicator">
-						<span id="food">0</span>/<span id="foodMax">25</span>
+			<div id="target-ui" class="container">
+				<div class="row">
+					<div id="target" class="col-xs-4 text-center no-select">
 					</div>
-					<div class="resourceIndicator">
-						+<span id="sumFood">0</span> per tick
+					<div id="actions" class="col-xs-8">
 					</div>
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="col-sm-12 no-padding production">
-					<i class="fa fa-gavel"></i> Production
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-sm-12 no-padding nowrap">
-					<div class="resourceIndicator">
-						<span id="production">0</span> 
+			<div id="resources-ui" class="container no-select shadow4">
+				<div class="row">
+					<div id='manpowerWrap' class="col-sm-12 no-padding">
+						<span class="manpower" data-placement="top" data-toggle="tooltip" title="You can deploy soldiers to any territory you have conquered"><i class="fa fa-angle-double-up"></i> Soldiers</span>
 					</div>
-					<div class="resourceIndicator">
-						+<span id="sumProduction">0</span> per tick
+					<div>
+						<span id="manpower">0</span>
 					</div>
 				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-sm-12 no-padding culture">
-					<i class="fa fa-flag"></i> Culture
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-sm-12 no-padding">
-					<div class="resourceIndicator">
-						<span id="culture">0</span>/<span id="cultureMax">400</span>
+				
+				<div class="row">
+					<div class="col-sm-12 no-padding food">
+						<span data-placement="top" data-toggle="tooltip" title="Food milestones produce new soldiers"><i class="glyphicon glyphicon-apple"></i> Food</span>
 					</div>
-					<div class="resourceIndicator">
-						+<span id="sumCulture">0</span> per tick
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12 no-padding">
+						<div class="resourceIndicator">
+							<span id="food">0</span>/<span id="foodMax">25</span> (+<span id="sumFood">0</span>)
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12 no-padding production">
+						<span data-placement="top" data-toggle="tooltip" title="Used to build structures and weapons"><i class="fa fa-gavel"></i> Production</span>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12 no-padding nowrap resourceIndicator">
+						<span id="production">0</span> (+<span id="sumProduction">0</span>)
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12 no-padding culture">
+						<span data-placement="top" data-toggle="tooltip" title="Culture milestones produce special rewards"><i class="fa fa-flag"></i> Culture</span>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12 no-padding">
+						<div class="resourceIndicator">
+							<span id="culture">0</span>/<span id="cultureMax">400</span> (+<span id="sumCulture">0</span>)
+						</div>
 					</div>
 				</div>
 			</div>
@@ -278,15 +281,6 @@
 		</table>
 		<input id="chat-input" class="fw-text noselect nobg" type='text' maxlength="240" autocomplete="off"/>
 		
-		<div id="game-ui" class="container ui-window">
-			<div class="row">
-				<div id="target" class="col-xs-4 text-center no-select">
-				</div>
-				<div id="actions" class="col-xs-8">
-				</div>
-			</div>
-		</div>
-		
 		<div id="worldWrap">
 			<?php
 				$svg = file_get_contents("images/world_simple3.svg");
@@ -297,7 +291,7 @@
 	<audio id="bgmusic" autoplay preload="auto"></audio>
 	
 	<div id="hud" class="shadow4">Select Target</div>
-	<div id="Msg" class="shadow3"></div>
+	<div id="Msg" class="shadow4"></div>
 	<div id="overlay" class="portal"></div>
 </body>
 <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
@@ -325,7 +319,9 @@
 			var _scriptLoader = [
 				'core',
 				'title',
+				'lobby',
 				'map',
+				'game',
 				'actions'
 			];
 		}else{

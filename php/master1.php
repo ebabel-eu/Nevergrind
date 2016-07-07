@@ -138,8 +138,8 @@
 		
 		echo "Account Created!";
 		// send confirmation email
-		$msg1 = "<p>Hail, $account!</p><p>You have successfully registered for an account at Nevergrind. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><p>You can access the site at <a href='https://nevergrind.com/'>https://nevergrind.com/</a>.</p><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
-		$msg2 = "Hail, $account,\n\nYou have successfully registered for an account at Nevergrind. Here is your information:\n\nUsername: $account\nEmail: $email\n\nYou can access the site at https://nevergrind.com/\n\nPlease confirm your email address to continue:\n\nhttps://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode\n\nHave a great day!";
+		$msg1 = "<p>Hail, $account!</p><p>You have successfully registered for an account at Nevergrind. Here is your information:</p><div>Username: $account</div><div>Email: <a href='mailto:$email'>$email</a></div><div>Please confirm your email address to continue:</div><div><a href='https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode'>https://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode</a></div><p>Have a great day!</p>";
+		$msg2 = "Hail, $account,\n\nYou have successfully registered for an account at Nevergrind. Here is your information:\n\nUsername: $account\nEmail: $email\n\nPlease confirm your email address to continue:\n\nhttps://nevergrind.com/confirmemail/index.php?email=$email&code=$confirmCode\n\nHave a great day!";
 		
 		require 'PHPMailer/PHPMailerAutoload.php';
 		$mail = new PHPMailer;
@@ -870,7 +870,7 @@
 		$stmt->execute();
 		$stmt->store_result();
 		if($stmt->num_rows==0){
-			// email address exists
+			// email address does not exist
 			echo "The server reported an error. Please try again. Code: 10";
 			exit;
 		}
@@ -886,10 +886,10 @@
 			exit;
 		}
 		if(php_uname('n')=="JOE-PC"){
-			$host="localhost";
+			$host="localhost/";
 			$email="joemattleonard@gmail.com";
 		}else{
-			$host="nevergrind.com";
+			$host="nevergrind.com/";
 		}
 		
 		$plainReset = rand_str(rand(35, 45));

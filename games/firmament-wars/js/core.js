@@ -49,8 +49,12 @@ var my = {
 	food: 0,
 	production: 0,
 	culture: 0,
+	foodMax: 25,
+	cultureMax: 400,
 	manpower: 0,
+	focusTile: 0,
 	flag: "",
+	targetLine: [0,0,0,0,0,0],
 	attackOn: false,
 	hud: function(msg, d){
 		timer.hud.kill();
@@ -67,6 +71,10 @@ var my = {
 	clearHud: function(){
 		timer.hud.kill();
 		DOM.hud.style.visibility = 'hidden';
+		TweenMax.set([DOM.targetLine, DOM.targetLineShadow, DOM.targetCrosshair], {
+			visibility: 'hidden',
+			strokeDashoffset: 0
+		});
 		$DOM.head.append('<style>.land{ cursor: pointer; }</style>');
 	}
 }
@@ -81,11 +89,15 @@ var DOM = {
 	hud: document.getElementById("hud"),
 	sumFood: document.getElementById("sumFood"),
 	foodMax: document.getElementById("foodMax"),
+	cultureMax: document.getElementById("cultureMax"),
 	manpower: document.getElementById("manpower"),
 	sumProduction: document.getElementById("sumProduction"),
 	sumCulture: document.getElementById("sumCulture"),
 	chatContent: document.getElementById("chat-content"),
-	chatInput: document.getElementById("chat-input")
+	chatInput: document.getElementById("chat-input"),
+	targetLine: document.getElementById('targetLine'),
+	targetLineShadow: document.getElementById('targetLineShadow'),
+	targetCrosshair: document.getElementById('targetCrosshair')
 }
 var $DOM = {
 	head: $("#head"),
@@ -93,13 +105,13 @@ var $DOM = {
 }
 var color = [
 	"#00003a",
-	"#880000",
-	"#0000dd",
-	"#aa5500",
-	"#005500",
-	"#cccc00",
-	"#3399ff",
-	"#cc66cc",
+	"#700000",
+	"#0000d0",
+	"#b0b000",
+	"#006000",
+	"#b06000",
+	"#1177aa",
+	"#b050b0",
 	"#5500aa"
 ]
 var GLB = {
@@ -131,7 +143,7 @@ var isXbox = /Xbox/i.test(navigator.userAgent),
 	dom = {};
 // browser dependent
 if (isMSIE || isMSIE11){
-	$("head").append('<style> text { stroke-width: 2px; stroke: rgba(255,255,255,1) } </style>');
+	$("head").append('<style> text { fill: #ffffff; stroke-width: 0; } </style>');
 }
 
 function resizeWindow() {
@@ -194,15 +206,14 @@ function chat(msg) {
     var z = document.createElement('div');
     z.innerHTML = msg;
     DOM.chatContent.appendChild(z);
-	TweenMax.delayedCall(10, function(){
+	setTimeout(function(){
 		TweenMax.to(z, .5, {
 			alpha: 0,
 			onComplete: function(){
-					z.parentNode.removeChild(z);
-			},
-			ease: Linear.easeNone
+				z.parentNode.removeChild(z);
+			}
 		});
-	});
+	}, 10000);
 }
 
 // sound functions
@@ -361,12 +372,13 @@ function playAudio(foo, multi, fade, volAdj) {
         }
     }
 }
-function Msg(msg) {
+function Msg(msg, d) {
     var e = document.createElement('div');
 	e.className = "msg";
     e.innerHTML = msg;
     document.getElementById("Msg").appendChild(e);
-    TweenMax.to(e, 5, {
+	var delay = d ? d : 5;
+    TweenMax.to(e, delay, {
 		onComplete: function(){
 			this.target.parentNode.removeChild(e);
 		}
@@ -647,31 +659,17 @@ function refreshGames(){
 }
 
 function exitGame(bypass){
-	if (!bypass){
+	
+	if (g.view === 'game'){
 		var r = confirm("Are you sure you want to surrender?");
 	}
-	if (r || bypass){
+	if (r || bypass || g.view !== 'game'){
 		g.lock(1);
 		$.ajax({
 			type: "GET",
 			url: 'php/exitGame.php'
 		}).done(function(data) {
 			location.reload();
-			/*
-			g.view = "title";
-			var tl = new TimelineMax();
-			tl.to("#joinGameLobby", .5, {
-				scale: 1.02,
-				autoAlpha: 0,
-				onComplete: function(){
-					g.unlock(1);
-					refreshGames();
-				}
-			}).to("#titleMain", .5, {
-				scale: 1,
-				autoAlpha: 1
-			});
-			*/
 		}).fail(function(e){
 			Msg(e.statusText);
 			g.unlock(1);

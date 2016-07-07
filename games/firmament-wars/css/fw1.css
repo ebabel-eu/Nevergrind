@@ -160,6 +160,7 @@ a:hover{
 }
 /* Firmament Wars */
 #mainWrap{
+	display: none;
 }
 #gameWrap{
 	visibility: hidden;
@@ -210,16 +211,20 @@ a:hover{
 	vertical-align: bottom;
 	pointer-events: none;
 }
-#game-ui{
+#target-ui{
 	position: absolute;
-	bottom: .5%;
-	left: .5%;
-	width: 40%;
-	height: 30%;
+	top: 0%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 50%;
 	padding: 1%;
-	z-index: 9999;
 	color: #fff;
 	font-size: 1.25em;
+}
+.chat-img{
+	width: 50%;
+	display: block;
 }
 .chat-get{
 	color: #ffee00;
@@ -245,30 +250,38 @@ a:hover{
 	background: rgba(0,0,0,.3);
 	border: 1px solid rgba(192,240,255,.2);
 }
+#wrap-ui{
+	position: absolute;
+	bottom: 0%;
+	left: 0%;
+	width: 100%;
+	height: 28%;
+	z-index: 9999;
+	box-shadow: 0 -1px 0 rgba(0,77,192,1);
+	border-radius: 4% 4% 0 0;
+}
 #diplomacy-ui{
 	font-size: 1em;
 	position: absolute;
-	bottom: .5%;
-	right: 13%;
-	width: 13%;
+	top: 0%;
+	left: 1%;
+	width: 25%;
 	padding: .5em;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	z-index: 9999;
 	color: #fff;
-	text-align: center;
+	text-align: left;
 }
 #diplomacy-actions{
 	margin-top: .5em;
 }
-#resources{
+#resources-ui{
 	font-size: 1em;
 	position: absolute;
-	bottom: .5%;
-	right: .5%;
-	width: 11%;
+	top: 0%;
+	right: 1%;
+	width: 25%;
 	padding: 0;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	z-index: 9999;
 	color: #fff;
@@ -276,8 +289,7 @@ a:hover{
 }
 .ui-window{
 	background: rgba(0,32,92,0.5);
-	border: 1px solid rgba(176,240,255,1);
-	border-radius: 4px;
+	border-top: 2px groove rgba(176,240,255,1);
 	/* nice box shadow but laggy
 	box-shadow: 
 		1px 1px 4px rgba(255,255,255,.5) inset,
@@ -285,12 +297,9 @@ a:hover{
 		0 0 150px rgba(0,0,92,.25) inset;
 	*/
 }
-#resources > .row, #game-ui > .row{
+#resources-ui > .row, #target-ui > .row{
 	margin: 0;
 	padding: 0 .5em;
-}
-.no-padding{
-	padding: 0;
 }
 .fa{
 	cursor: default !important;
@@ -330,13 +339,6 @@ a:hover{
 }
 #chatId{
 	display: none;
-}
-/* helper classes */
-.pointer{
-	cursor: pointer;
-}
-.crosshair{
-	cursor: crosshair;
 }
 .portal{
 	position: absolute;
@@ -406,6 +408,25 @@ text{
 	stroke-linejoin: round;
 	paint-order: stroke;
 }
+#targetLine{
+	visibility: hidden;
+	stroke-width: 3;
+	stroke-dasharray: 8,4;
+	stroke-dashoffset: 0;
+}
+#targetLineShadow{
+	visibility: hidden;
+	stroke: rgba(96,96,96,1);
+	stroke-width: 1;
+	stroke-dasharray: 8,4;
+	stroke-dashoffset: 0;
+}
+#targetCrosshair{
+	visibility: hidden;
+	stroke: #000;
+	fill: #f00;
+	pointer-events: none;
+}
 .paths{
 	stroke: rgba(255,255,0,1);
 	stroke-width:2;
@@ -452,6 +473,7 @@ text{
 }
 #tileInfo{
 	font-family: Times New Roman, serif;
+	
 }
 .fw-primary{
 	border: 1px solid #3377dd;
@@ -547,7 +569,7 @@ text{
 	width: 100%;
 	text-align: center;
 	font-size: 2em;
-	color: #d22;
+	color: #bef;
 	z-index:999999;
 	pointer-events: none;
 	visibility: hidden;
@@ -650,60 +672,78 @@ table {
 	background: #00003a;
 }
 .p0b{
-	border: 2px groove #00bbff;
+	border: 2px solid #00bbff;
 }
 .player1{
-	background: #f00;
+	background: #700000;
 }
 .p1b{
-	border: 2px groove #f00;
+	border: 2px solid #700000;
 }
 .player2{
-	background: #00f;
+	background: #0000d0;
 }
 .p2b{
-	border: 2px groove #00f;
+	border: 2px solid #0000d0;
 }
 .player3{
-	background: #080;
+	background: #b0b000;
 }
 .p3b{
-	border: 2px groove #080;
+	border: 2px solid #b0b000;
 }
 .player4{
-	background: #ff0;
+	background: #006000;
 }
 .p4b{
-	border: 2px groove #ff0;
+	border: 2px solid #006000;
 }
 .player5{
-	background: #f8f;
+	background: #b06000;
 }
 .p5b{
-	border: 2px groove #f8f;
+	border: 2px solid #b06000;
 }
 .player6{
-	background: #08f;
+	background: #1177aa;
 }
 .p6b{
-	border: 2px groove #08f;
+	border: 2px solid #1177aa;
 }
 .player7{
-	background: #f80;
+	background: #b050b0;
 }
 .p7b{
-	border: 2px groove #f80;
+	border: 2px solid #b050b0;
 }
 .player8{
-	background: #80f;
+	background: #5500aa;
 }
 .p8b{
-	border: 2px groove #80f;
+	border: 2px solid #5500aa;
+}
+.diplomacyPlayers{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	line-height: 1.5em;
+	display: table;
+}
+.diploWrap{
+    vertical-align: middle;
+    display: table-cell;
+}
+.diplomacySquare{
+	float: left;
+	margin: .2em .5em 0 0;
+	height: 1.125em;
+	width: 1.125em;
+	border: 1px solid #0a0a0a;
 }
 .inlineFlag{
 	display: inline-block;
-	margin-right: 5px;
-	width: 5%;
+	margin-right: .5em;
+	height: 1.125em;
 	border-width: 1px;
 }
 #startGame{
@@ -794,6 +834,9 @@ table {
 		font-size: 1em; 
 		padding: 3px 6px;
 	}
+	.inlineFlag{
+		height: 14px;
+	}
 }
 @media all and (max-width: 639px){
 	body { 
@@ -803,4 +846,20 @@ table {
 		font-size: 1.125em; 
 		padding: 2px 4px;
 	}
+	.inlineFlag{
+		height: 10px;
+	}
+}
+/* helper classes */
+.no-padding{
+	padding: 0 !important;
+}
+.no-margin{
+	margin: 0 !important;
+}
+.pointer{
+	cursor: pointer !important;
+}
+.crosshair{
+	cursor: crosshair !important;
 }

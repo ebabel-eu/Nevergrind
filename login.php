@@ -95,7 +95,7 @@
 					</form>';
 			}
 		}
-		echo "<a id='refer' style='display:none' href='{$refer}'>REFER</a>";
+		echo "<a id='refer' style='display:none' href='/{$refer}'></a>";
 	?>
 	</div><!-- window 2 -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
