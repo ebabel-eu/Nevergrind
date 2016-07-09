@@ -39,6 +39,7 @@
 	$_SESSION['gameId'] = $stmt->insert_id*1;
 	$_SESSION['max'] = $players;
 	$_SESSION['gameName'] = $name;
+	$_SESSION['gameStarted'] = 0;
 	$_SESSION['player'] = 1;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;

@@ -120,13 +120,13 @@ function joinStartedGame(){
 				// console.info(game.player[i]);
 				if (p.flag === 'Default.jpg'){
 					str += 
-					'<div class="diplomacyPlayers">' +
+					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">' +
 						'<div class="diploWrap">' +
 							'<i class="fa fa-fort-awesome player' + p.player + '"></i>' +
 							'<img src="images/flags/Player' + p.player + '" class="player' + p.player + ' inlineFlag" data-placement="top" data-toggle="tooltip" title="'+ p.account + '">' + p.nation;
 				} else {
 					str += 
-					'<div class="diplomacyPlayers">' +
+					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">' +
 						'<div class="diploWrap">' +
 							'<div class="diplomacySquare player' + p.player + '"></div>' +
 							'<img src="images/flags/' + p.flag + '" class="inlineFlag" data-placement="top" data-toggle="tooltip" title="'+ p.account + '">' + p.nation;

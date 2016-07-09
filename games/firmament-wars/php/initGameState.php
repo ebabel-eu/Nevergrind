@@ -3,6 +3,7 @@
 	require('connect1.php');
 	
 	require('pingLobby.php');
+	$_SESSION['gameStarted'] = 1; // determines if exitGame is a loss or not
 	// get game tiles
 	$query = "select account, flag, nation, tile, tileName, player, units, food, production, culture from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);

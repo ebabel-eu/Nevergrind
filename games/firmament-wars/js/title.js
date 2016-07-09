@@ -182,7 +182,7 @@ function joinGame(){
 			// document.getElementById("mainWrap").style.display = "none";
 		}
 	}).fail(function(e){
-		Msg("Failed to contact server");
+		Msg("Failed to contact server.");
 	}).always(function(){
 		g.unlock();
 	});

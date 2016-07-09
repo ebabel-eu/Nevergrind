@@ -377,8 +377,10 @@ function Msg(msg, d) {
 	e.className = "msg";
     e.innerHTML = msg;
     document.getElementById("Msg").appendChild(e);
-	var delay = d ? d : 5;
-    TweenMax.to(e, delay, {
+	if (d === undefined){
+		d = 5;
+	}
+    TweenMax.to(e, d, {
 		onComplete: function(){
 			this.target.parentNode.removeChild(e);
 		}

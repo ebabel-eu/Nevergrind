@@ -3,7 +3,7 @@
 	require('connect1.php');
 	require('pingLobby.php');
 	$start = microtime(true);
-	if ($_SESSION['resourceTick'] % 3 === 0){
+	if ($_SESSION['resourceTick'] % 4 === 0){
 		require('checkDisconnectedPlayers.php');
 	}
 	// get game tiles

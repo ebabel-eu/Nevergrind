@@ -22,6 +22,10 @@
 	}
 	
 	$count = $stmt->num_rows;
+	if (!$count){
+		header('HTTP/1.1 500 All players have left the game.');
+		exit;
+	}
 	if ($activePlayers == 0){
 		header('HTTP/1.1 500 All players have left the game.');
 		exit;
@@ -34,6 +38,7 @@
 	$_SESSION['gameId'] = $gameId;
 	$_SESSION['max'] = $max;
 	$_SESSION['gameName'] = $gameName;
+	$_SESSION['gameStarted'] = 0;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
 	$_SESSION['foodMax'] = 25;

@@ -1,5 +1,6 @@
 - muster units -2 food +3 units?
 - add mechanism to remove player from diplomacy panel when disco/loss
+- make a victory screen that doesn't suck, disable all events except OK button
 - check if player is eliminated after losing a tile, notify chat
 - limit deploy to 10?
 - add double/double triple/doubles quad/doubles
@@ -54,6 +55,7 @@ GAME:
 $_SESSION['gameId']
 $_SESSION['max']
 $_SESSION['gameName']
+$_SESSION['gameStarted']
 $_SESSION['player']
 $_SESSION['map']
 $_SESSION['food'] / $_SESSION['foodMax']

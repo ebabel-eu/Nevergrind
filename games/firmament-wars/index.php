@@ -304,11 +304,13 @@
 				$svg = file_get_contents("images/world_simple3.svg");
 				echo $svg;
 			?>
-	</div>
+		</div>
 
-	<audio id="bgmusic" autoplay preload="auto"></audio>
+		<audio id="bgmusic" autoplay preload="auto"></audio>
+		
+		<div id="hud" class="shadow4">Select Target</div>
+	</div>
 	
-	<div id="hud" class="shadow4">Select Target</div>
 	<div id="Msg" class="shadow4"></div>
 	<div id="overlay" class="portal"></div>
 </body>
