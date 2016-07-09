@@ -13,6 +13,7 @@ var g = {
 	resizeY: 1,
 	chatOn: false,
 	overlay: document.getElementById("overlay"),
+	over: 0,
 	lock: function(clear){
 		g.overlay.style.display = "block";
 		clear ? g.overlay.style.opacity = 0 : g.overlay.style.opacity = 1;
@@ -34,10 +35,6 @@ var g = {
 }
 var game = {
 	tiles: [],
-	countPlayers: function(){
-		// to determine how many players are in game every tile update
-		// use to trigger game end, etc
-	},
 	initialized: false,
 	player: [0,0,0,0,0,0,0,0,0], // cached values on client to reduce DB load
 	
@@ -45,6 +42,7 @@ var game = {
 var my = {
 	player: 1,
 	tgt: 1,
+	lastTarget: {},
 	units: 0,
 	food: 0,
 	production: 0,
@@ -144,6 +142,8 @@ var isXbox = /Xbox/i.test(navigator.userAgent),
 // browser dependent
 if (isMSIE || isMSIE11){
 	$("head").append('<style> text { fill: #ffffff; stroke-width: 0; } </style>');
+} else if (isSafari){
+	$("head").append('<style> text { fill: #ffffff; stroke: #ffffff; stroke-width: 1.75px; } </style>');
 }
 
 function resizeWindow() {

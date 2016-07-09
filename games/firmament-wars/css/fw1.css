@@ -301,9 +301,6 @@ a:hover{
 	margin: 0;
 	padding: 0 .5em;
 }
-.fa{
-	cursor: default !important;
-}
 .resourceIndicator{
 	white-space: nowrap;
 	overflow: hidden;
@@ -538,16 +535,11 @@ text{
 	left: 1%;
 	width: 47%;
 	overflow: hidden;
+	padding: .5em 1em;
 }
-#menuHead{
-	padding: 8px;
-}
-#menuContent{
-	padding: 8px;
-	
-}
-#menuFoot{
-	padding: 8px;
+#menuOnline{
+	color: #bef;
+	letter-spacing: .05em;
 }
 #Msg{
 	position: absolute;
@@ -618,6 +610,7 @@ table {
 }
 #updateNationName{
 	color: #222;
+	width: 100%;
 }
 #flagDropdown{
 }
@@ -669,54 +662,63 @@ table {
 	text-align: center;
 }
 .player0{
+	color: #00003a;
 	background: #00003a;
 }
 .p0b{
 	border: 2px solid #00bbff;
 }
 .player1{
+	color: #700000;
 	background: #700000;
 }
 .p1b{
 	border: 2px solid #700000;
 }
 .player2{
+	color: #0000d0;
 	background: #0000d0;
 }
 .p2b{
 	border: 2px solid #0000d0;
 }
 .player3{
+	color: #b0b000;
 	background: #b0b000;
 }
 .p3b{
 	border: 2px solid #b0b000;
 }
 .player4{
+	color: #006000;
 	background: #006000;
 }
 .p4b{
 	border: 2px solid #006000;
 }
 .player5{
+	color: #b06000;
 	background: #b06000;
 }
 .p5b{
 	border: 2px solid #b06000;
 }
 .player6{
+	color: #1177aa;
 	background: #1177aa;
 }
 .p6b{
 	border: 2px solid #1177aa;
 }
 .player7{
+	color: #b050b0;
 	background: #b050b0;
 }
 .p7b{
 	border: 2px solid #b050b0;
 }
 .player8{
+	color: #5500aa;
 	background: #5500aa;
 }
 .p8b{
@@ -735,7 +737,7 @@ table {
 }
 .diplomacySquare{
 	float: left;
-	margin: .2em .5em 0 0;
+	margin: .25em .5em 0 0;
 	height: 1.125em;
 	width: 1.125em;
 	border: 1px solid #0a0a0a;
@@ -743,7 +745,7 @@ table {
 .inlineFlag{
 	display: inline-block;
 	margin-right: .5em;
-	height: 1.125em;
+	height: 1em;
 	border-width: 1px;
 }
 #startGame{
@@ -754,6 +756,10 @@ table {
 	margin-top: 12px;
 }
 /* bootstrap overwrites */
+.fa{
+	cursor: default !important;
+	background: none !important;
+}
 .text-success{
 	color: #0d0;
 }

@@ -41,8 +41,14 @@
 		// add adjacent validation
 		if ($defender->account == $_SESSION['account']){
 			// move to allied territory
-			$defender->units = $defender->units + $attacker->units - 1;
-			$attacker->units = 1;
+			if ($defender->units + $attacker->units > 255){
+				$diff = (255 - ($defender->units + $attacker->units) ) * -1;
+				$defender->units = $defender->units + $attacker->units - $diff;
+				$attacker->units = $diff;
+			} else {
+				$defender->units = $defender->units + $attacker->units - 1;
+				$attacker->units = 1;
+			}
 			// update attacker
 			$query = 'update fwTiles set units=? where tile=? and game=?';
 			$stmt = $link->prepare($query);

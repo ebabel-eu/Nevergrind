@@ -43,6 +43,7 @@
 	$_SESSION['cultureMax'] = 400;
 	$_SESSION['cultureMilestone'] = 0;
 	$_SESSION['manpower'] = 0;
+	$_SESSION['resourceTick'] = 0;
 	// init chat
 	$query = "select row from fwchat order by row desc limit 1";
 	$stmt = $link->prepare($query);
@@ -103,10 +104,10 @@
 		$_SESSION['flag'] = $dFlag;
 	}
 	// cleanup stale player data
-	$query = "delete from fwPlayers where timestamp < date_sub(now(), interval {$_SESSION['lag']} second)";
+	$query = "SELECT account FROM `fwplayers` where timestamp< date_sub(now(), interval {$_SESSION['lag']} second);";
 	$stmt = $link->query($query);
 	
-	require_once('pingLobby.php');
+	require('pingLobby.php');
 	
 	require('updateLobby.php');
 ?>

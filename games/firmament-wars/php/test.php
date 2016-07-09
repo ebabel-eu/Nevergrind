@@ -83,6 +83,37 @@
 	}
 	getReward();
 	*/
+	
+	/*
+	$query = "select crystals from accounts where email='".$_SESSION['email']."' limit 1";
+	$result = $link->query($query);
+	while($row = $result->fetch_assoc()){
+		$crystals .= $row['crystals'];
+	}
+	*/
+	echo $_SESSION['gameId'].'<br>';
+	$a = 'firefox';
+		// notify game player has disconnected
+		$msg = $a . ' has disconnected from the game.';
+		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+		$stmt->bind_param('si', $msg, $_SESSION['gameId']);
+		$stmt->execute();
+		// set all tiles and player to 0
+		$query = 'update fwTiles set account="", player=0, nation="", flag="", units=0 where game=? and account=?';
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('is', $_SESSION['gameId'], $a);
+		$stmt->execute();
+		// delete from players
+		$query = 'delete from fwPlayers where account=?';
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $a);
+		$stmt->execute();
+		// add disconnect
+		$query = "insert into fwNations (`account`, `disconnects`) VALUES (?, 1) on duplicate key update disconnects=disconnects+1";
+		$stmt = $link->prepare($query);
+		$stmt->bind_param('s', $a);
+		$stmt->execute();
+	
 	echo "<br>". (microtime(true) - $start);
 	
 	

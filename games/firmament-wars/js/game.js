@@ -17,9 +17,9 @@ function showTarget(e, hover){
 			TweenMax.set(DOM.targetLineShadow, {
 				visibility: 'visible',
 				attr: {
-					d: "M " + my.targetLine[0] +","+ my.targetLine[1] + 
-							" Q " + my.targetLine[2] +" "+ (my.targetLine[3] + 150) + " " 
-							+ my.targetLine[4] +" "+ my.targetLine[5]
+					d: "M " + my.targetLine[0] +","+ my.targetLine[1] + " "
+							// " Q " + my.targetLine[2] +" "+ (my.targetLine[3] + 150) + " " 
+							+ my.targetLine[4] +","+ my.targetLine[5]
 				}
 			});
 			TweenMax.set(DOM.targetLine, {
@@ -131,7 +131,7 @@ function getGameState(){
 			type: "GET",
 			url: "php/getGameState.php"
 		}).done(function(data){
-			console.info('server lag: ' + (Date.now() - lag), data);
+			console.info('server lag: ' + (Date.now() - lag), data.delay, data);
 			var start = Date.now();
 			repeatDelay = data.timeout;
 			var tiles = data.tiles;
@@ -173,6 +173,23 @@ function getGameState(){
 					chat(data.chat[i].message);
 				}
 			}
+			(function(count){
+				// game over?
+				for (var i=0, len=data.player.length; i<len; i++){
+					if (i){
+						if (data.player[i]){
+							count++;
+						}
+					}
+				}
+				if (!g.over){
+					if (!data.player[my.player]){
+						gameDefeat();
+					} else if (count === 1){
+						gameVictory();
+					}
+				}
+			})(0);
 			console.info('client lag: ', Date.now() - start);
 		}).fail(function(data){
 			console.info(data.responseText);
@@ -195,4 +212,45 @@ function getGameState(){
 			});
 		}, 5000);
 	})();
+}
+function gameDefeat(){
+	$.ajax({
+		type: "GET",
+		url: "php/gameDefeat.php"
+	}).done(function(data){
+		console.info('show defeat screen?', data);
+		if (data.gameDone){
+			g.over = 1;
+			// game is over... 
+			// turn off events
+			// announce loss
+			Msg("DEFEAT!");
+			setTimeout(function(){
+				location.reload();
+			}, 2000);
+		}
+	}).fail(function(data){
+		serverError();
+	});
+}
+
+function gameVictory(){
+	$.ajax({
+		type: "GET",
+		url: "php/gameVictory.php"
+	}).done(function(data){
+		console.info('show victory screen?', data);
+		if (data.gameDone){
+			g.over = 1;
+			// game is over... 
+			// turn off events
+			// announce victory
+			Msg("VICTORY!");
+			setTimeout(function(){
+				location.reload();
+			}, 2000);
+		}
+	}).fail(function(data){
+		serverError();
+	});
 }

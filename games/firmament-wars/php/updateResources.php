@@ -1,8 +1,11 @@
 <?php
 	header('Content-Type: application/json');
-	require_once('connect1.php');
-	require_once('pingLobby.php');
+	require('connect1.php');
+	require('pingLobby.php');
 	$start = microtime(true);
+	if ($_SESSION['resourceTick'] % 3 === 0){
+		require('checkDisconnectedPlayers.php');
+	}
 	// get game tiles
 	$query = 'select sum(food), sum(production), sum(culture) from `fwTiles` where account=? and game=? limit 1';
 	$stmt = $link->prepare($query);
@@ -116,5 +119,7 @@
 	$x->cultureMax = $_SESSION['cultureMax'];
 	
 	$x->delay = microtime(true) - $start;
+	
+	$_SESSION['resourceTick']++;
 	echo json_encode($x);
 ?>

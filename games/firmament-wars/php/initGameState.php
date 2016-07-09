@@ -1,8 +1,8 @@
 <?php
 	header('Content-Type: application/json');
-	require_once('connect1.php');
+	require('connect1.php');
 	
-	require_once('pingLobby.php');
+	require('pingLobby.php');
 	// get game tiles
 	$query = "select account, flag, nation, tile, tileName, player, units, food, production, culture from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);

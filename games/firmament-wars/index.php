@@ -53,20 +53,23 @@
 				while($row = $result->fetch_assoc()){
 					$crystals .= $row['crystals'];
 				}
-					
+				
 				echo 
 				'<div class="accountDetails">
-					<a target="_blank" title="Manage Account" href="/account/?back=games/firmament-wars">Account</a>&ensp;
-					<a target="_blank" title="Store" href="/store/">Store</a>&ensp;
 					<i class="fa fa-diamond text-primary" title="Never Crystals"></i>
-					<span id="crystalCount" class="text-primary" title="Crystals Remaining">'.$crystals.'</span>
+					<span id="crystalCount" class="text-primary" title="Crystals Remaining">'.$crystals.'</span>&ensp;<a target="_blank" title="Manage Account" href="/account/?back=games/firmament-wars">Account</a>&ensp;
+					<a target="_blank" title="Store" href="/store/">Store</a>&ensp;
+					
 				</div>
 				<div class="pull-right text-primary">
+					<a target="_blank" href="//www.youtube.com/user/Maelfyn">
+						<i class="fa fa-youtube-square text-primary pointer" title="YouTube"></i>
+					</a>
 					<a target="_blank" href="//twitter.com/neverworksgames">
-						<i class="fa fa-twitter-square text-primary" title="Twitter"></i>
+						<i class="fa fa-twitter-square text-primary pointer" title="Twitter"></i>
 					</a>
 					<a target="_blank" href="//www.facebook.com/neverworksgames">
-						<i class="fa fa-facebook-square text-primary" title="Facebook"></i>
+						<i class="fa fa-facebook-square text-primary pointer" title="Facebook"></i>
 					</a>
 					Firmament Wars
 				</div>';
@@ -76,6 +79,32 @@
 			</header>
 			
 			<div id="menu" class="fw-primary">
+				<!-- SELECT count(row) FROM `fwplayers` where timestamp > date_sub(now(), interval 20 second) -->
+				<div id='menuOnline'>
+					<div>
+				<?php
+					$result = mysqli_query($link, 'select count(row) count from `fwplayers` where timestamp > date_sub(now(), interval 20 second)');
+					// Associative array
+					$row = mysqli_fetch_assoc($result);
+					printf ("%s", 'There '. 
+						($row["count"] == 1 ? 'is' : 'are')  .' currently '.$row["count"].' '.
+						($row["count"] == 1 ? 'player' : 'players') . ' playing Firmament Wars'
+					);
+					echo '</div><div>';
+					// show record
+					$query = 'select wins, losses, disconnects from fwnations where account=?';
+					$stmt = $link->prepare($query);
+					$stmt->bind_param('s', $_SESSION['account']);
+					$stmt->execute();
+					$stmt->store_result();
+					$stmt->bind_result($wins, $losses, $disconnects);
+					while($stmt->fetch()){
+						echo 'Record: ' .$wins. ' wins, '. $losses .' losses, '. $disconnects .' disconnects';
+					}
+				?>
+					</div>
+				</div>
+				<hr class='fancyhr'>
 				<div id="menuHead" class="btn-group" role="group">
 					<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active btn-head">Refresh Games</button>
 					<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Create</button>
@@ -131,15 +160,11 @@
 					<div id="nationName" class="col-xs-6 shadow4 nation text-center"><?php echo $nation; ?></div>
 				</div>
 				<hr class="fancyhr">
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="input-group">
-							<span class="input-group-btn">
-								<button id="submitNationName" class="btn btn-primary shadow4" type="button">Change Nation's Name</button>
-							</span>
-							<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus">
-						</div>
-					</div>
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button id="submitNationName" class="btn btn-primary shadow4" type="button">Change Nation's Name</button>
+					</span>
+					<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus">
 				</div>
 				
 				<hr class="fancyhr">
@@ -203,13 +228,6 @@
 		<div id="wrap-ui" class="ui-window">
 			<div id="diplomacy-ui" class="no-select shadow4">
 				<div id="diplomacyPlayers"></div>
-				<!--
-				<div id="diplomacy-actions" class="text-center">
-					<button type="button" data-placement="top" data-toggle="tooltip" title="Surrender" class="btn btn-primary btn-responsive btn-sm shadow4 tooltips" id="quitGame">
-						<i class="fa fa-flag" data-placement="top" data-toggle="tooltip" title="Surrender"></i>
-					</button>
-				</div>
-				-->
 			</div>
 			
 			<div id="target-ui" class="container">

@@ -6,6 +6,7 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('s', $_SESSION['account']);
 		$stmt->execute();
+		require('loseGame.php');
 		require('unsetSession.php');
 	} else {
 		header('HTTP/1.1 500 Game session data not found.');

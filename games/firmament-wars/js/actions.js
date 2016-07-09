@@ -9,23 +9,27 @@ var action = {
 			var e = document.getElementById('unit' + my.tgt);
 			my.targetLine[0] = e.getAttribute('x')*1;
 			my.targetLine[1] = e.getAttribute('y')*1;
+			showTarget(my.lastTarget, true);
 		}
 	},
 	attackTile: function(that){
 		var attacker = my.tgt;
 		var defender = that.id.slice(4)*1;
-		if (game.tiles[my.tgt].units === 1){
-			Msg("You need at least 2 soldiers to move/attack!", 1.5);
-			my.attackOn = false;
+		if (my.tgt === defender){
+			return;
+		}
+		if (game.tiles[defender].units >= 255){
+			Msg("That territory has the maximum number of units!", 1.5);
 			my.clearHud();
 			return;
 		}
-		console.info(my.tgt, defender);
-		if (my.tgt === defender){
-			Msg('You can\'t attack yourself!', 1);
+		my.attackOn = false;
+		if (game.tiles[my.tgt].units === 1){
+			Msg("You need at least 2 soldiers to move/attack!", 1.5);
+			my.clearHud();
 			return;
 		}
-		my.attackOn = false;
+		g.lock(true);
 		// send attack to server
 		console.info('Attacking: ', attacker, 'vs', defender);
 		$.ajax({
@@ -39,6 +43,8 @@ var action = {
 		}).fail(function(e){
 			console.info("fail! ", e);
 			Msg('You can only move/attack adjacent territories.', 1.5);
+		}).always(function(){
+			g.unlock();
 		});
 		// update mouse
 		showTarget(that);

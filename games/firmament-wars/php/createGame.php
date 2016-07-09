@@ -1,4 +1,5 @@
 <?php
+	// create a new lobby 
 	require_once('connect1.php');
 	$name = $_POST['name'];
 	$players = $_POST['players'];
@@ -24,17 +25,7 @@
 		header('HTTP/1.1 500 Game name already exists.');
 		exit;
 	} else {
-		// delete old game
-		$query = 'delete from fwGames where name=?';
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('s', $name);
-		$stmt->execute();
-		
-		// delete from lobby
-		$query = 'delete from fwPlayers where account=?';
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('s', $_SESSION['account']);
-		$stmt->execute();
+		require('checkDisconnects.php');
 	}
 	// if maps are added, this will have to be POST'd
 	$map = "Earth Alpha";
@@ -44,20 +35,8 @@
 	$stmt->bind_param('sis', $name, $players, $map);
 	$stmt->execute();
 	
-	// get created game ID
-	$min = 2;
-	$query = "select row from fwGames where max>=? order by row desc limit 1";
-	$stmt = $link->prepare($query);
-	$stmt->bind_param('i', $min);
-	$stmt->execute();
-	$stmt->store_result();
-	$stmt->bind_result($dRow);
-	while($stmt->fetch()){
-		$gameId = $dRow;
-	}
-	
 	// set session values
-	$_SESSION['gameId'] = $gameId*1;
+	$_SESSION['gameId'] = $stmt->insert_id*1;
 	$_SESSION['max'] = $players;
 	$_SESSION['gameName'] = $name;
 	$_SESSION['player'] = 1;
@@ -70,6 +49,7 @@
 	$_SESSION['cultureMax'] = 400;
 	$_SESSION['cultureMilestone'] = 0;
 	$_SESSION['manpower'] = 0;
+	$_SESSION['resourceTick'] = 0;
 	// init chat
 	$query = "select row from fwchat order by row desc limit 1";
 	$stmt = $link->prepare($query);

@@ -1,8 +1,10 @@
 - muster units -2 food +3 units?
-- resolve when game is finished:
-	add win/loss/rating adjustments & achievements????
-	display game stats etc
+- add mechanism to remove player from diplomacy panel when disco/loss
+- check if player is eliminated after losing a tile, notify chat
+- limit deploy to 10?
+- add double/double triple/doubles quad/doubles
 - Get rewards from barb tiles... 
+	- Add capital tile to SESSION values
 	Barb Rewards:
 	+15/20/25 production
 	+15/20/25 food
@@ -12,8 +14,10 @@
 	+2 to capital food
 	+2 to capital production
 - add server lag indicator
+- add mechanism to detect when player has disconnected/left game
 	
 // 1.0 stuff
+- h2h rating system?
 - Add production milestones????????? -> Capital bonuses?
 - More maps
 - FFA & H2H mode
@@ -21,6 +25,7 @@
 - achievements/ribbons
 - lobby chat
 - icon to indicate top player, #1, etc
+- display game stats?
 
 // site stuff
 - make login page separate from create account
@@ -59,6 +64,7 @@ $_SESSION['cultureMilestone']
 $_SESSION['manpower']
 $_SESSION['capital']
 $_SESSION['chatId']
+$_SESSION['resourceTick']
 
 NATION:
 $_SESSION['nation']

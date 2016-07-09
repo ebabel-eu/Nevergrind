@@ -48,11 +48,10 @@ function setResources(d){
 }
 
 function Nation(){
-	return {
-		account: "",
-		nation: "",
-		flag: ""
-	}
+	this.account = "";
+	this.nation = "";
+	this.flag = "";
+	return this;
 }
 
 function joinStartedGame(){
@@ -123,7 +122,7 @@ function joinStartedGame(){
 					str += 
 					'<div class="diplomacyPlayers">' +
 						'<div class="diploWrap">' +
-							'<div class="diplomacySquare player' + p.player + '"></div>' +
+							'<i class="fa fa-fort-awesome player' + p.player + '"></i>' +
 							'<img src="images/flags/Player' + p.player + '" class="player' + p.player + ' inlineFlag" data-placement="top" data-toggle="tooltip" title="'+ p.account + '">' + p.nation;
 				} else {
 					str += 
@@ -145,21 +144,32 @@ function joinStartedGame(){
 			$('[data-toggle="tooltip"]').tooltip();
 		});
 		// SVG mouse events
-		$(".land").on("mousedown", function(){
-			if (my.attackOn){
-				action.attackTile(this);
-			} else {
-				showTarget(this);
-			}
-		}).on("mouseenter", function(){
+		if (isMSIE || isMSIE11){
+			$(".land").on("click", function(){
+				if (my.attackOn){
+					action.attackTile(this);
+				} else {
+					showTarget(this);
+				}
+			});
+		} else {
+			$(".land").on("mousedown", function(){
+				if (my.attackOn){
+					action.attackTile(this);
+				} else {
+					showTarget(this);
+				}
+			});
+		}
+		$(".land").on("mouseenter", function(){
+			my.lastTarget = this;
 			if (my.attackOn){
 				showTarget(this, true);
-			} else {
-				TweenMax.set(this, {
-					// fill: "#ff0000"
-					fill: "hsl(+=0%, +=30%, +=15%)"
-				});
 			}
+			TweenMax.set(this, {
+				// fill: "#ff0000"
+				fill: "hsl(+=0%, +=30%, +=15%)"
+			});
 		}).on("mouseleave", function(){
 			var land = this.id.slice(4)*1;
 			if (game.tiles.length > 0){
@@ -222,7 +232,6 @@ function joinStartedGame(){
 		if (y > 0){ y = 0; }
 		var yMin = (g.mouse.mapSizeY - 768) * -1;
 		if (y < yMin){ y = yMin; } 
-		console.info('worldMap ', worldMap[0]);
 		TweenMax.to('#worldWrap', .5, {
 			x: x * g.resizeX,
 			y: y * g.resizeY

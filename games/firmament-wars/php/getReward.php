@@ -174,7 +174,7 @@
 		} 
 		if ($six > -1 && $reward->units === 0){
 			if (checkHex($six, $five, $four, $three, $two, $one)){
-				$reward->units = 33;
+				$reward->units = 35;
 				$reward->msg = 'Accursed hex';
 				$reward->img = '';
 			}
@@ -185,7 +185,7 @@
 				$reward->msg = 'Kek boobs';
 				$reward->img = '';
 			} else if (checkPents($five, $four, $three, $two, $one)){
-				$reward->units = 25;
+				$reward->units = 27;
 				$reward->msg = 'Glorious pents';
 				$reward->img = '';
 			}
@@ -199,11 +199,11 @@
 				$reward->units = 21;
 				$reward->msg = 'Leet quads';
 				$reward->img = '';
-			} else if (checkHitlerQuads($four, $three, $two, $one)){
+			}/* else if (checkHitlerQuads($four, $three, $two, $one)){
 				$reward->units = 21;
 				$reward->msg = 'Nazi quads';
 				$reward->img = '';
-			} else if (checkQuads($four, $three, $two, $one)){
+			}*/ else if (checkQuads($four, $three, $two, $one)){
 				$reward->units = 18;
 				$reward->msg = 'Sweet quads';
 				$reward->img = '';
@@ -228,7 +228,7 @@
 				$reward->img = '';
 			} else if(checkTrips($three, $two, $one)){
 				$reward->units = 9;
-				$reward->msg = 'Cool trips';
+				$reward->msg = 'Savage trips';
 				$reward->img = '';
 			}
 		}
@@ -237,14 +237,14 @@
 				$reward->units = 4;
 				$reward->msg = 'Sexy dubs';
 				$reward->img = '';
-			} else if (checkHitlerDubs($two, $one)){
+			}/* else if (checkHitlerDubs($two, $one)){
 				$reward->units = 4;
 				$reward->msg = 'Hitler dubs';
-				$reward->img = 'images/chat/hitlerDubs/'.rand(0,1).'.jpg';
-			} else if (checkDubs($two, $one)){
+				$reward->img = 'images/chat/hitlerDubs/'.mt_rand(0,1).'.jpg';
+			}*/ else if (checkDubs($two, $one)){
 				$reward->units = 3;
 				$reward->msg = 'Nice dubs';
-				$reward->img = 'images/chat/dubs/'.rand(0,3).'.jpg';
+				$reward->img = 'images/chat/dubs/'.mt_rand(0,3).'.jpg';
 			}
 		}
 		return $reward;
