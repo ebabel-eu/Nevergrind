@@ -65,7 +65,7 @@
 							Bank Slots: <span id="bankSlots">0</span>
 						</div>';
 						echo "<div class='modePanel'>";
-							echo "<a title='Manage Account' href='/account/?back=games/firmament-wars'>{$_SESSION['account']}</a> | Version 1-0-100";
+							echo "<a title='Manage Account' href='/account/?back=games/firmament-wars'>{$_SESSION['account']}</a> | Version 1-0-101";
 						echo '</div>';
 					?>
 				</header>;
@@ -482,7 +482,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/EaselJS/0.7.1/easeljs.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/plugins/EaselPlugin.min.js"></script>
 	<script>
-		patchVersion="1-0-100";
+		patchVersion="1-0-101";
 		(function(d){
 			if(location.host==='localhost'){
 				var _scriptLoader = [

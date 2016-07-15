@@ -1,5 +1,5 @@
 <?php
-	require_once('connect1.php');
+	require('connect1.php');
 
 	$noGameFound = "<tr><td colspan='3' class='text-warning text-center col-md-12 warCells'>No active games found. Create a game to play!</td></tr>";
 

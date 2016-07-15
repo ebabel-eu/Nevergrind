@@ -72,20 +72,18 @@ if ($_SESSION['player'] === 1){
 		for ($i = 0; $i < $maxTiles; $i++){
 			$barbarianUnits = mt_rand(0, 9) > 6 ? 2 : 0;
 			$food = 2;
-			$production = 1;
+			// $production = 2;
 			$culture = 0;
 			if ($barbarianUnits === 2){
-				$foo = mt_rand(0, 2);
+				$foo = mt_rand(0, 1);
 				if ($foo === 0){
 					$food = getFood();
-				} else if ($foo === 1){
-					$production = getProduction();
 				} else {
 					$culture = getCulture();
 				}
 			}
-			$query = "insert into fwTiles (`game`, `tile`, `tileName`, `units`, `food`, `production`, `culture`) 
-				VALUES (?, $i, ?, $barbarianUnits, $food, $production, $culture)";
+			$query = "insert into fwTiles (`game`, `tile`, `tileName`, `units`, `food`, `culture`) 
+				VALUES (?, $i, ?, $barbarianUnits, $food, $culture)";
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('is', $_SESSION['gameId'], $tileName[$i]);
 			$stmt->execute();
@@ -107,16 +105,11 @@ if ($_SESSION['player'] === 1){
 			$stmt->execute();
 			
 			// set starting units
-			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=12, food=5, production=3, culture=8 where tile=$startTile and game=?";
+			$query = "update fwTiles set account=?, player=?, nation=?, flag=?, units=12, food=5, culture=8 where tile=$startTile and game=?";
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('sissi', $players[$i]->account, $players[$i]->player, $players[$i]->nation, $players[$i]->flag, $_SESSION['gameId']);
 			$stmt->execute();
-			// set my capital
-			if ($_SESSION['player'] === 1){
-				$_SESSION['capital'] = $startTile;
-			}
 		}
-		
 	} else {
 		// another map
 	}

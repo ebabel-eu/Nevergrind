@@ -4,7 +4,6 @@
 	if (isset($_SESSION['gameId'])){
 		if ($_SESSION['gameStarted']){
 			// surrender
-			// notify game player has disconnected
 			$msg = $_SESSION['account'] . ' has surrendered.';
 			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 			$stmt->bind_param('si', $msg, $_SESSION['gameId']);

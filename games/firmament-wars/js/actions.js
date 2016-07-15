@@ -1,6 +1,6 @@
 // actions.js
 var action = {
-	attack: function(){
+	attack: function(skip){
 		if (my.player === game.tiles[my.tgt].player){
 			my.attackOn = true;
 			my.hud(game.tiles[my.tgt].name + ": Select Target");
@@ -9,7 +9,9 @@ var action = {
 			var e = document.getElementById('unit' + my.tgt);
 			my.targetLine[0] = e.getAttribute('x')*1;
 			my.targetLine[1] = e.getAttribute('y')*1;
-			showTarget(my.lastTarget, true);
+			if(!skip){
+				showTarget(my.lastTarget, true);
+			}
 		}
 	},
 	attackTile: function(that){
@@ -25,7 +27,7 @@ var action = {
 		}
 		my.attackOn = false;
 		if (game.tiles[my.tgt].units === 1){
-			Msg("You need at least 2 soldiers to move/attack!", 1.5);
+			Msg("You need at least 2 armies to move/attack!", 1.5);
 			my.clearHud();
 			return;
 		}
@@ -39,9 +41,11 @@ var action = {
 				defender: defender
 			}
 		}).done(function(data) {
-			console.info("data: ", data);
+			if (data.rewardMsg){
+				chat(data.rewardMsg);
+			}
 		}).fail(function(e){
-			console.info("fail! ", e);
+			// playAudio("failNoise");
 			Msg('You can only move/attack adjacent territories.', 1.5);
 		}).always(function(){
 			g.unlock();
@@ -71,7 +75,6 @@ var action = {
 			}
 			DOM.manpower.textContent = my.manpower;
 			setTileUnits(my.tgt, '#00ff00');
-			showTarget(document.getElementById('land' + my.tgt));
 			$.ajax({
 				url: 'php/deploy.php',
 				data: {
@@ -81,14 +84,14 @@ var action = {
 			}).done(function(data) {
 				console.info("data: ", data);
 			}).fail(function(e){
-				console.info("fail! ", e);
+				// playAudio("failNoise");
 			});
 		}
 	}
 }
 
 $("#actions").on("mousedown", '#attack', function(){
-	action.attack();
+	action.attack(true);
 }).on('mousedown', '#deploy', function(){
 	action.deploy();
 }).on('mousedown', '#deployAll', function(){
@@ -112,8 +115,6 @@ function toggleChatMode(send){
 					}
 				}).done(function(data) {
 					console.info("data: ", data);
-				}).fail(function(e){
-					console.info("fail! ", e);
 				});
 			}
 			$DOM.chatInput.val('').blur();
@@ -123,7 +124,7 @@ function toggleChatMode(send){
 }
 $(document).on('keyup', function(e) {
 	var x = e.keyCode;
-	console.info(x);
+	// console.info(x);
 	if (g.view === 'title'){
 		if (x === 13){
 			if (g.focusUpdateNationName){

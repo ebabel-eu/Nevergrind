@@ -95,7 +95,7 @@
 					</form>';
 			}
 		}
-		echo "<a id='refer' style='display:none' href='/{$refer}'></a>";
+		echo "<a id='refer' style='display:none' href='{$refer}'></a>";
 	?>
 	</div><!-- window 2 -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
@@ -156,7 +156,7 @@
 				QMsg(data + " Redirecting!");
 				setTimeout(function(){
 					$("#refer")[0].click();
-				}, 500);
+				}, 1000);
 			}
 			createAccountLock = false;
 		}).fail(function() {

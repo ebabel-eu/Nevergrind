@@ -25,7 +25,7 @@
 		$stmt->bind_param('s', $_SESSION['account']);
 		$stmt->execute();
 		
-		require('checkDisconnects.php');
+		require('checkAllDisconnects.php');
 		
 		$x->gameName = $_SESSION['gameName'];
 		$x->map = $_SESSION['map'];

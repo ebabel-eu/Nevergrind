@@ -25,7 +25,7 @@
 		header('HTTP/1.1 500 Game name already exists.');
 		exit;
 	} else {
-		require('checkDisconnects.php');
+		require('checkAllDisconnects.php');
 	}
 	// if maps are added, this will have to be POST'd
 	$map = "Earth Alpha";
@@ -36,16 +36,17 @@
 	$stmt->execute();
 	
 	// set session values
-	$_SESSION['gameId'] = $stmt->insert_id*1;
+	$_SESSION['gameId'] = $stmt->insert_id;
 	$_SESSION['max'] = $players;
 	$_SESSION['gameName'] = $name;
 	$_SESSION['gameStarted'] = 0;
+	$_SESSION['gameType'] = 'FFA';
 	$_SESSION['player'] = 1;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
 	$_SESSION['foodMax'] = 25;
 	$_SESSION['foodMilestone'] = 0;
-	$_SESSION['production'] = 0;
+	// $_SESSION['production'] = 10;
 	$_SESSION['culture'] = 0;
 	$_SESSION['cultureMax'] = 400;
 	$_SESSION['cultureMilestone'] = 0;

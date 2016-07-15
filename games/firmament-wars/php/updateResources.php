@@ -1,29 +1,33 @@
 <?php
 	header('Content-Type: application/json');
-	require('connect1.php');
-	require('pingLobby.php');
-	$start = microtime(true);
+	session_start();
+	if(php_uname('n')=="JOE-PC"){
+		$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
+	} else {
+		$link = mysqli_connect("localhost", "nevergri_ng", "!M6a1e8l2f4y6n", "nevergri_ngLocal");
+	}
+	
+	require($_SERVER['DOCUMENT_ROOT'] . '/games/firmament-wars/php/pingLobby.php');
 	if ($_SESSION['resourceTick'] % 4 === 0){
-		require('checkDisconnectedPlayers.php');
+		require('checkDisconnectsByGame.php');
 	}
 	// get game tiles
-	$query = 'select sum(food), sum(production), sum(culture) from `fwTiles` where account=? and game=? limit 1';
+	$query = 'select sum(food), sum(culture) from `fwTiles` where account=?';
 	$stmt = $link->prepare($query);
-	$stmt->bind_param('si', $_SESSION['account'], $_SESSION['gameId']);
+	$stmt->bind_param('s', $_SESSION['account']);
 	$stmt->execute();
-	$stmt->store_result();
-	$stmt->bind_result($food, $production, $culture);
+	$stmt->bind_result($food, $culture);
 	
 	$x = new stdClass();
 	while($stmt->fetch()){
 		$newFood = $_SESSION['food'] + $food;
 		$x->food = $newFood > 9999 ? 9999 : $newFood;
 		$x->sumFood = $food;
-		
+		/*
 		$newProduction = $_SESSION['production'] + $production;
 		$x->production = $newProduction > 9999 ? 9999 : $newProduction;
 		$x->sumProduction = $production;
-		
+		*/
 		$newCulture = $_SESSION['culture'] + $culture;
 		$x->culture = $newCulture > 9999 ? 9999 : $newCulture;
 		$x->sumCulture = $culture;
@@ -71,13 +75,10 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('s', $_SESSION['account']);
 		$stmt->execute();
+		// last insert id is GET value
 		
-		$query = mysqli_query($link, 'select row from fwGets order by row desc limit 1');
-		while ($row = mysqli_fetch_array($query)){
-			$get = $row[0];
-		}
-		$x->get = $get*1;
-		$bonus = getReward($get);
+		$x->get = $stmt->insert_id;
+		$bonus = getReward($x->get);
 		$x->getBonus = $bonus->units;
 		$_SESSION['manpower'] += $bonus->units;
 		if ($_SESSION['manpower'] > 999){
@@ -85,16 +86,16 @@
 		}
 		// write GET to chat
 		$flag = $_SESSION['flag'] === 'Default.jpg' ? 
-			'<img src="images/flags/Player'.$_SESSION['player'].'" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">' :
+			'<img src="images/flags/Player'.$_SESSION['player'].'.jpg" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">' :
 			'<img src="images/flags/'.$_SESSION['flag'].'" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">';
 		$msg = '';
 		if ($bonus->img){
 			$msg .= '<img src="'. $bonus->img .'" class="chat-img">';
 		}
 		if ($bonus->units){
-			$msg .= $flag.'<span class="chat-get">' . $get . ' '.$bonus->msg.'! ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' (+' . $bonus->units . ' bonus) soldiers!</span>';
+			$msg .= $flag.'<span class="chat-get">' . $x->get . ' '.$bonus->msg.'! ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' (+' . $bonus->units . ' bonus) armies!</span>';
 		} else {
-			$msg .= $flag.$get . ': ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' soldiers!';
+			$msg .= $flag.$x->get . ': ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' armies!';
 		}
 		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 		$stmt->bind_param('si', $msg, $_SESSION['gameId']);
@@ -111,14 +112,12 @@
 	}
 	
 	$_SESSION['food'] = $x->food;
-	$_SESSION['production'] = $x->production;
+	// $_SESSION['production'] = $x->production;
 	$_SESSION['culture'] = $x->culture;
 	
 	$x->manpower = $_SESSION['manpower'];
 	$x->foodMax = $_SESSION['foodMax'];
 	$x->cultureMax = $_SESSION['cultureMax'];
-	
-	$x->delay = microtime(true) - $start;
 	
 	$_SESSION['resourceTick']++;
 	echo json_encode($x);

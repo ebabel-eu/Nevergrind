@@ -77,31 +77,48 @@ function showTarget(e, hover){
 		}
 		
 		var str = '<img src="images/flags/' + flag + '" class="p' + t.player + 'b w100 block center">' +
-			'<div id="nation-ui">' + nation + '</div>';
-		document.getElementById("target").innerHTML = str;
+			'<div id="nation-ui" class="shadow4">' + nation + '</div>';
+		DOM.target.innerHTML = str;
 		// actions panel
-		var str = '<div id="tileInfo" class="no-select text-center shadow4">'+
-					'<div id="tile-ui">' + t.name + '</div>' +
-					'<div>' +
-						'<i class="manpower fa fa-angle-double-up"></i> <span id="tileArmies">' + t.units + '</span>' +
-						'&emsp;<i class="food glyphicon glyphicon-apple"></i> ' + t.food + 
-						'&emsp;<i class="production fa fa-gavel"></i> ' + t.production + 
-						'&emsp;<i class="culture fa fa-flag"></i> ' + t.culture + 
-					'</div>' +
-				'</div>' +
-				'<div id="tileActions" class="shadow4">';
-					// action buttons
-					if (my.player === t.player){
-						str += '<button id="attack" type="button" class="btn btn-info btn-responsive btn-md shadow4">Move/Attack</button>' +
-						'<button id="deploy" type="button" class="btn btn-info btn-responsive btn-md shadow4">Deploy</button>' +
-						'<button id="deployAll" type="button" class="btn btn-info btn-responsive btn-md shadow4">Deploy All</button>'+
-						'<button id="muster" type="button" class="btn btn-info btn-responsive btn-md shadow4">Muster</button>';
-					}
-				str += '<div>';
-		document.getElementById("actions").innerHTML = str;
+		setActionButtons(t);
 	} else {
 		my.attackOn = false;
 	}
+}
+function setActionButtons(t){
+	function addEmptyButton(num){
+		var x = '';
+		for (var i=0; i<num; i++){
+			x += '<button class="emptyButtons shadow4" type="button">&nbsp;</button>';
+		}
+		return x;
+	}
+	var str = 
+		'<div id="tileResources" class="shadow4">' +
+			'<div class="tileResource" data-toggle="tooltip" title="' + t.food + ' food in ' + t.name + '"><i class="food glyphicon glyphicon-apple" ></i> ' + t.food + '</div>'+
+			//'<div class="tileResource" data-toggle="tooltip" title="' + t.production + ' production in ' + t.name + '"><i class="production fa fa-gavel" ></i> ' + t.production + '</div>'+
+			'<div class="tileResource" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</div>'+
+		'</div>' +
+		'<div id="tile-name" class="no-select text-center shadow4">' + t.name + '</div>' +
+		'<div id="tileActions" class="shadow4">';
+			// action buttons
+			if (my.player === t.player){
+				str += '<button id="attack" type="button" class="actionButtons shadow4">Move/Attack</button>' +
+				'<button id="deploy" type="button" class="actionButtons shadow4">Deploy</button>' +
+				'<button id="deployAll" type="button" class="actionButtons shadow4">Deploy All</button>'+
+				'<button id="muster" type="button" class="actionButtons  shadow4">Muster</button>';
+				str += addEmptyButton(5);
+			} else {
+				str += addEmptyButton(9);
+			}
+		str += '<div>';
+	DOM.actions.innerHTML = str;
+	$('.tileResource').tooltip({
+		delay: {
+			show: 0,
+			hide: 0
+		}
+	});
 }
 function setTileUnits(i, unitColor){
 	var e = document.getElementById('unit' + i);
@@ -167,12 +184,27 @@ function getGameState(){
 					showTarget(document.getElementById('land' + i));
 				}
 			}
+			// report chat messages
 			var len = data.chat.length;
 			if (len > 0){
 				for (var i=0; i<len; i++){
 					chat(data.chat[i].message);
 				}
 			}
+			// check eliminated players; remove from panel
+			(function(p, len){
+				for (var i=0; i<len; i++){
+					if (p[i].account){
+						if (!data.player[i]){
+							game.player[i].account = '';
+							TweenMax.to('#diplomacyPlayer' + i, 1, {
+								autoAlpha: 0
+							});
+						}
+					}
+				}
+			})(game.player, game.player.length);
+			// remove dead players
 			(function(count){
 				// game over?
 				for (var i=0, len=data.player.length; i<len; i++){
@@ -201,15 +233,17 @@ function getGameState(){
 	
 	(function(){
 		setInterval(function(){
-			$.ajax({
-				type: "GET",
-				url: "php/updateResources.php"
-			}).done(function(data){
-				console.info('resource: ', data.get, data);
-				setResources(data);
-			}).fail(function(data){
-				serverError();
-			});
+			if (!g.over){
+				$.ajax({
+					type: "GET",
+					url: "php/updateResources.php"
+				}).done(function(data){
+					console.info('resource: ', data.get, data);
+					setResources(data);
+				}).fail(function(data){
+					serverError();
+				});
+			}
 		}, 5000);
 	})();
 }
@@ -218,16 +252,15 @@ function gameDefeat(){
 		type: "GET",
 		url: "php/gameDefeat.php"
 	}).done(function(data){
-		console.info('show defeat screen?', data);
 		if (data.gameDone){
-			g.over = 1;
-			// game is over... 
-			// turn off events
-			// announce loss
-			Msg("DEFEAT!");
-			setTimeout(function(){
-				location.reload();
-			}, 2000);
+			var msg = 
+			'<p>Defeat!</p>'+
+			'<div>Your campaign for world domination has failed!</div>'+
+			'<div id="endWar">'+
+				'<div class="modalBtnChild">Concede Defeat</div>'+
+			'</div>';
+			triggerEndGame(msg);
+			// playAudio('defeat');
 		}
 	}).fail(function(data){
 		serverError();
@@ -239,18 +272,29 @@ function gameVictory(){
 		type: "GET",
 		url: "php/gameVictory.php"
 	}).done(function(data){
-		console.info('show victory screen?', data);
 		if (data.gameDone){
-			g.over = 1;
-			// game is over... 
-			// turn off events
-			// announce victory
-			Msg("VICTORY!");
-			setTimeout(function(){
-				location.reload();
-			}, 2000);
+			var msg = 
+			'<p>Congratuations!</p>'+
+			'<div>Your campaign for global domination has succeeded!</div>'+
+			'<div id="endWar">'+
+				'<div class="modalBtnChild">End War</div>'+
+			'</div>';
+			triggerEndGame(msg);
+			// playAudio('victory');
 		}
 	}).fail(function(data){
 		serverError();
 	});
+}
+function triggerEndGame(msg){
+	$("*").off('click mousedown keydown keup, keypress')
+	g.over = 1;
+	setTimeout(function(){
+		var e = document.getElementById('victoryScreen');
+		e.innerHTML = msg;
+		e.style.display = 'block';
+		$("#endWar").on('mousedown', function(){
+			location.reload();
+		});
+	}, 2500);
 }

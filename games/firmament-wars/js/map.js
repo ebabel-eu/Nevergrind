@@ -78,6 +78,6 @@ $("#worldWrap").on("mousemove", function(e){
 		// console.info(e.offsetX, e.offsetY);
 	}
 });
-$("#gameWrap").on('click', '#quitGame', function(){
+$("#gameWrap").on('click', '#surrender', function(){
 	exitGame();
 });

@@ -55,8 +55,8 @@
 				}
 				
 				echo 
-				'<div class="accountDetails">
-					<i class="fa fa-diamond text-primary" title="Never Crystals"></i>
+				'<div class="accountDetails text-primary">
+					' . $_SESSION['account'] . ' <i class="fa fa-diamond" title="Never Crystals"></i>
 					<span id="crystalCount" class="text-primary" title="Crystals Remaining">'.$crystals.'</span>&ensp;<a target="_blank" title="Manage Account" href="/account/?back=games/firmament-wars">Account</a>&ensp;
 					<a target="_blank" title="Store" href="/store/">Store</a>&ensp;
 					
@@ -80,9 +80,11 @@
 			
 			<div id="menu" class="fw-primary">
 				<!-- SELECT count(row) FROM `fwplayers` where timestamp > date_sub(now(), interval 20 second) -->
-				<div id='menuOnline'>
+				<div id='menuOnline' class='shadow4'>
 					<div>
 				<?php
+					require('php/checkDisconnectsByAccount.php');
+				
 					$result = mysqli_query($link, 'select count(row) count from `fwplayers` where timestamp > date_sub(now(), interval 20 second)');
 					// Associative array
 					$row = mysqli_fetch_assoc($result);
@@ -91,15 +93,41 @@
 						($row["count"] == 1 ? 'player' : 'players') . ' playing Firmament Wars'
 					);
 					echo '</div><div>';
-					// show record
-					$query = 'select wins, losses, disconnects from fwnations where account=?';
+					// check if nation exists; create if not
+					$query = 'select count(row) from fwNations where account=?';
 					$stmt = $link->prepare($query);
 					$stmt->bind_param('s', $_SESSION['account']);
 					$stmt->execute();
-					$stmt->store_result();
-					$stmt->bind_result($wins, $losses, $disconnects);
+					$stmt->store_result(); // don't need
+					$stmt->bind_result($dbcount);
 					while($stmt->fetch()){
-						echo 'Record: ' .$wins. ' wins, '. $losses .' losses, '. $disconnects .' disconnects';
+						$count = $dbcount;
+					}
+					$nation = 'Kingdom of '.ucfirst($_SESSION['account']);
+					$flag = 'Default.jpg';
+					if($count > 0){
+						$query = "select nation, flag, wins, losses, disconnects from fwNations where account=?";
+						$stmt = $link->prepare($query);
+						$stmt->bind_param('s', $_SESSION['account']);
+						$stmt->execute();
+						$stmt->store_result();
+						$stmt->bind_result($dName, $dFlag, $wins, $losses, $disconnects);
+						while($stmt->fetch()){
+							$nation = $dName;
+							$flag = $dFlag;
+							$wins = $wins;
+							$losses = $losses;
+							$disconnects = $disconnects;
+							// show record
+							echo 'Record: ' .$wins. ' wins, '. $losses .' losses, '. $disconnects .' disconnects';
+						}
+					} else {
+						$query = "insert into fwNations (`account`, `nation`, `flag`) VALUES (?, '$nation', '$flag')";
+						$stmt = $link->prepare($query);
+						$stmt->bind_param('s', $_SESSION['account']);
+						$stmt->execute();
+						// show record; new nation
+						echo 'Record: 0 wins, 0 losses, 0 disconnects';
 					}
 				?>
 					</div>
@@ -125,36 +153,6 @@
 			<div id="configureNation" class="fw-primary">
 				<div class="row">
 					<div class="col-xs-6">
-						<?php
-							$query = 'select count(row) from fwNations where account=?';
-							$stmt = $link->prepare($query);
-							$stmt->bind_param('s', $_SESSION['account']);
-							$stmt->execute();
-							$stmt->store_result();
-							$stmt->bind_result($dbcount);
-							while($stmt->fetch()){
-								$count = $dbcount;
-							}
-							$nation = 'Kingdom of '.ucfirst($_SESSION['account']);
-							$flag = 'Default.jpg';
-							if($count > 0){
-								$query = "select nation, flag from fwNations where account=?";
-								$stmt = $link->prepare($query);
-								$stmt->bind_param('s', $_SESSION['account']);
-								$stmt->execute();
-								$stmt->store_result();
-								$stmt->bind_result($dName, $dFlag);
-								while($stmt->fetch()){
-									$nation = $dName;
-									$flag = $dFlag;
-								}
-							} else {
-								$query = "insert into fwNations (`account`, `nation`, `flag`) VALUES (?, '$nation', '$flag')";
-								$stmt = $link->prepare($query);
-								$stmt->bind_param('s', $_SESSION['account']);
-								$stmt->execute();
-							}
-						?>
 						<img id="nationFlag" class="w100" src="images/flags/<?php echo $flag; ?>">
 					</div>
 					<div id="nationName" class="col-xs-6 shadow4 nation text-center"><?php echo $nation; ?></div>
@@ -225,9 +223,8 @@
 	</div>
 	
 	<div id="gameWrap">
-		<div id="wrap-ui" class="ui-window">
-			<div id="diplomacy-ui" class="no-select shadow4">
-				<div id="diplomacyPlayers"></div>
+		<div id="wrap-ui" class="ui-window stagBlue">
+			<div id="diplomacy-ui" class="shadow4">
 			</div>
 			
 			<div id="target-ui" class="container">
@@ -242,7 +239,7 @@
 			<div id="resources-ui" class="container no-select shadow4">
 				<div class="row">
 					<div id='manpowerWrap' class="col-sm-12 no-padding">
-						<span class="manpower" data-placement="top" data-toggle="tooltip" title="You can deploy soldiers to any territory you have conquered"><i class="fa fa-angle-double-up"></i> Soldiers</span>
+						<span class="manpower" data-toggle="tooltip" title="You can deploy armies to any territory you have conquered">Armies</span>
 					</div>
 					<div>
 						<span id="manpower">0</span>
@@ -251,7 +248,7 @@
 				
 				<div class="row">
 					<div class="col-sm-12 no-padding food">
-						<span data-placement="top" data-toggle="tooltip" title="Food milestones produce new soldiers"><i class="glyphicon glyphicon-apple"></i> Food</span>
+						<span data-toggle="tooltip" title="Food milestones produce new armies"><i class="glyphicon glyphicon-apple"></i> Food</span>
 					</div>
 				</div>
 				
@@ -262,22 +259,22 @@
 						</div>
 					</div>
 				</div>
-				
+				<!--
 				<div class="row">
 					<div class="col-sm-12 no-padding production">
-						<span data-placement="top" data-toggle="tooltip" title="Used to build structures and weapons"><i class="fa fa-gavel"></i> Production</span>
+						<span data-toggle="tooltip" title="Used to build structures and weapons"><i class="fa fa-gavel"></i> Production</span>
 					</div>
 				</div>
-				
 				<div class="row">
 					<div class="col-sm-12 no-padding nowrap resourceIndicator">
 						<span id="production">0</span> (+<span id="sumProduction">0</span>)
 					</div>
 				</div>
+				-->
 				
 				<div class="row">
 					<div class="col-sm-12 no-padding culture">
-						<span data-placement="top" data-toggle="tooltip" title="Culture milestones produce special rewards"><i class="fa fa-flag"></i> Culture</span>
+						<span data-toggle="tooltip" title="Culture milestones produce special rewards"><i class="fa fa-flag"></i> Culture</span>
 					</div>
 				</div>
 				
@@ -309,7 +306,8 @@
 		<audio id="bgmusic" autoplay preload="auto"></audio>
 		
 		<div id="hud" class="shadow4">Select Target</div>
-	</div>
+		
+		<div id="victoryScreen" class="fw-primary fw-text no-select"></div>
 	
 	<div id="Msg" class="shadow4"></div>
 	<div id="overlay" class="portal"></div>

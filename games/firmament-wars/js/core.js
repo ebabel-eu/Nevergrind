@@ -82,20 +82,22 @@ var timer = {
 
 var DOM = {
 	food: document.getElementById('food'),
-	production: document.getElementById('production'),
+	// production: document.getElementById('production'),
 	culture: document.getElementById('culture'),
 	hud: document.getElementById("hud"),
 	sumFood: document.getElementById("sumFood"),
 	foodMax: document.getElementById("foodMax"),
 	cultureMax: document.getElementById("cultureMax"),
 	manpower: document.getElementById("manpower"),
-	sumProduction: document.getElementById("sumProduction"),
+	// sumProduction: document.getElementById("sumProduction"),
 	sumCulture: document.getElementById("sumCulture"),
 	chatContent: document.getElementById("chat-content"),
 	chatInput: document.getElementById("chat-input"),
 	targetLine: document.getElementById('targetLine'),
 	targetLineShadow: document.getElementById('targetLineShadow'),
-	targetCrosshair: document.getElementById('targetCrosshair')
+	targetCrosshair: document.getElementById('targetCrosshair'),
+	target: document.getElementById('target'),
+	actions: document.getElementById('actions')
 }
 var $DOM = {
 	head: $("#head"),
@@ -144,6 +146,9 @@ if (isMSIE || isMSIE11){
 	$("head").append('<style> text { fill: #ffffff; stroke-width: 0; } </style>');
 } else if (isSafari){
 	$("head").append('<style> text { fill: #ffffff; stroke: #ffffff; stroke-width: 1.75px; } </style>');
+}
+if (isMobile){
+	$("head").append('<style> *{ box-shadow: none !important; } </style>');
 }
 
 function resizeWindow() {
@@ -206,6 +211,7 @@ function chat(msg) {
     var z = document.createElement('div');
     z.innerHTML = msg;
     DOM.chatContent.appendChild(z);
+	// playAudio('chat');
 	setTimeout(function(){
 		TweenMax.to(z, .5, {
 			alpha: 0,

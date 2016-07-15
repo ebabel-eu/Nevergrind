@@ -39,11 +39,12 @@
 	$_SESSION['max'] = $max;
 	$_SESSION['gameName'] = $gameName;
 	$_SESSION['gameStarted'] = 0;
+	$_SESSION['gameType'] = 'FFA';
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
 	$_SESSION['foodMax'] = 25;
 	$_SESSION['foodMilestone'] = 0;
-	$_SESSION['production'] = 0;
+	// $_SESSION['production'] = 10;
 	$_SESSION['culture'] = 0;
 	$_SESSION['cultureMax'] = 400;
 	$_SESSION['cultureMilestone'] = 0;
@@ -77,7 +78,6 @@
 		if (!in_array($i, $a)){
 			if (!isset($_SESSION['player'])){
 				$_SESSION['player'] = $i;
-				$_SESSION['capital'] = $capital;
 			}
 		}
 	}

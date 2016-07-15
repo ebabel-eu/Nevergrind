@@ -50,7 +50,8 @@ var battleStart = 0,
     battleDps = 0,
     petTarget = '',
 	chatRow = 0,
-    talentResetNotify = false;
+    talentResetNotify = false,
+	buttonLock = false;
 
 function mobileDevice() {
     return /Silk|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -7961,7 +7962,6 @@ $(function() {
     }).on('click', '#deletecharfade', function() {
         cancelCharDelete();
     });
-	var buttonLock = false;
     $("#createWindowId").on('click', '#createbuttonId', function() {
         if (location.protocol === "http:") {
             createChar();

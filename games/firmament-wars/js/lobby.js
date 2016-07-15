@@ -2,11 +2,11 @@
 function setResources(d){
 	TweenMax.to(my, .5, {
 		food: d.food,
-		production: d.production,
+		// production: d.production,
 		culture: d.culture,
 		onUpdate: function(){
 			DOM.food.textContent = ~~my.food;
-			DOM.production.textContent = ~~my.production;
+			// DOM.production.textContent = ~~my.production;
 			DOM.culture.textContent = ~~my.culture;
 		},
 		ease: Linear.easeNone
@@ -38,11 +38,11 @@ function setResources(d){
 	}
 	if (d.sumFood){
 		DOM.sumFood.textContent = d.sumFood;
-		DOM.sumProduction.textContent = d.sumProduction;
+		// DOM.sumProduction.textContent = d.sumProduction;
 		DOM.sumCulture.textContent = d.sumCulture;
 	} else {
 		DOM.sumFood.textContent = 0;
-		DOM.sumProduction.textContent = 0;
+		// DOM.sumProduction.textContent = 0;
 		DOM.sumCulture.textContent = 0;
 	}
 }
@@ -91,7 +91,7 @@ function joinStartedGame(){
 				flag: d.flag,
 				units: d.units,
 				food: d.food,
-				production: d.production,
+				// production: d.production,
 				culture: d.culture
 			}
 			if (d.nation){
@@ -120,28 +120,35 @@ function joinStartedGame(){
 				// console.info(game.player[i]);
 				if (p.flag === 'Default.jpg'){
 					str += 
-					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">' +
-						'<div class="diploWrap">' +
-							'<i class="fa fa-fort-awesome player' + p.player + '"></i>' +
-							'<img src="images/flags/Player' + p.player + '" class="player' + p.player + ' inlineFlag" data-placement="top" data-toggle="tooltip" title="'+ p.account + '">' + p.nation;
+					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">';
+							if (my.player === p.player){
+								str += '<i id="surrender" class="fa fa-flag pointer" data-placement="right" data-toggle="tooltip" title="Surrender"></i>';
+							} else {
+								str += '<i class="fa fa-flag surrender"></i>';
+							}
+							str += '<i class="fa fa-stop diplomacySquare player' + p.player + ' data-toggle="tooltip" title="Player Color""></i>' +
+							'<img src="images/flags/Player' + p.player + '.jpg" class="player' + p.player + ' inlineFlag diploFlag" data-toggle="tooltip" title="'+ p.account + '"><span class="diploNames" data-toggle="tooltip" title="'+ p.nation + '">' + p.nation + '</span>';
 				} else {
 					str += 
-					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">' +
-						'<div class="diploWrap">' +
-							'<div class="diplomacySquare player' + p.player + '"></div>' +
-							'<img src="images/flags/' + p.flag + '" class="inlineFlag" data-placement="top" data-toggle="tooltip" title="'+ p.account + '">' + p.nation;
+					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">';
+							if (my.player === p.player){
+								str += '<i id="surrender" class="fa fa-flag pointer"  data-placement="right" data-toggle="tooltip" title="Surrender"></i>';
+							} else {
+								str += '<i class="fa fa-flag surrender"></i>';
+							}
+							str += '<i class="fa fa-stop diplomacySquare player' + p.player + '" data-toggle="tooltip" title="Player Color"></i>' +
+							'<img src="images/flags/' + p.flag + '" class="inlineFlag diploFlag" data-toggle="tooltip" title="'+ p.account + '"><span class="diploNames" data-toggle="tooltip" title="'+ p.nation + '">' + p.nation + '</span>';
 				}
-				if (my.player === p.player){
-					str += ' <i id="quitGame" class="fa fa-flag pointer" data-placement="top" data-toggle="tooltip" title="Surrender"></i></div></div>';
-				} else {
-					str += '</div></div>';
-				}
+				str += '</div>';
 			}
 		}
 		
-		document.getElementById('diplomacyPlayers').innerHTML = str;
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip();
+		document.getElementById('diplomacy-ui').innerHTML = str;
+		$('[data-toggle="tooltip"]').tooltip({
+			delay: {
+				show: 0,
+				hide: 0
+			}
 		});
 		// SVG mouse events
 		if (isMSIE || isMSIE11){
@@ -167,7 +174,6 @@ function joinStartedGame(){
 				showTarget(this, true);
 			}
 			TweenMax.set(this, {
-				// fill: "#ff0000"
 				fill: "hsl(+=0%, +=30%, +=15%)"
 			});
 		}).on("mouseleave", function(){
@@ -310,7 +316,9 @@ function joinLobby(d){
 					}, 500);
 					// TODO: remove game when done testing
 				} else if (g.view === "lobby"){
-					setTimeout(repeat, 1000, lobby);
+					if (!g.over){
+						setTimeout(repeat, 1000, lobby);
+					}
 				}
 			}).fail(function(data){
 				serverError();

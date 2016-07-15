@@ -17,7 +17,7 @@
 	if (isset($_SESSION['gameId']) && $x->gameDone){
 			$x->lose = 1;
 			require('loseGame.php');
-			require('checkDisconnects.php');
+			require('checkAllDisconnects.php');
 		
 			$x->gameName = $_SESSION['gameName'];
 			$x->map = $_SESSION['map'];

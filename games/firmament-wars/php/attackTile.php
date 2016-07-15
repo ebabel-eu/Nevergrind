@@ -1,6 +1,10 @@
 <?php
+	header('Content-Type: application/json');
 	require('connect1.php');
 	require('battle.php');
+	
+	$o = new stdClass();
+	$o->reward = 1;
 	
 	$attacker = new stdClass();
 	$attacker->tile = $_POST['attacker'];
@@ -13,7 +17,6 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('iii', $attacker->tile, $defender->tile, $_SESSION['gameId']);
 		$stmt->execute();
-		$stmt->store_result();
 		$stmt->bind_result($tile, $tileName, $nation, $flag, $units, $player, $account);
 		
 		while($stmt->fetch()){
@@ -60,6 +63,7 @@
 			$stmt->bind_param('iii', $defender->units, $defender->tile, $_SESSION['gameId']);
 			$stmt->execute();
 		} else {
+			// attacking uninhabited/enemy territory
 			if ($stmt->num_rows == 2 && 
 				$attacker->units > 1 &&
 				$defender->account != $_SESSION['account']){
@@ -82,24 +86,33 @@
 					if ($originalDefendingUnits > 0){
 						// write victory to chat
 						$atkFlag = $attacker->flag === 'Default.jpg' ? 
-							'<img src="images/flags/Player'.$attacker->player.'" class="player'.$attacker->player.' p'.$attacker->player.'b inlineFlag">' :
+							'<img src="images/flags/Player'.$attacker->player.'.jpg" class="player'.$attacker->player.' p'.$attacker->player.'b inlineFlag">' :
 							'<img src="images/flags/'.$attacker->flag.'" class="player'.$attacker->player.' p'.$attacker->player.'b inlineFlag">';
 						$defFlag = '';
-						// non-barbarian flag
+						// tile is by player
 						if ($defender->flag){
-						$defFlag = $defender->flag === 'Default.jpg' ? 
-							'<img src="images/flags/Player'.$defender->player.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">' :
-							'<img src="images/flags/'.$defender->flag.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">';
+							// tile is not barbarian
+							if ($defender->flag === 'Default.jpg'){
+								$defFlag = '<img src="images/flags/Player'.$defender->player.'.jpg" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">';
+							} else {
+								$defFlag = '<img src="images/flags/'.$defender->flag.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">';
+							}
+						} else {
+							// give barbarian reward
+							require('barbarianReward.php');
+							$o->rewardMsg = getBarbarianReward($attacker, $defender);
 						}
 							
-						$msg = $atkFlag. $attacker->nation . ' (' .$originalAttackingUnits. ') conquers ' . $defFlag . $defender->tileName. ' ('.$originalDefendingUnits.')';
+						$msg = $atkFlag. $attacker->nation . ' conquers ' . $defFlag . $defender->tileName. ' '.$originalAttackingUnits .'-'. $originalDefendingUnits.'';
 						$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 						$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 						$stmt->execute();
-						
-						mysqli_query($link, 'delete from fwchat where timestamp < date_sub(now(), interval 20 second)');
+						// was the player eliminated?
+						if (!$defender->flag){
+							require('checkDeadPlayer.php');
+							checkDeadPlayer($defender);
+						}
 					}
-					
 				} else {
 					// defeat
 					$attacker->units = $result[0];
@@ -117,23 +130,20 @@
 					
 					// write victory to chat
 					$atkFlag = $attacker->flag === 'Default.jpg' ? 
-						'<img src="images/flags/Player'.$attacker->player.'" class="player'.$attacker->player.' p'.$attacker->player.'b inlineFlag">' :
+						'<img src="images/flags/Player'.$attacker->player.'.jpg" class="player'.$attacker->player.' p'.$attacker->player.'b inlineFlag">' :
 						'<img src="images/flags/'.$attacker->flag.'" class="player'.$attacker->player.' p'.$attacker->player.'b inlineFlag">';
 					$defFlag = '';
 					// non-barbarian flag
 					if ($defender->flag){
 					$defFlag = $defender->flag === 'Default.jpg' ? 
-						'<img src="images/flags/Player'.$defender->player.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">' :
+						'<img src="images/flags/Player'.$defender->player.'.jpg" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">' :
 						'<img src="images/flags/'.$defender->flag.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">';
 					}
 						
-					$msg = $atkFlag. $attacker->nation . ' (' .$originalAttackingUnits. ') is defeated in ' . $defFlag . $defender->tileName. ' ('.$originalDefendingUnits.')';
+					$msg = $atkFlag. $attacker->nation . ' is defeated in ' . $defFlag . $defender->tileName. ' '.$originalAttackingUnits .'-'. $originalDefendingUnits;
 					$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 					$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 					$stmt->execute();
-					
-					mysqli_query($link, 'delete from fwchat where timestamp < date_sub(now(), interval 20 second)');
-					
 				}
 			} else {
 				header('HTTP/1.1 500 Invalid attack command.');
@@ -144,5 +154,5 @@
 		header('HTTP/1.1 500 Invalid attack command.');
 		exit();
 	}
-	echo "BATTLE COMPLETE:";
+	echo json_encode($o);
 ?>

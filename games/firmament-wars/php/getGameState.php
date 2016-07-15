@@ -1,6 +1,5 @@
 <?php
 	header('Content-Type: application/json');
-	$start = microtime(true);
 	session_start();
 	if(php_uname('n')=="JOE-PC"){
 		$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
@@ -9,24 +8,19 @@
 	}
 	
 	// get game tiles
-	$stmt = $link->prepare('select tile, player, units, food, production, culture from `fwTiles` where game=?');
+	$stmt = $link->prepare('select player, units from `fwTiles` where game=? order by tile');
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
-	$stmt->store_result();
-	$stmt->bind_result($tile, $player, $units, $food, $production, $culture);
+	$stmt->bind_result($player, $units);
 	
 	$x = new stdClass();
-	$x->tiles = array();
-	$x->player = array(0,0,0,0,0,0,0,0,0);
+	$x->tiles = [];
+	$x->player = [0,0,0,0,0,0,0,0,0];
 	$count = 0;
 	while($stmt->fetch()){
 		$x->tiles[$count++] = (object) array(
-			'tile' => $tile, 
 			'player' => $player, 
-			'units' => $units, 
-			'food' => $food, 
-			'production' => $production, 
-			'culture' => $culture
+			'units' => $units
 		);
 		$x->player[$player] = 1;
 	}
@@ -45,7 +39,5 @@
 	}
 	$x->chatId = $_SESSION['chatId'];
 	$x->timeout = 1000;
-	$x->gameId = $_SESSION['gameId'];
-	$x->delay = microtime(true) - $start;
 	echo json_encode($x);
 ?>

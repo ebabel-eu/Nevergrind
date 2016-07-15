@@ -1,24 +1,24 @@
-- muster units -2 food +3 units?
-- add mechanism to remove player from diplomacy panel when disco/loss
-- make a victory screen that doesn't suck, disable all events except OK button
-- check if player is eliminated after losing a tile, notify chat
-- limit deploy to 10?
-- add double/double triple/doubles quad/doubles
 - Get rewards from barb tiles... 
-	- Add capital tile to SESSION values
 	Barb Rewards:
 	+15/20/25 production
 	+15/20/25 food
 	+3 units to capital
 	+2 manpower join us
-	+4 to capital culture
-	+2 to capital food
-	+2 to capital production
-- add server lag indicator
-- add mechanism to detect when player has disconnected/left game
+- make barb tile rewards flat +2 rewards; forget +% tile resource bonuses
+- add 2 production to all attack/move
+	2. initGameState: retrieve capital and store in game state and indicate icon
+	3. give capital a defensive bonus & icon
+	4. implement capital defense bonus
+	5. read 4 new tile columns to game data
+- muster units -2 food +3 units?
+- set deploy to 12?
+- add server lag indicator?
+- put a star in player capitals (represents defensive structure)
+- add timers to cooldowns on some skills? and updateResources
 	
 // 1.0 stuff
 - h2h rating system?
+- add images for all gets
 - Add production milestones????????? -> Capital bonuses?
 - More maps
 - FFA & H2H mode
@@ -37,25 +37,17 @@
 - explain gameplay of firmament wars (risk + civ rev + starcraft)
 - monetization ideas?
 
-- host leaves -> game dies :( ???
-- init game in fwTiles 
-- display UI
-- accumulate resources-ui
-- 
-
-
 SESSION VALUES:
 LOGOUT:
 $_SESSION['account']
 $_SESSION['email']
-
-
 
 GAME:
 $_SESSION['gameId']
 $_SESSION['max']
 $_SESSION['gameName']
 $_SESSION['gameStarted']
+$_SESSION['gameType']
 $_SESSION['player']
 $_SESSION['map']
 $_SESSION['food'] / $_SESSION['foodMax']

@@ -204,31 +204,24 @@ a:hover{
 	position: absolute;
 	bottom: 35%;
 	left: .5%;
-	width: 40%;
+	width: 50%;
 	padding: 1%;
 	z-index: 9999;
 	font-size: 1em;
 	vertical-align: bottom;
 	pointer-events: none;
 }
-#target-ui{
-	position: absolute;
-	top: 0%;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	width: 50%;
-	padding: 1%;
-	color: #fff;
-	font-size: 1.25em;
-}
 .chat-img{
-	width: 50%;
+	max-width: 50%;
 	display: block;
 }
 .chat-get{
 	color: #ffee00;
 	text-shadow: 2px 2px 0 #530;
+}
+.chat-arrow{
+	color: #1e1;
+	text-shadow: 2px 2px 0 #060;
 }
 #chat-input{
 	position: absolute;
@@ -258,37 +251,132 @@ a:hover{
 	height: 28%;
 	z-index: 9999;
 	box-shadow: 0 -1px 0 rgba(0,77,192,1);
+	0 1px 12px rgba(255,255,255,.3) inset
 	border-radius: 4% 4% 0 0;
 }
 #diplomacy-ui{
-	font-size: 1em;
+	font-family: "Times New Roman", serif;
+	font-size: 1.125em;
 	position: absolute;
 	top: 0%;
-	left: 1%;
-	width: 25%;
-	padding: .5em;
-	text-overflow: ellipsis;
+	left: 0%;
+	width: 35%;
+	height: 100%;
+	padding: .5em .5em .5em 1%;
 	z-index: 9999;
 	color: #fff;
 	text-align: left;
 }
-#diplomacy-actions{
-	margin-top: .5em;
+.stagBlue{
+	background: rgba(190, 230, 250, .1);
+	background: linear-gradient(top, 
+		rgba(190, 230, 250, .1) 0%, rgba(190, 230, 250, .1) 10%, 
+		rgba(180, 220, 240, .1) 10%, rgba(180, 220, 240, .1) 20%, 
+		rgba(170, 210, 230, .1) 20%, rgba(170, 210, 230, .1) 30%, 
+		rgba(160, 200, 220, .1) 30%, rgba(160, 200, 220, .1) 40%, 
+		rgba(150, 190, 210, .1) 40%, rgba(150, 190, 210, .1) 50%, 
+		rgba(140, 180, 200, .1) 50%, rgba(140, 180, 200, .1) 60%, 
+		rgba(130, 170, 190, .1) 60%, rgba(130, 170, 190, .1) 70%, 
+		rgba(120, 160, 180, .1) 70%, rgba(120, 160, 180, .1) 80%, 
+		rgba(110, 150, 170, .1) 80%, rgba(110, 150, 170, .1) 90%, 
+		rgba(100, 140, 160, .1) 90%, rgba(100, 140, 160, .1) 100%);
+	background: -webkit-linear-gradient(top, 
+		rgba(190, 230, 250, .1) 0%, rgba(190, 230, 250, .1) 10%, 
+		rgba(180, 220, 240, .1) 10%, rgba(180, 220, 240, .1) 20%, 
+		rgba(170, 210, 230, .1) 20%, rgba(170, 210, 230, .1) 30%, 
+		rgba(160, 200, 220, .1) 30%, rgba(160, 200, 220, .1) 40%, 
+		rgba(150, 190, 210, .1) 40%, rgba(150, 190, 210, .1) 50%, 
+		rgba(140, 180, 200, .1) 50%, rgba(140, 180, 200, .1) 60%, 
+		rgba(130, 170, 190, .1) 60%, rgba(130, 170, 190, .1) 70%, 
+		rgba(120, 160, 180, .1) 70%, rgba(120, 160, 180, .1) 80%, 
+		rgba(110, 150, 170, .1) 80%, rgba(110, 150, 170, .1) 90%, 
+		rgba(100, 140, 160, .1) 90%, rgba(100, 140, 160, .1) 100%);
+	background: -moz-linear-gradient(top, 
+		rgba(190, 230, 250, .1) 0%, rgba(190, 230, 250, .1) 10%, 
+		rgba(180, 220, 240, .1) 10%, rgba(180, 220, 240, .1) 20%, 
+		rgba(170, 210, 230, .1) 20%, rgba(170, 210, 230, .1) 30%, 
+		rgba(160, 200, 220, .1) 30%, rgba(160, 200, 220, .1) 40%, 
+		rgba(150, 190, 210, .1) 40%, rgba(150, 190, 210, .1) 50%, 
+		rgba(140, 180, 200, .1) 50%, rgba(140, 180, 200, .1) 60%, 
+		rgba(130, 170, 190, .1) 60%, rgba(130, 170, 190, .1) 70%, 
+		rgba(120, 160, 180, .1) 70%, rgba(120, 160, 180, .1) 80%, 
+		rgba(110, 150, 170, .1) 80%, rgba(110, 150, 170, .1) 90%, 
+		rgba(100, 140, 160, .1) 90%, rgba(100, 140, 160, .1) 100%);
+	background: -ms-linear-gradient(top, 
+		rgba(190, 230, 250, .1) 0%, rgba(190, 230, 250, .1) 10%, 
+		rgba(180, 220, 240, .1) 10%, rgba(180, 220, 240, .1) 20%, 
+		rgba(170, 210, 230, .1) 20%, rgba(170, 210, 230, .1) 30%, 
+		rgba(160, 200, 220, .1) 30%, rgba(160, 200, 220, .1) 40%, 
+		rgba(150, 190, 210, .1) 40%, rgba(150, 190, 210, .1) 50%, 
+		rgba(140, 180, 200, .1) 50%, rgba(140, 180, 200, .1) 60%, 
+		rgba(130, 170, 190, .1) 60%, rgba(130, 170, 190, .1) 70%, 
+		rgba(120, 160, 180, .1) 70%, rgba(120, 160, 180, .1) 80%, 
+		rgba(110, 150, 170, .1) 80%, rgba(110, 150, 170, .1) 90%, 
+		rgba(100, 140, 160, .1) 90%, rgba(100, 140, 160, .1) 100%);
+	background: -o-linear-gradient(top, 
+		rgba(190, 230, 250, .1) 0%, rgba(190, 230, 250, .1) 10%, 
+		rgba(180, 220, 240, .1) 10%, rgba(180, 220, 240, .1) 20%, 
+		rgba(170, 210, 230, .1) 20%, rgba(170, 210, 230, .1) 30%, 
+		rgba(160, 200, 220, .1) 30%, rgba(160, 200, 220, .1) 40%, 
+		rgba(150, 190, 210, .1) 40%, rgba(150, 190, 210, .1) 50%, 
+		rgba(140, 180, 200, .1) 50%, rgba(140, 180, 200, .1) 60%, 
+		rgba(130, 170, 190, .1) 60%, rgba(130, 170, 190, .1) 70%, 
+		rgba(120, 160, 180, .1) 70%, rgba(120, 160, 180, .1) 80%, 
+		rgba(110, 150, 170, .1) 80%, rgba(110, 150, 170, .1) 90%, 
+		rgba(100, 140, 160, .1) 90%, rgba(100, 140, 160, .1) 100%);
+}
+.diplomacyPlayers{
+	position: relative;
+	line-height: 1.125em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.diploNames{
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 78%;
+	top: .1875em;
+	position: relative;
+}
+#surrender{
+	margin-right: .375em;
+}
+.surrender{
+	margin-right: .375em;
+	opacity: 0;
+	pointer-events: none;
+}
+.diplomacySquare{
+	margin-right: .375em;
+}
+#target-ui{
+	position: absolute;
+	top: 0%;
+	right: 15%;
+	width: 50%;
+	height: 100%;
+	padding: 1%;
+	color: #fff;
+	font-size: 1.25em;
+	border-left: 1px solid rgba(176,240,255,.1);
+	border-right: 1px solid rgba(176,240,255,.1);
 }
 #resources-ui{
 	font-size: 1em;
 	position: absolute;
 	top: 0%;
-	right: 1%;
-	width: 25%;
-	padding: 0;
+	right: 0%;
+	width: 15%;
+	height: 100%;
+	padding: 1em 1% 0 0;
 	text-overflow: ellipsis;
 	z-index: 9999;
 	color: #fff;
 	text-align: right;
 }
 .ui-window{
-	background: rgba(0,32,92,0.5);
 	border-top: 2px groove rgba(176,240,255,1);
 	/* nice box shadow but laggy
 	box-shadow: 
@@ -323,10 +411,45 @@ a:hover{
 	padding: 0;
 }
 #actions{
+	position: relative;
+	left: 7%;
 	line-height: 1.125em;
 }
 #tileActions{
-	margin-top: .25%;
+	margin-top: 1%;
+	width: 95%;
+	margin: 0 auto;
+	font-size: .625em;
+}
+.actionButtons, .emptyButtons{
+	padding: 1em;
+	width: 33%;
+	line-height: 2.5em;
+	float: left;
+	background: #013;
+	border: 1px outset rgba(176,240,255, 1);
+	white-space: nowrap;
+	overflow: hidden;
+	box-shadow: 0 3px 15px #357 inset;
+}
+.emptyButtons{
+	pointer-events: none;
+}
+.actionButtons:hover{
+	background: #134;
+}
+.actionButtons:active{
+	background: #001a2a;
+	box-shadow: 0 -3px 15px #357 inset;
+}
+#tileResources{
+	font-family: Times New Roman, serif;
+	position: absolute;
+	top: 7%;
+	left: -7%;
+}
+.tileResource{
+	margin: .5em 0;
 }
 #players{
 	height: 30%;
@@ -336,6 +459,36 @@ a:hover{
 }
 #chatId{
 	display: none;
+}
+#victoryScreen{
+	position: absolute;
+	display: none;
+	font-family: Consolas, monospace;
+	top: 28%;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	width: 33%;
+	padding: 1% 3%;
+	font-size: 1.25em;
+	text-align: center;
+	z-index: 9999;
+}
+#endWar{
+	margin-top: 4%;
+	border: 1px solid #3377dd;
+	box-shadow: 0 0 20px rgba(0,40,148,1) inset;
+	border-radius: 5%;
+	color: #ff0;
+	cursor: pointer;
+	padding: 1%;
+}
+#endWar:hover{
+	background: rgba(0, 48, 112, .5);
+}
+.modalBtnChild{
+	border: 1px solid #335577;
+	border-radius: 10%;
 }
 .portal{
 	position: absolute;
@@ -461,22 +614,20 @@ text{
 	text-align: center;
 	overflow: hidden;
 }
-#tile-ui{
-	font-size: 1em;
+#tile-name{
+	font-family: Times New Roman, serif;
+	font-size: 1.125em;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	text-align: center;
 	overflow: hidden;
-}
-#tileInfo{
-	font-family: Times New Roman, serif;
-	
+	margin-bottom: 2%;
 }
 .fw-primary{
-	border: 1px solid #3377dd;
-	background: rgba(0,0,0,.5);
+	border: 1px solid #01a;
+	background: rgba(0,0,0,.7);
 	border-radius: 6px;
-	color: #eef;
+	color: #bef;
 	box-shadow: 0 0 5px #3377dd, 0 0 5px #3377dd inset;
 }
 #lobby{
@@ -554,7 +705,8 @@ text{
 }
 #hud{
 	font-family: "Times New Roman", serif;
-	letter-spacing: .125em;
+	font-variant: small-caps;
+	letter-spacing: .1em;
 	position: absolute;
 	top: 5%;
 	left: 0%;
@@ -724,29 +876,15 @@ table {
 .p8b{
 	border: 2px solid #5500aa;
 }
-.diplomacyPlayers{
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	line-height: 1.5em;
-	display: table;
-}
-.diploWrap{
-    vertical-align: middle;
-    display: table-cell;
-}
-.diplomacySquare{
-	float: left;
-	margin: .25em .5em 0 0;
-	height: 1.125em;
-	width: 1.125em;
-	border: 1px solid #0a0a0a;
-}
 .inlineFlag{
 	display: inline-block;
 	margin-right: .5em;
 	height: 1em;
 	border-width: 1px;
+}
+.diploFlag{
+	position: relative;
+	bottom: .125em;
 }
 #startGame{
 	display: none;
@@ -831,6 +969,8 @@ table {
 	.btn-responsive{
 		padding: 4px 8px;
 	}
+	.actionButtons{
+	}
 }
 @media all and (max-width: 1023px) and (min-width: 640px){
 	body { 
@@ -839,6 +979,9 @@ table {
 	.btn-responsive{
 		font-size: 1em; 
 		padding: 3px 6px;
+	}
+	.actionButtons{
+		padding: 10px 20px;
 	}
 	.inlineFlag{
 		height: 14px;
@@ -851,6 +994,9 @@ table {
 	.btn-responsive{
 		font-size: 1.125em; 
 		padding: 2px 4px;
+	}
+	.actionButtons{
+		padding: 1em 2em;
 	}
 	.inlineFlag{
 		height: 10px;
