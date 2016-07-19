@@ -26,32 +26,44 @@
 		if ($reward === 0){
 			// food
 			$amount = 15 + ($tier * 5);
-			$msg = 'After plundering their farms in ' . $defender->tileName. ', we discovered ' . $amount . ' food in storage!';
-			$_SESSION['food'] += $amount;
+			$msg = 'After plundering farms in ' . $defender->tileName. ', we discovered ' . $amount . ' food in storage!';
+			$_SESSION['foodReward'] += $amount;
 		} else if ($reward === 1){
 			// production
-			$amount = 10 + ($tier * 5);
-			$msg = 'After plundering their workshops in ' . $defender->tileName. ', we discovered ' . $amount . ' production in storage!';
-			$_SESSION['production'] += $amount;
+			$amount = 15 + ($tier * 5);
+			$msg = 'After plundering mines in ' . $defender->tileName. ', we discovered '. $amount .' energy in storage!';
+			$_SESSION['productionReward'] += $amount;
 			
 		} else if ($reward === 2){
 			// culture
 			$amount = 40 + ($tier * 10);
-			$msg = 'After plundering their temples in ' . $defender->tileName. ', we discovered ' . $amount . ' culture in storage!';
-			$_SESSION['culture'] += $amount;
+			$msg = 'After plundering temples in ' . $defender->tileName. ', we discovered ' . $amount . ' culture in storage!';
+			$_SESSION['cultureReward'] += $amount;
 			
 		} else if ($reward === 3){
-			// + units at capital
+			// + 4-6 units at capital
 			$amount = 4 + $tier;
-			$msg = 'The barbarian tribe have offered to defend our capital, yielding ' . $amount . ' armies in ' . $_SESSION['capital'] . '!';
-			$newTotal = $defender->units + $amount;
+			$msg = 'Your victory boosts morale in the homeland, yielding ' . $amount . ' armies in our capital!';
+			// get capital unit value
+			$query = 'select units from fwTiles where tile=? and game=?';
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('ii', $_SESSION['capital'], $_SESSION['gameId']);
+			$stmt->execute();
+			$stmt->bind_result($units);
+			
+			while($stmt->fetch()){
+				$capitalUnits = $units;
+			}
+			
+			// update capital value
+			$newTotal = $capitalUnits + $amount;
 			$stmt = $link->prepare('update fwTiles set units=? where tile=? and game=?');
 			$stmt->bind_param('iii', $newTotal, $_SESSION['capital'], $_SESSION['gameId']);
 			$stmt->execute();
 		} else if ($reward === 4){
-			// +2 units at tile
+			// +2-4 units at tile
 			$amount = 2 + $tier;
-			$msg = 'The barbarian tribe has decided to join you, yielding ' . $amount . ' armies in ' . $defender->tileName . '!';
+			$msg = 'A local militia has decided to join you, yielding ' . $amount . ' armies in ' . $defender->tileName . '!';
 			
 			$newTotal = $defender->units + $amount;
 			$stmt = $link->prepare('update fwTiles set units=? where tile=? and game=?');
@@ -59,67 +71,29 @@
 			$stmt->execute();
 			
 		} else if ($reward === 5){
-			// reveal food to tile
-			$amount = 2 + $tier;
-			$msg = 'The barbarian tribe reveals a hidden granary yielding +' . $amount . ' food in ' . $defender->tileName. '!';
-			
-			$query = 'select food from fwTiles where tile=? and game=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('ii', $defender->tile, $_SESSION['gameId']);
-			$stmt->execute();
-			$stmt->bind_result($food);
-			
-			while($stmt->fetch()){
-				$food = $food;
-			}
-			// should I update a bonus value instead?
-			$food += $amount;
-			$query = 'update fwTiles set food=? where tile=? and game=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('iii', $food, $defender->tile, $_SESSION['gameId']);
-			$stmt->execute();
+			// reveal food bonus
+			$msg = 'The barbarian tribe reveals an unused granary yielding a +10% food bonus!';
+			$_SESSION['foodBonus'] += 10;
 			
 		} else if ($reward === 6){
-			// reveal production to tile
-			$amount = 2 + $tier;
-			$msg = 'The barbarian tribe reveals a hidden workshop yielding +' . $amount . ' production in ' . $defender->tileName. '!';
-			
-			$query = 'select production from fwTiles where tile=? and game=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('ii', $defender->tile, $_SESSION['gameId']);
-			$stmt->execute();
-			$stmt->bind_result($production);
-			
-			while($stmt->fetch()){
-				$production = $production;
-			}
-			// should I update a bonus value instead?
-			$production += $amount;
-			$query = 'update fwTiles set production=? where tile=? and game=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('iii', $production, $defender->tile, $_SESSION['gameId']);
-			$stmt->execute();
+			// reveal energy bonus
+			$msg = 'The barbarian tribe reveals an unused oil field in ' . $defender->tileName. ' yielding a +1 production bonus!';
+			$_SESSION['turnBonus'] += 10;
 			
 		} else if ($reward === 7){
-			// reveal culture to tile
-			$amount = 3 + $tier;
-			$msg = 'The barbarian tribe reveals ancient artifacts yielding +' . $amount . ' culture in ' . $defender->tileName. '!';
+			// reveal culture bonus
+			$msg = 'A Great Artist has joined us in ' . $defender->tileName. ' yielding a +10% culture bonus!';
+			$_SESSION['cultureBonus'] += 10;
 			
-			$query = 'select culture from fwTiles where tile=? and game=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('ii', $defender->tile, $_SESSION['gameId']);
-			$stmt->execute();
-			$stmt->bind_result($culture);
+		} else if ($reward === 8){
+			// offensive bonus
+			$msg = 'A Great General has joined us! All armies receive a +1 offense bonus!';
+			$_SESSION['oBonus']++;
 			
-			while($stmt->fetch()){
-				$culture = $culture;
-			}
-			// should I update a bonus value instead?
-			$culture += $amount;
-			$query = 'update fwTiles set culture=? where tile=? and game=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('iii', $culture, $defender->tile, $_SESSION['gameId']);
-			$stmt->execute();
+		} else if ($reward === 9){
+			// defensive bonus
+			$msg = 'A Great Tactician has joined us! All armies receive +1 defense bonus!';
+			$_SESSION['dBonus']++;
 			
 		}
 		return $msg;

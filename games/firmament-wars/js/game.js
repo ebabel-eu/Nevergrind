@@ -95,9 +95,12 @@ function setActionButtons(t){
 	}
 	var str = 
 		'<div id="tileResources" class="shadow4">' +
-			'<div class="tileResource" data-toggle="tooltip" title="' + t.food + ' food in ' + t.name + '"><i class="food glyphicon glyphicon-apple" ></i> ' + t.food + '</div>'+
-			//'<div class="tileResource" data-toggle="tooltip" title="' + t.production + ' production in ' + t.name + '"><i class="production fa fa-gavel" ></i> ' + t.production + '</div>'+
-			'<div class="tileResource" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</div>'+
+			'<div class="tileResource">'+
+				'<span class="fwTooltip" data-toggle="tooltip" title="' + t.food + ' food in ' + t.name + '"><i class="food glyphicon glyphicon-apple" ></i> ' + t.food + '</span>'+
+			'</div>'+
+			'<div class="tileResource">'+
+				'<span class="fwTooltip" data-toggle="tooltip" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</span>'+
+			'</div>'+
 		'</div>' +
 		'<div id="tile-name" class="no-select text-center shadow4">' + t.name + '</div>' +
 		'<div id="tileActions" class="shadow4">';
@@ -105,15 +108,14 @@ function setActionButtons(t){
 			if (my.player === t.player){
 				str += '<button id="attack" type="button" class="actionButtons shadow4">Move/Attack</button>' +
 				'<button id="deploy" type="button" class="actionButtons shadow4">Deploy</button>' +
-				'<button id="deployAll" type="button" class="actionButtons shadow4">Deploy All</button>'+
-				'<button id="muster" type="button" class="actionButtons  shadow4">Muster</button>';
-				str += addEmptyButton(5);
+				'<button id="draft" type="button" class="actionButtons  shadow4">Draft</button>';
+				str += addEmptyButton(6);
 			} else {
 				str += addEmptyButton(9);
 			}
 		str += '<div>';
 	DOM.actions.innerHTML = str;
-	$('.tileResource').tooltip({
+	$('.fwTooltip').tooltip({
 		delay: {
 			show: 0,
 			hide: 0
@@ -148,7 +150,7 @@ function getGameState(){
 			type: "GET",
 			url: "php/getGameState.php"
 		}).done(function(data){
-			console.info('server lag: ' + (Date.now() - lag), data.delay, data);
+			// console.info('server lag: ' + (Date.now() - lag), data.delay, data);
 			var start = Date.now();
 			repeatDelay = data.timeout;
 			var tiles = data.tiles;
@@ -222,7 +224,7 @@ function getGameState(){
 					}
 				}
 			})(0);
-			console.info('client lag: ', Date.now() - start);
+			// console.info('client lag: ', Date.now() - start);
 		}).fail(function(data){
 			console.info(data.responseText);
 			serverError();
@@ -241,6 +243,7 @@ function getGameState(){
 					console.info('resource: ', data.get, data);
 					setResources(data);
 				}).fail(function(data){
+					console.info(data.responseText);
 					serverError();
 				});
 			}

@@ -447,6 +447,7 @@ a:hover{
 	position: absolute;
 	top: 7%;
 	left: -7%;
+	width: 20%;
 }
 .tileResource{
 	margin: .5em 0;
@@ -515,14 +516,13 @@ a:hover{
 	top: 0%;
 	left: 0%;
 	width: 195.3125%;
-	/*height: 130.3385%;*/
 	height: 149.739583%;
 }
 #world{
 	position: absolute;
 	top: 0%; 
 	left: 0%;
-	background: #00154a;
+	background: #001155 url('../images/fw_grid.png');
 }
 #mapUnits{
 	text-shadow: 1px 1px #000;
@@ -627,7 +627,7 @@ text{
 	border: 1px solid #01a;
 	background: rgba(0,0,0,.7);
 	border-radius: 6px;
-	color: #bef;
+	color: #fff;
 	box-shadow: 0 0 5px #3377dd, 0 0 5px #3377dd inset;
 }
 #lobby{

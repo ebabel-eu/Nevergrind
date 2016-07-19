@@ -15,6 +15,7 @@ var action = {
 		}
 	},
 	attackTile: function(that){
+		console.info('production: ', my.production);
 		var attacker = my.tgt;
 		var defender = that.id.slice(4)*1;
 		if (my.tgt === defender){
@@ -31,9 +32,13 @@ var action = {
 			my.clearHud();
 			return;
 		}
+		if (my.production < 7){
+			Msg("Not enough energy!", 1.5);
+			my.clearHud();
+			return;
+		}
 		g.lock(true);
 		// send attack to server
-		console.info('Attacking: ', attacker, 'vs', defender);
 		$.ajax({
 			url: 'php/attackTile.php',
 			data: {
@@ -41,8 +46,11 @@ var action = {
 				defender: defender
 			}
 		}).done(function(data) {
-			if (data.rewardMsg){
+			if ('rewardMsg' in data){
 				chat(data.rewardMsg);
+			}
+			if ('production' in data){
+				setProduction(data);
 			}
 		}).fail(function(e){
 			// playAudio("failNoise");
@@ -57,34 +65,45 @@ var action = {
 		// report battle results
 		my.clearHud();
 	},
-	deploy: function(all){
-		if (my.player === game.tiles[my.tgt].player && my.manpower && game.tiles[my.tgt].units <= 254){
-			if (all){
-				var foo = my.manpower;
-				var rem = 0;
-				if (game.tiles[my.tgt].units + foo > 255){
-					rem = (game.tiles[my.tgt].units + foo) - 255;
-					foo = 255 - game.tiles[my.tgt].units;
-				}
-				game.tiles[my.tgt].units += foo;
-				my.manpower = rem;
+	deploy: function(){
+		if (my.production < 20){
+			Msg("Not enough energy!", 1.5);
+			my.clearHud();
+			return;
+		}
+		if (my.player === game.tiles[my.tgt].player && 
+			my.manpower && 
+			game.tiles[my.tgt].units <= 254){
+			// determine number
+			var deployedUnits = my.manpower < 12 ? my.manpower : 12;
+			var rem = 0;
+			if (game.tiles[my.tgt].units + deployedUnits > 255){
+				rem = ~~((game.tiles[my.tgt].units + deployedUnits) - 255);
+				deployedUnits = ~~(255 - game.tiles[my.tgt].units);
 			} else {
-				all = 0;
-				my.manpower--;
-				game.tiles[my.tgt].units++;
+				rem = my.manpower - deployedUnits;
 			}
+			game.tiles[my.tgt].units += deployedUnits;
+			my.manpower = ~~rem;
+			// do it
 			DOM.manpower.textContent = my.manpower;
 			setTileUnits(my.tgt, '#00ff00');
+			g.lock(true);
 			$.ajax({
 				url: 'php/deploy.php',
 				data: {
-					all: all,
+					deployedUnits: deployedUnits,
 					target: my.tgt
 				}
 			}).done(function(data) {
-				console.info("data: ", data);
+				console.info("deploy: ", data);
+				if ('production' in data){
+					setProduction(data);
+				}
 			}).fail(function(e){
 				// playAudio("failNoise");
+			}).always(function(){
+				g.unlock();
 			});
 		}
 	}
@@ -94,8 +113,6 @@ $("#actions").on("mousedown", '#attack', function(){
 	action.attack(true);
 }).on('mousedown', '#deploy', function(){
 	action.deploy();
-}).on('mousedown', '#deployAll', function(){
-	action.deploy(1);
 });
 // key bindings
 function toggleChatMode(send){
@@ -156,9 +173,6 @@ $(document).on('keyup', function(e) {
 			} else if (x === 68){
 				// d
 				action.deploy();
-			} else if (x === 69){
-				// e
-				action.deploy(1);
 			} else if (x === 13){
 				// enter
 				toggleChatMode();

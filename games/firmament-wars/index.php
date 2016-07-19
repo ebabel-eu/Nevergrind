@@ -238,8 +238,18 @@
 			
 			<div id="resources-ui" class="container no-select shadow4">
 				<div class="row">
-					<div id='manpowerWrap' class="col-sm-12 no-padding">
-						<span class="manpower" data-toggle="tooltip" title="You can deploy armies to any territory you have conquered">Armies</span>
+					<div id='manpowerWrap' class="col-sm-12 no-padding manpower">
+						<span data-toggle="tooltip" title="Deploy armies to conquered territories">
+							Armies
+						</span>
+						<span data-toggle="tooltip" title="Great Generals add an offensive bonus">
+							<i class="fa fa-star"></i>
+							<span id="oBonus">0</span> 
+						</span>&nbsp;
+						<span data-toggle="tooltip" title="Great Tacticians add a defensive bonus">
+							<i class="fa fa-shield"></i>
+							<span id="dBonus">0</span>
+						</span>
 					</div>
 					<div>
 						<span id="manpower">0</span>
@@ -247,41 +257,64 @@
 				</div>
 				
 				<div class="row">
+					<div class="col-sm-12 no-padding production">
+						<span data-toggle="tooltip" title="Energy is required to perform actions">
+							<i class="fa fa-bolt"></i> Energy 
+						</span>
+						<span data-toggle="tooltip" title="Energy Bonus">
+							+<span id="turnBonus">0</span>%
+						</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 no-padding">
+						<div class="resourceIndicator">
+							<span id="production">0</span> 
+							<span data-toggle="tooltip" title="Energy per turn">
+								(+<span id="sumProduction">0</span>)
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
 					<div class="col-sm-12 no-padding food">
-						<span data-toggle="tooltip" title="Food milestones produce new armies"><i class="glyphicon glyphicon-apple"></i> Food</span>
+						<span data-toggle="tooltip" title="Food milestones produce armies">
+							<i class="glyphicon glyphicon-apple"></i> Food 
+						</span>
+						<span data-toggle="tooltip" title="Food Bonus">
+							+<span id="foodBonus">0</span>%
+						</span>
 					</div>
 				</div>
 				
 				<div class="row">
 					<div class="col-sm-12 no-padding">
 						<div class="resourceIndicator">
-							<span id="food">0</span>/<span id="foodMax">25</span> (+<span id="sumFood">0</span>)
+							<span id="food">0</span>/<span id="foodMax">25</span> 
+							<span data-toggle="tooltip" title="Food per turn">
+								(+<span id="sumFood">0</span>)
+							</span>
 						</div>
 					</div>
 				</div>
-				<!--
-				<div class="row">
-					<div class="col-sm-12 no-padding production">
-						<span data-toggle="tooltip" title="Used to build structures and weapons"><i class="fa fa-gavel"></i> Production</span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12 no-padding nowrap resourceIndicator">
-						<span id="production">0</span> (+<span id="sumProduction">0</span>)
-					</div>
-				</div>
-				-->
 				
 				<div class="row">
 					<div class="col-sm-12 no-padding culture">
 						<span data-toggle="tooltip" title="Culture milestones produce special rewards"><i class="fa fa-flag"></i> Culture</span>
+						<span data-toggle="tooltip" title="Culture Bonus">
+							+<span id="cultureBonus">0</span>%
+						</span>
 					</div>
 				</div>
 				
 				<div class="row">
 					<div class="col-sm-12 no-padding">
 						<div class="resourceIndicator">
-							<span id="culture">0</span>/<span id="cultureMax">400</span> (+<span id="sumCulture">0</span>)
+							<span id="culture">0</span>/<span id="cultureMax">400</span> 
+							<span data-toggle="tooltip" title="Culture per turn">
+								(+<span id="sumCulture">0</span>)
+							</span>
 						</div>
 					</div>
 				</div>

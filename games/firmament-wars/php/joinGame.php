@@ -44,12 +44,22 @@
 	$_SESSION['food'] = 0;
 	$_SESSION['foodMax'] = 25;
 	$_SESSION['foodMilestone'] = 0;
-	// $_SESSION['production'] = 10;
+	$_SESSION['production'] = 10;
+	$_SESSION['turnProduction'] = 10;
 	$_SESSION['culture'] = 0;
 	$_SESSION['cultureMax'] = 400;
 	$_SESSION['cultureMilestone'] = 0;
 	$_SESSION['manpower'] = 0;
+	$_SESSION['foodBonus'] = 0;
+	$_SESSION['turnBonus'] = 0;
+	$_SESSION['cultureBonus'] = 0;
+	$_SESSION['oBonus'] = 0;
+	$_SESSION['dBonus'] = 0;
 	$_SESSION['resourceTick'] = 0;
+	$_SESSION['foodReward'] = 0;
+	$_SESSION['cultureReward'] = 0;
+	$_SESSION['productionReward'] = 0;
+	$_SESSION['updateResourceStart'] = 0;
 	// init chat
 	$query = "select row from fwchat order by row desc limit 1";
 	$stmt = $link->prepare($query);

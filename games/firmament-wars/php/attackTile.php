@@ -12,6 +12,11 @@
 	$defender = new stdClass();
 	$defender->tile = $_POST['defender'];
 	
+	if ($_SESSION['production'] < 7){
+		header('HTTP/1.1 500 Not enough energy!');
+		exit();
+	}
+	
 	if (isAdjacent($attacker->tile, $defender->tile)){
 		$query = 'select tile, tileName, nation, flag, units, player, account from fwTiles where (tile=? or tile=?) and game=? limit 2';
 		$stmt = $link->prepare($query);
@@ -62,6 +67,9 @@
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('iii', $defender->units, $defender->tile, $_SESSION['gameId']);
 			$stmt->execute();
+			
+			$_SESSION['production'] -= 7;
+			$o->production = $_SESSION['production'];
 		} else {
 			// attacking uninhabited/enemy territory
 			if ($stmt->num_rows == 2 && 
@@ -108,11 +116,14 @@
 						$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 						$stmt->execute();
 						// was the player eliminated?
-						if (!$defender->flag){
+						if ($defender->flag){
 							require('checkDeadPlayer.php');
 							checkDeadPlayer($defender);
 						}
 					}
+			
+					$_SESSION['production'] -= 7;
+					$o->production = $_SESSION['production'];
 				} else {
 					// defeat
 					$attacker->units = $result[0];
@@ -144,14 +155,17 @@
 					$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 					$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 					$stmt->execute();
+			
+					$_SESSION['production'] -= 7;
+					$o->production = $_SESSION['production'];
 				}
 			} else {
-				header('HTTP/1.1 500 Invalid attack command.');
+				header('HTTP/1.1 500 You can only move/attack adjacent territories.');
 				exit();
 			}
 		}
 	} else {
-		header('HTTP/1.1 500 Invalid attack command.');
+		header('HTTP/1.1 500 You can only move/attack adjacent territories.');
 		exit();
 	}
 	echo json_encode($o);

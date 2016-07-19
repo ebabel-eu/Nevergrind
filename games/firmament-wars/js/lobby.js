@@ -1,49 +1,107 @@
-
-function setResources(d){
-	TweenMax.to(my, .5, {
-		food: d.food,
-		// production: d.production,
-		culture: d.culture,
+function initResources(d){
+	my.food = d.food;
+	my.production = d.production;
+	my.culture = d.culture;
+	// current
+	DOM.production.textContent = d.production;
+	DOM.food.textContent = d.food;
+	DOM.culture.textContent = d.culture;
+	// turn
+	// max
+	DOM.manpower.textContent = my.manpower;
+	my.manpower = d.manpower;
+	DOM.foodMax.textContent = d.foodMax;
+	DOM.cultureMax.textContent = d.cultureMax;
+	// sum
+	DOM.sumFood.textContent = d.sumFood;
+	DOM.sumProduction.textContent = d.turnProduction;
+	DOM.sumCulture.textContent = d.sumCulture;
+	// bonus values
+	DOM.oBonus.textContent = d.oBonus;
+	DOM.dBonus.textContent = d.dBonus;
+	DOM.turnBonus.textContent = d.turnBonus;
+	DOM.foodBonus.textContent = d.foodBonus;
+	DOM.cultureBonus.textContent = d.cultureBonus;
+}
+function setProduction(d){
+	TweenMax.to(my, .3, {
+		production: d.production,
+		ease: Quad.easeIn,
 		onUpdate: function(){
-			DOM.food.textContent = ~~my.food;
-			// DOM.production.textContent = ~~my.production;
-			DOM.culture.textContent = ~~my.culture;
-		},
-		ease: Linear.easeNone
-	});
-	if (my.manpower !== d.manpower){
-		if (d.manpower > my.manpower && game.initialized){
-			TweenMax.fromTo('#manpower', 2, {
-			  color: '#ffff00'
-			}, {
-			  color: '#fff',
-			  ease: Quad.easeIn
-			});
-			TweenMax.to(my, .5, {
-				manpower: d.manpower,
-				onUpdate: function(){
-					DOM.manpower.textContent = ~~my.manpower;
-				}
-			});
-		} else {
-			DOM.manpower.textContent = d.manpower;
-			my.manpower = d.manpower;
+			DOM.production.textContent = ~~my.production;
 		}
+	});
+}
+function setResources(d){
+	var endFood = my.food + d.sumFood;
+	var endCulture = my.culture + d.sumCulture;
+	setProduction(d);
+	TweenMax.to(my, .3, {
+		food: d.food,
+		production: d.production,
+		culture: d.culture,
+		ease: Quad.easeIn,
+		onUpdate: function(){
+			DOM.production.textContent = ~~my.production;
+			DOM.food.textContent = ~~my.food;
+			DOM.culture.textContent = ~~my.culture;
+		}
+	});
+	if (d.manpower > my.manpower){
+		TweenMax.fromTo('#manpower', 2, {
+		  color: '#ffff00'
+		}, {
+		  color: '#fff',
+		  ease: Quad.easeIn
+		});
+		TweenMax.to(my, .5, {
+			manpower: d.manpower,
+			onUpdate: function(){
+				DOM.manpower.textContent = ~~my.manpower;
+			}
+		});
 	}
-	if (my.foodMax !== d.foodMax){
+	if (d.foodMax > my.foodMax){
 		DOM.foodMax.textContent = d.foodMax;
+		my.foodMax = d.foodMax;
 	}
-	if (my.cultureMax !== d.cultureMax){
+		
+	if (d.cultureMax > my.cultureMax){
 		DOM.cultureMax.textContent = d.cultureMax;
+		my.cultureMax = d.cultureMax;
 	}
-	if (d.sumFood){
+	if (d.sumFood !== my.sumFood){
 		DOM.sumFood.textContent = d.sumFood;
-		// DOM.sumProduction.textContent = d.sumProduction;
+		my.sumFood = d.sumFood;
+	}
+	if (d.sumProduction !== my.sumProduction){
+		DOM.sumProduction.textContent = d.sumProduction;
+		my.sumProduction = d.sumProduction;
+	}
+	if (d.sumCulture !== my.sumCulture){
 		DOM.sumCulture.textContent = d.sumCulture;
-	} else {
-		DOM.sumFood.textContent = 0;
-		// DOM.sumProduction.textContent = 0;
-		DOM.sumCulture.textContent = 0;
+		my.sumCulture = d.sumCulture;
+	}
+	// bonus values
+	if (my.oBonus !== d.oBonus){
+		DOM.oBonus.textContent = d.oBonus;
+		my.oBonus = d.oBonus;
+	}
+	if (my.dBonus !== d.dBonus){
+		DOM.dBonus.textContent = d.dBonus;
+		my.dBonus = d.dBonus;
+	}
+	if (my.turnBonus !== d.turnBonus){
+		DOM.turnBonus.textContent = d.turnBonus;
+		my.turnBonus = d.turnBonus;
+	}
+	if (my.foodBonus !== d.foodBonus){
+		DOM.foodBonus.textContent = d.foodBonus;
+		my.foodBonus = d.foodBonus;
+	}
+	if (my.cultureBonus !== d.cultureBonus){
+		DOM.cultureBonus.textContent = d.cultureBonus;
+		my.cultureBonus = d.cultureBonus;
 	}
 }
 
@@ -68,11 +126,13 @@ function joinStartedGame(){
 		url: "php/initGameState.php"
 	}).done(function(data){
 		var focusTile = 0;
-		// console.info(data);
+		console.info('initGameState ', data);
 		my.player = data.player;
 		my.flag = data.flag;
 		my.nation = data.nation;
 		my.foodMax = data.foodMax;
+		my.production = data.production;
+		my.turnProduction = data.turnProduction;
 		my.cultureMax = data.cultureMax;
 		// initialize player data
 		game.initialized = true;
@@ -91,7 +151,7 @@ function joinStartedGame(){
 				flag: d.flag,
 				units: d.units,
 				food: d.food,
-				// production: d.production,
+				production: d.production,
 				culture: d.culture
 			}
 			if (d.nation){
@@ -161,6 +221,7 @@ function joinStartedGame(){
 			});
 		} else {
 			$(".land").on("mousedown", function(){
+				console.info(this.id);
 				if (my.attackOn){
 					action.attackTile(this);
 				} else {
@@ -242,6 +303,7 @@ function joinStartedGame(){
 			x: x * g.resizeX,
 			y: y * g.resizeY
 		});
+		initResources(data); // setResources(data);
 		$(e).trigger("mousedown");
 	}).fail(function(data){
 		serverError();

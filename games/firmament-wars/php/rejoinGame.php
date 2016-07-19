@@ -13,20 +13,29 @@
 	
 	while($stmt->fetch()){
 		$x->sumFood = $food;
-		// $x->sumProduction = $production;
 		$x->sumCulture = $culture;
 	}
 	// set session values
-	$x->food = isset($_SESSION['food']) ? $_SESSION['food'] > 9999 ? 9999 : $_SESSION['food'] : 0;
-	// $x->production = isset($_SESSION['production']) ? $_SESSION['production'] > 9999 ? 9999 : $_SESSION['production'] : 0;
-	$x->culture = isset($_SESSION['culture']) ? $_SESSION['culture'] > 9999 ? 9999 : $_SESSION['culture'] : 0;
+	$x->food = isset($_SESSION['food']) ? $_SESSION['food'] : 0;
+	$x->production = isset($_SESSION['production']) ? $_SESSION['production'] : 0;
+	$x->sumProduction = isset($_SESSION['turnProduction']) ? $_SESSION['turnProduction'] : 0;
+	$x->culture = isset($_SESSION['culture']) ? $_SESSION['culture'] : 0;
 	$x->foodMax = isset($_SESSION['foodMax']) ? $_SESSION['foodMax'] : 0;
 	$x->cultureMax = isset($_SESSION['cultureMax']) ? $_SESSION['cultureMax'] : 0;
 	$x->manpower = isset($_SESSION['manpower']) ? $_SESSION['manpower'] : 0;
-	$x->foodMax = isset($_SESSION['foodMax']) ? $_SESSION['foodMax'] : 50;
+	$x->foodMax = isset($_SESSION['foodMax']) ? $_SESSION['foodMax'] : 25;
 	
+	$x->foodBonus = isset($_SESSION['foodBonus']) ? $_SESSION['foodBonus'] : 0;
+	$x->turnBonus = isset($_SESSION['turnBonus']) ? $_SESSION['turnBonus'] : 0;
+	$x->cultureBonus = isset($_SESSION['cultureBonus']) ? $_SESSION['cultureBonus'] : 0;
+	$x->oBonus = isset($_SESSION['oBonus']) ? $_SESSION['oBonus'] : 0;
+	$x->dBonus = isset($_SESSION['dBonus']) ? $_SESSION['dBonus'] : 0;
+	
+	$x->foodReward = isset($_SESSION['foodReward']) ? $_SESSION['foodReward'] : 0;
+	$x->cultureReward = isset($_SESSION['cultureReward']) ? $_SESSION['cultureReward'] : 0;
 	
 	$x->gameId = 0;
+	$x->foodBonus = 30;
 	
 	$query = "select game from fwPlayers where account=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second)";
 	$stmt = $link->prepare($query);

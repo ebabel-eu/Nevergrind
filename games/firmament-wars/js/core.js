@@ -45,12 +45,21 @@ var my = {
 	lastTarget: {},
 	units: 0,
 	food: 0,
-	production: 0,
+	production: 10,
 	culture: 0,
+	oBonus: -1,
+	dBonus: -1,
+	turnBonus: -1,
+	foodBonus: -1,
+	cultureBonus: -1,
+	turnProduction: 10,
 	foodMax: 25,
 	cultureMax: 400,
 	manpower: 0,
 	focusTile: 0,
+	sumFood: 0,
+	sumProduction: 0,
+	sumCulture: 0,
 	flag: "",
 	targetLine: [0,0,0,0,0,0],
 	attackOn: false,
@@ -82,14 +91,14 @@ var timer = {
 
 var DOM = {
 	food: document.getElementById('food'),
-	// production: document.getElementById('production'),
+	production: document.getElementById('production'),
 	culture: document.getElementById('culture'),
 	hud: document.getElementById("hud"),
 	sumFood: document.getElementById("sumFood"),
 	foodMax: document.getElementById("foodMax"),
 	cultureMax: document.getElementById("cultureMax"),
 	manpower: document.getElementById("manpower"),
-	// sumProduction: document.getElementById("sumProduction"),
+	sumProduction: document.getElementById("sumProduction"),
 	sumCulture: document.getElementById("sumCulture"),
 	chatContent: document.getElementById("chat-content"),
 	chatInput: document.getElementById("chat-input"),
@@ -97,7 +106,12 @@ var DOM = {
 	targetLineShadow: document.getElementById('targetLineShadow'),
 	targetCrosshair: document.getElementById('targetCrosshair'),
 	target: document.getElementById('target'),
-	actions: document.getElementById('actions')
+	actions: document.getElementById('actions'),
+	oBonus: document.getElementById('oBonus'),
+	dBonus: document.getElementById('dBonus'),
+	turnBonus: document.getElementById('turnBonus'),
+	foodBonus: document.getElementById('foodBonus'),
+	cultureBonus: document.getElementById('cultureBonus')
 }
 var $DOM = {
 	head: $("#head"),
@@ -354,7 +368,7 @@ function playAudio(foo, multi, fade, volAdj) {
                 if (!volAdj) {
                     volAdj = 1;
                 }
-                var kek = (M.round(((.5 * (GLB.soundStatus / 100)) * volAdj) * 100) / 100);
+                var kek = (Math.round(((.5 * (GLB.soundStatus / 100)) * volAdj) * 100) / 100);
                 baz.volume = kek;
                 baz.play();
                 // fade this effect after fade duration?
@@ -642,14 +656,16 @@ function logout(){
 
 
 (function repeat(){
-	$.ajax({
-		type: "GET",
-		url: "php/keepAlive.php"
-	}).always(function(){
-		setTimeout(function(){
-			repeat();
-		}, 300000);
-	});
+	if (g.view === 'title'){
+		$.ajax({
+			type: "GET",
+			url: "php/keepAlive.php"
+		}).always(function(){
+			setTimeout(function(){
+				repeat();
+			}, 180000);
+		});
+	}
 })();
 function refreshGames(){
 	g.lock();

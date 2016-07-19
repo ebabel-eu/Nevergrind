@@ -1,7 +1,16 @@
 <?php
 	require('values.php');
 	session_start();
-	
+	$diff = microtime(true) - $_SESSION['updateResourceStart'] + .1;
+	echo "TIME: " . $diff . "<BR>";
+	if ($diff > 5){
+		$_SESSION['updateResourceStart'] = microtime(true);
+		echo "OK<BR>";
+	} else {
+		echo "NOT OK<BR>";
+		exit();
+	}
+	$_SESSION['updateResourceStart'] = microtime(true);
 	// echo session
 	if (isset($_SESSION['email'])){
 		echo "email: " . $_SESSION['email'];
@@ -26,6 +35,13 @@
 		echo "<br>capital: " . $_SESSION['capital'];
 		echo "<br>chatId: " . $_SESSION['chatId'];
 		echo "<br>resourceTick: " . $_SESSION['resourceTick'];
+		
+		echo "<br>turnBonus: " . $_SESSION['turnBonus'];
+		echo "<br>foodBonus: " . $_SESSION['foodBonus'];
+		echo "<br>cultureBonus: " . $_SESSION['cultureBonus'];
+		echo "<br>oBonus: " . $_SESSION['oBonus'];
+		echo "<br>dBonus: " . $_SESSION['dBonus'];
+		echo "<br>updateResourceStart: ". $_SESSION['updateResourceStart'];
 	} else {
 		echo '<br>Game values not detected in session.';
 	}
@@ -125,6 +141,17 @@
 		
 	if (isset($_SESSION['account'])){
 		for ($i=0; $i<500; $i++){
+		}
+	}
+	echo "<hr>";
+	echo "<br>Timer: ". (microtime(true) - $start);
+	
+	// UPDATE fwtiles 
+    // SET `food` = `food` + 1
+    // WHERE game=517 and tile=40;
+	
+	// updateResources.php
+	/*
 			require('connect1.php');
 			// get game tiles
 			$query = 'select sum(food), sum(culture) from `fwTiles` where account=?';
@@ -161,29 +188,8 @@
 			$x->cultureMax = $_SESSION['cultureMax'];
 			
 			$_SESSION['resourceTick']++;
-		}
-	}
-	echo "<hr>";
-	echo "<br>". (microtime(true) - $start);
-	
-	// UPDATE fwtiles 
-    // SET `food` = `food` + 1
-    // WHERE game=517 and tile=40;
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// updateResources.php
-	/*
 		// get game tiles
 		$query = 'select sum(food), sum(production), sum(culture) from `fwTiles` where account=?';
 		$stmt = $link->prepare($query);

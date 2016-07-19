@@ -168,12 +168,12 @@ function joinGame(){
 		type: "GET",
 		url: 'php/rejoinGame.php' // check if already in a game
 	}).done(function(data) {
-		console.info(data);
+		console.info('rejoin ', data);
 		if (data.gameId > 0){
 			console.info("Auto joined game:" + (data.gameId));
 			// join lobby in progress
 			joinLobby(0); // autojoin
-			setResources(data);
+			initResources(data); // setResources(data);
 		} else {
 			// show title screen
 			document.getElementById("titleMain").style.visibility = "visible";

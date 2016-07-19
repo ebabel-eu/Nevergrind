@@ -1,25 +1,14 @@
-- Get rewards from barb tiles... 
-	Barb Rewards:
-	+15/20/25 production
-	+15/20/25 food
-	+3 units to capital
-	+2 manpower join us
-- make barb tile rewards flat +2 rewards; forget +% tile resource bonuses
-- add 2 production to all attack/move
-	2. initGameState: retrieve capital and store in game state and indicate icon
-	3. give capital a defensive bonus & icon
-	4. implement capital defense bonus
-	5. read 4 new tile columns to game data
+- add energy costs to buttons; big buttons?
+- 5 sec start game countdown
+- initGameState: retrieve capital and store in game state and indicate icon
+- capital bonuses
 - muster units -2 food +3 units?
-- set deploy to 12?
-- add server lag indicator?
-- put a star in player capitals (represents defensive structure)
-- add timers to cooldowns on some skills? and updateResources
 	
 // 1.0 stuff
 - h2h rating system?
-- add images for all gets
-- Add production milestones????????? -> Capital bonuses?
+- ACTION: nukes 250 Energy
+- ACTION: arrows 75 Energy
+- ACTION: missile 125 Energy
 - More maps
 - FFA & H2H mode
 - leaderboard
@@ -27,6 +16,7 @@
 - lobby chat
 - icon to indicate top player, #1, etc
 - display game stats?
+- remove rejoin?
 
 // site stuff
 - make login page separate from create account
@@ -53,12 +43,22 @@ $_SESSION['map']
 $_SESSION['food'] / $_SESSION['foodMax']
 $_SESSION['foodMilestone']
 $_SESSION['production']
+$_SESSION['turnProduction']
 $_SESSION['culture'] / $_SESSION['cultureMax']
 $_SESSION['cultureMilestone']
-$_SESSION['manpower']
+$_SESSION['foodBonus']
+$_SESSION['turnBonus']
+$_SESSION['cultureBonus']
+$_SESSION['productionReward']
+$_SESSION['foodReward']
+$_SESSION['cultureReward']
+$_SESSION['oBonus']
+$_SESSION['dBonus']
+$_SESSION['manpower'] // armies
 $_SESSION['capital']
 $_SESSION['chatId']
 $_SESSION['resourceTick']
+$_SESSION['updateResourceStart'] // cooldown on updateResource.php
 
 NATION:
 $_SESSION['nation']

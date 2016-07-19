@@ -1,15 +1,10 @@
 <?php	
 	function battle($x, $y){
-		$oBonus = 0; // + atk 500
-		$dBonus = 0; // + def 500
-		// add o tile bonus 
-		// add d tile bonus 
+		$oBonus = $_SESSION['oBonus'] * 500;
+		$dBonus = $_SESSION['dBonus'] * 500;
 		// $oTileUpgrades = [0, 16, 32, 48];
 		// $dTileUpgrades = [0, 30, 40, 50];
 		// Math.ceil(Math.random() * (6 + bonus)) + (Math.random() * 100 < oTile ? 3 : 0);
-		
-		// add o general bonus 750
-		// add d general bonus 750
 		
 		while ($y > 0 && $x > 1){
 			$diceX = $x > 2 ? 3 : 2;
