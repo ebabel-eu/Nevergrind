@@ -90,7 +90,7 @@ if ($_SESSION['player'] === 1){
 		}
 		
 		// configure player data
-		$start = array(79, 24, 29, 47, 69, 52, 9, 46);
+		$start = [79, 24, 29, 47, 69, 52, 9, 46];
 		$len = count($players);
 		for ($i=0; $i<$len; $i++){
 			$startLen = count($start);

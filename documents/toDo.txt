@@ -1,14 +1,16 @@
+- BUG: players were both player 3
 - add energy costs to buttons; big buttons?
-- 5 sec start game countdown
 - initGameState: retrieve capital and store in game state and indicate icon
 - capital bonuses
-- muster units -2 food +3 units?
+illuminati reference somewhere?
+minimum game length time for Win/loss/disc
 	
 // 1.0 stuff
 - h2h rating system?
-- ACTION: nukes 250 Energy
+- ACTION: Muster +2 units 50 Energy
 - ACTION: arrows 75 Energy
 - ACTION: missile 125 Energy
+- ACTION: nukes 250 Energy
 - More maps
 - FFA & H2H mode
 - leaderboard
@@ -58,7 +60,8 @@ $_SESSION['manpower'] // armies
 $_SESSION['capital']
 $_SESSION['chatId']
 $_SESSION['resourceTick']
-$_SESSION['updateResourceStart'] // cooldown on updateResource.php
+$_SESSION['gameDuration'] // total game start time
+$_SESSION['gameStartTime'] // game start time since client reset
 
 NATION:
 $_SESSION['nation']

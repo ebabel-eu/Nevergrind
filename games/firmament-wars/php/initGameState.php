@@ -12,7 +12,7 @@
 	$stmt->store_result();
 	$stmt->bind_result($dAccount, $dFlag, $dNation, $dTile, $dTileName, $dPlayer, $dUnits, $dFood, $dCulture);
 	
-	$tiles = array();
+	$tiles = [];
 	$count = 0;
 	while($stmt->fetch()){
 		$x = new stdClass();
@@ -69,7 +69,24 @@
 		$x->sumFood = $food + round($food * ($_SESSION['foodBonus'] / 100)) + $_SESSION['foodReward'];
 		$x->sumCulture = $culture + round($culture * ($_SESSION['cultureBonus'] / 100)) + $_SESSION['cultureReward'];
 	}
-	
 	$x->tiles = $tiles;
+	// map capital tiles give defense bonus
+	$map = $_SESSION['map'];
+	$_SESSION['capitalTiles'] = [];
+	if ($map === "Earth Alpha"){
+		$_SESSION['capitalTiles'] = [
+			$x->tiles[79]->flag ? 79 : null, 
+			$x->tiles[24]->flag ? 24 : null, 
+			$x->tiles[29]->flag ? 29 : null, 
+			$x->tiles[47]->flag ? 47 : null, 
+			$x->tiles[69]->flag ? 69 : null, 
+			$x->tiles[52]->flag ? 52 : null, 
+			$x->tiles[9]->flag ? 9 : null, 
+			$x->tiles[46]->flag ? 46 : null
+		];
+	}
+	$x->capitalTiles = $_SESSION['capitalTiles'];
+	
+	$_SESSION['gameStartTime'] = microtime(true);
 	echo json_encode($x);
 ?>

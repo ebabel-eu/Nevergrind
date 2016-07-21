@@ -1,6 +1,11 @@
 // actions.js
 var action = {
 	attack: function(skip){
+		if (game.tiles[my.tgt].units < 2){
+			Msg("You need at least two armies to attack!", 1.5);
+			my.clearHud();
+			return;
+		}
 		if (my.player === game.tiles[my.tgt].player){
 			my.attackOn = true;
 			my.hud(game.tiles[my.tgt].name + ": Select Target");

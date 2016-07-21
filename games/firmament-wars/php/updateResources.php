@@ -1,9 +1,10 @@
 <?php
 	session_start();
 	
-	$diff = microtime(true) - $_SESSION['updateResourceStart'] + 1;
-	if ($diff >= 5){
-		$_SESSION['updateResourceStart'] = microtime(true);
+	$gameDuration = microtime(true) - $_SESSION['gameStartTime'];
+	
+	if ($gameDuration <= (6 + $_SESSION['resourceTick'] * 5)){
+		$_SESSION['resourceTick']++;
 		header('Content-Type: application/json');
 	
 		if(php_uname('n')=="JOE-PC"){
@@ -94,7 +95,9 @@
 				$msg .= '<img src="'. $bonus->img .'" class="chat-img">';
 			}
 			if ($bonus->units){
-				$msg .= $flag.'<span class="chat-get">' . $x->get . ' '.$bonus->msg.'! ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' armies! ('. $bonus->units . ' bonus)</span>';
+				$msg .= '<span class="chat-get">' . 
+					$flag.$x->get . ': ' . $_SESSION["nation"] . ' receives ' . $manpowerBonus . '+' . $bonus->units . 
+				' armies!</span>';
 			} else {
 				$msg .= $flag.$x->get . ': ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' armies!';
 			}
@@ -126,8 +129,6 @@
 		$x->manpower = $_SESSION['manpower'];
 		$x->foodMax = $_SESSION['foodMax'];
 		$x->cultureMax = $_SESSION['cultureMax'];
-		
-		$_SESSION['resourceTick']++;
 		
 		$_SESSION['productionReward'] = 0;
 		$_SESSION['foodReward'] = 0;

@@ -176,7 +176,7 @@
 			if (checkPents($five, $four, $three, $two, $one)){
 				$reward->units = 27;
 				$reward->msg = 'Glorious pents';
-				$reward->img = 'images/chat/pents/0.gif';
+				$reward->img = 'images/chat/pents/'. mt_rand(0,2) .'.gif';
 			}
 		} 
 		if ($four > -1 && $reward->units === 0){
@@ -191,7 +191,7 @@
 			} else if (checkQuads($four, $three, $two, $one)){
 				$reward->units = 18;
 				$reward->msg = 'Sweet quads';
-				$reward->img = 'images/chat/quads/'. mt_rand(0,1) .'.gif';
+				$reward->img = 'images/chat/quads/'. mt_rand(0,3) .'.gif';
 			} else if (checkDoubleDubs($four, $three, $two, $one)){
 				$reward->units = 7;
 				$reward->msg = 'Double dubs';

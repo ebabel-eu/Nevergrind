@@ -14,6 +14,7 @@ var g = {
 	chatOn: false,
 	overlay: document.getElementById("overlay"),
 	over: 0,
+	startTime: Date.now(),
 	lock: function(clear){
 		g.overlay.style.display = "block";
 		clear ? g.overlay.style.opacity = 0 : g.overlay.style.opacity = 1;

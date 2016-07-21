@@ -101,9 +101,16 @@ function setActionButtons(t){
 			'<div class="tileResource">'+
 				'<span class="fwTooltip" data-toggle="tooltip" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</span>'+
 			'</div>'+
-		'</div>' +
-		'<div id="tile-name" class="no-select text-center shadow4">' + t.name + '</div>' +
-		'<div id="tileActions" class="shadow4">';
+		'</div>';
+		if (t.capital){
+			str += '<div id="tile-name" class="no-select text-center shadow4">' +
+					'<i class="fa fa-fort-awesome text-warning shadow4"></i> ' +
+					t.name + 
+				'</div>';
+		} else {
+			str += '<div id="tile-name" class="no-select text-center shadow4">' + t.name + '</div>';
+		}
+		str += '<div id="tileActions" class="shadow4">';
 			// action buttons
 			if (my.player === t.player){
 				str += '<button id="attack" type="button" class="actionButtons shadow4">Move/Attack</button>' +
@@ -199,9 +206,13 @@ function getGameState(){
 					if (p[i].account){
 						if (!data.player[i]){
 							game.player[i].account = '';
-							TweenMax.to('#diplomacyPlayer' + i, 1, {
-								autoAlpha: 0
-							});
+							console.info('players: ', $(".diplomacyPlayers").length);
+							if ($(".alive").length > 1){
+								$("#diplomacyPlayer" + i).removeClass('alive');
+								TweenMax.to('#diplomacyPlayer' + i, 1, {
+									autoAlpha: 0
+								});
+							}
 						}
 					}
 				}

@@ -217,6 +217,7 @@
 			<div id="lobbyButtons" class="fw-primary text-center">
 				<button id='startGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow4'>Start Game</button>
 				<button id='cancelGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow4'>Exit</button>
+				<div id='countdown'></div>
 			</div>
 		</div>
 		

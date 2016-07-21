@@ -1,16 +1,31 @@
 <?php
 	require('values.php');
 	session_start();
-	$diff = microtime(true) - $_SESSION['updateResourceStart'] + .1;
+	$arr = [
+		3 ? 1 : 0
+	];
+	echo var_dump($arr) . '<br>';
+	
+	echo 'Resource Tick: ' . $_SESSION['resourceTick'] . '<br>';
+	
+	$gameDuration = microtime(true) - $_SESSION['gameStartTime'] + .5;
+	echo 'gameDuration: ' . $gameDuration . '<br>';
+	$tickDuration = $_SESSION['resourceTick'] * 5;
+	echo 'tickDuration: ' . $tickDuration . '<br>';
+	
+	if (in_array(9, $_SESSION['capitalTiles'])){
+		echo "IT IS HERE";
+	}
+	exit();
+	
+	
 	echo "TIME: " . $diff . "<BR>";
 	if ($diff > 5){
-		$_SESSION['updateResourceStart'] = microtime(true);
 		echo "OK<BR>";
 	} else {
 		echo "NOT OK<BR>";
 		exit();
 	}
-	$_SESSION['updateResourceStart'] = microtime(true);
 	// echo session
 	if (isset($_SESSION['email'])){
 		echo "email: " . $_SESSION['email'];
@@ -41,7 +56,6 @@
 		echo "<br>cultureBonus: " . $_SESSION['cultureBonus'];
 		echo "<br>oBonus: " . $_SESSION['oBonus'];
 		echo "<br>dBonus: " . $_SESSION['dBonus'];
-		echo "<br>updateResourceStart: ". $_SESSION['updateResourceStart'];
 	} else {
 		echo '<br>Game values not detected in session.';
 	}

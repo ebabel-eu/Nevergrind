@@ -61,7 +61,8 @@
 	$_SESSION['foodReward'] = 0;
 	$_SESSION['cultureReward'] = 0;
 	$_SESSION['productionReward'] = 0;
-	$_SESSION['updateResourceStart'] = 0;
+	$_SESSION['gameStartTime'] = microtime(true);
+	$_SESSION['gameDuration'] = microtime(true);
 	// init chat
 	$query = "select row from fwchat order by row desc limit 1";
 	$stmt = $link->prepare($query);

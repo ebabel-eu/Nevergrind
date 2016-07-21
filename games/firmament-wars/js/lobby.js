@@ -149,9 +149,9 @@ function joinStartedGame(){
 				player: d.player,
 				nation: d.nation,
 				flag: d.flag,
+				capital: data.capitalTiles.indexOf(i) > -1 && d.flag ? true : false,
 				units: d.units,
 				food: d.food,
-				production: d.production,
 				culture: d.culture
 			}
 			if (d.nation){
@@ -180,7 +180,7 @@ function joinStartedGame(){
 				// console.info(game.player[i]);
 				if (p.flag === 'Default.jpg'){
 					str += 
-					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">';
+					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers alive">';
 							if (my.player === p.player){
 								str += '<i id="surrender" class="fa fa-flag pointer" data-placement="right" data-toggle="tooltip" title="Surrender"></i>';
 							} else {
@@ -190,7 +190,7 @@ function joinStartedGame(){
 							'<img src="images/flags/Player' + p.player + '.jpg" class="player' + p.player + ' inlineFlag diploFlag" data-toggle="tooltip" title="'+ p.account + '"><span class="diploNames" data-toggle="tooltip" title="'+ p.nation + '">' + p.nation + '</span>';
 				} else {
 					str += 
-					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers">';
+					'<div id="diplomacyPlayer' + p.player + '" class="diplomacyPlayers alive">';
 							if (my.player === p.player){
 								str += '<i id="surrender" class="fa fa-flag pointer"  data-placement="right" data-toggle="tooltip" title="Surrender"></i>';
 							} else {
@@ -370,7 +370,7 @@ function joinLobby(d){
 					}
 				}
 				if (x.gameStarted){
-					joinStartedGame();
+					lobbyCountdown();
 				} else if (!x.hostFound){
 					Msg("The host has left the lobby.");
 					setTimeout(function(){
@@ -392,25 +392,13 @@ function startGame(d){
 	if ($(".lobbyNationName").length > 1){
 		document.getElementById("startGame").style.display = "none";
 		g.lock(1);
-		var e1 = document.getElementById("mainWrap");
-		TweenMax.to(e1, .5, {
-			alpha: 0
-		});
 		$.ajax({
 			type: "GET",
 			url: "php/startGame.php"
 		}).done(function(data){
 			console.info(data);
-			$("#mainWrap").remove();
 			g.unlock();
-			g.view = "game";
-			var e = document.getElementById("gameWrap");
-			TweenMax.fromTo(e, 1, {
-				autoAlpha: 0
-			}, {
-				autoAlpha: 1
-			});
-			joinStartedGame();
+			lobbyCountdown();
 		}).fail(function(data){
 			serverError();
 		}).always(function(){
@@ -419,5 +407,41 @@ function startGame(d){
 	} else {
 		
 	}
+}
+function lobbyCountdown(){
+	var loadTime = Date.now() - g.startTime;
+	var delay = 1000,
+		fade = 5.5;
+	if (loadTime < 1000){
+		delay = 0;
+		fade = 0;
+	}
+	if (delay){
+		$("#startGame, #cancelGame").remove();
+		var e = document.getElementById('countdown');
+		e.style.display = 'block';
+		var d1 = {
+			seconds: 5
+		}
+		e.textContent = "Starting game in " + d1.seconds;
+	}
+	setTimeout(function(){
+		if (delay){
+			TweenMax.to(d1, 5, {
+				seconds: 0,
+				ease: Linear.easeNone,
+				onUpdate: function(){
+					e.textContent = "Starting game in " + (~~d1.seconds);
+				}
+			});
+		}
+		TweenMax.to('#mainWrap', fade, {
+			alpha: 0,
+			ease: Power3.easeIn,
+			onComplete: function(){
+				joinStartedGame();
+			}
+		});
+	}, delay);
 }
 

@@ -1,26 +1,28 @@
 <?php	
-	function battle($x, $y){
+	function battle($x, $y, $tile){
 		$oBonus = $_SESSION['oBonus'] * 500;
 		$dBonus = $_SESSION['dBonus'] * 500;
-		// $oTileUpgrades = [0, 16, 32, 48];
-		// $dTileUpgrades = [0, 30, 40, 50];
+		// $oTileUpgrades = [0, 1600, 3200, 4800];
+		// $dTileUpgrades = [0, 3000, 4000, 5000];
+		$dTileUpgrade = in_array($tile, $_SESSION['capitalTiles']) ? 3000 : 0;
 		// Math.ceil(Math.random() * (6 + bonus)) + (Math.random() * 100 < oTile ? 3 : 0);
 		
 		while ($y > 0 && $x > 1){
 			$diceX = $x > 2 ? 3 : 2;
 			$diceY = $y > 1 ? 2 : 1;
-			$xRoll = array();
-			$yRoll = array();
+			$xRoll = [];
+			$yRoll = [];
 			
 			$x -= $diceX;
 			$y -= $diceY;
 			for ($i=0; $i<$diceX; $i++){
 				$die = ceil(mt_rand(0, 6000 + $oBonus)/1000);
-				array_push($xRoll, $die);
+				$xRoll[$i] = $die;
 			}
 			for ($i=0; $i<$diceY; $i++){
 				$die = ceil(mt_rand(0, 6000 + $dBonus)/1000);
-				array_push($yRoll, $die);
+				$die += mt_rand(0, 10000) < $dTileUpgrade ? 3 : 0;
+				$yRoll[$i] = $die;
 			}
 			
 			rsort($xRoll);

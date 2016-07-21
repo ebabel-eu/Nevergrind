@@ -44,7 +44,6 @@
 				$defender->account = $account;
 			}
 		}
-		$originalAttackingUnits = $attacker->units;
 		$originalDefendingUnits = $defender->units;
 		// add adjacent validation
 		if ($defender->account == $_SESSION['account']){
@@ -75,7 +74,7 @@
 			if ($stmt->num_rows == 2 && 
 				$attacker->units > 1 &&
 				$defender->account != $_SESSION['account']){
-				$result = battle($attacker->units, $defender->units);
+				$result = battle($attacker->units, $defender->units, $defender->tile);
 				if ($result[0] > $result[1]){
 					// victory
 					$attacker->units = 1;
@@ -111,7 +110,7 @@
 							$o->rewardMsg = getBarbarianReward($attacker, $defender);
 						}
 							
-						$msg = $atkFlag. $attacker->nation . ' conquers ' . $defFlag . $defender->tileName. ' '.$originalAttackingUnits .'-'. $originalDefendingUnits.'';
+						$msg = $atkFlag. $attacker->nation . ' conquers ' . $defFlag . $defender->tileName. '.';
 						$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 						$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 						$stmt->execute();
@@ -151,7 +150,7 @@
 						'<img src="images/flags/'.$defender->flag.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">';
 					}
 						
-					$msg = $atkFlag. $attacker->nation . ' is defeated in ' . $defFlag . $defender->tileName. ' '.$originalAttackingUnits .'-'. $originalDefendingUnits;
+					$msg = $atkFlag. $attacker->nation . ' fails to conquer ' . $defFlag . $defender->tileName. '.';
 					$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 					$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 					$stmt->execute();
