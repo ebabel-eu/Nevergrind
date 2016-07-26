@@ -28,9 +28,12 @@
 		$stmt->bind_param('s', $a);
 		$stmt->execute();
 		// add disconnect
-		$query = "insert into fwNations (`account`, `disconnects`, `games`) VALUES (?, 1, 1) on duplicate key update disconnects=disconnects+1, games=games+1";
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('s', $a);
-		$stmt->execute();
+		
+		if ($_SESSION['resourceTick'] > 9){
+			$query = "insert into fwNations (`account`, `disconnects`, `games`) VALUES (?, 1, 1) on duplicate key update disconnects=disconnects+1, games=games+1";
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('s', $a);
+			$stmt->execute();
+		}
 	}
 ?>

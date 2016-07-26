@@ -41,7 +41,7 @@
 			echo $svg;
 		?>
 	
-		<div id="titleMain" class="portal">
+		<div id="titleMain" class="portal no-select">
 			<header class="shadow4">
 				<div id="headerWrap">
 			<?php
@@ -79,7 +79,6 @@
 			</header>
 			
 			<div id="menu" class="fw-primary">
-				<!-- SELECT count(row) FROM `fwplayers` where timestamp > date_sub(now(), interval 20 second) -->
 				<div id='menuOnline' class='shadow4'>
 					<div>
 				<?php
@@ -217,7 +216,7 @@
 			<div id="lobbyButtons" class="fw-primary text-center">
 				<button id='startGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow4'>Start Game</button>
 				<button id='cancelGame' type='button' class='btn btn-default btn-md btn-block btn-responsive shadow4'>Exit</button>
-				<div id='countdown'></div>
+				<div id='countdown' class='text-warning'></div>
 			</div>
 		</div>
 		
@@ -232,7 +231,7 @@
 				<div class="row">
 					<div id="target" class="col-xs-4 text-center no-select">
 					</div>
-					<div id="actions" class="col-xs-8">
+					<div id="actions" class="col-xs-8 no-select">
 					</div>
 				</div>
 			</div>
@@ -301,6 +300,12 @@
 				</div>
 				
 				<div class="row">
+					<div id="foodBarWrap" class="barWrap resourceBar">
+						<div id="foodBar" class="resourceBar"></div>
+					</div>
+				</div>
+				
+				<div class="row">
 					<div class="col-sm-12 no-padding culture">
 						<span data-toggle="tooltip" title="Culture milestones produce special rewards"><i class="fa fa-flag"></i> Culture</span>
 						<span data-toggle="tooltip" title="Culture Bonus">
@@ -317,6 +322,12 @@
 								(+<span id="sumCulture">0</span>)
 							</span>
 						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div id="cultureBarWrap" class="barWrap resourceBar">
+						<div id="cultureBar" class="resourceBar"></div>
 					</div>
 				</div>
 			</div>

@@ -1,20 +1,26 @@
 <?php
 	session_start();
+	header('Content-Type: application/json');
+
+	if(php_uname('n')=="JOE-PC"){
+		$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
+	} else {
+		$link = mysqli_connect("localhost", "nevergri_ng", "!M6a1e8l2f4y6n", "nevergri_ngLocal");
+	}
 	
-	$gameDuration = microtime(true) - $_SESSION['gameStartTime'];
+	require($_SERVER['DOCUMENT_ROOT'] . '/games/firmament-wars/php/pingLobby.php');
 	
-	if ($gameDuration <= (6 + $_SESSION['resourceTick'] * 5)){
+	$gameDuration = microtime(true) - $_SESSION['gameDuration'] + 6;
+	
+	$x = new stdClass();
+	$x->gameDuration = $gameDuration;
+	$x->gameTickTime = $_SESSION['resourceTick'] * 5;
+	
+	if ($gameDuration > $_SESSION['resourceTick'] * 5){
 		$_SESSION['resourceTick']++;
-		header('Content-Type: application/json');
-	
-		if(php_uname('n')=="JOE-PC"){
-			$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
-		} else {
-			$link = mysqli_connect("localhost", "nevergri_ng", "!M6a1e8l2f4y6n", "nevergri_ngLocal");
-		}
 		
-		require($_SERVER['DOCUMENT_ROOT'] . '/games/firmament-wars/php/pingLobby.php');
-		if ($_SESSION['resourceTick'] % 4 === 0){
+		$val1 = $_SESSION['resourceTick'] % 4;
+		if ($val1 === $_SESSION['playerMod']){
 			require('checkDisconnectsByGame.php');
 		}
 		// get game tiles
@@ -24,7 +30,6 @@
 		$stmt->execute();
 		$stmt->bind_result($food, $culture);
 		
-		$x = new stdClass();
 		while($stmt->fetch()){
 			$x->sumFood = $food + round($food * ($_SESSION['foodBonus'] / 100)) + $_SESSION['foodReward'];
 			$newFood = $_SESSION['food'] + $x->sumFood;
@@ -66,16 +71,16 @@
 				}
 				return $reward;
 			}
-			require('getReward.php');
+			require('rewardGet.php');
 			$x->food -= $_SESSION['foodMax'];
 			$manpowerBonus = getManpowerReward();
 			$_SESSION['manpower'] += $manpowerBonus;
 			$_SESSION['foodMilestone']++;
 			$_SESSION['foodMax'] = $_SESSION['foodMax'] + 25;
 			// GET?!
-			$query = "insert into fwGets (`account`) VALUES (?)";
+			$query = "insert into fwGets (`account`, `flag`, `nation`) VALUES (?, ?, ?)";
 			$stmt = $link->prepare($query);
-			$stmt->bind_param('s', $_SESSION['account']);
+			$stmt->bind_param('sss', $_SESSION['account'], $_SESSION['flag'], $_SESSION['nation']);
 			$stmt->execute();
 			// last insert id is GET value
 			
@@ -92,14 +97,13 @@
 				'<img src="images/flags/'.$_SESSION['flag'].'" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">';
 			$msg = '';
 			if ($bonus->img){
-				$msg .= '<img src="'. $bonus->img .'" class="chat-img">';
+				$msg .= '<img src="'. $bonus->img .'" class="chat-img"><div class="chat-manpower">'. $bonus->msg .'!</div>';
 			}
 			if ($bonus->units){
-				$msg .= '<span class="chat-get">' . 
-					$flag.$x->get . ': ' . $_SESSION["nation"] . ' receives ' . $manpowerBonus . '+' . $bonus->units . 
-				' armies!</span>';
+				$msg .= $flag.$x->get . ': ' . $_SESSION["nation"] . ' receives <span class="chat-manpower">' . $manpowerBonus . '+' . $bonus->units . 
+				'</span> armies!';
 			} else {
-				$msg .= $flag.$x->get . ': ' . $_SESSION['nation'] . ' receives ' . $manpowerBonus . ' armies!';
+				$msg .= $flag.$x->get . ': ' . $_SESSION['nation'] . ' receives <span class="chat-manpower">' . $manpowerBonus . '</span> armies!';
 			}
 			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 			$stmt->bind_param('si', $msg, $_SESSION['gameId']);
@@ -113,6 +117,8 @@
 			$_SESSION['cultureMax'] += 250;
 			$_SESSION['cultureMilestone']++;
 			// provide culture milestone here
+			require('rewardCulture.php');
+			$x->cultureMsg = rewardCulture();
 		}
 		$x->sumProduction = $_SESSION['turnProduction'] + round($_SESSION['turnProduction'] * ($_SESSION['turnBonus'] / 100)) + $_SESSION['productionReward'];
 		$_SESSION['production'] = $_SESSION['production'] + $x->sumProduction;
@@ -133,6 +139,6 @@
 		$_SESSION['productionReward'] = 0;
 		$_SESSION['foodReward'] = 0;
 		$_SESSION['cultureReward'] = 0;
-		echo json_encode($x);
 	}
+	echo json_encode($x);
 ?>

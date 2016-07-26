@@ -1,7 +1,8 @@
 // core.js
 $.ajaxSetup({
     type: 'POST',
-    url: 'php/master1.php'
+    url: 'php/master1.php',
+	timeout: 4000
 });
 TweenMax.defaultEase = Quad.easeOut;
 
@@ -64,6 +65,7 @@ var my = {
 	flag: "",
 	targetLine: [0,0,0,0,0,0],
 	attackOn: false,
+	splitAttack: false,
 	hud: function(msg, d){
 		timer.hud.kill();
 		DOM.hud.style.visibility = 'visible';
@@ -112,14 +114,16 @@ var DOM = {
 	dBonus: document.getElementById('dBonus'),
 	turnBonus: document.getElementById('turnBonus'),
 	foodBonus: document.getElementById('foodBonus'),
-	cultureBonus: document.getElementById('cultureBonus')
+	cultureBonus: document.getElementById('cultureBonus'),
+	foodBar: document.getElementById('foodBar'),
+	cultureBar: document.getElementById('cultureBar')
 }
 var $DOM = {
 	head: $("#head"),
 	chatInput: $("#chat-input")
 }
 var color = [
-	"#00003a",
+	"#002F73",
 	"#700000",
 	"#0000d0",
 	"#b0b000",
@@ -228,13 +232,8 @@ function chat(msg) {
     DOM.chatContent.appendChild(z);
 	// playAudio('chat');
 	setTimeout(function(){
-		TweenMax.to(z, .5, {
-			alpha: 0,
-			onComplete: function(){
-				z.parentNode.removeChild(z);
-			}
-		});
-	}, 10000);
+		z.parentNode.removeChild(z);
+	}, 9000);
 }
 
 // sound functions

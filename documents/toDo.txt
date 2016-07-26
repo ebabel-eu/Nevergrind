@@ -1,11 +1,17 @@
-- BUG: players were both player 3
-- add energy costs to buttons; big buttons?
-- initGameState: retrieve capital and store in game state and indicate icon
-- capital bonuses
-illuminati reference somewhere?
-minimum game length time for Win/loss/disc
-	
+- split attack / move
+- split doesn't work on unclaimed territory
+- attack animation
+- add great wall of peace
+
+// bugs
+- why did firefox disconnect?
+- why did Safari just disconnect and their armies weren't booted?
+- net::ERR_NETWORK_IO_SUSPENDED
+
 // 1.0 stuff
+- fix responsiveness down to 640
+- store_result() needed?
+- Button icon?
 - h2h rating system?
 - ACTION: Muster +2 units 50 Energy
 - ACTION: arrows 75 Energy
@@ -19,6 +25,7 @@ minimum game length time for Win/loss/disc
 - icon to indicate top player, #1, etc
 - display game stats?
 - remove rejoin?
+- government choice?
 
 // site stuff
 - make login page separate from create account
@@ -41,6 +48,7 @@ $_SESSION['gameName']
 $_SESSION['gameStarted']
 $_SESSION['gameType']
 $_SESSION['player']
+$_SESSION['playerMod']
 $_SESSION['map']
 $_SESSION['food'] / $_SESSION['foodMax']
 $_SESSION['foodMilestone']
@@ -83,15 +91,6 @@ Ribbon ideas:
 - Received a Great Explorer
 - Received a Great Scientist
 
-Great People:
-
-Great Humanitarian: Double population of highest tile
-Great Artist: Steal largest enemy army
-Great General: +1 attack and defense to all armies
-Great Leader: Boost all unit production
-Great Explorer: Boost all gold production
-Great Builder: Builds a wall 
-Great Scientist: Builds a nuclear weapon (reduces tile to 1 and destroys all structures)
 
 Produce:
 10 Army

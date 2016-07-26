@@ -5,7 +5,7 @@
 		'<img src="images/flags/'.$_SESSION['flag'].'" class="player'.$_SESSION['player'].' p'.$_SESSION['player'].'b inlineFlag">';
 	$msg = strip_tags($_POST['message']);
 	// meme arrows?
-	if (strpos($msg, '> ') === 0){
+	if (strpos($msg, '>') === 0){
 		$message = '<span class="chat-arrow">'. $flag . $_SESSION['account'] . ': '. $msg . '</span>';
 	} else {
 		$message = $flag . $_SESSION['account'] . ': '. $msg;

@@ -1,6 +1,11 @@
 // actions.js
 var action = {
 	attack: function(skip){
+		if (my.production < 7){
+			Msg("Not enough energy!", 1.5);
+			my.clearHud();
+			return;
+		}
 		if (game.tiles[my.tgt].units < 2){
 			Msg("You need at least two armies to attack!", 1.5);
 			my.clearHud();
@@ -8,6 +13,32 @@ var action = {
 		}
 		if (my.player === game.tiles[my.tgt].player){
 			my.attackOn = true;
+			my.splitAttack = false;
+			my.hud(game.tiles[my.tgt].name + ": Select Target");
+			$DOM.head.append('<style>.land{ cursor: crosshair; }</style>');
+			
+			var e = document.getElementById('unit' + my.tgt);
+			my.targetLine[0] = e.getAttribute('x')*1;
+			my.targetLine[1] = e.getAttribute('y')*1;
+			if(!skip){
+				showTarget(my.lastTarget, true);
+			}
+		}
+	},
+	splitAttack: function(skip){
+		if (my.production < 3){
+			Msg("Not enough energy!", 1.5);
+			my.clearHud();
+			return;
+		}
+		if (game.tiles[my.tgt].units < 2){
+			Msg("You need at least two armies to split attack!", 1.5);
+			my.clearHud();
+			return;
+		}
+		if (my.player === game.tiles[my.tgt].player){
+			my.attackOn = true;
+			my.splitAttack = true;
 			my.hud(game.tiles[my.tgt].name + ": Select Target");
 			$DOM.head.append('<style>.land{ cursor: crosshair; }</style>');
 			
@@ -26,10 +57,13 @@ var action = {
 		if (my.tgt === defender){
 			return;
 		}
-		if (game.tiles[defender].units >= 255){
-			Msg("That territory has the maximum number of units!", 1.5);
-			my.clearHud();
-			return;
+		// can't move to maxed friendly tile
+		if (game.tiles[defender].player === my.player){
+			if (game.tiles[defender].units >= 255){
+				Msg("That territory has the maximum number of units!", 1.5);
+				my.clearHud();
+				return;
+			}
 		}
 		my.attackOn = false;
 		if (game.tiles[my.tgt].units === 1){
@@ -37,7 +71,9 @@ var action = {
 			my.clearHud();
 			return;
 		}
-		if (my.production < 7){
+		if ((my.production < 7 && !my.splitAttack) ||
+			(my.production < 3 && my.splitAttack)
+		){
 			Msg("Not enough energy!", 1.5);
 			my.clearHud();
 			return;
@@ -48,7 +84,8 @@ var action = {
 			url: 'php/attackTile.php',
 			data: {
 				attacker: attacker,
-				defender: defender
+				defender: defender,
+				split: my.splitAttack ? 1 : 0
 			}
 		}).done(function(data) {
 			if ('rewardMsg' in data){
@@ -59,7 +96,7 @@ var action = {
 			}
 		}).fail(function(e){
 			// playAudio("failNoise");
-			Msg('You can only move/attack adjacent territories.', 1.5);
+			Msg('You can only attack adjacent territories.', 1.5);
 		}).always(function(){
 			g.unlock();
 		});
@@ -110,6 +147,9 @@ var action = {
 			}).always(function(){
 				g.unlock();
 			});
+			TweenMax.set('#manpower', {
+			  color: '#fff'
+			});
 		}
 	}
 }
@@ -118,6 +158,8 @@ $("#actions").on("mousedown", '#attack', function(){
 	action.attack(true);
 }).on('mousedown', '#deploy', function(){
 	action.deploy();
+}).on('mousedown', '#splitAttack', function(){
+	action.splitAttack(true);
 });
 // key bindings
 function toggleChatMode(send){
@@ -146,7 +188,7 @@ function toggleChatMode(send){
 }
 $(document).on('keyup', function(e) {
 	var x = e.keyCode;
-	// console.info(x);
+	console.info(x);
 	if (g.view === 'title'){
 		if (x === 13){
 			if (g.focusUpdateNationName){
@@ -178,6 +220,9 @@ $(document).on('keyup', function(e) {
 			} else if (x === 68){
 				// d
 				action.deploy();
+			} else if (x === 83){
+				// s
+				action.splitAttack();
 			} else if (x === 13){
 				// enter
 				toggleChatMode();

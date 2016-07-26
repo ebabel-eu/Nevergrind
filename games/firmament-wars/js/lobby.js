@@ -22,6 +22,7 @@ function initResources(d){
 	DOM.turnBonus.textContent = d.turnBonus;
 	DOM.foodBonus.textContent = d.foodBonus;
 	DOM.cultureBonus.textContent = d.cultureBonus;
+	setBars(d);
 }
 function setProduction(d){
 	TweenMax.to(my, .3, {
@@ -29,30 +30,38 @@ function setProduction(d){
 		ease: Quad.easeIn,
 		onUpdate: function(){
 			DOM.production.textContent = ~~my.production;
+		},
+		onComplete: function(){
+			if (game.tiles[my.tgt].player === my.player){
+				setActionButtons(game.tiles[my.tgt]);
+			}
 		}
 	});
 }
 function setResources(d){
-	var endFood = my.food + d.sumFood;
-	var endCulture = my.culture + d.sumCulture;
 	setProduction(d);
 	TweenMax.to(my, .3, {
 		food: d.food,
-		production: d.production,
 		culture: d.culture,
 		ease: Quad.easeIn,
 		onUpdate: function(){
-			DOM.production.textContent = ~~my.production;
 			DOM.food.textContent = ~~my.food;
 			DOM.culture.textContent = ~~my.culture;
+		}, 
+		onComplete: function(){
+			if (game.tiles[my.tgt].player === my.player){
+				setActionButtons(game.tiles[my.tgt]);
+			}
 		}
 	});
 	if (d.manpower > my.manpower){
-		TweenMax.fromTo('#manpower', 2, {
-		  color: '#ffff00'
+		TweenMax.fromTo('#manpower', .5, {
+			color: '#ffaa33'
 		}, {
-		  color: '#fff',
-		  ease: Quad.easeIn
+			color: '#ffff00',
+			repeat: -1,
+			yoyo: true
+			
 		});
 		TweenMax.to(my, .5, {
 			manpower: d.manpower,
@@ -61,48 +70,64 @@ function setResources(d){
 			}
 		});
 	}
-	if (d.foodMax > my.foodMax){
-		DOM.foodMax.textContent = d.foodMax;
-		my.foodMax = d.foodMax;
+	if (d.foodMax !== undefined){
+		if (d.foodMax > my.foodMax){
+			DOM.foodMax.textContent = d.foodMax;
+			my.foodMax = d.foodMax;
+		}
+			
+		if (d.cultureMax > my.cultureMax){
+			DOM.cultureMax.textContent = d.cultureMax;
+			my.cultureMax = d.cultureMax;
+		}
 	}
-		
-	if (d.cultureMax > my.cultureMax){
-		DOM.cultureMax.textContent = d.cultureMax;
-		my.cultureMax = d.cultureMax;
-	}
-	if (d.sumFood !== my.sumFood){
-		DOM.sumFood.textContent = d.sumFood;
-		my.sumFood = d.sumFood;
-	}
-	if (d.sumProduction !== my.sumProduction){
-		DOM.sumProduction.textContent = d.sumProduction;
-		my.sumProduction = d.sumProduction;
-	}
-	if (d.sumCulture !== my.sumCulture){
-		DOM.sumCulture.textContent = d.sumCulture;
-		my.sumCulture = d.sumCulture;
+	if (d.sumFood !== undefined){
+		if (d.sumFood !== my.sumFood){
+			DOM.sumFood.textContent = d.sumFood;
+			my.sumFood = d.sumFood;
+		}
+		if (d.sumProduction !== my.sumProduction){
+			DOM.sumProduction.textContent = d.sumProduction;
+			my.sumProduction = d.sumProduction;
+		}
+		if (d.sumCulture !== my.sumCulture){
+			DOM.sumCulture.textContent = d.sumCulture;
+			my.sumCulture = d.sumCulture;
+		}
 	}
 	// bonus values
-	if (my.oBonus !== d.oBonus){
-		DOM.oBonus.textContent = d.oBonus;
-		my.oBonus = d.oBonus;
+	if (d.oBonus !== undefined){
+		if (my.oBonus !== d.oBonus){
+			DOM.oBonus.textContent = d.oBonus;
+			my.oBonus = d.oBonus;
+		}
+		if (my.dBonus !== d.dBonus){
+			DOM.dBonus.textContent = d.dBonus;
+			my.dBonus = d.dBonus;
+		}
+		if (my.turnBonus !== d.turnBonus){
+			DOM.turnBonus.textContent = d.turnBonus;
+			my.turnBonus = d.turnBonus;
+		}
+		if (my.foodBonus !== d.foodBonus){
+			DOM.foodBonus.textContent = d.foodBonus;
+			my.foodBonus = d.foodBonus;
+		}
+		if (my.cultureBonus !== d.cultureBonus){
+			DOM.cultureBonus.textContent = d.cultureBonus;
+			my.cultureBonus = d.cultureBonus;
+		}
 	}
-	if (my.dBonus !== d.dBonus){
-		DOM.dBonus.textContent = d.dBonus;
-		my.dBonus = d.dBonus;
-	}
-	if (my.turnBonus !== d.turnBonus){
-		DOM.turnBonus.textContent = d.turnBonus;
-		my.turnBonus = d.turnBonus;
-	}
-	if (my.foodBonus !== d.foodBonus){
-		DOM.foodBonus.textContent = d.foodBonus;
-		my.foodBonus = d.foodBonus;
-	}
-	if (my.cultureBonus !== d.cultureBonus){
-		DOM.cultureBonus.textContent = d.cultureBonus;
-		my.cultureBonus = d.cultureBonus;
-	}
+	setBars(d);
+}
+function setBars(d){
+	// animate bars
+	TweenMax.to(DOM.foodBar, .3, {
+		width: ((d.food / d.foodMax) * 100) + '%'
+	});
+	TweenMax.to(DOM.cultureBar, .3, {
+		width: ((d.culture / d.cultureMax) * 100) + '%'
+	});
 }
 
 function Nation(){
@@ -128,6 +153,14 @@ function joinStartedGame(){
 		var focusTile = 0;
 		console.info('initGameState ', data);
 		my.player = data.player;
+		TweenMax.set(DOM.targetLine, {
+			stroke: color[my.player]
+		});
+		TweenMax.set(DOM.targetLine, {
+			stroke: "hsl(+=0%, +=80%, +=25%)"
+		});
+		
+		
 		my.flag = data.flag;
 		my.nation = data.nation;
 		my.foodMax = data.foodMax;
@@ -300,6 +333,7 @@ function joinStartedGame(){
 		var yMin = (g.mouse.mapSizeY - 768) * -1;
 		if (y < yMin){ y = yMin; } 
 		TweenMax.to('#worldWrap', .5, {
+			force3D: false,
 			x: x * g.resizeX,
 			y: y * g.resizeY
 		});
@@ -409,39 +443,27 @@ function startGame(d){
 	}
 }
 function lobbyCountdown(){
-	var loadTime = Date.now() - g.startTime;
-	var delay = 1000,
-		fade = 5.5;
+	var loadTime = Date.now() - g.startTime; 
 	if (loadTime < 1000){
-		delay = 0;
-		fade = 0;
-	}
-	if (delay){
-		$("#startGame, #cancelGame").remove();
+		joinStartedGame(); // page refresh
+	} else {
+		// normal countdown
 		var e = document.getElementById('countdown');
 		e.style.display = 'block';
-		var d1 = {
-			seconds: 5
-		}
-		e.textContent = "Starting game in " + d1.seconds;
-	}
-	setTimeout(function(){
-		if (delay){
-			TweenMax.to(d1, 5, {
-				seconds: 0,
-				ease: Linear.easeNone,
-				onUpdate: function(){
-					e.textContent = "Starting game in " + (~~d1.seconds);
-				}
-			});
-		}
-		TweenMax.to('#mainWrap', fade, {
-			alpha: 0,
-			ease: Power3.easeIn,
-			onComplete: function(){
-				joinStartedGame();
+		(function repeat(secondsToStart){
+			e.textContent = "Starting game in " + secondsToStart--;
+			if (secondsToStart >= 0){
+				setTimeout(repeat, 1000, secondsToStart);
 			}
-		});
-	}, delay);
+			if (secondsToStart === 1){
+				TweenMax.to('#mainWrap', 2.5, {
+					alpha: 0,
+					ease: Power3.easeIn,
+					onComplete: function(){
+						joinStartedGame();
+					}
+				});
+			}
+		})(5);
+	}
 }
-

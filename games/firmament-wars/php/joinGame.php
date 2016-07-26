@@ -34,6 +34,9 @@
 		header('HTTP/1.1 500 The game is full');
 		exit;
 	}
+	// check for disconnected players upon joining
+	require('checkDisconnectsAll.php');
+	
 	// set session values
 	$_SESSION['gameId'] = $gameId;
 	$_SESSION['max'] = $max;
@@ -60,7 +63,8 @@
 	$_SESSION['cultureReward'] = 0;
 	$_SESSION['productionReward'] = 0;
 	$_SESSION['gameStartTime'] = microtime(true);
-	$_SESSION['gameDuration'] = microtime(true);
+	$_SESSION['gameDuration'] = -1;
+	
 	// init chat
 	$query = "select row from fwchat order by row desc limit 1";
 	$stmt = $link->prepare($query);
@@ -71,13 +75,13 @@
 	}
 	
 	// determine player number
-	$query = "select player, startTile from fwPlayers where game=?;";
+	$query = 'select player, startTile from fwPlayers where game=?';
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
 	$stmt->store_result();
 	$stmt->bind_result($player, $startTile);
-	$a = array();
+	$a = [];
 	while($stmt->fetch()){
 		$capital = $startTile;
 		array_push($a, $player);
@@ -89,6 +93,14 @@
 		if (!in_array($i, $a)){
 			if (!isset($_SESSION['player'])){
 				$_SESSION['player'] = $i;
+				$_SESSION['playerMod'] = $_SESSION['player'] % 4;
+				// claim player slot
+				$query = 'insert into fwPlayers (`game`, `account`, `nation`, `flag`, `player`) 
+					values (?, ?, ?, ?, ?) 
+					on duplicate key update timestamp=now()';
+				$stmt = $link->prepare($query);
+				$stmt->bind_param('isssi', $_SESSION['gameId'], $_SESSION['account'], $_SESSION['nation'], $_SESSION['flag'], $_SESSION['player']);
+				$stmt->execute();
 			}
 		}
 	}

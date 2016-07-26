@@ -1,6 +1,7 @@
 <?php
 
 function checkDeadPlayer($defender){
+	// must pass in nation and player values via an object
 	global $link;
 	// check if defender was eliminated
 	$stmt = $link->prepare('select count(row) total from fwtiles where game=? and player=?');

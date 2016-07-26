@@ -35,7 +35,6 @@
 	$x->cultureReward = isset($_SESSION['cultureReward']) ? $_SESSION['cultureReward'] : 0;
 	
 	$x->gameId = 0;
-	$x->foodBonus = 30;
 	
 	$query = "select game from fwPlayers where account=? and timestamp > date_sub(now(), interval {$_SESSION['lag']} second)";
 	$stmt = $link->prepare($query);

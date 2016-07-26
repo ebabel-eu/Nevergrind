@@ -88,5 +88,9 @@
 	$x->capitalTiles = $_SESSION['capitalTiles'];
 	
 	$_SESSION['gameStartTime'] = microtime(true);
+	if ($_SESSION['gameDuration'] === -1){
+		// actual game start time
+		$_SESSION['gameDuration'] = microtime(true);
+	}
 	echo json_encode($x);
 ?>

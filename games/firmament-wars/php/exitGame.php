@@ -16,6 +16,11 @@
 			// add loss
 			require('loseGame.php');
 		} else {
+			// set all tiles and player to 0
+			$query = 'update fwTiles set account="", player=0, nation="", flag="", units=0 where game=? and account=?';
+			$stmt = $link->prepare($query);
+			$stmt->bind_param('is', $_SESSION['gameId'], $_SESSION['account']);
+			$stmt->execute();
 			// exit lobby
 			$query = 'delete from fwPlayers where account=?';
 			$stmt = $link->prepare($query);

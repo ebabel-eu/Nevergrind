@@ -12,9 +12,18 @@
 	$defender = new stdClass();
 	$defender->tile = $_POST['defender'];
 	
-	if ($_SESSION['production'] < 7){
-		header('HTTP/1.1 500 Not enough energy!');
-		exit();
+	$split = $_POST['split'] * 1;
+	
+	if ($split === 0){
+		if ($_SESSION['production'] < 7){
+			header('HTTP/1.1 500 Not enough energy!');
+			exit();
+		}
+	} else {
+		if ($_SESSION['production'] < 3){
+			header('HTTP/1.1 500 Not enough energy!');
+			exit();
+		}
 	}
 	
 	if (isAdjacent($attacker->tile, $defender->tile)){
@@ -44,17 +53,40 @@
 				$defender->account = $account;
 			}
 		}
+		$splitDef = 0;
+		$splitAtk = 0;
+		if ($split === 1){
+			$availableArmies = $attacker->units - 1;
+			$splitDef = floor($availableArmies / 2);
+			$splitAtk = $availableArmies - $splitDef;
+		}
 		$originalDefendingUnits = $defender->units;
 		// add adjacent validation
 		if ($defender->account == $_SESSION['account']){
 			// move to allied territory
-			if ($defender->units + $attacker->units > 255){
-				$diff = (255 - ($defender->units + $attacker->units) ) * -1;
-				$defender->units = $defender->units + $attacker->units - $diff;
-				$attacker->units = $diff;
+			if ($split === 0){
+				if ($defender->units + $attacker->units > 255){
+					// attack overflow
+					$diff = (255 - ($defender->units + $attacker->units) ) * -1;
+					$defender->units = $defender->units + $attacker->units - $diff;
+					$attacker->units = $diff;
+				} else {
+					// attack normal
+					$defender->units = $defender->units + $attacker->units - 1;
+					$attacker->units = 1;
+				}
 			} else {
-				$defender->units = $defender->units + $attacker->units - 1;
-				$attacker->units = 1;
+				if ($defender->units + $splitAtk > 255){
+					// split attack overflow
+					$diff = (255 - ($defender->units + $splitAtk) ) * -1;
+					$defender->units = $defender->units + $splitAtk - $diff;
+					$attacker->units = $diff + $splitDef + 1;
+				} else {
+					// what advances
+					$defender->units = $splitAtk + $originalDefendingUnits;
+					// what's left behind
+					$attacker->units = $splitDef + 1;
+				}
 			}
 			// update attacker
 			$query = 'update fwTiles set units=? where tile=? and game=?';
@@ -67,13 +99,14 @@
 			$stmt->bind_param('iii', $defender->units, $defender->tile, $_SESSION['gameId']);
 			$stmt->execute();
 			
-			$_SESSION['production'] -= 7;
+			$_SESSION['production'] -= $split === 0 ? 7 : 3;
 			$o->production = $_SESSION['production'];
 		} else {
 			// attacking uninhabited/enemy territory
-			if ($stmt->num_rows == 2 && 
-				$attacker->units > 1 &&
-				$defender->account != $_SESSION['account']){
+			if ($attacker->units > 1 &&
+				$defender->account != $_SESSION['account'])
+			{
+				// RESUME: split attacking with $splitAtk
 				$result = battle($attacker->units, $defender->units, $defender->tile);
 				if ($result[0] > $result[1]){
 					// victory
@@ -106,7 +139,7 @@
 							}
 						} else {
 							// give barbarian reward
-							require('barbarianReward.php');
+							require('rewardBarbarian.php');
 							$o->rewardMsg = getBarbarianReward($attacker, $defender);
 						}
 							
@@ -159,12 +192,12 @@
 					$o->production = $_SESSION['production'];
 				}
 			} else {
-				header('HTTP/1.1 500 You can only move/attack adjacent territories.');
+				header('HTTP/1.1 500 You cannot attack under these conditions.');
 				exit();
 			}
 		}
 	} else {
-		header('HTTP/1.1 500 You can only move/attack adjacent territories.');
+		header('HTTP/1.1 500 You can only attack adjacent territories.');
 		exit();
 	}
 	echo json_encode($o);

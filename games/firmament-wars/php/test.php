@@ -1,31 +1,27 @@
 <?php
-	require('values.php');
 	session_start();
-	$arr = [
-		3 ? 1 : 0
-	];
-	echo var_dump($arr) . '<br>';
+	require('values.php');
+	require('connect1.php');
 	
-	echo 'Resource Tick: ' . $_SESSION['resourceTick'] . '<br>';
-	
-	$gameDuration = microtime(true) - $_SESSION['gameStartTime'] + .5;
+	$gameDuration = microtime(true) - $_SESSION['gameDuration'];
 	echo 'gameDuration: ' . $gameDuration . '<br>';
-	$tickDuration = $_SESSION['resourceTick'] * 5;
-	echo 'tickDuration: ' . $tickDuration . '<br>';
+	$gameStartTime = 6 + ($_SESSION['resourceTick'] * 5);
+	echo 'gameStartTime: ' . $gameStartTime . '<br>';
 	
-	if (in_array(9, $_SESSION['capitalTiles'])){
-		echo "IT IS HERE";
+	$gameNow = (6 + $_SESSION['resourceTick'] * 5);
+	echo 'gameNow: ' . $gameNow . '<br>';
+	$gameStartTime = microtime(true) - $_SESSION['gameStartTime'];
+	echo 'gameStartTime: ' . $gameStartTime . '<br>';
+	
+	if (isset($_SESSION['resourceTick'])){
+		echo 'Resource Tick: ' . $_SESSION['resourceTick'] . '<br>';
+		
+		$gameDuration = microtime(true) - $_SESSION['gameStartTime'] + .5;
+		echo 'gameDuration: ' . $gameDuration . '<br>';
+		$tickDuration = $_SESSION['resourceTick'] * 5;
+		echo 'tickDuration: ' . $tickDuration . '<br>';
 	}
-	exit();
 	
-	
-	echo "TIME: " . $diff . "<BR>";
-	if ($diff > 5){
-		echo "OK<BR>";
-	} else {
-		echo "NOT OK<BR>";
-		exit();
-	}
 	// echo session
 	if (isset($_SESSION['email'])){
 		echo "email: " . $_SESSION['email'];
@@ -47,7 +43,9 @@
 		echo "<br>cultureMax: " . $_SESSION['cultureMax'];
 		echo "<br>cultureMilestone: " . $_SESSION['cultureMilestone'];
 		echo "<br>manpower: " . $_SESSION['manpower'];
-		echo "<br>capital: " . $_SESSION['capital'];
+		if (isset($_SESSION['capital'])){
+			echo "<br>capital: " . $_SESSION['capital'];
+		}
 		echo "<br>chatId: " . $_SESSION['chatId'];
 		echo "<br>resourceTick: " . $_SESSION['resourceTick'];
 		
@@ -62,225 +60,5 @@
 	echo "<hr>";
 	
 	$start = microtime(true);
-	
-	/*
-	
-	$attacker = new stdClass();
-	$attacker->units = 10;
-	
-	$defender = new stdClass();
-	$defender->units = 10;
-	
-	function battle($x, $y){
-		$oBonus = 0; // + atk 500
-		$dBonus = 0; // + def 500
-		// add o tile bonus 
-		// add d tile bonus 
-		// $oTileUpgrades = [0, 16, 32, 48];
-		// $dTileUpgrades = [0, 30, 40, 50];
-		// Math.ceil(Math.random() * (6 + bonus)) + (Math.random() * 100 < oTile ? 3 : 0);
-		
-		// add o general bonus 750
-		// add d general bonus 750
-		
-		while ($y > 0 && $x > 1){
-			$diceX = $x > 2 ? 3 : 2;
-			$diceY = $y > 1 ? 2 : 1;
-			$xRoll = array();
-			$yRoll = array();
-			
-			$x -= $diceX;
-			$y -= $diceY;
-			for ($i=0; $i<$diceX; $i++){
-				$die = ceil(mt_rand(0, 6000 + $oBonus)/1000);
-				array_push($xRoll, $die);
-			}
-			for ($i=0; $i<$diceY; $i++){
-				$die = ceil(mt_rand(0, 6000 + $dBonus)/1000);
-				array_push($yRoll, $die);
-			}
-			
-			rsort($xRoll);
-			rsort($yRoll);
-			
-			while( ($x && count($xRoll) > 0 || !$x && 
-				count($xRoll) > 1) && 
-				count($yRoll) > 0){
-				$xRoll[0] > $yRoll[0] ? $diceY-=1 : $diceX-=1;
-				$xRoll = array_slice($xRoll, 1);
-				$yRoll = array_slice($yRoll, 1);
-			}
-			$x += $diceX;
-			$y += $diceY;
-		}
-		
-		return array($x, $y);
-	}
-	
-	function isAdjacent($x, $y){
-		if ($_SESSION['map'] == 'Earth Alpha'){
-			require('adjEarthAlpha.php');
-		}
-		return in_array($y, $adj[$x]);
-	}
-	
-	$result = battle($attacker->units, $defender->units);
-	$foo = ceil(mt_rand(0, 6000 + 0)/1000);
-	echo $foo.'<br>';
-	
-	echo "Is adjacent? ". isAdjacent(0, 1) . "<BR>";
-	echo $result[0] . " " . $result[1] . "<BR>";
-	 //Enter your code here, enjoy!
-    // $start = microtime(true);
-    $x = "";
-    
-    for ($i=0; $i<1000; $i++){
-		require_once('adjEarthAlpha.php');
-    }
-	$x = new stdClass();
-	$x->reward = 0;
-	function getReward(){
-	}
-	getReward();
-	*/
-	
-	/*
-	$query = "select crystals from accounts where email='".$_SESSION['email']."' limit 1";
-	$result = $link->query($query);
-	while($row = $result->fetch_assoc()){
-		$crystals .= $row['crystals'];
-	}
-	*/
-	// require('connect1.php');
-		
-	if (isset($_SESSION['account'])){
-		for ($i=0; $i<500; $i++){
-		}
-	}
-	echo "<hr>";
-	echo "<br>Timer: ". (microtime(true) - $start);
-	
-	// UPDATE fwtiles 
-    // SET `food` = `food` + 1
-    // WHERE game=517 and tile=40;
-	
-	// updateResources.php
-	/*
-			require('connect1.php');
-			// get game tiles
-			$query = 'select sum(food), sum(culture) from `fwTiles` where account=?';
-			$stmt = $link->prepare($query);
-			$stmt->bind_param('s', $_SESSION['account']);
-			$stmt->execute();
-			$stmt->bind_result($food, $culture);
-			
-			$x = new stdClass();
-			while($stmt->fetch()){
-				$newFood = $_SESSION['food'] + $food;
-				$x->food = $newFood > 9999 ? 9999 : $newFood;
-				$x->sumFood = $food;
-				
-				$newCulture = $_SESSION['culture'] + $culture;
-				$x->culture = $newCulture > 9999 ? 9999 : $newCulture;
-				$x->sumCulture = $culture;
-			}
-			$x->foodMax = $_SESSION['foodMax'];
-			$x->cultureMax = $_SESSION['cultureMax'];
-			$x->bonus = 0;
-			if ($x->culture >= $_SESSION['cultureMax']){
-				$x->culture -= $_SESSION['cultureMax'];
-				$_SESSION['cultureMax'] += 250;
-				$_SESSION['cultureMilestone']++;
-				// provide culture milestone here
-			}
-			
-			$_SESSION['food'] = $x->food;
-			$_SESSION['culture'] = $x->culture;
-			
-			$x->manpower = $_SESSION['manpower'];
-			$x->foodMax = $_SESSION['foodMax'];
-			$x->cultureMax = $_SESSION['cultureMax'];
-			
-			$_SESSION['resourceTick']++;
-	
-	
-		// get game tiles
-		$query = 'select sum(food), sum(production), sum(culture) from `fwTiles` where account=?';
-		$stmt = $link->prepare($query);
-		$stmt->bind_param('s', $_SESSION['account']);
-		$stmt->execute();
-		$stmt->bind_result($food, $production, $culture);
-		
-		$x = new stdClass();
-		while($stmt->fetch()){
-			$newFood = $_SESSION['food'] + $food;
-			$x->food = $newFood > 9999 ? 9999 : $newFood;
-			$x->sumFood = $food;
-			
-			$newProduction = $_SESSION['production'] + $production;
-			$x->production = $newProduction > 9999 ? 9999 : $newProduction;
-			$x->sumProduction = $production;
-			
-			$newCulture = $_SESSION['culture'] + $culture;
-			$x->culture = $newCulture > 9999 ? 9999 : $newCulture;
-			$x->sumCulture = $culture;
-		}
-		$x->foodMax = $_SESSION['foodMax'];
-		$x->cultureMax = $_SESSION['cultureMax'];
-		$x->bonus = 0;
-		if ($x->culture >= $_SESSION['cultureMax']){
-			$x->culture -= $_SESSION['cultureMax'];
-			$_SESSION['cultureMax'] += 250;
-			$_SESSION['cultureMilestone']++;
-			// provide culture milestone here
-		}
-		
-		$_SESSION['food'] = $x->food;
-		$_SESSION['production'] = $x->production;
-		$_SESSION['culture'] = $x->culture;
-		
-		$x->manpower = $_SESSION['manpower'];
-		$x->foodMax = $_SESSION['foodMax'];
-		$x->cultureMax = $_SESSION['cultureMax'];
-		
-		$_SESSION['resourceTick']++;
-		*/
-	
-	
-	// getGameState.php
-		/*
-		$stmt = $link->prepare('select player, units from `fwTiles` where game=? order by tile');
-		$stmt->bind_param('i', $_SESSION['gameId']);
-		$stmt->execute();
-		$stmt->bind_result($player, $units);
-		
-		$x = new stdClass();
-		$x->tiles = [];
-		$x->player =[0,0,0,0,0,0,0,0,0];
-		$count = 0;
-		while($stmt->fetch()){
-			$o = new stdClass();
-			$o->player = $player;
-			$o->units = $units;
-			$x->tiles[$count++] = $o;
-			//$x->player[$player] = 1;
-		}
-		// chat
-		$stmt = $link->prepare('select row, message from fwchat where row > ? and gameId=? order by row');
-		$stmt->bind_param('ii', $_SESSION['chatId'], $_SESSION['gameId']);
-		$stmt->execute();
-		$stmt->bind_result($row, $message);
-		$x->chat = [];
-		$z = 0;
-		while($stmt->fetch()){
-			$o = new stdClass();
-			$_SESSION['chatId'] = $row;
-			$o->message = $message;
-			$x->chat[$z++] = $o;
-		}
-		$x->chatId = $_SESSION['chatId'];
-		*/
-	
-	
 	
 ?>

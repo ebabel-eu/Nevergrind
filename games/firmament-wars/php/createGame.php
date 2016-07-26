@@ -25,7 +25,8 @@
 		header('HTTP/1.1 500 Game name already exists.');
 		exit;
 	} else {
-		require('checkAllDisconnects.php');
+		// check disconnected players when creating a game
+		require('checkDisconnectsAll.php'); 
 	}
 	// if maps are added, this will have to be POST'd
 	$map = "Earth Alpha";
@@ -42,6 +43,7 @@
 	$_SESSION['gameStarted'] = 0;
 	$_SESSION['gameType'] = 'FFA';
 	$_SESSION['player'] = 1;
+	$_SESSION['playerMod'] = $_SESSION['player'] % 4;
 	$_SESSION['map'] = $map;
 	$_SESSION['food'] = 0;
 	$_SESSION['foodMax'] = 25;
@@ -62,7 +64,7 @@
 	$_SESSION['cultureReward'] = 0;
 	$_SESSION['productionReward'] = 0;
 	$_SESSION['gameStartTime'] = microtime(true);
-	$_SESSION['gameDuration'] = microtime(true);
+	$_SESSION['gameDuration'] = -1;
 	// init chat
 	$query = "select row from fwchat order by row desc limit 1";
 	$stmt = $link->prepare($query);
