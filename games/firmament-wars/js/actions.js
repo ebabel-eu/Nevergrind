@@ -88,6 +88,7 @@ var action = {
 				split: my.splitAttack ? 1 : 0
 			}
 		}).done(function(data) {
+			console.info('attackTile', data);
 			if ('rewardMsg' in data){
 				chat(data.rewardMsg);
 			}

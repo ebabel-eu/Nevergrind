@@ -1,12 +1,7 @@
-- split attack / move
-- split doesn't work on unclaimed territory
 - attack animation
-- add great wall of peace
+- add great wall or a wall? hmmm
 
 // bugs
-- why did firefox disconnect?
-- why did Safari just disconnect and their armies weren't booted?
-- net::ERR_NETWORK_IO_SUSPENDED
 
 // 1.0 stuff
 - fix responsiveness down to 640

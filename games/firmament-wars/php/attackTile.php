@@ -53,8 +53,6 @@
 				$defender->account = $account;
 			}
 		}
-		$splitDef = 0;
-		$splitAtk = 0;
 		if ($split === 1){
 			$availableArmies = $attacker->units - 1;
 			$splitDef = floor($availableArmies / 2);
@@ -101,17 +99,29 @@
 			
 			$_SESSION['production'] -= $split === 0 ? 7 : 3;
 			$o->production = $_SESSION['production'];
+			
+			
+			
 		} else {
 			// attacking uninhabited/enemy territory
 			if ($attacker->units > 1 &&
-				$defender->account != $_SESSION['account'])
+				$defender->account !== $_SESSION['account'])
 			{
 				// RESUME: split attacking with $splitAtk
-				$result = battle($attacker->units, $defender->units, $defender->tile);
+				if ($split === 0){
+					$result = battle($attacker->units, $defender->units, $defender->tile);
+				} else {
+					$result = battle($splitAtk, $defender->units, $defender->tile);
+				}
 				if ($result[0] > $result[1]){
 					// victory
-					$attacker->units = 1;
-					$defender->units = $result[0] - $attacker->units;
+					if ($split === 0){
+						$attacker->units = 1;
+						$defender->units = $result[0] - $attacker->units;
+					} else {
+						$attacker->units = $splitDef + 1;
+						$defender->units = $result[0];
+					}
 					// update attacker
 					$query = "update fwTiles set units=? where tile=? and game=?";
 					$stmt = $link->prepare($query);
@@ -154,12 +164,17 @@
 						}
 					}
 			
-					$_SESSION['production'] -= 7;
+					$_SESSION['production'] -= $split === 0 ? 7 : 3;
 					$o->production = $_SESSION['production'];
 				} else {
 					// defeat
-					$attacker->units = $result[0];
-					$defender->units = $result[1];
+					if ($split === 0){
+						$attacker->units = $result[0];
+						$defender->units = $result[1];
+					} else {
+						$attacker->units = $splitDef + 1;
+						$defender->units = $result[1];
+					}
 					// update attacker
 					$query = 'update fwTiles set units=? where tile=? and game=?';
 					$stmt = $link->prepare($query);
@@ -182,13 +197,13 @@
 						'<img src="images/flags/Player'.$defender->player.'.jpg" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">' :
 						'<img src="images/flags/'.$defender->flag.'" class="player'.$defender->player.' p'.$defender->player.'b inlineFlag">';
 					}
-						
+					/*
 					$msg = $atkFlag. $attacker->nation . ' fails to conquer ' . $defFlag . $defender->tileName. '.';
 					$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 					$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 					$stmt->execute();
-			
-					$_SESSION['production'] -= 7;
+					*/
+					$_SESSION['production'] -= $split === 0 ? 7 : 3;
 					$o->production = $_SESSION['production'];
 				}
 			} else {
