@@ -26,7 +26,7 @@
 		exit;
 	} else {
 		// check disconnected players when creating a game
-		require('checkDisconnectsAll.php'); 
+		require('checkDisconnectsByAccount.php'); 
 	}
 	// if maps are added, this will have to be POST'd
 	$map = "Earth Alpha";

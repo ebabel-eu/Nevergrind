@@ -51,7 +51,6 @@ var action = {
 		}
 	},
 	attackTile: function(that){
-		console.info('production: ', my.production);
 		var attacker = my.tgt;
 		var defender = that.id.slice(4)*1;
 		if (my.tgt === defender){
@@ -79,6 +78,13 @@ var action = {
 			return;
 		}
 		g.lock(true);
+		// animate attack
+		if (game.tiles[defender].player !== my.player){
+			var e1 = document.getElementById('land' + defender),
+				box = e1.getBBox();
+			box.units = game.tiles[attacker].units;
+			animate.explosion(box);
+		}
 		// send attack to server
 		$.ajax({
 			url: 'php/attackTile.php',
@@ -89,10 +95,10 @@ var action = {
 			}
 		}).done(function(data) {
 			console.info('attackTile', data);
-			if ('rewardMsg' in data){
+			if (data.rewardMsg !== undefined){
 				chat(data.rewardMsg);
 			}
-			if ('production' in data){
+			if (data.production !== undefined){
 				setProduction(data);
 			}
 		}).fail(function(e){
@@ -151,6 +157,61 @@ var action = {
 			TweenMax.set('#manpower', {
 			  color: '#fff'
 			});
+		}
+	}
+}
+
+var animate = {
+	explosion: function(box){
+		var explosions = box.units !== undefined ?
+			15 + ~~(box.units / 5) :
+			20;
+		function randomColor(){
+			var x = ~~(Math.random()*7),
+				c = '#ffffff';
+			if (x === 0){
+				c = '#ffffff';
+			} else if (x === 1){
+				c = '#ffff88';
+			} else if (x === 2){
+				c = '#ffff55';
+			} else if (x === 3){
+				c = '#ff8855';
+			} else if (x === 4){
+				c = '#ffbb55';
+			} else if (x === 5){
+				c = '#ff0000';
+			} else {
+				c = '#ffddbb';
+			}
+			return c;
+		}
+		for (var i=0; i<explosions; i++){
+			(function(){
+				var circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
+				var x = box.x + (Math.random() * (box.width * .8)) + box.width * .1;
+				var y = box.y + (Math.random() * (box.height * .8)) + box.height * .1;
+				circ.setAttributeNS(null,"cx",x);
+				circ.setAttributeNS(null,"cy",y);
+				circ.setAttributeNS(null,"r",.01);
+				circ.setAttributeNS(null,"fill","none");
+				circ.setAttributeNS(null,"stroke",randomColor());
+				circ.setAttributeNS(null,"strokeWidth","0");
+				document.getElementById("world").appendChild(circ);
+				
+				var tl = new TimelineMax({delay: Math.random()*.5}); 
+				tl.to(circ, .1, {
+				  strokeWidth: 15
+				}).to(circ, .2, {
+				  strokeWidth: 0,
+				  attr: {
+					r: 15
+				  },
+				  onComplete: function(){
+					circ.parentNode.removeChild(circ);  
+				  }
+				});
+			})();
 		}
 	}
 }

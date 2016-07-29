@@ -1,5 +1,4 @@
-- attack animation
-- add great wall or a wall? hmmm
+
 
 // bugs
 
@@ -21,6 +20,7 @@
 - display game stats?
 - remove rejoin?
 - government choice?
+- add great wall or a wall? hmmm
 
 // site stuff
 - make login page separate from create account

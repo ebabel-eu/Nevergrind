@@ -671,26 +671,25 @@ text{
 	visibility: hidden;
 	stroke-width: 3;
 	stroke-dasharray: 8,4;
-	stroke-dashoffset: 0;
 }
 #targetLineShadow{
 	visibility: hidden;
 	stroke-width: 1;
 	stroke-dasharray: 8,4;
-	stroke-dashoffset: 0;
 	stroke: rgba(0,0,0,.3);
 }
 #targetCrosshair{
+	stroke: "#1a1a1a";
+	stroke-width: 12;
 	visibility: hidden;
-	stroke: #000;
 	fill: #f00;
 	pointer-events: none;
 }
 .paths{
 	stroke: rgba(255,255,0,1);
-	stroke-width:2;
-	stroke-miterlimit:4;
-	stroke-dasharray:2,2;
+	stroke-width: 2;
+	stroke-miterlimit: 4;
+	stroke-dasharray: 2,2;
 	pointer-events: none;
 }
 .block{

@@ -13,7 +13,7 @@ function showTarget(e, hover){
 			my.targetLine[4] = e.getAttribute('x')*1;
 			my.targetLine[5] = e.getAttribute('y')*1;
 			my.targetLine[2] = (my.targetLine[0] + my.targetLine[4]) / 2;
-			my.targetLine[3] = ((my.targetLine[1] + my.targetLine[5]) / 2) - 200;
+			my.targetLine[3] = ((my.targetLine[1] + my.targetLine[5]) / 2) - 100;
 			TweenMax.set(DOM.targetLineShadow, {
 				visibility: 'visible',
 				attr: {
@@ -40,7 +40,7 @@ function showTarget(e, hover){
 			});
 			// crosshair
 			TweenMax.set(DOM.targetCrosshair, {
-				fill: game.tiles[tileId].player === my.player ? '#00cc00' : '#ff0000',
+				fill: game.tiles[tileId].player === my.player ? '#aa0000' : '#00cc00',
 				visibility: 'visible',
 				x: my.targetLine[4] - 255,
 				y: my.targetLine[5] - 257,
@@ -186,6 +186,12 @@ function getGameState(){
 						TweenMax.to(e1, .5, {
 							fill: color[d.player]
 						});
+						// animate other players' attacks
+						if (d.player !== my.player){
+							var box = e1.getBBox();
+							box.units = d.units;
+							animate.explosion(box);
+						}
 					}
 					// check unit value
 					if (d.units !== game.tiles[i].units){

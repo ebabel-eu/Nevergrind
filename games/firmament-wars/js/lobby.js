@@ -339,6 +339,17 @@ function joinStartedGame(){
 		});
 		initResources(data); // setResources(data);
 		$(e).trigger("mousedown");
+		if (!isMobile){
+			var e = document.getElementsByClassName('land');
+			TweenMax.fromTo(e, 2, {
+				fillOpacity: .01,
+				drawSVG: '0%'
+			}, {
+				drawSVG: '100%',
+				fillOpacity: 1,
+				ease: Linear.easeOut
+			});
+		}
 	}).fail(function(data){
 		serverError();
 	}).always(function(){

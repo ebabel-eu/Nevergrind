@@ -35,7 +35,7 @@
 		exit;
 	}
 	// check for disconnected players upon joining
-	require('checkDisconnectsAll.php');
+	require('checkDisconnectsByAccount.php');
 	
 	// set session values
 	$_SESSION['gameId'] = $gameId;
