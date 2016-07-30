@@ -78,95 +78,110 @@
 				</div>
 			</header>
 			
-			<div id="menu" class="fw-primary">
-				<div id='menuOnline' class='shadow4'>
-					<div>
-				<?php
-					require('php/checkDisconnectsByAccount.php');
-				
-					$result = mysqli_query($link, 'select count(row) count from `fwplayers` where timestamp > date_sub(now(), interval 20 second)');
-					// Associative array
-					$row = mysqli_fetch_assoc($result);
-					printf ("%s", 'There '. 
-						($row["count"] == 1 ? 'is' : 'are')  .' currently '.$row["count"].' '.
-						($row["count"] == 1 ? 'player' : 'players') . ' playing Firmament Wars'
-					);
-					echo '</div><div>';
-					// check if nation exists; create if not
-					$query = 'select count(row) from fwNations where account=?';
-					$stmt = $link->prepare($query);
-					$stmt->bind_param('s', $_SESSION['account']);
-					$stmt->execute();
-					$stmt->store_result(); // don't need
-					$stmt->bind_result($dbcount);
-					while($stmt->fetch()){
-						$count = $dbcount;
-					}
-					$nation = 'Kingdom of '.ucfirst($_SESSION['account']);
-					$flag = 'Default.jpg';
-					if($count > 0){
-						$query = "select nation, flag, wins, losses, disconnects from fwNations where account=?";
+			<div id="menu" class="fw-primary container">
+				<div id='menuOnline' class='shadow4 row'>
+					<div class='col-lg-12'>
+					<?php
+						require('php/checkDisconnectsByAccount.php');
+					
+						$result = mysqli_query($link, 'select count(row) count from `fwplayers` where timestamp > date_sub(now(), interval 20 second)');
+						// Associative array
+						$row = mysqli_fetch_assoc($result);
+						printf ("%s", 'There '. 
+							($row["count"] == 1 ? 'is' : 'are')  .' currently '.$row["count"].' '.
+							($row["count"] == 1 ? 'player' : 'players') . ' playing Firmament Wars'
+						);
+						echo '</div><div class="col-lg-12">';
+						// check if nation exists; create if not
+						$query = 'select count(row) from fwNations where account=?';
 						$stmt = $link->prepare($query);
 						$stmt->bind_param('s', $_SESSION['account']);
 						$stmt->execute();
-						$stmt->store_result();
-						$stmt->bind_result($dName, $dFlag, $wins, $losses, $disconnects);
+						$stmt->store_result(); // don't need
+						$stmt->bind_result($dbcount);
 						while($stmt->fetch()){
-							$nation = $dName;
-							$flag = $dFlag;
-							$wins = $wins;
-							$losses = $losses;
-							$disconnects = $disconnects;
-							// show record
-							echo 'Record: ' .$wins. ' wins, '. $losses .' losses, '. $disconnects .' disconnects';
+							$count = $dbcount;
 						}
-					} else {
-						$query = "insert into fwNations (`account`, `nation`, `flag`) VALUES (?, '$nation', '$flag')";
-						$stmt = $link->prepare($query);
-						$stmt->bind_param('s', $_SESSION['account']);
-						$stmt->execute();
-						// show record; new nation
-						echo 'Record: 0 wins, 0 losses, 0 disconnects';
-					}
-				?>
+						$nation = 'Kingdom of '.ucfirst($_SESSION['account']);
+						$flag = 'Default.jpg';
+						if($count > 0){
+							$query = "select nation, flag, wins, losses, disconnects from fwNations where account=?";
+							$stmt = $link->prepare($query);
+							$stmt->bind_param('s', $_SESSION['account']);
+							$stmt->execute();
+							$stmt->store_result();
+							$stmt->bind_result($dName, $dFlag, $wins, $losses, $disconnects);
+							while($stmt->fetch()){
+								$nation = $dName;
+								$flag = $dFlag;
+								$wins = $wins;
+								$losses = $losses;
+								$disconnects = $disconnects;
+								// show record
+								echo 'Record: ' .$wins. ' wins, '. $losses .' losses, '. $disconnects .' disconnects';
+							}
+						} else {
+							$query = "insert into fwNations (`account`, `nation`, `flag`) VALUES (?, '$nation', '$flag')";
+							$stmt = $link->prepare($query);
+							$stmt->bind_param('s', $_SESSION['account']);
+							$stmt->execute();
+							// show record; new nation
+							echo 'Record: 0 wins, 0 losses, 0 disconnects';
+						}
+					?>
+					</div>
+					<hr class='fancyhr'>
+				</div>
+				<div class="row">
+					<div id="menuHead" class="btn-group col-lg-12" role="group">
+						<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active btn-head">Refresh Games</button>
+						<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Create</button>
+						<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Configure Nation</button>
+						<hr class="fancyhr">
 					</div>
 				</div>
-				<hr class='fancyhr'>
-				<div id="menuHead" class="btn-group" role="group">
-					<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active btn-head">Refresh Games</button>
-					<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Create</button>
-					<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Configure Nation</button>
+				
+				<div class='row'>
+					<div id="menuContent" class="shadow4 col-lg-12"></div>
+					<hr class="fancyhr">
 				</div>
-				<hr class="fancyhr">
 				
-				<div id="menuContent" class="shadow4"></div>
-				<hr class="fancyhr">
-				
-				<div id="menuFoot" class="text-center">
-					<button id="logout" type="button" class="btn btn-primary btn-xs shadow4">
-						Logout
-					</button>
+				<div class='row'>
+					<div id="menuFoot" class="text-center">
+						<button id="logout" type="button" class="btn btn-primary btn-xs shadow4">
+							Logout
+						</button>
+					</div>
 				</div>
 			</div>
 			
-			<div id="configureNation" class="fw-primary">
+			<div id="configureNation" class="fw-primary container">
 				<div class="row">
 					<div class="col-xs-6">
 						<img id="nationFlag" class="w100" src="images/flags/<?php echo $flag; ?>">
 					</div>
 					<div id="nationName" class="col-xs-6 shadow4 nation text-center"><?php echo $nation; ?></div>
 				</div>
-				<hr class="fancyhr">
-				<div class="input-group">
-					<span class="input-group-btn">
-						<button id="submitNationName" class="btn btn-primary shadow4" type="button">Change Nation's Name</button>
-					</span>
-					<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus">
+				<div class="row">
+					<div class="col-xs-12">
+						<hr class="fancyhr">
+						<div class="input-group">
+							<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus" placeholder="Nation Name">
+							<span class="input-group-btn">
+								<button id="submitNationName" class="btn btn-primary shadow4" type="button">
+									Update Nation Name
+								</button>
+							</span>
+						</div>
+						<hr class="fancyhr">
+					</div>
 				</div>
 				
-				<hr class="fancyhr">
 				<div class="row">
 					<div class="col-xs-5">
+						<div class='flagLabel'>
+							Select National Flag
+						</div>
 						<select id="flagDropdown" class="form-control">
 							<!-- flags -->
 						</select>

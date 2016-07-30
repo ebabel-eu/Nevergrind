@@ -212,7 +212,7 @@ a:hover{
 	pointer-events: none;
 }
 .chat-img{
-	max-width: 40%;
+	max-width: 50%;
 	display: block;
 }
 .chat-manpower{
@@ -691,6 +691,12 @@ text{
 	stroke-miterlimit: 4;
 	stroke-dasharray: 2,2;
 	pointer-events: none;
+}
+.flagLabel{
+	margin-bottom: .25em;
+}
+circle{
+	opacity: 0;
 }
 .block{
 	display: block;

@@ -1,4 +1,11 @@
 
+	// cleanup stale player data
+	/*
+		$query = "SELECT account FROM `fwplayers` where timestamp< date_sub(now(), interval {$_SESSION['lag']} second);";
+		$stmt = $link->query($query);
+	*/
+
+
 	class Tile { 
 		public $aMemberVar = 'aMemberVar Member Variable'; 
 		public $aFuncName = 'aMemberFunc'; 

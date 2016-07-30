@@ -254,7 +254,10 @@ function joinStartedGame(){
 			});
 		} else {
 			$(".land").on("mousedown", function(){
-				console.info(this.id);
+				var box = this.getBBox();
+				var x = Math.round(box.x + (box.width/2));
+				var y = Math.round(box.y + (box.height/2));
+				console.info(this.id, x, y);
 				if (my.attackOn){
 					action.attackTile(this);
 				} else {
@@ -349,6 +352,11 @@ function joinStartedGame(){
 				fillOpacity: 1,
 				ease: Linear.easeOut
 			});
+		}
+		if (location.host !== 'localhost'){
+			window.onbeforeunload = function(){
+				return "Are you sure you want leave the game?";
+			}
 		}
 	}).fail(function(data){
 		serverError();

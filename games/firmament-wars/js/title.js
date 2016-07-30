@@ -164,28 +164,32 @@ function joinGame(){
 	}
 	document.getElementById("flagDropdown").innerHTML = s;
 	g.lock();
-	$.ajax({
-		type: "GET",
-		url: 'php/rejoinGame.php' // check if already in a game
-	}).done(function(data) {
-		console.info('rejoin ', data);
-		if (data.gameId > 0){
-			console.info("Auto joined game:" + (data.gameId));
-			// join lobby in progress
-			joinLobby(0); // autojoin
-			initResources(data); // setResources(data);
-		} else {
-			// show title screen
-			document.getElementById("titleMain").style.visibility = "visible";
-			document.getElementById('mainWrap').style.display = "block";
-			// hide everything title screen for game map testing
-			// document.getElementById("mainWrap").style.display = "none";
-		}
-	}).fail(function(e){
-		Msg("Failed to contact server.");
-	}).always(function(){
-		g.unlock();
-	});
+	function showTitleScreen(){
+		document.getElementById("titleMain").style.visibility = "visible";
+		document.getElementById('mainWrap').style.display = "block";
+	}
+	if (location.host === 'localhost'){
+		$.ajax({
+			type: "GET",
+			url: 'php/rejoinGame.php' // check if already in a game
+		}).done(function(data) {
+			console.info('rejoin ', data);
+			if (data.gameId > 0){
+				console.info("Auto joined game:" + (data.gameId));
+				// join lobby in progress
+				joinLobby(0); // autojoin
+				initResources(data); // setResources(data);
+			} else {
+				showTitleScreen();
+			}
+		}).fail(function(e){
+			Msg("Failed to contact server.");
+		}).always(function(){
+			g.unlock();
+		});
+	} else {
+		showTitleScreen();
+	}
 })();
 
 // cached values on client to reduce DB load

@@ -26,7 +26,8 @@
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('ss', $name, $_SESSION['account']);
 		$stmt->execute();
+		
+		$_SESSION['nation'] = $name;
 		echo $name;
-	} else {
 	}
 ?>

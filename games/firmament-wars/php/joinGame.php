@@ -104,7 +104,6 @@
 			}
 		}
 	}
-	// set capital value
 	
 	// sanity check
 	if ($_SESSION['player'] < 1 || $_SESSION['player'] > $_SESSION['max']){
@@ -131,10 +130,6 @@
 		$_SESSION['nation'] = $dNation;
 		$_SESSION['flag'] = $dFlag;
 	}
-	// cleanup stale player data
-	$query = "SELECT account FROM `fwplayers` where timestamp< date_sub(now(), interval {$_SESSION['lag']} second);";
-	$stmt = $link->query($query);
-	
 	require('pingLobby.php');
 	
 	require('updateLobby.php');

@@ -163,9 +163,17 @@ var action = {
 
 var animate = {
 	explosion: function(box){
-		var explosions = box.units !== undefined ?
-			15 + ~~(box.units / 5) :
-			20;
+		/*
+		if (box === undefined){
+			box = {
+				x: 1050,
+				y: 200,
+				width: 500,
+				height: 200
+			}
+		}
+		*/
+		// playAudio('explosion');
 		function randomColor(){
 			var x = ~~(Math.random()*7),
 				c = '#ffffff';
@@ -176,18 +184,19 @@ var animate = {
 			} else if (x === 2){
 				c = '#ffff55';
 			} else if (x === 3){
-				c = '#ff8855';
+				c = '#ffaa55';
 			} else if (x === 4){
-				c = '#ffbb55';
+				c = '#ffdddd';
 			} else if (x === 5){
-				c = '#ff0000';
+				c = '#dddd88';
 			} else {
-				c = '#ffddbb';
+				c = '#cccccc';
 			}
 			return c;
 		}
-		for (var i=0; i<explosions; i++){
-			(function(){
+		var start = Date.now();
+		for (var i=0; i<30; i++){
+			(function(Math){
 				var circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
 				var x = box.x + (Math.random() * (box.width * .8)) + box.width * .1;
 				var y = box.y + (Math.random() * (box.height * .8)) + box.height * .1;
@@ -197,22 +206,48 @@ var animate = {
 				circ.setAttributeNS(null,"fill","none");
 				circ.setAttributeNS(null,"stroke",randomColor());
 				circ.setAttributeNS(null,"strokeWidth","0");
-				document.getElementById("world").appendChild(circ);
+				DOM.world.appendChild(circ);
 				
-				var tl = new TimelineMax({delay: Math.random()*.5}); 
-				tl.to(circ, .1, {
-				  strokeWidth: 15
-				}).to(circ, .2, {
-				  strokeWidth: 0,
-				  attr: {
-					r: 15
-				  },
-				  onComplete: function(){
-					circ.parentNode.removeChild(circ);  
-				  }
-				});
-			})();
+				if (Math.random() > .3){
+					TweenMax.to(circ, .1, {
+						delay: Math.random()*.5,
+						startAt:{
+							opacity: 1
+						},
+						strokeWidth: 15,
+						onComplete: function(){
+							TweenMax.to(this.target, .25, {
+								strokeWidth: 0,
+								attr: {
+									r: 15
+								},
+								onComplete: function(){
+									this.target.parentNode.removeChild(this.target);
+								}
+							});
+						}
+					});
+				} else {
+					TweenMax.to(circ, Math.random()*.2+.1, {
+						startAt: {
+							opacity: 1,
+							fill: randomColor(),
+							strokeWidth:0,
+							attr: {
+								r: 8
+							}
+						},
+						delay: Math.random()*.5,
+						opacity: 0,
+						ease: Power1.easeIn,
+						onComplete: function(){
+							this.target.parentNode.removeChild(this.target);
+						}
+					});
+				}
+			})(Math);
 		}
+		console.info(Date.now() - start);
 	}
 }
 

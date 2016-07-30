@@ -116,7 +116,8 @@ var DOM = {
 	foodBonus: document.getElementById('foodBonus'),
 	cultureBonus: document.getElementById('cultureBonus'),
 	foodBar: document.getElementById('foodBar'),
-	cultureBar: document.getElementById('cultureBar')
+	cultureBar: document.getElementById('cultureBar'),
+	world: document.getElementById('world')
 }
 var $DOM = {
 	head: $("#head"),
