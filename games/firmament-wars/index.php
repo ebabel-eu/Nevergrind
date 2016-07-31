@@ -147,7 +147,7 @@
 				</div>
 				
 				<div class='row'>
-					<div id="menuFoot" class="text-center">
+					<div id="menuFoot" class="text-center col-lg-12">
 						<button id="logout" type="button" class="btn btn-primary btn-xs shadow4">
 							Logout
 						</button>

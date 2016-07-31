@@ -117,7 +117,8 @@ var DOM = {
 	cultureBonus: document.getElementById('cultureBonus'),
 	foodBar: document.getElementById('foodBar'),
 	cultureBar: document.getElementById('cultureBar'),
-	world: document.getElementById('world')
+	world: document.getElementById('world'),
+	bgmusic: document.getElementById('bgmusic')
 }
 var $DOM = {
 	head: $("#head"),
@@ -134,13 +135,6 @@ var color = [
 	"#b050b0",
 	"#5500aa"
 ]
-var GLB = {
-    musicStatus: 100,
-    soundStatus: 100,
-    videoSetting: "High",
-    showCombatLog: "On",
-    debugMode: "Off"
-}
 var worldMap = [];
 function checkMobile(){
 	var x = false;
@@ -237,162 +231,25 @@ function chat(msg) {
 	}, 9000);
 }
 
-// sound functions
-var browserOgg = (isOpera || isFirefox || isChrome) ? true : false,
-    browserMp3 = (isMSIE || isMSIE11 || isSafari) ? true : false,
-    audioExt = browserMp3 ? 'mp3' : 'ogg';
-
-function fadeMusic() {
-    if (!!document.createElement('audio').canPlayType) { // modern browser?
-        if ((browserOgg || browserMp3) && GLB.musicStatus > 0) { // FF,Chrome,Opera
-            var baz = document.getElementById("bgmusic");
-            var count = 50;
-            var kek = (((count / 100) * (GLB.musicStatus / 100)) * 1);
-            baz.volume = kek;
-
-            function doit() {
-                if (count <= 0) {
-                    return;
-                }
-                count -= 5;
-                baz.volume = (((count / 100) * (GLB.musicStatus / 100)) * 1);
-                T.delayedCall(.4, doit);
-            }
-            doit();
-        }
-    }
-}
-function loadAudio(sound){
-    var found = false;
-    for(var i=0, len=audioAssets.length; i<len; i++){
-		if(audioAssets[i].nodeName==="AUDIO"){
-			if(audioAssets[i].src.indexOf(sound) !== -1){
-				found = true; // found it - don't load it
-				continue;
+var audio = {
+	ext: (function(a){
+		return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, '')) ? 'mp3' : 'ogg'
+	})(document.createElement('audio')),
+	on: (function(a){
+		return !!a.canPlayType ? true : false;
+	})(document.createElement('audio')),
+	play: function(foo, bg){
+		if (foo && audio.on) {
+			if (bg){
+				DOM.bgmusic.src = "music/" + foo + "." + audio.ext;
+				x.play();
+			} else {
+				new Audio("sound/" + foo + "." + audio.ext).play();
 			}
 		}
-    }
-    if(found===false){ // didn't find it - load using next audio slot
-		var x = audioNum();
-		audioAssets[x]=D.createElement('audio');
-		audioAssets[x].src=soundLocation+sound+"."+audioExt;
-    }
+	}
 }
 
-function initMusic() {
-    musicAssets = [];
-    musicStrings = [];
-    musicAssetsNumber = 0;
-    for (var i = 0; i <= 9; i++) {
-        musicAssets[i] = '';
-        musicStrings[i] = '';
-    }
-}
-
-function musicNum() {
-    if (musicAssetsNumber > 9) {
-        musicAssetsNumber = 0;
-    }
-    return musicAssetsNumber++;
-}
-
-function loadMusic(sound) {
-    var found = false;
-    for (var i = 0, len = musicAssets.length; i < len; i++) {
-        if (musicStrings[i].indexOf(sound) !== -1) {
-            found = true; // found it - don't load it
-            continue;
-        }
-    }
-    if (found === false) { // didn't find it - load using next audio slot
-        var x = musicNum();
-        musicStrings[x] = sound;
-        musicAssets[x] = document.createElement('audio');
-        musicAssets[x].src = "music/" + sound + "." + audioExt;
-    }
-}
-initMusic();
-
-function playMusic(foo) {
-    if (isMobile === false) {
-        if (audioEnabled === true) {
-            if ((browserOgg === true || browserMp3 === true)) {
-                loadMusic(foo);
-                var x = document.getElementById("bgmusic");
-                x.setAttribute('type', 'audio/' + audioExt);
-                x.src = "music/" + foo + "." + audioExt;
-                var kek = ((.5 * (GLB.musicStatus / 100)) * 1);
-                x.volume = kek;
-                x.play();
-            }
-        }
-    }
-}
-
-function playAmbient(foo) {
-    if (isMobile === false) {
-        if (foo === "blankAudio") {
-            return;
-        }
-        if (audioEnabled === true) {
-            if ((browserOgg === true || browserMp3 === true)) {
-                var x = document.getElementById("bgamb1");
-                x.setAttribute('type', 'audio/' + audioExt);
-                x.src = "music/" + foo + "." + audioExt;
-                var kek = ((.2 * (GLB.musicStatus / 100)) * 1);
-                x.volume = kek;
-                x.play();
-                setTimeout(function() {
-                    var x = document.getElementById("bgamb2");
-                    x.setAttribute('type', 'audio/' + audioExt);
-                    x.src = "music/" + foo + "." + audioExt;
-                    var kek = ((.2 * (GLB.musicStatus / 100)) * 1);
-                    x.volume = kek;
-                    x.play();
-                }, 4000);
-            }
-        }
-    }
-}
-var audioEnabled = !!document.createElement('audio').canPlayType;
-
-function playAudio(foo, multi, fade, volAdj) {
-    if (isMobile === false) {
-        if (foo === "blankAudio") {
-            return;
-        }
-        if (audioEnabled === true) { // modern browser?
-            if ((browserOgg === true || browserMp3 === true)) { // FF,Chrome,Opera
-                var baz = new Audio("sound/" + foo + "." + audioExt);
-                baz.setAttribute('type', 'audio/' + audioExt);
-                baz.src = "sound/" + foo + "." + audioExt;
-                if (!volAdj) {
-                    volAdj = 1;
-                }
-                var kek = (Math.round(((.5 * (GLB.soundStatus / 100)) * volAdj) * 100) / 100);
-                baz.volume = kek;
-                baz.play();
-                // fade this effect after fade duration?
-                if (fade > 0) {
-                    if (GLB.soundStatus > 0) {
-                        function doit(count) {
-                            var zag = (kek * 100) * (1 - (count * .2));
-                            if (zag < 0) {
-                                zag = 0;
-                            }
-                            baz.volume = zag / 100;
-                            count++;
-                            if (zag > 0) {
-                                T.delayedCall(.1, doit, [count]);
-                            }
-                        }
-                        T.delayedCall(fade / 1000, doit, [0]);
-                    }
-                }
-            }
-        }
-    }
-}
 function Msg(msg, d) {
     var e = document.createElement('div');
 	e.className = "msg";
@@ -418,118 +275,6 @@ function Msg(msg, d) {
 		delay: .1,
 		alpha: 1
 	}, .01);
-}
-function testAjax() {
-    $.ajax({
-        data: {
-            run: "testAjax"
-        }
-    }).done(function(data) {
-        console.info(data);
-		x = JSON.parse(data);
-    });
-}
-
-function checkSessionActive() {
-	$.ajax({
-		data: {
-			run: "checkSessionActive"
-		}
-	}).done(function(data) {
-		if (!data) {
-			// is your session still active? If not boot! 
-			// perform upon login and window focus
-			if (g.view !== "Main") {
-				Error("Your session has timed out.");
-				setTimeout(function() {
-					serverLogout();
-				}, 5000);
-			}
-		}
-	});
-}
-
-function logout() {
-    g.lockScreen();
-    $('#logout').html("Logging Out");
-    Msg("Logging out...");
-    $.ajax({
-        data: {
-            run: "logout"
-        }
-    }).done(function(data) {
-        Msg("Logout successful");
-        for (var i = 1; i < 16; i++) {
-            $('#characterslot' + i).css('display', "none");
-        }
-        $("#createcharacter, #deletecharacter").remove();
-        $('#enterWorldWrap').css('display', "none");
-        $('#logout').html('');
-        $("#loginPassword").val('');
-        location.reload();
-    }).fail(function() {
-        Msg("Logout failed.");
-        $('#logout').html("[ " + GLB.account.split("")[0].toUpperCase() + GLB.account.slice(1) + "&nbsp;Logout&nbsp;]");
-    });
-}
-function keepSessionAlive() {
-    $.ajax({
-        url: "/php/ping.php",
-        data: {
-            my: my,
-			zone: myZone()
-        }
-    }).done(function(data) {
-        var count = data * 1;
-
-        function do1(foo) {
-            if (g.view !== "Main") {
-                if (foo === 2222) {
-                    Error("The server is going down for maintenance.");
-                } else {
-                    Error("You have been disconnected from the server. Logging out.");
-                }
-                setTimeout(function() {
-					window.onbeforeunload = null;
-                    logout();
-                }, 5000);
-            }
-        }
-        if (isNaN(data)) {
-            // no db
-            do1();
-        } else if (count === 1111) {
-            // lost session
-            do1();
-        } else if (count === 2222) {
-            // server table says down
-            do1(2222);
-        } else {
-            if (count >= 3) {
-                Error("Multiple logins detected. Logging out.");
-                setTimeout(function() {
-                    logout();
-                }, 5000);
-            }
-        }
-        setTimeout(function() {
-            keepSessionAlive();
-        }, 20000);
-    }).fail(function() {
-        serverError();
-    });
-}
-
-
-function serverLogout(){
-	window.onbeforeunload = null;
-	location.reload();
-}
-function serverError() {
-    Msg("Server Error: Cannot contact the server");
-    setTimeout(function() {
-        serverLogout();
-    }, 5000);
 }
 
 function glow(e, color, amount) {
@@ -581,17 +326,15 @@ function tint(Slot, mType, d) {
         return;
     }
     if (isFirefox === true || isChrome === true || isOpera === true) {
-        if (GLB.videoSetting === "High") {
-            if (bmpTint[Slot][mType].name !== mob[Slot].image) {
-                initBmpTint(Slot, mType, d)
-            } else {
-                tintTimer[Slot][mType].kill();
-                bmpTint[Slot][mType].alpha = 1;
-                tintTimer[Slot][mType] = T.delayedCall(d, function() {
-                    bmpTint[Slot][mType].alpha = 0;
-                });
-            }
-        }
+		if (bmpTint[Slot][mType].name !== mob[Slot].image) {
+			initBmpTint(Slot, mType, d)
+		} else {
+			tintTimer[Slot][mType].kill();
+			bmpTint[Slot][mType].alpha = 1;
+			tintTimer[Slot][mType] = T.delayedCall(d, function() {
+				bmpTint[Slot][mType].alpha = 0;
+			});
+		}
     }
 }
 function cRem(target, e){
@@ -643,7 +386,7 @@ function can(img, target, x, y, w, h, regCenter, first){
 	return e;
 }
 
-function logout(){
+function playerLogout(){
     g.lock();
     $.ajax({
 		type: 'GET',
@@ -655,7 +398,6 @@ function logout(){
     });
 }
 
-
 (function repeat(){
 	if (g.view === 'title'){
 		$.ajax({
@@ -664,7 +406,7 @@ function logout(){
 		}).always(function(){
 			setTimeout(function(){
 				repeat();
-			}, 180000);
+			}, 240000);
 		});
 	}
 })();

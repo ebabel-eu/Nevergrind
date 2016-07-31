@@ -60,13 +60,17 @@ function setMousePosition(X, Y){
 }
 if (!isFirefox){
 	$("body").on("mousewheel", function(e){
-		setMousePosition(e.offsetX, e.offsetY);
-		worldMap[0].applyBounds();
+		if (g.view !== 'title'){
+			setMousePosition(e.offsetX, e.offsetY);
+			worldMap[0].applyBounds();
+		}
 	});
 } else {
 	$("body").on("DOMMouseScroll", function(e){
-		setMousePosition(e.originalEvent.layerX, e.originalEvent.layerY);
-		worldMap[0].applyBounds();
+		if (g.view !== 'title'){
+			setMousePosition(e.originalEvent.layerX, e.originalEvent.layerY);
+			worldMap[0].applyBounds();
+		}
 	});
 }
 

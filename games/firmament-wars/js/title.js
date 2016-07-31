@@ -22,7 +22,7 @@ $("img").on('dragstart', function(event) {
 });
 
 $("#logout").on('click', function() {
-	logout();
+	playerLogout();
 });
 $(".btn-head").on("click", function(){
 	$(".btn-head").removeClass("active");
@@ -43,27 +43,27 @@ $("#refreshGames").on("click", function(){
 
 $("#create").on("click", function(){
 	var x = 
-	"<div id='createGameWrap'>" +
-		"<form class='form-horizontal'>" +
-			"<div class='form-group'>" +
-				'<label id="gameNameLabel" for="gameName" class="col-xs-3 control-label">Game Name:</label>' +
-				"<div class='col-xs-9'>" +
-					'<input id="gameName" class="form-control" type="text" maxlength="32" autocomplete="off" size="20">' +
-				"</div>" +
-			"</div>" +
-			"<div class='form-group'>" +
-				"<label for='gamePlayers' class='col-xs-8 control-label'>Maximum Number of Players:</label>" +
-				"<div class='col-xs-4'>" +
-					"<input type='number' class='form-control' id='gamePlayers' value='4' min='2' max='8'>" +
-				"</div>" +
-			"</div>" +
-			"<div class='form-group '>" +
-				"<div class='col-xs-12'>" +
-					"<button id='createGame' type='button' class='btn btn-md btn-info btn-responsive pull-right shadow4'>Create Game Lobby</button>" +
-				"</div>" +
-			"</div>" +
-		"</form>" +
-	"</div>";
+	"<div id='createGameWrap'>\
+		<form class='form-horizontal'>\
+			<div class='form-group'>\
+				<label id='gameNameLabel' for='gameName' class='col-xs-3 control-label'>Game Name:</label>\
+				<div class='col-xs-9'>\
+					<input id='gameName' class='form-control' type='text' maxlength='32' autocomplete='off' size='20'>\
+				</div>\
+			</div>\
+			<div class='form-group'>\
+				<label id='gamePlayersLabel' for='gamePlayers' class='col-xs-8 control-label'>Maximum Number of Players:</label>\
+				<div class='col-xs-4'>\
+					<input type='number' class='form-control' id='gamePlayers' value='8' min='2' max='8'>\
+				</div>\
+			</div>\
+			<div class='form-group '>\
+				<div class='col-xs-12'>\
+					<button id='createGame' type='button' class='btn btn-md btn-info btn-responsive pull-right shadow4'>Create Game Lobby</button>\
+				</div>\
+			</div>\
+		</form>\
+	</div>";
 	$("#menuContent").html(x);
 	$("#gameName").focus();
 });

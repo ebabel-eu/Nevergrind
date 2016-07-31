@@ -1084,14 +1084,19 @@ table {
 	color: #1a1a1a;
 }
 #createGameWrap{
-	margin: 0 10px;
+	margin: 1em;
 }
-#gameNameLabel{
+#gameNameLabel, #gamePlayersLabel{
+	font-weight: normal;
 	white-space: nowrap;
-	padding: 6px 0;
+	padding: .5em 0;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+	opacity: 1;
 }
 .footMargin{
-	margin-bottom: 6px;
+	margin-bottom: .5em;
 }
 .text-overflow{
 	overflow: hidden;

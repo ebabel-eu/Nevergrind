@@ -1,4 +1,10 @@
 Add sound effects & music
+- improve button appearance
+sfx: chat
+sfx: victory
+sfx: defeat
+sfx: failNoise
+sfx: 
 
 // bugs
 
