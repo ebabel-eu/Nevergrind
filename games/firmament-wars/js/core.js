@@ -12,6 +12,8 @@ var g = {
 	view: "title",
 	resizeX: 1,
 	resizeY: 1,
+	sfxFood: false,
+	sfxCulture: false,
 	chatOn: false,
 	overlay: document.getElementById("overlay"),
 	over: 0,
@@ -118,7 +120,11 @@ var DOM = {
 	foodBar: document.getElementById('foodBar'),
 	cultureBar: document.getElementById('cultureBar'),
 	world: document.getElementById('world'),
-	bgmusic: document.getElementById('bgmusic')
+	bgmusic: document.getElementById('bgmusic'),
+	tileName: document.getElementById('tile-name'),
+	tileActions: document.getElementById('tileActions'),
+	tileBuild: document.getElementById('tileBuild'),
+	tileCommand: document.getElementById('tileCommand')
 }
 var $DOM = {
 	head: $("#head"),
@@ -222,12 +228,16 @@ function resizeWindow() {
 
 
 function chat(msg) {
+    while (DOM.chatContent.childNodes.length > 10) {
+        DOM.chatContent.removeChild(DOM.chatContent.firstChild);
+    }
     var z = document.createElement('div');
     z.innerHTML = msg;
     DOM.chatContent.appendChild(z);
-	// playAudio('chat');
 	setTimeout(function(){
-		z.parentNode.removeChild(z);
+		if (z !== undefined){
+			z.parentNode.removeChild(z);
+		}
 	}, 9000);
 }
 
@@ -242,11 +252,51 @@ var audio = {
 		if (foo && audio.on) {
 			if (bg){
 				DOM.bgmusic.src = "music/" + foo + "." + audio.ext;
-				x.play();
 			} else {
 				new Audio("sound/" + foo + "." + audio.ext).play();
 			}
 		}
+	},
+	pause: function(){
+		DOM.bgmusic.pause();
+	},
+	ambientTrack: 0,
+	ambientTotalTracks: 8,
+	ambientInit: function(){
+		audio.pause();
+		audio.ambientTrack = ~~(Math.random() * audio.ambientTotalTracks);
+		audio.ambientPlay();
+	},
+	ambientPlay: function(){
+		audio.ambientTrack++;
+		var x = new Audio("music/ambient" + (audio.ambientTrack % audio.ambientTotalTracks) + "." + audio.ext);
+		console.info("Now playing: ", audio.ambientTrack);
+		x.onended = function(){
+			audio.ambientPlay();
+		}
+		x.play();
+	},
+	fade: function(){
+		var x = {
+			vol: 1
+		}
+		TweenMax.to(x, 2.5, {
+			vol: 0,
+			ease: Linear.easeNone,
+			onUpdate: function(){
+				DOM.bgmusic.volume = x.vol;
+			}
+		});
+	},
+	move: function(){
+		/*for (var i=0; i<3; i++){
+			(function(i){
+				setTimeout(function(){
+					audio.play('boots' + ~~(Math.random()*3));
+				}, i*200);
+			})(i);
+		}*/
+		audio.play('boots' + ~~(Math.random()*3));
 	}
 }
 
@@ -444,6 +494,13 @@ function exitGame(bypass){
 	}
 }
 
+function serverError(){
+	Msg('The server reported an error.');
+	setTimeout(function(){
+		window.onbeforeunload = null;
+		location.reload();
+	}, 5000);
+}
 
 $(window).on('resize orientationchange', function() {
 	resizeWindow();

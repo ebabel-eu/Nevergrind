@@ -77,6 +77,9 @@
 			$_SESSION['manpower'] += $manpowerBonus;
 			$_SESSION['foodMilestone']++;
 			$_SESSION['foodMax'] = $_SESSION['foodMax'] + 25;
+			if ($_SESSION['foodMax'] > 9999){
+				$_SESSION['foodMax'] = 9999;
+			}
 			// GET?!
 			$query = "insert into fwGets (`account`, `flag`, `nation`) VALUES (?, ?, ?)";
 			$stmt = $link->prepare($query);
@@ -105,6 +108,7 @@
 			} else {
 				$msg .= $flag.$x->get . ': ' . $_SESSION['nation'] . ' receives <span class="chat-manpower">' . $manpowerBonus . '</span> armies!';
 			}
+			$x->foodMsg = $msg;
 			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
 			$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 			$stmt->execute();
@@ -115,6 +119,9 @@
 		if ($x->culture >= $_SESSION['cultureMax']){
 			$x->culture -= $_SESSION['cultureMax'];
 			$_SESSION['cultureMax'] += 250;
+			if ($_SESSION['cultureMax'] > 9999){
+				$_SESSION['cultureMax'] = 9999;
+			}
 			$_SESSION['cultureMilestone']++;
 			// provide culture milestone here
 			require('rewardCulture.php');

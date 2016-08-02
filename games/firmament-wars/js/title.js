@@ -322,7 +322,7 @@ $("#buyFlag").on("click", function(){
 	});
 });
 if (isChrome){
-	// playMusic("WaitingBetweenWorlds");
+	audio.play("ReturnOfTheFallen", 1);
 }
 
 $("#Msg").on("click", ".msg", function(){

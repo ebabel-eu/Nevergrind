@@ -1,11 +1,11 @@
-Add sound effects & music
-- improve button appearance
-sfx: chat
-sfx: victory
-sfx: defeat
-sfx: failNoise
-sfx: 
-
+- add 'click' sfx
+- add check on attackTile to pull defense value and calculate accordingly
+- make it so user pulls new defensive tile data on wall being built
+- add recruit
+- add bunker/wall
+- add artillery
+- add missile
+- add nuke
 // bugs
 
 // 1.0 stuff
@@ -13,10 +13,10 @@ sfx:
 - store_result() needed?
 - Button icon?
 - h2h rating system?
-- ACTION: Muster +2 units 50 Energy
-- ACTION: arrows 75 Energy
-- ACTION: missile 125 Energy
-- ACTION: nukes 250 Energy
+- ACTION: Recruit +3 units 60 Energy
+- ACTION: artillery 100 Energy
+- ACTION: missile 175 Energy
+- ACTION: nukes 400 Energy
 - More maps
 - FFA & H2H mode
 - leaderboard

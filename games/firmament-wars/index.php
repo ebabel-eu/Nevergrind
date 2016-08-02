@@ -130,21 +130,21 @@
 						}
 					?>
 					</div>
-					<hr class='fancyhr'>
 				</div>
+				<hr class='fancyhr'>
 				<div class="row">
 					<div id="menuHead" class="btn-group col-lg-12" role="group">
 						<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active btn-head">Refresh Games</button>
 						<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Create</button>
 						<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Configure Nation</button>
-						<hr class="fancyhr">
 					</div>
 				</div>
+				<hr class="fancyhr">
 				
 				<div class='row'>
 					<div id="menuContent" class="shadow4 col-lg-12"></div>
-					<hr class="fancyhr">
 				</div>
+				<hr class="fancyhr">
 				
 				<div class='row'>
 					<div id="menuFoot" class="text-center col-lg-12">
@@ -162,23 +162,23 @@
 					</div>
 					<div id="nationName" class="col-xs-6 shadow4 nation text-center"><?php echo $nation; ?></div>
 				</div>
+				<hr class="fancyhr">
 				<div class="row">
 					<div class="col-xs-12">
-						<hr class="fancyhr">
 						<div class="input-group">
-							<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus" placeholder="Nation Name">
+							<input id="updateNationName" class="form-control" type="text" maxlength="32" autocomplete="off" size="24" aria-describedby="updateNationNameStatus" placeholder="Enter New Nation Name">
 							<span class="input-group-btn">
 								<button id="submitNationName" class="btn btn-primary shadow4" type="button">
 									Update Nation Name
 								</button>
 							</span>
 						</div>
-						<hr class="fancyhr">
 					</div>
 				</div>
+				<hr class="fancyhr">
 				
 				<div class="row">
-					<div class="col-xs-5">
+					<div class="col-xs-6">
 						<div class='flagLabel'>
 							Select National Flag
 						</div>
@@ -206,7 +206,7 @@
 						</div>
 						
 					</div>
-					<div class="col-xs-7">
+					<div class="col-xs-6">
 						<img id="updateNationFlag" class="w100 block center" src="images/flags/<?php echo $flag; ?>">
 					</div>
 				</div>
@@ -247,6 +247,105 @@
 					<div id="target" class="col-xs-4 text-center no-select">
 					</div>
 					<div id="actions" class="col-xs-8 no-select">
+						<div id="tile-name" class="no-select text-center shadow4"></div>
+						
+						<div id="tileActions">
+						
+							<div id="tileCommand" class="container shadow4">
+							
+								<div id="attack" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Move/attack with all armies">
+									<div class="col-xs-8">Attack</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>7
+									</div>
+								</div>
+								
+								<div id="splitAttack" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Move/attack with half of your armies">
+									<div class="col-xs-8">Split Attack</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>3
+									</div>
+								</div>
+								
+								<div id="deploy" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Deploy up to 12 armies">
+									<div class="col-xs-8">Deploy</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>20
+									</div>
+								</div>
+								
+								<div id="recruit" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Recruit 3 armies">
+									<div class="col-xs-8">Recruit</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>60
+									</div>
+								</div>
+								
+								<div id="gotoBuild" class="actionButtons row" data-placement="left" data-toggle="tooltip" title="Build a structure/weapon">
+									<div class="col-xs-12 text-center">Build Menu</div>
+								</div>
+							</div>
+							
+							<div id="tileBuild" class="container shadow4">
+								<div id="buildWall" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Build a wall to fortify a territory">
+									<div class="col-xs-8">Build Wall</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>200
+									</div>
+								</div>
+								
+								<div id="buildArtillery" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Fire artillery at an adjacent enemy tile. Kills 5% of armies.">
+									<div class="col-xs-8">Fire Artillery</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>60
+									</div>
+								</div>
+								
+								<div id="buildMissile" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Launch a missile at any enemy territory. Kills 15-20% of armies.">
+									<div class="col-xs-8">Launch Missile</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>150
+									</div>
+								</div>
+								
+								<div id="buildNuke" class="actionButtons row" 
+									data-placement="left" 
+									data-toggle="tooltip" 
+									title="Launch a nuclear weapon at any enemy territory. Kills 80-99% of armies and destroys all structures.">
+									<div class="col-xs-8">Launch Nuke</div>
+									<div class="col-xs-4 text-right">
+										<i class="fa fa-bolt production pointer actionBolt"></i>600
+									</div>
+								</div>
+								
+								<div id="gotoCommand" class="actionButtons row" data-placement="left" data-toggle="tooltip" title="Command your armies">
+									<div class="col-lg-12 text-center">Command Menu</div>
+								</div>
+							</div>
+						
+						</div>
+				
 					</div>
 				</div>
 			</div>
@@ -348,26 +447,27 @@
 			</div>
 		</div>
 		
-		<table id="chat-ui" class="fw-text noselect">
+		<table id="chat-ui" class="fw-text">
 			<tr>
-				<td id="chat-content">
+				<td id="chat-content" class="noselect">
 				</td>
 			</tr>
 		</table>
 		<input id="chat-input" class="fw-text noselect nobg" type='text' maxlength="240" autocomplete="off"/>
-		
+			
 		<div id="worldWrap">
 			<?php
 				$svg = file_get_contents("images/world_simple3.svg");
 				echo $svg;
 			?>
 		</div>
-
-		<audio id="bgmusic" autoplay preload="auto"></audio>
 		
 		<div id="hud" class="shadow4">Select Target</div>
-		
 		<div id="victoryScreen" class="fw-primary fw-text no-select"></div>
+		
+	</div>
+
+	<audio id="bgmusic" autoplay loop preload="auto"></audio>
 	
 	<div id="Msg" class="shadow4"></div>
 	<div id="overlay" class="portal"></div>

@@ -14,7 +14,7 @@
 	foreach($arr as $a){
 		// notify game player has disconnected
 		$msg = $a . ' has disconnected from the game.';
-		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`, `event`) values (?, ?, "chatsfx");');
 		$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 		$stmt->execute();
 		// set all tiles and player to 0

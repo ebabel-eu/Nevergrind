@@ -54,7 +54,12 @@
 			}
 		}
 		if ($split === 1){
+			/*
 			$availableArmies = $attacker->units - 1;
+			$splitDef = floor($availableArmies / 2);
+			$splitAtk = $availableArmies - $splitDef;
+			*/
+			$availableArmies = $attacker->units;
 			$splitDef = floor($availableArmies / 2);
 			$splitAtk = $availableArmies - $splitDef;
 		}
@@ -78,12 +83,12 @@
 					// split attack overflow
 					$diff = (255 - ($defender->units + $splitAtk) ) * -1;
 					$defender->units = $defender->units + $splitAtk - $diff;
-					$attacker->units = $diff + $splitDef + 1;
+					$attacker->units = $diff + $splitDef;
 				} else {
 					// what advances
 					$defender->units = $splitAtk + $originalDefendingUnits;
 					// what's left behind
-					$attacker->units = $splitDef + 1;
+					$attacker->units = $splitDef;
 				}
 			}
 			// update attacker
@@ -119,7 +124,7 @@
 						$attacker->units = 1;
 						$defender->units = $result[0] - $attacker->units;
 					} else {
-						$attacker->units = $splitDef + 1;
+						$attacker->units = $splitDef;
 						$defender->units = $result[0];
 					}
 					// update attacker
@@ -172,7 +177,7 @@
 						$attacker->units = $result[0];
 						$defender->units = $result[1];
 					} else {
-						$attacker->units = $splitDef + 1;
+						$attacker->units = $splitDef1;
 						$defender->units = $result[1];
 					}
 					// update attacker

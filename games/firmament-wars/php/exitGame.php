@@ -5,7 +5,7 @@
 		if ($_SESSION['gameStarted']){
 			// surrender
 			$msg = $_SESSION['account'] . ' has surrendered.';
-			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`, `event`) values (?, ?, "chatsfx");');
 			$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 			$stmt->execute();
 			// set all tiles and player to 0

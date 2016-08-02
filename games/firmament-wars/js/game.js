@@ -1,6 +1,6 @@
 // game.js
 function showTarget(e, hover){
-	if (typeof e === 'object'){
+	if (typeof e === 'object' && e.id !== undefined){
 		var tileId = e.id.slice(4)*1;
 		// console.info('tileId: ', tileId);
 		var d = game.tiles[tileId];
@@ -75,22 +75,52 @@ function showTarget(e, hover){
 			nation = t.nation;
 			account = t.account;
 		}
+		function defMsg(){
+			var d = t.defense;
+			if (!d){
+				return 'Build structures to boost tile defense';
+			} else {
+				var x = '+' + d + ' tile defense:<br>';
+				if (t.capital){
+					x += 'Palace<br>';
+					if (t.defense >= 2){
+						x += 'Bunker<br>';
+					}
+					if (t.defense >= 3){
+						x += 'Wall';
+					}
+				} else {
+					if (t.defense >= 1){
+						x += 'Bunker<br>';
+					}
+					if (t.defense >= 2){
+						x += 'Wall';
+					}
+				}
+				return x;
+			}
+		}
 		
 		var str = 
 			'<div id="tileInfo" class="shadow4">';
-			if (t.capital){
-				str += 
-				'<span id="tile-name" class="no-select text-center shadow4 fwTooltip" data-toggle="tooltip" title="Capitals have a 30% defense bonus">\
-					<i class="fa fa-fort-awesome text-warning shadow4"></i>\
-				</span> ';
-			}
 			str += 
 				'<span class="fwTooltip" data-toggle="tooltip" title="' + t.food + ' food in ' + t.name + '"> <i class="food glyphicon glyphicon-apple" ></i> ' + t.food + '</span> \
 				<span class="fwTooltip" data-toggle="tooltip" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</span>\
+				<span class="fwTooltip" data-toggle="tooltip" title="' + defMsg() + '"><i class="fa fa-shield manpower" data-toggle="tooltip"></i> ' + t.defense + '</span>\
 			</div>'+
 			'<img src="images/flags/' + flag + '" class="p' + t.player + 'b w100 block center">'+
-			'<div id="nation-ui" class="shadow4">' + nation + '</div>';
+			'<div id="nation-ui" class="shadow4">';
+				if (t.capital){
+					str += 
+					'<span id="tile-name" class="no-select text-center shadow4 fwTooltip" data-toggle="tooltip" title="Capital Palace<br> Boosts tile defense">\
+						<i class="fa fa-fort-awesome text-warning shadow4"></i>\
+					</span> ';
+				}
+				str += nation + '</div>';
 		DOM.target.innerHTML = str;
+		$('.fwTooltip').tooltip({
+			html: true
+		});
 		// actions panel
 		setActionButtons(t);
 	} else {
@@ -98,44 +128,25 @@ function showTarget(e, hover){
 	}
 }
 function setActionButtons(t){
-	function checkEnergy(val){
-		return val <= my.production ? 'text-success' : 'text-danger';
-	}
-	var str = '<div id="tile-name" class="no-select text-center shadow4">' + t.name + '</div>';
-	// start tileActions table
-		str += '<div id="tileActions" class="table-responsive ">\
-					<table class="table borderless">';
-			// action buttons
-			if (my.player === t.player){
-				str += 
-				'<tr id="attack" class="actionButtons shadow4 stagBlue2 nowrap">\
-					<td style="width: 8%"><i class="fa fa-check ' + checkEnergy(7) + ' text-center pointer"></i></td>\
-					<td style="width: 66%">Attack</td>\
-					<td style="width: 8%"><i class="fa fa-bolt production pointer"></i></td>\
-					<td style="width: 18%" class="text-right">7</td>\
-				</tr>\
-				<tr id="splitAttack" class="actionButtons shadow4 stagBlue2 nowrap">\
-					<td><i class="fa fa-check ' + checkEnergy(3) + ' text-center pointer"></i></td>\
-					<td>Split Attack</td>\
-					<td><i class="fa fa-bolt production pointer"></td>\
-					<td class="text-right">3</td>\
-				</tr>\
-				<tr id="deploy" class="actionButtons shadow4 stagBlue2 nowrap">\
-					<td><i class="fa fa-check ' + checkEnergy(20) + ' text-center pointer"></i></td>\
-					<td>Deploy</td>\
-					<td><i class="fa fa-bolt production pointer"></td>\
-					<td class="text-right">20</td>\
-				</tr>';
-			}
-		str += '</table><div>';
-	DOM.actions.innerHTML = str;
-	$('.fwTooltip').tooltip({
-		delay: {
-			show: 0,
-			hide: 0
-		}
-	});
+	DOM.tileName.textContent = t.name;
+	my.player === t.player ? DOM.tileActions.style.display = 'block' : DOM.tileActions.style.display = 'none';
+	setTileActions();
 }
+function setTileActions(show){
+	if (!show || show === 'command'){
+		DOM.tileCommand.style.display = 'block';
+		DOM.tileBuild.style.display = 'none';
+	} else {
+		DOM.tileCommand.style.display = 'none';
+		DOM.tileBuild.style.display = 'block';
+	}
+}
+$("#gotoBuild").on('mousedown', function(){
+	setTileActions('build');
+});
+$("#gotoCommand").on('mousedown', function(){
+	setTileActions('command');
+});
 function setTileUnits(i, unitColor){
 	var e = document.getElementById('unit' + i);
 	e.textContent = game.tiles[i].units === 0 ? "" : game.tiles[i].units;
@@ -170,7 +181,7 @@ function getGameState(){
 				repeatDelay = data.timeout;
 				var tiles = data.tiles;
 				// get tile data
-				for (var i=0, len=data.tiles.length; i<len; i++){
+				for (var i=0, len=tiles.length; i<len; i++){
 					var d = data.tiles[i],
 						updateTargetStatus = false;
 					// check player value
@@ -187,7 +198,7 @@ function getGameState(){
 							fill: color[d.player]
 						});
 						// animate other players' attacks
-						if (d.player !== my.player){
+						if (d.player !== my.player && game.tiles[i].units){
 							var box = e1.getBBox();
 							box.units = d.units;
 							animate.explosion(box);
@@ -211,7 +222,19 @@ function getGameState(){
 				var len = data.chat.length;
 				if (len > 0){
 					for (var i=0; i<len; i++){
-						chat(data.chat[i].message);
+						var z = data.chat[i];
+						if (!z.event){
+							chat(z.message);
+						} else if (z.event === 'chatsfx'){
+							chat(z.message);
+							audio.play('chat');
+						} else if (z.event === 'food'){
+							chat(z.message);
+							audio.play('food');
+						} else if (z.event === 'upgrade'){
+							// fetch updated tile defense data
+							updateTileDefense();
+						}
 					}
 				}
 				// check eliminated players; remove from panel
@@ -260,18 +283,18 @@ function getGameState(){
 	})();
 	
 	(function(){
-		var start = Date.now();
 		setInterval(function(){
 			if (!g.over){
 				$.ajax({
 					type: "GET",
 					url: "php/updateResources.php"
 				}).done(function(data){
-					console.info('resource: ', (Date.now() - start), data.get, data);
+					console.info('resource: ', data);
 					setResources(data);
 					if (data.cultureMsg !== undefined){
 						if (data.cultureMsg){
 							chat(data.cultureMsg);
+							audio.play('culture');
 						}
 					}
 				}).fail(function(data){
@@ -283,6 +306,7 @@ function getGameState(){
 	})();
 }
 function gameDefeat(){
+	new Audio('sound/shotgun2.mp3');
 	$.ajax({
 		type: "GET",
 		url: "php/gameDefeat.php"
@@ -295,7 +319,7 @@ function gameDefeat(){
 				'<div class="modalBtnChild">Concede Defeat</div>'+
 			'</div>';
 			triggerEndGame(msg);
-			// playAudio('defeat');
+			audio.play('shotgun2');
 		}
 	}).fail(function(data){
 		serverError();
@@ -303,6 +327,8 @@ function gameDefeat(){
 }
 
 function gameVictory(){
+	new Audio('sound/shotgun2.mp3');
+	new Audio('sound/mine4.mp3');
 	$.ajax({
 		type: "GET",
 		url: "php/gameVictory.php"
@@ -312,22 +338,33 @@ function gameVictory(){
 			'<p>Armistice!</p>'+
 			'<div>The campaign has been suspended!</div>'+
 			'<div id="endWar">'+
-				'<div class="modalBtnChild">End War</div>'+
+				'<div class="modalBtnChild">Cease Fire</div>'+
 			'</div>';
 			triggerEndGame(msg);
-			// playAudio('victory');
+			audio.play('shotgun2');
 		} else if (data.gameDone){
 			var msg = 
 			'<p>Congratulations!</p>'+
 			'<div>Your campaign for global domination has succeeded!</div>'+
 			'<div id="endWar">'+
-				'<div class="modalBtnChild">End War</div>'+
+				'<div class="modalBtnChild">Victory</div>'+
 			'</div>';
 			triggerEndGame(msg);
-			// playAudio('victory');
+			audio.play('mine4');
 		}
 	}).fail(function(data){
 		serverError();
+	});
+}
+function updateTileDefense(){
+	$.ajax({
+		type: "GET",
+		url: "php/updateTileDefense.php"
+	}).done(function(data){
+		for (var i=0, len=data.length; i<len; i++){
+			var d = data[i];
+			game.tiles[i].defense = d.defense;
+		}
 	});
 }
 function triggerEndGame(msg){

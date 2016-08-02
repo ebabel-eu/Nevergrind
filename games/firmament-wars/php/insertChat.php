@@ -11,7 +11,7 @@
 		$message = $flag . $_SESSION['account'] . ': '. $msg;
 	}
 	
-	$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+	$stmt = $link->prepare('insert into fwchat (`message`, `gameId`, `event`) values (?, ?, "chatsfx");');
 	$stmt->bind_param('si', $message, $_SESSION['gameId']);
 	$stmt->execute();
 ?>

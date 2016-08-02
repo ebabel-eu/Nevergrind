@@ -12,7 +12,7 @@
 	if ($stmt->num_rows > 0){
 		// notify game player has disconnected
 		$msg = $account . ' has disconnected from the game.';
-		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+		$stmt = $link->prepare('insert into fwchat (`message`, `gameId`, `event`) values (?, ?, "chatsfx");');
 		$stmt->bind_param('si', $msg, $game);
 		$stmt->execute();
 		// set all tiles and player to 0

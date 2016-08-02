@@ -14,7 +14,7 @@ var action = {
 		if (my.player === game.tiles[my.tgt].player){
 			my.attackOn = true;
 			my.splitAttack = false;
-			my.hud(game.tiles[my.tgt].name + ": Select Target");
+			my.hud("Select Target");
 			$DOM.head.append('<style>.land{ cursor: crosshair; }</style>');
 			
 			var e = document.getElementById('unit' + my.tgt);
@@ -39,7 +39,7 @@ var action = {
 		if (my.player === game.tiles[my.tgt].player){
 			my.attackOn = true;
 			my.splitAttack = true;
-			my.hud(game.tiles[my.tgt].name + ": Select Target");
+			my.hud("Select Target");
 			$DOM.head.append('<style>.land{ cursor: crosshair; }</style>');
 			
 			var e = document.getElementById('unit' + my.tgt);
@@ -78,13 +78,6 @@ var action = {
 			return;
 		}
 		g.lock(true);
-		// animate attack
-		if (game.tiles[defender].player !== my.player){
-			var e1 = document.getElementById('land' + defender),
-				box = e1.getBBox();
-			box.units = game.tiles[attacker].units;
-			animate.explosion(box);
-		}
 		// send attack to server
 		$.ajax({
 			url: 'php/attackTile.php',
@@ -95,6 +88,19 @@ var action = {
 			}
 		}).done(function(data) {
 			console.info('attackTile', data);
+			// animate attack
+			if (game.tiles[defender].player !== my.player){
+				var e1 = document.getElementById('land' + defender),
+					box = e1.getBBox();
+				box.units = game.tiles[attacker].units;
+				if (!game.tiles[defender].units){
+					audio.move();
+				} else {
+					animate.explosion(box);
+				}
+			} else {
+				audio.move();
+			}
 			if (data.rewardMsg !== undefined){
 				chat(data.rewardMsg);
 			}
@@ -102,7 +108,7 @@ var action = {
 				setProduction(data);
 			}
 		}).fail(function(e){
-			// playAudio("failNoise");
+			audio.play('error');
 			Msg('You can only attack adjacent territories.', 1.5);
 		}).always(function(){
 			g.unlock();
@@ -137,7 +143,7 @@ var action = {
 			// do it
 			DOM.manpower.textContent = my.manpower;
 			setTileUnits(my.tgt, '#00ff00');
-			g.lock(true);
+			audio.play('boots' + ~~(Math.random()*3));
 			$.ajax({
 				url: 'php/deploy.php',
 				data: {
@@ -150,9 +156,7 @@ var action = {
 					setProduction(data);
 				}
 			}).fail(function(e){
-				// playAudio("failNoise");
-			}).always(function(){
-				g.unlock();
+				audio.play('error');
 			});
 			TweenMax.set('#manpower', {
 			  color: '#fff'
@@ -173,7 +177,6 @@ var animate = {
 			}
 		}
 		*/
-		// playAudio('explosion');
 		function randomColor(){
 			var x = ~~(Math.random()*7),
 				c = '#ffffff';
@@ -195,6 +198,9 @@ var animate = {
 			return c;
 		}
 		var start = Date.now();
+		var sfx = ~~(Math.random()*9);
+		var delay = [.5, .5, .33, .33, .33, .33, .8, .33, .66, .4];
+		
 		for (var i=0; i<30; i++){
 			(function(Math){
 				var circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -210,7 +216,7 @@ var animate = {
 				
 				if (Math.random() > .3){
 					TweenMax.to(circ, .1, {
-						delay: Math.random()*.5,
+						delay: Math.random() * delay[sfx],
 						startAt:{
 							opacity: 1
 						},
@@ -237,7 +243,7 @@ var animate = {
 								r: 8
 							}
 						},
-						delay: Math.random()*.5,
+						delay: Math.random() * delay[sfx],
 						opacity: 0,
 						ease: Power1.easeIn,
 						onComplete: function(){
@@ -247,6 +253,7 @@ var animate = {
 				}
 			})(Math);
 		}
+		audio.play('machine' + sfx);
 		console.info(Date.now() - start);
 	}
 }

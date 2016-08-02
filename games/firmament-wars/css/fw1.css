@@ -335,64 +335,6 @@ a:hover{
 		rgba(0, 8, 20, .8) 80%, rgba(0, 8, 20, .8) 90%, 
 		rgba(0, 6, 10, .8) 90%, rgba(0, 6, 10, .8) 100%);
 }
-.stagBlue2{
-	background: rgba(0, 42, 126, 1);
-	background: linear-gradient(top, 
-		rgba(0, 66, 166, 1) 0%, rgba(0, 66, 166, 1) 10%, 
-		rgba(0, 60, 156, 1) 10%, rgba(0, 60, 156, 1) 20%, 
-		rgba(0, 54, 146, 1) 20%, rgba(0, 54, 146, 1) 30%, 
-		rgba(0, 48, 136, 1) 30%, rgba(0, 48, 136, 1) 40%, 
-		rgba(0, 42, 126, 1) 40%, rgba(0, 42, 126, 1) 50%, 
-		rgba(0, 36, 116, 1) 50%, rgba(0, 36, 116, 1) 60%, 
-		rgba(0, 30, 106, 1) 60%, rgba(0, 30, 106, 1) 70%, 
-		rgba(0, 24, 96, 1) 70%, rgba(0, 24, 96, 1) 80%, 
-		rgba(0, 18, 86, 1) 80%, rgba(0, 18, 86, 1) 90%, 
-		rgba(0, 12, 76, 1) 90%, rgba(0, 12, 76, 1) 100%);
-	background: -webkit-linear-gradient(top, 
-		rgba(0, 66, 166, 1) 0%, rgba(0, 66, 166, 1) 10%, 
-		rgba(0, 60, 156, 1) 10%, rgba(0, 60, 156, 1) 20%, 
-		rgba(0, 54, 146, 1) 20%, rgba(0, 54, 146, 1) 30%, 
-		rgba(0, 48, 136, 1) 30%, rgba(0, 48, 136, 1) 40%, 
-		rgba(0, 42, 126, 1) 40%, rgba(0, 42, 126, 1) 50%, 
-		rgba(0, 36, 116, 1) 50%, rgba(0, 36, 116, 1) 60%, 
-		rgba(0, 30, 106, 1) 60%, rgba(0, 30, 106, 1) 70%, 
-		rgba(0, 24, 96, 1) 70%, rgba(0, 24, 96, 1) 80%, 
-		rgba(0, 18, 86, 1) 80%, rgba(0, 18, 86, 1) 90%, 
-		rgba(0, 12, 76, 1) 90%, rgba(0, 12, 76, 1) 100%);
-	background: -moz-linear-gradient(top, 
-		rgba(0, 66, 166, 1) 0%, rgba(0, 66, 166, 1) 10%, 
-		rgba(0, 60, 156, 1) 10%, rgba(0, 60, 156, 1) 20%, 
-		rgba(0, 54, 146, 1) 20%, rgba(0, 54, 146, 1) 30%, 
-		rgba(0, 48, 136, 1) 30%, rgba(0, 48, 136, 1) 40%, 
-		rgba(0, 42, 126, 1) 40%, rgba(0, 42, 126, 1) 50%, 
-		rgba(0, 36, 116, 1) 50%, rgba(0, 36, 116, 1) 60%, 
-		rgba(0, 30, 106, 1) 60%, rgba(0, 30, 106, 1) 70%, 
-		rgba(0, 24, 96, 1) 70%, rgba(0, 24, 96, 1) 80%, 
-		rgba(0, 18, 86, 1) 80%, rgba(0, 18, 86, 1) 90%, 
-		rgba(0, 12, 76, 1) 90%, rgba(0, 12, 76, 1) 100%);
-	background: -ms-linear-gradient(top, 
-		rgba(0, 66, 166, 1) 0%, rgba(0, 66, 166, 1) 10%, 
-		rgba(0, 60, 156, 1) 10%, rgba(0, 60, 156, 1) 20%, 
-		rgba(0, 54, 146, 1) 20%, rgba(0, 54, 146, 1) 30%, 
-		rgba(0, 48, 136, 1) 30%, rgba(0, 48, 136, 1) 40%, 
-		rgba(0, 42, 126, 1) 40%, rgba(0, 42, 126, 1) 50%, 
-		rgba(0, 36, 116, 1) 50%, rgba(0, 36, 116, 1) 60%, 
-		rgba(0, 30, 106, 1) 60%, rgba(0, 30, 106, 1) 70%, 
-		rgba(0, 24, 96, 1) 70%, rgba(0, 24, 96, 1) 80%, 
-		rgba(0, 18, 86, 1) 80%, rgba(0, 18, 86, 1) 90%, 
-		rgba(0, 12, 76, 1) 90%, rgba(0, 12, 76, 1) 100%);
-	background: -o-linear-gradient(top, 
-		rgba(0, 66, 166, 1) 0%, rgba(0, 66, 166, 1) 10%, 
-		rgba(0, 60, 156, 1) 10%, rgba(0, 60, 156, 1) 20%, 
-		rgba(0, 54, 146, 1) 20%, rgba(0, 54, 146, 1) 30%, 
-		rgba(0, 48, 136, 1) 30%, rgba(0, 48, 136, 1) 40%, 
-		rgba(0, 42, 126, 1) 40%, rgba(0, 42, 126, 1) 50%, 
-		rgba(0, 36, 116, 1) 50%, rgba(0, 36, 116, 1) 60%, 
-		rgba(0, 30, 106, 1) 60%, rgba(0, 30, 106, 1) 70%, 
-		rgba(0, 24, 96, 1) 70%, rgba(0, 24, 96, 1) 80%, 
-		rgba(0, 18, 86, 1) 80%, rgba(0, 18, 86, 1) 90%, 
-		rgba(0, 12, 76, 1) 90%, rgba(0, 12, 76, 1) 100%);
-}
 .diplomacyPlayers{
 	position: relative;
 	line-height: 1.125em;
@@ -425,7 +367,7 @@ a:hover{
 	right: 15%;
 	width: 50%;
 	height: 100%;
-	padding: 1%;
+	padding: .5% 1%;
 	color: #fff;
 	font-size: 1.25em;
 	border-left: 1px solid rgba(176,240,255,.1);
@@ -475,18 +417,25 @@ a:hover{
 #actions{
 	position: relative;
 	left: 3%;
+	letter-spacing: .05em;
+}
+#actionTable  tr{
+    border-spacing: 1em;
+    border-collapse: separate;
 }
 #tileInfo{
 	font-size: .875em;
-	margin-bottom: .125em;
+	margin: 2% 0;
 }
 #tileActions{
 	margin-top: 1%;
-	width: 95%;
-	margin: 0 auto;
 	font-size: .625em;
-    border-spacing: 10px;
-    border-collapse: separate;
+}
+#tileBuild, #tileCommand{
+	width: 100%;
+}
+#tileBuild{
+	display: none;
 }
 #tileAction > tbody > tr > td{
 	color: #f00;
@@ -496,71 +445,58 @@ table td, .table th, .table td {
 	outline: none;
     border-top: none !important;
 }
+.actionBolt{
+	float: left;
+	line-height: 1.75em;
+}
 .actionButtons{
-	font-size: 1.25em;
+	font-size: 1.5em;
+	line-height: 1.75em;
+	margin-bottom: .05em;
 	cursor: pointer;
-	outline: 1px solid #000a3a;
+	border: 2px solid #000;
+	border-radius: 8px 0 8px 0;
+	box-shadow:
+		0 .1em .3em rgba(128, 192, 255, .5) inset,
+		0 -.1em .1em rgba(16, 92, 192, .7) inset;
+	background: rgba(23,42,84,1); /* 23 42 84 */
+	background: linear-gradient(top, 
+		rgba(23, 42, 84, 1) 0%, rgba(23, 42, 84, 1) 50%, 
+		rgba(4, 67, 136, 1) 50%, rgba(4, 67, 136, 1) 100%);
+	background: -webkit-linear-gradient(top, 
+		rgba(23, 42, 84, 1) 0%, rgba(23, 42, 84, 1) 50%, 
+		rgba(4, 67, 136, 1) 50%, rgba(4, 67, 136, 1) 100%);
+	background: -moz-linear-gradient(top, 
+		rgba(23, 42, 84, 1) 0%, rgba(23, 42, 84, 1) 50%, 
+		rgba(4, 67, 136, 1) 50%, rgba(4, 67, 136, 1) 100%);
+	background: -ms-linear-gradient(top, 
+		rgba(23, 42, 84, 1) 0%, rgba(23, 42, 84, 1) 50%, 
+		rgba(4, 67, 136, 1) 50%, rgba(4, 67, 136, 1) 100%);
+	background: -o-linear-gradient(top, 
+		rgba(23, 42, 84, 1) 0%, rgba(23, 42, 84, 1) 50%, 
+		rgba(4, 67, 136, 1) 50%, rgba(4, 67, 136, 1) 100%);
 }
 .actionButtons:hover{
-	background: rgba(0, 52, 156, 1);
+	background: rgba(32,100,177,1); /* 23 42 84 */
 	background: linear-gradient(top, 
-		rgba(0, 76, 196, 1) 0%, rgba(0, 76, 196, 1) 10%, 
-		rgba(0, 70, 186, 1) 10%, rgba(0, 70, 186, 1) 20%, 
-		rgba(0, 64, 176, 1) 20%, rgba(0, 64, 176, 1) 30%, 
-		rgba(0, 58, 166, 1) 30%, rgba(0, 58, 166, 1) 40%, 
-		rgba(0, 52, 156, 1) 40%, rgba(0, 52, 156, 1) 50%, 
-		rgba(0, 46, 146, 1) 50%, rgba(0, 46, 146, 1) 60%, 
-		rgba(0, 40, 136, 1) 60%, rgba(0, 40, 136, 1) 70%, 
-		rgba(0, 34, 126, 1) 70%, rgba(0, 34, 126, 1) 80%, 
-		rgba(0, 28, 116, 1) 80%, rgba(0, 28, 116, 1) 90%, 
-		rgba(0, 22, 106, 1) 90%, rgba(0, 22, 106, 1) 100%);
+		rgba(32, 100, 177, 1) 0%, rgba(32, 100, 177, 1) 50%, 
+		rgba(32, 177, 232, 1) 50%, rgba(32, 177, 232, 1) 100%);
 	background: -webkit-linear-gradient(top, 
-		rgba(0, 76, 196, 1) 0%, rgba(0, 76, 196, 1) 10%, 
-		rgba(0, 70, 186, 1) 10%, rgba(0, 70, 186, 1) 20%, 
-		rgba(0, 64, 176, 1) 20%, rgba(0, 64, 176, 1) 30%, 
-		rgba(0, 58, 166, 1) 30%, rgba(0, 58, 166, 1) 40%, 
-		rgba(0, 52, 156, 1) 40%, rgba(0, 52, 156, 1) 50%, 
-		rgba(0, 46, 146, 1) 50%, rgba(0, 46, 146, 1) 60%, 
-		rgba(0, 40, 136, 1) 60%, rgba(0, 40, 136, 1) 70%, 
-		rgba(0, 34, 126, 1) 70%, rgba(0, 34, 126, 1) 80%, 
-		rgba(0, 28, 116, 1) 80%, rgba(0, 28, 116, 1) 90%, 
-		rgba(0, 22, 106, 1) 90%, rgba(0, 22, 106, 1) 100%);
+		rgba(32, 100, 177, 1) 0%, rgba(32, 100, 177, 1) 50%, 
+		rgba(32, 177, 232, 1) 50%, rgba(32, 177, 232, 1) 100%);
 	background: -moz-linear-gradient(top, 
-		rgba(0, 76, 196, 1) 0%, rgba(0, 76, 196, 1) 10%, 
-		rgba(0, 70, 186, 1) 10%, rgba(0, 70, 186, 1) 20%, 
-		rgba(0, 64, 176, 1) 20%, rgba(0, 64, 176, 1) 30%, 
-		rgba(0, 58, 166, 1) 30%, rgba(0, 58, 166, 1) 40%, 
-		rgba(0, 52, 156, 1) 40%, rgba(0, 52, 156, 1) 50%, 
-		rgba(0, 46, 146, 1) 50%, rgba(0, 46, 146, 1) 60%, 
-		rgba(0, 40, 136, 1) 60%, rgba(0, 40, 136, 1) 70%, 
-		rgba(0, 34, 126, 1) 70%, rgba(0, 34, 126, 1) 80%, 
-		rgba(0, 28, 116, 1) 80%, rgba(0, 28, 116, 1) 90%, 
-		rgba(0, 22, 106, 1) 90%, rgba(0, 22, 106, 1) 100%);
+		rgba(32, 100, 177, 1) 0%, rgba(32, 100, 177, 1) 50%, 
+		rgba(32, 177, 232, 1) 50%, rgba(32, 177, 232, 1) 100%);
 	background: -ms-linear-gradient(top, 
-		rgba(0, 76, 196, 1) 0%, rgba(0, 76, 196, 1) 10%, 
-		rgba(0, 70, 186, 1) 10%, rgba(0, 70, 186, 1) 20%, 
-		rgba(0, 64, 176, 1) 20%, rgba(0, 64, 176, 1) 30%, 
-		rgba(0, 58, 166, 1) 30%, rgba(0, 58, 166, 1) 40%, 
-		rgba(0, 52, 156, 1) 40%, rgba(0, 52, 156, 1) 50%, 
-		rgba(0, 46, 146, 1) 50%, rgba(0, 46, 146, 1) 60%, 
-		rgba(0, 40, 136, 1) 60%, rgba(0, 40, 136, 1) 70%, 
-		rgba(0, 34, 126, 1) 70%, rgba(0, 34, 126, 1) 80%, 
-		rgba(0, 28, 116, 1) 80%, rgba(0, 28, 116, 1) 90%, 
-		rgba(0, 22, 106, 1) 90%, rgba(0, 22, 106, 1) 100%);
+		rgba(32, 100, 177, 1) 0%, rgba(32, 100, 177, 1) 50%, 
+		rgba(32, 177, 232, 1) 50%, rgba(32, 177, 232, 1) 100%);
 	background: -o-linear-gradient(top, 
-		rgba(0, 76, 196, 1) 0%, rgba(0, 76, 196, 1) 10%, 
-		rgba(0, 70, 186, 1) 10%, rgba(0, 70, 186, 1) 20%, 
-		rgba(0, 64, 176, 1) 20%, rgba(0, 64, 176, 1) 30%, 
-		rgba(0, 58, 166, 1) 30%, rgba(0, 58, 166, 1) 40%, 
-		rgba(0, 52, 156, 1) 40%, rgba(0, 52, 156, 1) 50%, 
-		rgba(0, 46, 146, 1) 50%, rgba(0, 46, 146, 1) 60%, 
-		rgba(0, 40, 136, 1) 60%, rgba(0, 40, 136, 1) 70%, 
-		rgba(0, 34, 126, 1) 70%, rgba(0, 34, 126, 1) 80%, 
-		rgba(0, 28, 116, 1) 80%, rgba(0, 28, 116, 1) 90%, 
-		rgba(0, 22, 106, 1) 90%, rgba(0, 22, 106, 1) 100%);
+		rgba(32, 100, 177, 1) 0%, rgba(32, 100, 177, 1) 50%, 
+		rgba(32, 177, 232, 1) 50%, rgba(32, 177, 232, 1) 100%);
 }
 .actionButtons:active{
-	opacity: .8;
+	box-shadow:
+		0 5em 5em rgba(0,0,0,.3) inset;
 }
 #players{
 	height: 30%;
@@ -721,8 +657,7 @@ circle{
 }
 #nation-ui{
 	margin-top: 1%;
-	font-size: .875em;
-	line-height: 1.3em;
+	font-size: 1em;
 	font-family: Times New Roman, serif;
 	text-overflow: ellipsis;
 	text-align: center;
@@ -730,12 +665,11 @@ circle{
 }
 #tile-name{
 	font-family: Times New Roman, serif;
-	font-size: .875em;
+	font-size: 1em;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	text-align: center;
 	overflow: hidden;
-	margin-bottom: 2%;
 }
 .fw-primary{
 	border: 1px solid #01a;
@@ -811,11 +745,11 @@ circle{
 	top: 14%;
 	left: 0%;
 	width: 100%;
-	background: rgba(0,0,0,.8);
+	background: rgba(0,0,0,.9);
 	text-align: center;
 	font-size: 1.5em;
 	color: #fff;
-	z-index:999999;
+	z-index: 999999;
 }
 #hud{
 	font-family: "Times New Roman", serif;
@@ -991,7 +925,7 @@ table {
 	display: inline-block;
 	margin-right: .5em;
 	height: 1em;
-	outline-width: 1px;
+	outline-width: 2px;
 }
 .diploFlag{
 	position: relative;

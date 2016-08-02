@@ -4,7 +4,10 @@
 		$dBonus = $_SESSION['dBonus'] * 500;
 		// $oTileUpgrades = [0, 1600, 3200, 4800];
 		// $dTileUpgrades = [0, 3000, 4000, 5000];
+		// capital upgrade
 		$dTileUpgrade = in_array($tile, $_SESSION['capitalTiles']) ? 3000 : 0;
+		// structure upgrades
+		
 		// Math.ceil(Math.random() * (6 + bonus)) + (Math.random() * 100 < oTile ? 3 : 0);
 		
 		while ($y > 0 && $x > 1){

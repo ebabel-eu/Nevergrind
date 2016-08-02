@@ -5,12 +5,12 @@
 	require('pingLobby.php');
 	$_SESSION['gameStarted'] = 1; // determines if exitGame is a loss or not
 	// get game tiles
-	$query = "select account, flag, nation, tile, tileName, player, units, food, culture from `fwTiles` where game=?";
+	$query = "select account, flag, nation, tile, tileName, player, units, food, culture, defense from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
 	$stmt->store_result();
-	$stmt->bind_result($dAccount, $dFlag, $dNation, $dTile, $dTileName, $dPlayer, $dUnits, $dFood, $dCulture);
+	$stmt->bind_result($dAccount, $dFlag, $dNation, $dTile, $dTileName, $dPlayer, $dUnits, $dFood, $dCulture, $dDefense);
 	
 	$tiles = [];
 	$count = 0;
@@ -25,6 +25,7 @@
 		$x->units = $dUnits;
 		$x->food = $dFood;
 		$x->culture = $dCulture;
+		$x->defense = $dDefense;
 		$tiles[$count++] = $x;
 	}
 	// set capital

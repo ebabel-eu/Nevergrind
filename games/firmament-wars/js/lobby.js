@@ -30,11 +30,6 @@ function setProduction(d){
 		ease: Quad.easeIn,
 		onUpdate: function(){
 			DOM.production.textContent = ~~my.production;
-		},
-		onComplete: function(){
-			if (game.tiles[my.tgt].player === my.player){
-				setActionButtons(game.tiles[my.tgt]);
-			}
 		}
 	});
 }
@@ -47,11 +42,6 @@ function setResources(d){
 		onUpdate: function(){
 			DOM.food.textContent = ~~my.food;
 			DOM.culture.textContent = ~~my.culture;
-		}, 
-		onComplete: function(){
-			if (game.tiles[my.tgt].player === my.player){
-				setActionButtons(game.tiles[my.tgt]);
-			}
 		}
 	});
 	if (d.manpower > my.manpower){
@@ -150,6 +140,7 @@ function joinStartedGame(){
 		type: "GET",
 		url: "php/initGameState.php"
 	}).done(function(data){
+		audio.ambientInit();
 		var focusTile = 0;
 		console.info('initGameState ', data);
 		my.player = data.player;
@@ -185,7 +176,8 @@ function joinStartedGame(){
 				capital: data.capitalTiles.indexOf(i) > -1 && d.flag ? true : false,
 				units: d.units,
 				food: d.food,
-				culture: d.culture
+				culture: d.culture,
+				defense: d.defense
 			}
 			if (d.nation){
 				if (!game.player[d.player].nation){
@@ -471,6 +463,7 @@ function lobbyCountdown(){
 		e.style.display = 'block';
 		(function repeat(secondsToStart){
 			e.textContent = "Starting game in " + secondsToStart--;
+			audio.play('beep');
 			if (secondsToStart >= 0){
 				setTimeout(repeat, 1000, secondsToStart);
 			}
@@ -480,8 +473,10 @@ function lobbyCountdown(){
 					ease: Power3.easeIn,
 					onComplete: function(){
 						joinStartedGame();
+						audio.play('missile1');
 					}
 				});
+				audio.fade();
 			}
 		})(5);
 	}
