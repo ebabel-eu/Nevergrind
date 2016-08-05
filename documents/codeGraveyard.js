@@ -1,4 +1,102 @@
 
+		<text x='481' y='298' class='unit' id='unit0'>0</text>
+		<text x='1339' y='380' class='unit' id='unit1'>0</text>
+		<text x='1071' y='688' class='unit' id='unit2'>0</text>
+		<text x='1089' y='590' class='unit' id='unit3'>0</text>
+		<text x='1084' y='298' class='unit' id='unit4'>0</text>
+		<text x='1291' y='441' class='unit' id='unit5'>0</text>
+		<text x='622' y='864' class='unit' id='unit6'>0</text>
+		<text x='631' y='768' class='unit' id='unit7'>0</text>
+		<text x='1157' y='330' class='unit' id='unit8'>0</text>
+		<text x='1735' y='776' class='unit' id='unit9'>0</text>
+		<text x='1637' y='759' class='unit' id='unit10'>0</text>
+		<text x='1682' y='713' class='unit' id='unit11'>0</text>
+		<text x='1756' y='720' class='unit' id='unit12'>0</text>
+		<text x='1024' y='256' class='unit' id='unit13'>0</text>
+		<text x='1266' y='373' class='unit' id='unit14'>0</text>
+		<text x='1175' y='606' class='unit' id='unit15'>0</text>
+		<text x='989' y='284' class='unit' id='unit16'>0</text>
+		<text x='1034' y='301' class='unit' id='unit17'>0</text>
+		<text x='944' y='511' class='unit' id='unit18'>0</text>
+		<text x='1405' y='475' class='unit' id='unit19'>0</text>
+		<text x='1425' y='420' class='unit' id='unit20'>0</text>
+		<text x='541' y='240' class='unit' id='unit21'>0</text>
+		<text x='1101' y='237' class='unit' id='unit22'>0</text>
+		<text x='471' y='474' class='unit' id='unit23'>0</text>
+		<text x='625' y='690' class='unit' id='unit24'>0</text>
+		<text x='740' y='649' class='unit' id='unit25'>0</text>
+		<text x='697' y='716' class='unit' id='unit26'>0</text>
+		<text x='655' y='602' class='unit' id='unit27'>0</text>
+		<text x='1411' y='325' class='unit' id='unit28'>0</text>
+		<text x='1144' y='691' class='unit' id='unit29'>0</text>
+		<text x='1115' y='766' class='unit' id='unit30'>0</text>
+		<text x='1119' y='500' class='unit' id='unit31'>0</text>
+		<text x='648' y='232' class='unit' id='unit32'>0</text>
+		<text x='429' y='234' class='unit' id='unit33'>0</text>
+		<text x='551' y='170' class='unit' id='unit34'>0</text>
+		<text x='416' y='175' class='unit' id='unit35'>0</text>
+		<text x='1579' y='397' class='unit' id='unit36'>0</text>
+		<text x='1482' y='354' class='unit' id='unit37'>0</text>
+		<text x='1599' y='305' class='unit' id='unit38'>0</text>
+		<text x='584' y='541' class='unit' id='unit39'>0</text>
+		<text x='583' y='460' class='unit' id='unit40'>0</text>
+		<text x='1067' y='255' class='unit' id='unit41'>0</text>
+		<text x='1210' y='532' class='unit' id='unit42'>0</text>
+		<text x='996' y='392' class='unit' id='unit43'>0</text>
+		<text x='559' y='629' class='unit' id='unit44'>0</text>
+		<text x='1139' y='408' class='unit' id='unit45'>0</text>
+		<text x='1038' y='193' class='unit' id='unit46'>0</text>
+		<text x='968' y='243' class='unit' id='unit47'>0</text>
+		<text x='814' y='129' class='unit' id='unit48'>0</text>
+		<text x='1242' y='480' class='unit' id='unit49'>0</text>
+		<text x='1196' y='363' class='unit' id='unit50'>0</text>
+		<text x='904' y='174' class='unit' id='unit51'>0</text>
+		<text x='1708' y='347' class='unit' id='unit52'>0</text>
+		<text x='1307' y='291' class='unit' id='unit53'>0</text>
+		<text x='1537' y='470' class='unit' id='unit54'>0</text>
+		<text x='1072' y='409' class='unit' id='unit55'>0</text>
+		<text x='917' y='441' class='unit' id='unit56'>0</text>
+		<text x='1131' y='270' class='unit' id='unit57'>0</text>
+		<text x='1231' y='713' class='unit' id='unit58'>0</text>
+		<text x='407' y='411' class='unit' id='unit59'>0</text>
+		<text x='1491' y='286' class='unit' id='unit60'>0</text>
+		<text x='1026' y='496' class='unit' id='unit61'>0</text>
+		<text x='1040' y='103' class='unit' id='unit62'>0</text>
+		<text x='1860' y='845' class='unit' id='unit63'>0</text>
+		<text x='1668' y='510' class='unit' id='unit64'>0</text>
+		<text x='1617' y='575' class='unit' id='unit65'>0</text>
+		<text x='330' y='170' class='unit' id='unit66'>0</text>
+		<text x='1785' y='619' class='unit' id='unit67'>0</text>
+		<text x='954' y='325' class='unit' id='unit68'>0</text>
+		<text x='1220' y='426' class='unit' id='unit69'>0</text>
+		<text x='1350' y='136' class='unit' id='unit70'>0</text>
+		<text x='1349' y='204' class='unit' id='unit71'>0</text>
+		<text x='1147' y='197' class='unit' id='unit72'>0</text>
+		<text x='1167' y='245' class='unit' id='unit73'>0</text>
+		<text x='1241' y='195' class='unit' id='unit74'>0</text>
+		<text x='1568' y='193' class='unit' id='unit75'>0</text>
+		<text x='1671' y='176' class='unit' id='unit76'>0</text>
+		<text x='1456' y='236' class='unit' id='unit77'>0</text>
+		<text x='1469' y='163' class='unit' id='unit78'>0</text>
+		<text x='378' y='322' class='unit' id='unit79'>0</text>
+		<text x='578' y='319' class='unit' id='unit80'>0</text>
+		<text x='542' y='359' class='unit' id='unit81'>0</text>
+		<text x='459' y='361' class='unit' id='unit82'>0</text>
+
+
+			/*
+			
+			var img = document.createElementNS("http://www.w3.org/2000/svg","image");
+			img.id = "flag" + i;
+			img.setAttributeNS(null,"class","mapFlag");
+			img.setAttributeNS("http://www.w3.org/1999/xlink","href","images/flags/" + flag);
+			img.setAttributeNS(null,"width",24);
+			img.setAttributeNS(null,"height",24);
+			img.setAttributeNS(null,"x",x);
+			img.setAttributeNS(null,"y",y);
+			DOM.mapFlagWrap.appendChild(img);
+			*/
+			
 	// cleanup stale player data
 	/*
 		$query = "SELECT account FROM `fwplayers` where timestamp< date_sub(now(), interval {$_SESSION['lag']} second);";

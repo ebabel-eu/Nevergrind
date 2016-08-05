@@ -863,7 +863,6 @@ table {
 	background: #002F73;
 }
 .p0b{
-	outline: 2px solid #66ccff;
 }
 .player1{
 	color: #700000;
@@ -921,6 +920,9 @@ table {
 .p8b{
 	outline: 2px solid #5500aa;
 }
+.mapFlag{
+	pointer-events: none;
+}
 .inlineFlag{
 	display: inline-block;
 	margin-right: .5em;
@@ -969,6 +971,9 @@ table {
 	font-variant: small-caps;
 	letter-spacing: .1em;
 }
+#upgradeTileComplete{
+	display: none;
+}
 /* helper classes */
 .nowrap{
 	white-space: nowrap;
@@ -1012,6 +1017,9 @@ table {
 }
 .text-danger{
 	color: #d11;
+}
+.text-hotkey{
+	color: #5dd;
 }
 .input-group-addon{
 	text-shadow: none;

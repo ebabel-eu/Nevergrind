@@ -1,22 +1,18 @@
-- add 'click' sfx
-- add check on attackTile to pull defense value and calculate accordingly
-- make it so user pulls new defensive tile data on wall being built
-- add recruit
-- add bunker/wall
+- animate upgrade?
 - add artillery
 - add missile
 - add nuke
-// bugs
+- make it so user pulls new defensive tile data on wall being built
+- Great Generals should upgrade weapons, too
+- randomize great revolutionary
+- load sounds into initMenuAudio, initGameAudio
 
 // 1.0 stuff
+- enabled disable sfx/music on init
+- Adjust skill costs?
 - fix responsiveness down to 640
 - store_result() needed?
-- Button icon?
 - h2h rating system?
-- ACTION: Recruit +3 units 60 Energy
-- ACTION: artillery 100 Energy
-- ACTION: missile 175 Energy
-- ACTION: nukes 400 Energy
 - More maps
 - FFA & H2H mode
 - leaderboard
@@ -24,9 +20,10 @@
 - lobby chat
 - icon to indicate top player, #1, etc
 - display game stats?
-- remove rejoin?
 - government choice?
-- add great wall or a wall? hmmm
+
+// beyond 1.0
+- Ability to request custom flags with a link
 
 // site stuff
 - make login page separate from create account

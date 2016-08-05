@@ -109,7 +109,7 @@
 				$msg .= $flag.$x->get . ': ' . $_SESSION['nation'] . ' receives <span class="chat-manpower">' . $manpowerBonus . '</span> armies!';
 			}
 			$x->foodMsg = $msg;
-			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`) values (?, ?);');
+			$stmt = $link->prepare('insert into fwchat (`message`, `gameId`, `event`) values (?, ?, "food");');
 			$stmt->bind_param('si', $msg, $_SESSION['gameId']);
 			$stmt->execute();
 			

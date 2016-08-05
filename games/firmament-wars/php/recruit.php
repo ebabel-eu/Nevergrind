@@ -2,16 +2,9 @@
 	header('Content-Type: application/json');
 	require('connect1.php');
 	
-	$target = $_POST['target'];
-	$deployedUnits = $_POST['deployedUnits'];
-	if ($deployedUnits < 1){
-		$deployedUnits = 1;
-	}
-	if ($deployedUnits > 12){
-		$deployedUnits = 12;
-	}
+	$target = $_POST['target']*1;
 	
-	if ($_SESSION['production'] < 20){
+	if ($_SESSION['production'] < 50){
 		header('HTTP/1.1 500 Not enough energy!');
 		exit();
 	}
@@ -28,19 +21,13 @@
 	}
 	
 	if ($_SESSION['player'] === $player &&
-		$units <= 254 &&
-		$_SESSION['manpower'] > 0){
+		$units <= 254){
 		
-		$deployedUnits = $_SESSION['manpower'] < 12 ? $_SESSION['manpower'] : 12;
-		$rem = 0;
-		if ($units + $deployedUnits > 255){
-			$rem = ($units + $deployedUnits) - 255;
-			$deployedUnits = 255 - $units;
-		} else {
-			$rem = $_SESSION['manpower'] - $deployedUnits;
-		}
+		$deployedUnits = 3;
 		$units += $deployedUnits;
-		$_SESSION['manpower'] = $rem;
+		if ($units > 255){
+			$units = 255;
+		}
 		
 		// update attacker
 		$query = 'update fwTiles set units=? where tile=? and game=?';
@@ -48,10 +35,10 @@
 		$stmt->bind_param('iii', $units, $target, $_SESSION['gameId']);
 		$stmt->execute();
 		
-		$_SESSION['production'] -= 20;
+		$_SESSION['production'] -= 50;
 		$x->production = $_SESSION['production'];
 	} else {
-		header('HTTP/1.1 500 You cannot deploy to enemy territory!');
+		header('HTTP/1.1 500 You cannot recruit here!');
 	}
 	echo json_encode($x);
 ?>

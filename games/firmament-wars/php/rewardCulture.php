@@ -30,7 +30,6 @@
 			$stmt = $link->prepare($query);
 			$stmt->bind_param('ii', $_SESSION['gameId'], $_SESSION['player']);
 			$stmt->execute();
-			$stmt->store_result();
 			$stmt->bind_result($drow, $dplayer, $dnation, $dtileName, $dunits);
 			$x = new stdClass();
 			while($stmt->fetch()){

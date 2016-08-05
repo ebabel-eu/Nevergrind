@@ -26,7 +26,6 @@
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
-	$stmt->store_result();
 	$stmt->bind_result($account, $nation, $flag, $player);
 	
 	$x = new stdClass();

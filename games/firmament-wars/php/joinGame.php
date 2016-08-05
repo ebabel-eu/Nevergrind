@@ -79,7 +79,6 @@
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $gameId);
 	$stmt->execute();
-	$stmt->store_result();
 	$stmt->bind_result($player, $startTile);
 	$a = [];
 	while($stmt->fetch()){

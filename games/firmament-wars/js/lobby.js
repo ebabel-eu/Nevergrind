@@ -128,6 +128,7 @@ function Nation(){
 }
 
 function joinStartedGame(){
+	
 	g.lock(1);
 	console.info("Joining started game");
 	var e1 = document.getElementById("mainWrap");
@@ -197,6 +198,23 @@ function joinStartedGame(){
 				my.focusTile = i;
 			}
 		}
+		// init mapFlagWrap
+		var a = document.getElementsByClassName('unit');
+		var str = '';
+		for (var i=0, len=a.length; i<len; i++){
+			var t = game.tiles[i];
+			var x = a[i].getAttribute('x') - 24;
+			var y = a[i].getAttribute('y') - 24;
+			var flag = 'blank.png';
+			if (!t.flag && t.units){
+				flag = "Player0.jpg";
+			} else if (t.flag){
+				flag = t.flag;
+			}
+			str += '<image id="flag' + i + '" class="mapFlag" xlink:href="images/flags/' + flag + '" x="' + x + '" y="' + y + '" width="24" height="24"/>';
+		}
+		document.getElementById('mapFlagWrap').innerHTML = str;
+		
 		var str = '';
 		// init diplomacyPlayers
 		for (var i=0, len=game.player.length; i<len; i++){
@@ -437,6 +455,7 @@ function startGame(d){
 	if ($(".lobbyNationName").length > 1){
 		document.getElementById("startGame").style.display = "none";
 		g.lock(1);
+		audio.play('click');
 		$.ajax({
 			type: "GET",
 			url: "php/startGame.php"

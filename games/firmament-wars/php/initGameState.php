@@ -9,7 +9,6 @@
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('i', $_SESSION['gameId']);
 	$stmt->execute();
-	$stmt->store_result();
 	$stmt->bind_result($dAccount, $dFlag, $dNation, $dTile, $dTileName, $dPlayer, $dUnits, $dFood, $dCulture, $dDefense);
 	
 	$tiles = [];
@@ -33,7 +32,6 @@
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('is', $_SESSION['gameId'], $_SESSION['account']);
 	$stmt->execute();
-	$stmt->store_result();
 	$stmt->bind_result($startTile);
 	while($stmt->fetch()){
 		$_SESSION['capital'] = $startTile;
@@ -72,10 +70,18 @@
 	}
 	$x->tiles = $tiles;
 	// map capital tiles give defense bonus
-	$map = $_SESSION['map'];
 	$_SESSION['capitalTiles'] = [];
-	if ($map === "Earth Alpha"){
-		$_SESSION['capitalTiles'] = [
+	$query = 'select startTile from fwPlayers where game=?';
+	$stmt = $link->prepare($query);
+	$stmt->bind_param('i', $_SESSION['gameId']);
+	$stmt->execute();
+	$stmt->bind_result($startTile);
+	while($stmt->fetch()){
+		array_push($_SESSION['capitalTiles'], $startTile);
+	}
+		
+		
+		/*$_SESSION['capitalTiles'] = [
 			$x->tiles[79]->flag ? 79 : null, 
 			$x->tiles[24]->flag ? 24 : null, 
 			$x->tiles[29]->flag ? 29 : null, 
@@ -84,8 +90,7 @@
 			$x->tiles[52]->flag ? 52 : null, 
 			$x->tiles[9]->flag ? 9 : null, 
 			$x->tiles[46]->flag ? 46 : null
-		];
-	}
+		];*/
 	$x->capitalTiles = $_SESSION['capitalTiles'];
 	
 	$_SESSION['gameStartTime'] = microtime(true);

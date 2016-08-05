@@ -68,7 +68,7 @@ $("#create").on("click", function(){
 	$("#gameName").focus();
 });
 
-$("#menu").on("click", "#createGame", function(){
+$("#menu").on("mousedown", "#createGame", function(){
 	var name = $("#gameName").val();
 	var players = $("#gamePlayers").val()*1;
 	if (name.length < 1 || name.length > 32){
@@ -77,6 +77,7 @@ $("#menu").on("click", "#createGame", function(){
 		Msg("Game must have 2-8 players.");
 	} else {
 		g.lock(1);
+		audio.play('click');
 		$.ajax({
 			url: 'php/createGame.php',
 			data: {
@@ -96,6 +97,7 @@ $("#menu").on("click", "#createGame", function(){
 
 function joinGame(){
 	g.lock();
+	audio.play('click');
 	$.ajax({
 		url: 'php/joinGame.php',
 		data: {
@@ -267,9 +269,10 @@ $("#flagDropdown").on("change", function(e){
 	});
 });
 
-$("#submitNationName").on("click", function(e){
+$("#submitNationName").on("mousedown", function(e){
 	var x = $("#updateNationName").val();
 	g.lock();
+	audio.play('click');
 	$.ajax({
 		url: 'php/updateNationName.php',
 		data: {

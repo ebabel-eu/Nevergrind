@@ -17,6 +17,7 @@ var g = {
 	chatOn: false,
 	overlay: document.getElementById("overlay"),
 	over: 0,
+	actionMenu: 'command',
 	startTime: Date.now(),
 	lock: function(clear){
 		g.overlay.style.display = "block";
@@ -124,7 +125,11 @@ var DOM = {
 	tileName: document.getElementById('tile-name'),
 	tileActions: document.getElementById('tileActions'),
 	tileBuild: document.getElementById('tileBuild'),
-	tileCommand: document.getElementById('tileCommand')
+	tileCommand: document.getElementById('tileCommand'),
+	buildWord: document.getElementById('buildWord'),
+	buildCost: document.getElementById('buildCost'),
+	upgradeTileDefense: document.getElementById('upgradeTileDefense'),
+	upgradeTileComplete: document.getElementById('upgradeTileComplete')
 }
 var $DOM = {
 	head: $("#head"),
@@ -270,7 +275,6 @@ var audio = {
 	ambientPlay: function(){
 		audio.ambientTrack++;
 		var x = new Audio("music/ambient" + (audio.ambientTrack % audio.ambientTotalTracks) + "." + audio.ext);
-		console.info("Now playing: ", audio.ambientTrack);
 		x.onended = function(){
 			audio.ambientPlay();
 		}
@@ -289,13 +293,6 @@ var audio = {
 		});
 	},
 	move: function(){
-		/*for (var i=0; i<3; i++){
-			(function(i){
-				setTimeout(function(){
-					audio.play('boots' + ~~(Math.random()*3));
-				}, i*200);
-			})(i);
-		}*/
 		audio.play('boots' + ~~(Math.random()*3));
 	}
 }

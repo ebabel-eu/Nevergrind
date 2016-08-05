@@ -2,7 +2,19 @@
 	session_start();
 	require('values.php');
 	require('connect1.php');
+	$_SESSION['capitalTiles'] = [];
+	$query = 'select startTile from fwPlayers where game=?';
+	$stmt = $link->prepare($query);
+	$stmt->bind_param('i', $_SESSION['gameId']);
+	$stmt->execute();
+	$stmt->bind_result($startTile);
+	while($stmt->fetch()){
+		array_push($_SESSION['capitalTiles'], $startTile);
+	}
 	
+	var_dump($_SESSION['capitalTiles']);
+	
+	echo "<br><br>";
 	// get game tiles
 	$query = "select defense from `fwTiles` where game=?";
 	$stmt = $link->prepare($query);

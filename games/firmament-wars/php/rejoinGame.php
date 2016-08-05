@@ -6,7 +6,6 @@
 	$stmt = $link->prepare($query);
 	$stmt->bind_param('si', $_SESSION['account'], $_SESSION['gameId']);
 	$stmt->execute();
-	$stmt->store_result();
 	$stmt->bind_result($food, $culture);
 	
 	$x = new stdClass();

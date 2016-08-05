@@ -97,7 +97,6 @@
 						$stmt = $link->prepare($query);
 						$stmt->bind_param('s', $_SESSION['account']);
 						$stmt->execute();
-						$stmt->store_result(); // don't need
 						$stmt->bind_result($dbcount);
 						while($stmt->fetch()){
 							$count = $dbcount;
@@ -109,7 +108,6 @@
 							$stmt = $link->prepare($query);
 							$stmt->bind_param('s', $_SESSION['account']);
 							$stmt->execute();
-							$stmt->store_result();
 							$stmt->bind_result($dName, $dFlag, $wins, $losses, $disconnects);
 							while($stmt->fetch()){
 								$nation = $dName;
@@ -134,9 +132,9 @@
 				<hr class='fancyhr'>
 				<div class="row">
 					<div id="menuHead" class="btn-group col-lg-12" role="group">
-						<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active btn-head">Refresh Games</button>
-						<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Create</button>
-						<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow4 btn-head">Configure Nation</button>
+						<button id="refreshGames" type="button" class="btn btn-primary btn-responsive btn-md shadow4 active">Refresh Games</button>
+						<button id="create" type="button" class="btn btn-primary btn-responsive btn-md shadow4">Create</button>
+						<button id="toggleNation" type="button" class="btn btn-primary btn-responsive btn-md shadow4">Configure Nation</button>
 					</div>
 				</div>
 				<hr class="fancyhr">
@@ -257,7 +255,7 @@
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Move/attack with all armies">
-									<div class="col-xs-8">Attack</div>
+									<div class="col-xs-8"><span class='text-hotkey'>A</span>ttack</div>
 									<div class="col-xs-4 text-right">
 										<i class="fa fa-bolt production pointer actionBolt"></i>7
 									</div>
@@ -267,7 +265,7 @@
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Move/attack with half of your armies">
-									<div class="col-xs-8">Split Attack</div>
+									<div class="col-xs-8"><span class='text-hotkey'>S</span>plit Attack</div>
 									<div class="col-xs-4 text-right">
 										<i class="fa fa-bolt production pointer actionBolt"></i>3
 									</div>
@@ -277,7 +275,7 @@
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Deploy up to 12 armies">
-									<div class="col-xs-8">Deploy</div>
+									<div class="col-xs-8"><span class='text-hotkey'>D</span>eploy</div>
 									<div class="col-xs-4 text-right">
 										<i class="fa fa-bolt production pointer actionBolt"></i>20
 									</div>
@@ -287,60 +285,68 @@
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Recruit 3 armies">
-									<div class="col-xs-8">Recruit</div>
+									<div class="col-xs-8"><span class='text-hotkey'>R</span>ecruit</div>
 									<div class="col-xs-4 text-right">
-										<i class="fa fa-bolt production pointer actionBolt"></i>60
+										<i class="fa fa-bolt production pointer actionBolt"></i>50
 									</div>
 								</div>
 								
 								<div id="gotoBuild" class="actionButtons row" data-placement="left" data-toggle="tooltip" title="Build a structure/weapon">
-									<div class="col-xs-12 text-center">Build Menu</div>
+									<div class="col-xs-12 text-center">Build M<span class='text-hotkey'>e</span>nu</div>
 								</div>
 							</div>
 							
 							<div id="tileBuild" class="container shadow4">
-								<div id="buildWall" class="actionButtons row" 
+							
+								<div id="upgradeTileDefense" class="actionButtons row" 
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Build a wall to fortify a territory">
-									<div class="col-xs-8">Build Wall</div>
+									<div class="col-xs-8"><span class='text-hotkey'>B</span>uild <span id="buildWord">Bunker</span></div>
 									<div class="col-xs-4 text-right">
-										<i class="fa fa-bolt production pointer actionBolt"></i>200
+										<i class="fa fa-bolt production pointer actionBolt"></i><span id="buildCost">80</span>
 									</div>
 								</div>
 								
-								<div id="buildArtillery" class="actionButtons row" 
+								<div id="upgradeTileComplete" class="actionButtons row"
+									data-placement="left"
+									data-toggle="tooltip"
+									title="This tile has been fully upgraded">
+									<div class="col-lg-12 text-center">Fully Fortified</div>
+								</div>
+								
+								<div id="fireArtillery" class="actionButtons row" 
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Fire artillery at an adjacent enemy tile. Kills 5% of armies.">
-									<div class="col-xs-8">Fire Artillery</div>
+									<div class="col-xs-8"><span class='text-hotkey'>F</span>ire Artillery</div>
 									<div class="col-xs-4 text-right">
 										<i class="fa fa-bolt production pointer actionBolt"></i>60
 									</div>
 								</div>
 								
-								<div id="buildMissile" class="actionButtons row" 
+								<div id="launchMissile" class="actionButtons row" 
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Launch a missile at any enemy territory. Kills 15-20% of armies.">
-									<div class="col-xs-8">Launch Missile</div>
+									<div class="col-xs-8">Laun<span class='text-hotkey'>c</span>h Missile</div>
 									<div class="col-xs-4 text-right">
 										<i class="fa fa-bolt production pointer actionBolt"></i>150
 									</div>
 								</div>
 								
-								<div id="buildNuke" class="actionButtons row" 
+								<div id="launchNuke" class="actionButtons row" 
 									data-placement="left" 
 									data-toggle="tooltip" 
 									title="Launch a nuclear weapon at any enemy territory. Kills 80-99% of armies and destroys all structures.">
-									<div class="col-xs-8">Launch Nuke</div>
+									<div class="col-xs-8">Launch <span class='text-hotkey'>N</span>uke</div>
 									<div class="col-xs-4 text-right">
 										<i class="fa fa-bolt production pointer actionBolt"></i>600
 									</div>
 								</div>
 								
 								<div id="gotoCommand" class="actionButtons row" data-placement="left" data-toggle="tooltip" title="Command your armies">
-									<div class="col-lg-12 text-center">Command Menu</div>
+									<div class="col-lg-12 text-center">Command M<span class='text-hotkey'>e</span>nu</div>
 								</div>
 							</div>
 						
@@ -353,20 +359,19 @@
 			<div id="resources-ui" class="container no-select shadow4">
 				<div class="row">
 					<div id='manpowerWrap' class="col-sm-12 no-padding manpower">
-						<span data-toggle="tooltip" title="Deploy armies to conquered territories">
-							Armies
-						</span>
-						<span data-toggle="tooltip" title="Great Generals add an offensive bonus">
-							<i class="fa fa-star"></i>
+						<span data-toggle="tooltip" title="Great Generals boost army offense">
+							<i class="glyphicon glyphicon-star"></i>
 							<span id="oBonus">0</span> 
 						</span>&nbsp;
-						<span data-toggle="tooltip" title="Great Tacticians add a defensive bonus">
-							<i class="fa fa-shield"></i>
+						<span data-toggle="tooltip" title="Great Tacticians boost army defense">
+							<i class="glyphicon glyphicon-star-empty"></i>
 							<span id="dBonus">0</span>
 						</span>
 					</div>
-					<div>
-						<span id="manpower">0</span>
+					<div class="col-sm-12 no-padding">
+						<span data-toggle="tooltip" title="Deploy armies to conquered territories">
+							<i class="fa fa-angle-double-up manpower"></i> Armies <span id="manpower">0</span>
+						</span>
 					</div>
 				</div>
 				

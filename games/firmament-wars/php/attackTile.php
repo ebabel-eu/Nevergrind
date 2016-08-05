@@ -27,11 +27,11 @@
 	}
 	
 	if (isAdjacent($attacker->tile, $defender->tile)){
-		$query = 'select tile, tileName, nation, flag, units, player, account from fwTiles where (tile=? or tile=?) and game=? limit 2';
+		$query = 'select tile, tileName, nation, flag, units, player, account, defense from fwTiles where (tile=? or tile=?) and game=? limit 2';
 		$stmt = $link->prepare($query);
 		$stmt->bind_param('iii', $attacker->tile, $defender->tile, $_SESSION['gameId']);
 		$stmt->execute();
-		$stmt->bind_result($tile, $tileName, $nation, $flag, $units, $player, $account);
+		$stmt->bind_result($tile, $tileName, $nation, $flag, $units, $player, $account, $defense);
 		
 		while($stmt->fetch()){
 			if ($_POST['attacker'] == $tile){
@@ -51,8 +51,14 @@
 				$defender->units = $units;
 				$defender->player = $player;
 				$defender->account = $account;
+				$defender->defense = $defense;
 			}
 		}
+		if ($attacker->account !== $_SESSION['account']){
+			header('HTTP/1.1 500 You do not control that territory!');
+			exit();
+		}
+		
 		if ($split === 1){
 			/*
 			$availableArmies = $attacker->units - 1;
@@ -114,9 +120,9 @@
 			{
 				// RESUME: split attacking with $splitAtk
 				if ($split === 0){
-					$result = battle($attacker->units, $defender->units, $defender->tile);
+					$result = battle($attacker->units, $defender->units, $defender);
 				} else {
-					$result = battle($splitAtk, $defender->units, $defender->tile);
+					$result = battle($splitAtk, $defender->units, $defender);
 				}
 				if ($result[0] > $result[1]){
 					// victory
@@ -177,7 +183,7 @@
 						$attacker->units = $result[0];
 						$defender->units = $result[1];
 					} else {
-						$attacker->units = $splitDef1;
+						$attacker->units = $splitDef;
 						$defender->units = $result[1];
 					}
 					// update attacker

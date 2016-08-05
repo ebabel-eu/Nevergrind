@@ -1,4 +1,88 @@
 // game.js
+function updateTileInfo(tileId){
+	function defMsg(){
+		var d = t.defense;
+		if (!d){
+			return 'Build structures to boost tile defense';
+		} else {
+			var x = '+' + d + ' tile defense:<br>';
+			if (t.capital){
+				x += 'Palace<br>';
+				if (t.defense >= 2){
+					x += 'Bunker<br>';
+				}
+				if (t.defense >= 3){
+					x += 'Wall';
+				}
+			} else {
+				if (t.defense >= 1){
+					x += 'Bunker<br>';
+				}
+				if (t.defense >= 2){
+					x += 'Wall';
+				}
+			}
+			return x;
+		}
+	}
+	var t = game.tiles[tileId],
+		flag = "",
+		nation = "",
+		account = "";
+	if (t.player === 0){
+		flag = "Player0.jpg";
+		if (t.units > 0){
+			nation = "Barbarian Tribe";
+		} else {
+			nation = "Uninhabited";
+			flag = "blank.png";
+		}
+	} else {
+		if (t.flag === "Default.jpg"){
+			flag = "Player" + t.player + ".jpg";
+		} else {
+			flag = t.flag;
+		}
+		nation = t.nation;
+		account = t.account;
+	}
+	
+	var str = 
+		'<div id="tileInfo" class="shadow4">';
+		str += 
+			'<span class="fwTooltip" data-toggle="tooltip" title="' + t.food + ' food in ' + t.name + '"> <i class="food glyphicon glyphicon-apple" ></i> ' + t.food + '</span> \
+			<span class="fwTooltip" data-toggle="tooltip" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</span>\
+			<span class="fwTooltip" data-toggle="tooltip" title="' + defMsg() + '"><i class="glyphicon glyphicon-tower manpower" data-toggle="tooltip"></i> ' + t.defense + '</span>\
+		</div>'+
+		'<img src="images/flags/' + flag + '" class="p' + t.player + 'b w100 block center">\
+		<div id="nation-ui" class="shadow4">';
+			if (t.capital){
+				str += 
+				'<span id="tile-name" class="no-select text-center shadow4 fwTooltip" data-toggle="tooltip" title="Capital Palace<br> Boosts tile defense">\
+					<i class="fa fa-fort-awesome text-warning shadow4"></i>\
+				</span> ';
+			}
+			str += nation + '</div>';
+	DOM.target.innerHTML = str;
+	var defWord = ['Bunker', 'Wall', 'Fortress'],
+		defCost = [80, 225, 450],
+		ind = t.defense - (t.capital ? 1 : 0);
+	if (ind > 2){
+		DOM.upgradeTileDefense.style.display = 'none';
+		DOM.upgradeTileComplete.style.display = 'block';
+	} else {
+		DOM.upgradeTileDefense.style.display = 'block';
+		DOM.upgradeTileComplete.style.display = 'none';
+		DOM.buildWord.textContent = defWord[ind];
+		DOM.buildCost.textContent = defCost[ind];
+	}
+	
+	$('.fwTooltip').tooltip({
+		html: true
+	});
+	// actions panel
+	setActionButtons(t);
+}
 function showTarget(e, hover){
 	if (typeof e === 'object' && e.id !== undefined){
 		var tileId = e.id.slice(4)*1;
@@ -10,8 +94,8 @@ function showTarget(e, hover){
 		if (hover && tileId !== my.tgt){
 			// animate targetLine
 			var e = document.getElementById('unit' + tileId);
-			my.targetLine[4] = e.getAttribute('x')*1;
-			my.targetLine[5] = e.getAttribute('y')*1;
+			my.targetLine[4] = e.getAttribute('x')*1 - 10;
+			my.targetLine[5] = e.getAttribute('y')*1 - 10;
 			my.targetLine[2] = (my.targetLine[0] + my.targetLine[4]) / 2;
 			my.targetLine[3] = ((my.targetLine[1] + my.targetLine[5]) / 2) - 100;
 			TweenMax.set(DOM.targetLineShadow, {
@@ -38,9 +122,9 @@ function showTarget(e, hover){
 				repeat: -1,
 				ease: Linear.easeNone
 			});
-			// crosshair
+			// crosshair game.tiles[tileId].player === my.player ? '#aa0000' : '#00cc00',
 			TweenMax.set(DOM.targetCrosshair, {
-				fill: game.tiles[tileId].player === my.player ? '#aa0000' : '#00cc00',
+				fill: '#00dd00',
 				visibility: 'visible',
 				x: my.targetLine[4] - 255,
 				y: my.targetLine[5] - 257,
@@ -55,74 +139,7 @@ function showTarget(e, hover){
 			});
 		}
 		// tile data
-		var t = game.tiles[tileId];
-		var flag = "",
-			nation = "",
-			account = "";
-		if (t.player === 0){
-			flag = "Player0.jpg";
-			if (t.units > 0){
-				nation = "Barbarian Tribe";
-			} else {
-				nation = "Uninhabited";
-			}
-		} else {
-			if (t.flag === "Default.jpg"){
-				flag = "Player" + t.player + ".jpg";
-			} else {
-				flag = t.flag;
-			}
-			nation = t.nation;
-			account = t.account;
-		}
-		function defMsg(){
-			var d = t.defense;
-			if (!d){
-				return 'Build structures to boost tile defense';
-			} else {
-				var x = '+' + d + ' tile defense:<br>';
-				if (t.capital){
-					x += 'Palace<br>';
-					if (t.defense >= 2){
-						x += 'Bunker<br>';
-					}
-					if (t.defense >= 3){
-						x += 'Wall';
-					}
-				} else {
-					if (t.defense >= 1){
-						x += 'Bunker<br>';
-					}
-					if (t.defense >= 2){
-						x += 'Wall';
-					}
-				}
-				return x;
-			}
-		}
-		
-		var str = 
-			'<div id="tileInfo" class="shadow4">';
-			str += 
-				'<span class="fwTooltip" data-toggle="tooltip" title="' + t.food + ' food in ' + t.name + '"> <i class="food glyphicon glyphicon-apple" ></i> ' + t.food + '</span> \
-				<span class="fwTooltip" data-toggle="tooltip" title="' + t.culture + ' culture in ' + t.name + '"><i class="culture fa fa-flag" data-toggle="tooltip"></i> ' + t.culture + '</span>\
-				<span class="fwTooltip" data-toggle="tooltip" title="' + defMsg() + '"><i class="fa fa-shield manpower" data-toggle="tooltip"></i> ' + t.defense + '</span>\
-			</div>'+
-			'<img src="images/flags/' + flag + '" class="p' + t.player + 'b w100 block center">'+
-			'<div id="nation-ui" class="shadow4">';
-				if (t.capital){
-					str += 
-					'<span id="tile-name" class="no-select text-center shadow4 fwTooltip" data-toggle="tooltip" title="Capital Palace<br> Boosts tile defense">\
-						<i class="fa fa-fort-awesome text-warning shadow4"></i>\
-					</span> ';
-				}
-				str += nation + '</div>';
-		DOM.target.innerHTML = str;
-		$('.fwTooltip').tooltip({
-			html: true
-		});
-		// actions panel
-		setActionButtons(t);
+		updateTileInfo(tileId);
 	} else {
 		my.attackOn = false;
 	}
@@ -130,23 +147,8 @@ function showTarget(e, hover){
 function setActionButtons(t){
 	DOM.tileName.textContent = t.name;
 	my.player === t.player ? DOM.tileActions.style.display = 'block' : DOM.tileActions.style.display = 'none';
-	setTileActions();
+	action.toggleMenu(true);
 }
-function setTileActions(show){
-	if (!show || show === 'command'){
-		DOM.tileCommand.style.display = 'block';
-		DOM.tileBuild.style.display = 'none';
-	} else {
-		DOM.tileCommand.style.display = 'none';
-		DOM.tileBuild.style.display = 'block';
-	}
-}
-$("#gotoBuild").on('mousedown', function(){
-	setTileActions('build');
-});
-$("#gotoCommand").on('mousedown', function(){
-	setTileActions('command');
-});
 function setTileUnits(i, unitColor){
 	var e = document.getElementById('unit' + i);
 	e.textContent = game.tiles[i].units === 0 ? "" : game.tiles[i].units;
@@ -162,12 +164,6 @@ function setTileUnits(i, unitColor){
 
 function getGameState(){
 	// add function to get player data list?
-	function updateTilePlayer(i, d){
-		game.tiles[i].player = d.player;
-		game.tiles[i].account = game.player[d.player].account;
-		game.tiles[i].nation = game.player[d.player].nation;
-		game.tiles[i].flag = game.player[d.player].flag;
-	}
 	(function repeat(){
 		var lag = Date.now();
 		var repeatDelay = 2500;
@@ -188,20 +184,26 @@ function getGameState(){
 					
 					if (d.player !== game.tiles[i].player){
 						// only update client data if there's a difference
-						updateTilePlayer(i, d);
+						game.tiles[i].player = d.player;
+						game.tiles[i].account = game.player[d.player].account;
+						game.tiles[i].nation = game.player[d.player].nation;
+						game.tiles[i].flag = game.player[d.player].flag;
 						var e1 = document.getElementById('land' + i);
 						if (my.tgt === i){
 							// attacker won 
 							updateTargetStatus = true;
 						}
-						TweenMax.to(e1, .5, {
+						var newFlag = !game.player[d.player].flag ? 'blank.png' : game.player[d.player].flag;
+						document.getElementById('flag' + i).href.baseVal = "images/flags/" + newFlag;
+						TweenMax.set(e1, {
 							fill: color[d.player]
 						});
 						// animate other players' attacks
 						if (d.player !== my.player && game.tiles[i].units){
 							var box = e1.getBBox();
-							box.units = d.units;
-							animate.explosion(box);
+							if (d.units){
+								animate.explosion(box);
+							}
 						}
 					}
 					// check unit value
@@ -233,6 +235,7 @@ function getGameState(){
 							audio.play('food');
 						} else if (z.event === 'upgrade'){
 							// fetch updated tile defense data
+							chat(z.message);
 							updateTileDefense();
 						}
 					}

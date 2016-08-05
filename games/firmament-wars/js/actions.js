@@ -1,9 +1,21 @@
 // actions.js
 var action = {
+	error: function(){
+		Msg("Not enough energy!", 1.5);
+		my.clearHud();
+		audio.play('error');
+	},
 	attack: function(skip){
-		if (my.production < 7){
-			Msg("Not enough energy!", 1.5);
+		if (game.tiles[my.tgt].player !== my.player){
+			return;
+		}
+		if (my.attackOn){
+			my.attackOn = false;
 			my.clearHud();
+			return;
+		}
+		if (my.production < 7){
+			action.error();
 			return;
 		}
 		if (game.tiles[my.tgt].units < 2){
@@ -26,9 +38,16 @@ var action = {
 		}
 	},
 	splitAttack: function(skip){
-		if (my.production < 3){
-			Msg("Not enough energy!", 1.5);
+		if (game.tiles[my.tgt].player !== my.player){
+			return;
+		}
+		if (my.attackOn){
+			my.attackOn = false;
 			my.clearHud();
+			return;
+		}
+		if (my.production < 3){
+			action.error();
 			return;
 		}
 		if (game.tiles[my.tgt].units < 2){
@@ -73,8 +92,7 @@ var action = {
 		if ((my.production < 7 && !my.splitAttack) ||
 			(my.production < 3 && my.splitAttack)
 		){
-			Msg("Not enough energy!", 1.5);
-			my.clearHud();
+			action.error();
 			return;
 		}
 		g.lock(true);
@@ -92,7 +110,6 @@ var action = {
 			if (game.tiles[defender].player !== my.player){
 				var e1 = document.getElementById('land' + defender),
 					box = e1.getBBox();
-				box.units = game.tiles[attacker].units;
 				if (!game.tiles[defender].units){
 					audio.move();
 				} else {
@@ -121,20 +138,21 @@ var action = {
 		my.clearHud();
 	},
 	deploy: function(){
-		if (my.production < 20){
-			Msg("Not enough energy!", 1.5);
-			my.clearHud();
+		var t = game.tiles[my.tgt];
+		if (t.player !== my.player){
 			return;
 		}
-		if (my.player === game.tiles[my.tgt].player && 
-			my.manpower && 
-			game.tiles[my.tgt].units <= 254){
+		if (my.production < 20){
+			action.error();
+			return;
+		}
+		if (my.manpower && t.units <= 254){
 			// determine number
 			var deployedUnits = my.manpower < 12 ? my.manpower : 12;
 			var rem = 0;
-			if (game.tiles[my.tgt].units + deployedUnits > 255){
-				rem = ~~((game.tiles[my.tgt].units + deployedUnits) - 255);
-				deployedUnits = ~~(255 - game.tiles[my.tgt].units);
+			if (t.units + deployedUnits > 255){
+				rem = ~~((t.units + deployedUnits) - 255);
+				deployedUnits = ~~(255 - t.units);
 			} else {
 				rem = my.manpower - deployedUnits;
 			}
@@ -143,7 +161,7 @@ var action = {
 			// do it
 			DOM.manpower.textContent = my.manpower;
 			setTileUnits(my.tgt, '#00ff00');
-			audio.play('boots' + ~~(Math.random()*3));
+			audio.move();
 			$.ajax({
 				url: 'php/deploy.php',
 				data: {
@@ -152,7 +170,7 @@ var action = {
 				}
 			}).done(function(data) {
 				console.info("deploy: ", data);
-				if ('production' in data){
+				if (data.production !== undefined){
 					setProduction(data);
 				}
 			}).fail(function(e){
@@ -161,6 +179,101 @@ var action = {
 			TweenMax.set('#manpower', {
 			  color: '#fff'
 			});
+		}
+	},
+	recruit: function(){
+		var t = game.tiles[my.tgt];
+		if (t.player !== my.player){
+			return;
+		}
+		if (my.production < 50){
+			action.error();
+			return;
+		}
+		if (t.units <= 254){
+			
+			var deployedUnits = 3;
+			
+			if (t.units + deployedUnits > 255){
+				game.tiles[my.tgt].units = 255;
+			} else {
+				game.tiles[my.tgt].units += deployedUnits;
+			}
+			// do it
+			setTileUnits(my.tgt, '#00ff00');
+			audio.move();
+			
+			$.ajax({
+				url: 'php/recruit.php',
+				data: {
+					target: my.tgt
+				}
+			}).done(function(data) {
+				console.info("recruit: ", data);
+				if (data.production){
+					setProduction(data);
+				}
+			}).fail(function(e){
+				audio.play('error');
+			});
+		}
+	},
+	upgradeTileDefense: function(){
+		var oldTgt = my.tgt;
+		var t = game.tiles[my.tgt],
+			cost = [80, 225, 450],
+			ind = t.defense - t.capital ? 1 : 0;
+		if (t.player !== my.player){
+			return;
+		}
+		if (ind > 2){
+			return;
+		}
+		if (my.production < cost[ind]){
+			action.error();
+			return;
+		}
+		
+		animate.upgrade();
+		
+		$.ajax({
+			url: 'php/upgradeTileDefense.php',
+			data: {
+				target: my.tgt
+			}
+		}).done(function(data) {
+			console.info("upgradeTileDefense: ", data);
+			if (data.production){
+				setProduction(data);
+			}
+			if (oldTgt === my.tgt){
+				game.tiles[my.tgt].defense++;
+				showTarget(document.getElementById('land' + my.tgt));
+			}
+		}).fail(function(e){
+			console.info(e.responseText);
+			audio.play('error');
+		});
+	},
+	fireArtillery: function(){
+		console.info('fire');
+	},
+	launchMissile: function(){
+		console.info('missile');
+	},
+	launchNuke: function(){
+		console.info('nuke');
+	},
+	toggleMenu: function(init){
+		console.info(g.actionMenu);
+		if (init || g.actionMenu === 'build'){
+			g.actionMenu = 'command';
+			DOM.tileCommand.style.display = 'block';
+			DOM.tileBuild.style.display = 'none';
+		} else {
+			g.actionMenu = 'build';
+			DOM.tileCommand.style.display = 'none';
+			DOM.tileBuild.style.display = 'block';
 		}
 	}
 }
@@ -197,7 +310,6 @@ var animate = {
 			}
 			return c;
 		}
-		var start = Date.now();
 		var sfx = ~~(Math.random()*9);
 		var delay = [.5, .5, .33, .33, .33, .33, .8, .33, .66, .4];
 		
@@ -254,7 +366,42 @@ var animate = {
 			})(Math);
 		}
 		audio.play('machine' + sfx);
-		console.info(Date.now() - start);
+	},
+	upgrade: function(){
+		audio.play('build');
+	},
+	artillery: function(){
+		audio.play('grenade5');
+	},
+	missile: function(){
+		audio.play('missile7');
+	},
+	nuke: function(){
+		audio.play('bomb7');
+	}
+}
+// key bindings
+function toggleChatMode(send){
+	g.chatOn = g.chatOn ? false : true;
+	console.info('CHAT', g.chatOn);
+	if (g.chatOn){
+		$DOM.chatInput.focus();
+		DOM.chatInput.className = 'fw-text noselect nobg chatOn';
+	} else {
+		var message = $DOM.chatInput.val();
+		if (send && message){
+			// send ajax chat msg
+			$.ajax({
+				url: 'php/insertChat.php',
+				data: {
+					message: message
+				}
+			}).done(function(data) {
+				console.info("data: ", data);
+			});
+		}
+		$DOM.chatInput.val('').blur();
+		DOM.chatInput.className = 'fw-text noselect nobg';
 	}
 }
 
@@ -264,41 +411,29 @@ $("#actions").on("mousedown", '#attack', function(){
 	action.deploy();
 }).on('mousedown', '#splitAttack', function(){
 	action.splitAttack(true);
+}).on('mousedown', '#recruit', function(){
+	action.recruit();
+}).on('mousedown', '#upgradeTileDefense', function(){
+	action.upgradeTileDefense();
+}).on('mousedown', '#fireArtillery', function(){
+	action.fireArtillery();
+}).on('mousedown', '#launchMissile', function(){
+	action.launchMissile();
+}).on('mousedown', '#launchNuke', function(){
+	action.launchNuke();
+}).on('mousedown', '#gotoBuild, #gotoCommand', function(){
+	action.toggleMenu();
 });
-// key bindings
-function toggleChatMode(send){
-		g.chatOn = g.chatOn ? false : true;
-		console.info('CHAT', g.chatOn);
-		if (g.chatOn){
-			$DOM.chatInput.focus();
-			DOM.chatInput.className = 'fw-text noselect nobg chatOn';
-		} else {
-			var message = $DOM.chatInput.val();
-			if (send && message){
-				// send ajax chat msg
-				$.ajax({
-					url: 'php/insertChat.php',
-					data: {
-						message: message
-					}
-				}).done(function(data) {
-					console.info("data: ", data);
-				});
-			}
-			$DOM.chatInput.val('').blur();
-			DOM.chatInput.className = 'fw-text noselect nobg';
-		}
-		
-}
+
 $(document).on('keyup', function(e) {
 	var x = e.keyCode;
 	console.info(x);
 	if (g.view === 'title'){
 		if (x === 13){
 			if (g.focusUpdateNationName){
-				$("#submitNationName").trigger("click");
+				$("#submitNationName").trigger("mousedown");
 			} else if (g.focusGameName){
-				$("#createGame").trigger("click");
+				$("#createGame").trigger("mousedown");
 			}
 		}
 	} else if (g.view === 'game'){
@@ -311,25 +446,51 @@ $(document).on('keyup', function(e) {
 				toggleChatMode(true);
 			}
 		} else {
-			if (x === 65){
-				// a
-				action.attack();
-			} else if (x === 27){
+			// any actionMenu mode
+			if (x === 13){
+				// enter
+				toggleChatMode();
+			} else if (x === 69){
+				// e
+				action.toggleMenu();
+			}  else if (x === 27){
 				// esc
 				my.attackOn = false;
 				my.clearHud();
 				if (g.chatOn){
 					toggleChatMode();
 				}
-			} else if (x === 68){
-				// d
-				action.deploy();
-			} else if (x === 83){
-				// s
-				action.splitAttack();
-			} else if (x === 13){
-				// enter
-				toggleChatMode();
+			} else {
+				// actionMenu
+				if (g.actionMenu === 'command'){
+					if (x === 65){
+						// a
+						action.attack();
+					} else if (x === 83){
+						// s
+						action.splitAttack();
+					} else if (x === 68){
+						// d
+						action.deploy();
+					} else if (x === 82){
+						// r
+						action.recruit();
+					}
+				} else {
+					if (x === 66){
+						// b
+						action.upgradeTileDefense();
+					} else if (x === 70){
+						// f
+						action.fireArtillery();
+					} else if (x === 67){
+						// c
+						action.launchMissile();
+					} else if (x === 78){
+						// n
+						action.launchNuke();
+					}
+				}
 			}
 		}
 	}
