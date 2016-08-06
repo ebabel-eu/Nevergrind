@@ -8,3 +8,10 @@ values.php
 config.php
 lib
 PHPMailer/
+minified/
+leaderboards/
+nevergrounds/
+store/
+account/
+confirmemail/
+includes/
