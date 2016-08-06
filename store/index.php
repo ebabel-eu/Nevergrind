@@ -10,11 +10,6 @@
 		header("Location: /login.php?back=/store");
 		exit();
 	}
-	if($_SERVER["SERVER_NAME"] === "localhost"){
-		$_SESSION['STRIPE_TEST'] = 'sk_test_NdwqRX25HqcjJA1zM6YFW3VM';
-	}else{
-		$_SESSION['STRIPE_LIVE'] = 'sk_live_TeWhVic0lsvuZ0knFBFlTEy6';
-	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
