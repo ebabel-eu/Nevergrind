@@ -10,7 +10,7 @@
 		unset($_SESSION['reset']);
 		unset($_SESSION['tempEmail']);
 		exit();
-	}
+	} // asdf
 ?>
 <!DOCTYPE html>
 <html lang="en">
