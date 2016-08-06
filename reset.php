@@ -69,11 +69,7 @@
 				$hash = crypt($_SESSION['reset'], '$2a$07$'.$_SESSION['salt'].'$');
 				$verify = crypt($_SESSION['reset'], $hash);
 				
-				if(php_uname('n')=="JOE-PC"){
-					$link = mysqli_connect("localhost:3306","root","2M@elsw6","nevergrind");
-				} else {
-					$link = mysqli_connect("localhost", "nevergri_ng", "!M6a1e8l2f4y6n", "nevergri_ngLocal");
-				}
+				require($_SERVER['DOCUMENT_ROOT'] . "/php/connect1.php");
 				// 1-hour valid token - check if expired
 				$query = "select email from resetpassword where reset='".$_SESSION['reset']."' and timestamp>date_sub(now(), interval 1 hour)";
 				$stmt = $link->prepare($query);

@@ -147,7 +147,7 @@
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
 		$mail->SMTPAuth = true; // Enable SMTP authentication
 		$mail->Username = 'support@nevergrind.com'; // SMTP username
-		$mail->Password = '!M6a1e8l2f4y6n'; // SMTP password
+		$mail->Password = $_SESSION['mailpw']; // SMTP password
 		$mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
 		$mail->Port = 587;  // TCP port to connect to 587 tls or 465 ssl
 		$mail->From = 'support@nevergrind.com';
@@ -181,7 +181,7 @@
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
 		$mail->SMTPAuth = true; // Enable SMTP authentication
 		$mail->Username = 'support@nevergrind.com'; // SMTP username
-		$mail->Password = '!M6a1e8l2f4y6n'; // SMTP password
+		$mail->Password = $_SESSION['mailpw']; // SMTP password
 		$mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
 		$mail->Port = 587;  // TCP port to connect to 587 tls or 465 ssl
 		$mail->From = 'support@nevergrind.com';
@@ -844,7 +844,7 @@
 			$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
 			$mail->SMTPAuth = true; // Enable SMTP authentication
 			$mail->Username = 'support@nevergrind.com'; // SMTP username
-			$mail->Password = '!M6a1e8l2f4y6n'; // SMTP password
+			$mail->Password = $_SESSION['mailpw']; // SMTP password
 			$mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
 			$mail->Port = 587;  // TCP port to connect to 587 tls or 465 ssl
 			$mail->From = 'support@nevergrind.com';
@@ -902,7 +902,7 @@
 		$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers ;smtp2.example.com
 		$mail->SMTPAuth = true; // Enable SMTP authentication
 		$mail->Username = 'support@nevergrind.com'; // SMTP username
-		$mail->Password = '!M6a1e8l2f4y6n'; // SMTP password
+		$mail->Password = $_SESSION['mailpw']; // SMTP password
 		$mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
 		$mail->Port = 587;  // TCP port to connect to 587 tls or 465 ssl
 		$mail->From = 'support@nevergrind.com';

@@ -1,13 +1,5 @@
 <?php
-	if(php_uname('n')=="JOE-PC"){
-		$con = mysqli_connect("localhost:3306","root","2M@elsw6", "nevergrind");
-	}else{
-		$con = mysqli_connect("localhost","nevergri_ng","!M6a1e8l2f4y6n", "nevergri_ngLocal");
-	}
-	if (!$con) {
-		echo 'Server Error - Could not connect to database: ';
-		exit;
-	}
+	require($_SERVER['DOCUMENT_ROOT'] . "/php/connect1.php");
 	$ID = $_POST['ID'];
 	$name = $_POST['name'];
 	$race = $_POST['race'];
