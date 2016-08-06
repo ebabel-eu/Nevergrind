@@ -5,3 +5,4 @@ connect_plain.php
 Stripe.php
 Stripe/
 values.php
+config.php
