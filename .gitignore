@@ -6,3 +6,4 @@ Stripe.php
 Stripe/
 values.php
 config.php
+lib
