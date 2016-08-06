@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	if(php_uname('n')=="JOE-PC"){
+	if($_SERVER["SERVER_NAME"] === "localhost"){
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
 	}
@@ -10,7 +10,7 @@
 		header("Location: /login.php?back=/store");
 		exit();
 	}
-	if(php_uname('n')=="JOE-PC"){
+	if($_SERVER["SERVER_NAME"] === "localhost"){
 		$_SESSION['STRIPE_TEST'] = 'sk_test_NdwqRX25HqcjJA1zM6YFW3VM';
 	}else{
 		$_SESSION['STRIPE_LIVE'] = 'sk_live_TeWhVic0lsvuZ0knFBFlTEy6';

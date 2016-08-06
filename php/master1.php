@@ -735,7 +735,7 @@
 		$amount = $_POST['amount']*1;
 		$oldcard = $_POST['oldcard'];
 		require($_SERVER['DOCUMENT_ROOT'] . '/php/lib/Stripe.php');
-		if(php_uname('n')=="JOE-PC"){
+		if($_SERVER["SERVER_NAME"] === "localhost"){
 			$stripeKey = $_SESSION['STRIPE_TEST'];
 		}else{
 			$stripeKey = $_SESSION['STRIPE_LIVE'];
@@ -885,7 +885,7 @@
 			echo "A token has already been emailed to you.";
 			exit;
 		}
-		if(php_uname('n')=="JOE-PC"){
+		if($_SERVER["SERVER_NAME"] === "localhost"){
 			$host="localhost/";
 			$email="joemattleonard@gmail.com";
 		}else{
