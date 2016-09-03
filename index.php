@@ -66,9 +66,7 @@
 						echo '</div>';
 				} else {
 					echo 
-					'<a id="Login" href="/login.php?back=/">
-						<div>Login</div>
-					</a>';
+					'<a id="Login" class="strongShadow" href="/login.php?back=/">Login</a>';
 				}
 					?>
 				</header>;

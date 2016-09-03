@@ -66,65 +66,49 @@
 		<header id="currencyIndicator" class="strongShadow">
 		<?php
 			echo "<div class='modePanel'>";
-				echo "Login & Account Creation";
+				echo "Login to Nevergrind";
 			echo '</div>';
 		?>
 		</header>
 		<div class="message blackOutline3"></div>
 	<?php
-		if($_SESSION['protocol']=="https:"){
-			if(isset($_GET['reset'])){
-				echo 
-					'<form id="loginWrap" class="strongShadow">
-						<div>Reset Your Password</div>
-						<div class="textLeft">Password</div>
-						<input type="password" id="resetPassword" class="loginInputs" maxlength="20" placeholder="Password" />
-						<div class="textLeft">Re-type Password</div>
-						<input type="password" id="resetVerifyPassword" class="loginInputs" maxlength="20" placeholder="Verify Password" />
-						<div id="resetPW" class="strongShadow NGgradient">Reset Password</div>
-					</form>';
-			} else {
-				echo 
-					'<form id="loginWrap" accept-charset="UTF-8" class="strongShadow" onSubmit="return authenticate(this);">
-						<fieldset>
-							<div id="createAccountWrap">
-								<span id="createAccount">Create Account</span>
-							</div>
-							
-							<label class="textLeft" for="loginEmail">Account or Email Address
-								<input name="username" type="text" id="loginEmail" class="loginInputs" maxlength="255" placeholder="Account or Email Address" required="required" />
-							</label>
-							
-							<label class="textLeft" for="password">Password
-								<input name="password" type="password" id="password" class="loginInputs" maxlength="20" placeholder="Password" required="required" />
-							</label>
-							
-							<label class="textLeft create-account signupHeader" for="loginAccount">Account Name
-								<input type="text" name="account" id="loginAccount" class="loginInputs create-account" maxlength="16" placeholder="Account Name"  />
-							</label>
-							
-							<label class="signupHeader create-account" for="promoCode">Promo Code
-								<input type="text" id="promoCode" class="loginInputs create-account" maxlength="20" placeholder="Promo Code" />
-							</label>
-							
-							<div id="tosWrap" class="create-account">
-								<span id="tos" class="aqua">
-									<a target="_blank" href="//nevergrind.com/blog/terms-of-service/">Terms of Service</a> | <a target="_blank" href="//nevergrind.com/blog/privacy-policy/">Privacy Policy</a>
-								</span>
-							</div>
-							
-							<input id="login" type="submit" value="Login" class="btn btn-primary strongShadow" value="Login" />
-							
-							<div id="forgotPasswordWrap">
-								<span title="Neverworks Games will send you an email. Click the link to reset your password." id="forgotPassword">Forgot Password?</span>
-							</div>
-						</fieldset>
-					</form>';
-			}
+		if(isset($_GET['reset'])){
+			echo 
+				'<form id="loginWrap" class="strongShadow">
+					<div>Reset Your Password</div>
+					<div class="textLeft">Password</div>
+					<input type="password" id="resetPassword" class="loginInputs" maxlength="20" placeholder="Password" />
+					<div class="textLeft">Re-type Password</div>
+					<input type="password" id="resetVerifyPassword" class="loginInputs" maxlength="20" placeholder="Verify Password" />
+					<div id="resetPW" class="strongShadow NGgradient">Reset Password</div>
+				</form>';
+		} else {
+			echo 
+				'<form id="loginWrap" accept-charset="UTF-8" class="strongShadow" onSubmit="return authenticate(this);">
+					<fieldset>
+						<div id="createAccountWrap">
+							<a id="createAccount" href="/createAccount.php">Create Account</a>
+						</div>
+						
+						<label class="textLeft" for="loginEmail">Account or Email Address
+							<input name="username" type="text" id="loginEmail" class="loginInputs" maxlength="255" placeholder="Account or Email Address" required="required" />
+						</label>
+						
+						<label class="textLeft" for="password">Password
+							<input name="password" type="password" id="password" class="loginInputs" maxlength="20" placeholder="Password" required="required" />
+						</label>
+						
+						<input id="login" type="submit" value="Login" class="btn btn-primary strongShadow" />
+						
+						<div id="forgotPasswordWrap">
+							<span title="Neverworks Games will send you an email. Click the link to reset your password." id="forgotPassword">Forgot Password?</span>
+						</div>
+					</fieldset>
+				</form>';
 		}
 		echo "<a id='refer' style='display:none' href='{$refer}'></a>";
 	?>
-	</div><!-- window 2 -->
+	</div>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	<script>
@@ -135,54 +119,6 @@
 	function QMsg(msg){
 		var str = "<p>" + msg + "</p>";
 		$(".message").html(str);
-	}
-	function createAccount() {
-		if (createAccountLock === true) {
-			return;
-		}
-		var pw = $("#password").val();
-		var acc = $("#loginAccount").val();
-		
-		var newAcc = acc.replace(/[^a-z0-9]/gi, '');
-		if (acc.match(/[a-z0-9]/gi, '').length < acc.length) {
-			QMsg("Your account name should only contain letters and numbers.");
-			return;
-		}
-		if (acc.length < 2) {
-			QMsg("Your account name must be more than two characters long.");
-			return;
-		}
-		if (acc.length > 16) {
-			QMsg("Your account name must be less than 16 characters long.");
-			return;
-		}
-		if (pw.length < 6) {
-			QMsg("Your password must be at least six characters long.");
-			return;
-		}
-		QMsg("Connecting to server...");
-		createAccountLock = true;
-		$.ajax({
-			data: {
-				run: "createAccount",
-				email: $("#loginEmail").val().toLowerCase(),
-				account: newAcc.toLowerCase(),
-				password: pw,
-				promo: $("#promoCode").val().toLowerCase()
-			}
-		}).done(function(data) {
-			if (data.indexOf("Account Created") === -1){
-				QMsg(data);
-			} else {
-				QMsg(data + " Redirecting!");
-				setTimeout(function(){
-					$("#refer")[0].click();
-				}, 100);
-			}
-			createAccountLock = false;
-		}).fail(function() {
-			QMsg("Could not contact the server!");
-		});
 	}
 	function authenticate(f) {
 		if (authenticationLock === true) {
@@ -220,41 +156,14 @@
 		return false; // prevent form submission
 	}
 	$('#login').on('click', function() {
-		var text = $(this).val();
-		if (text === "Login") {
-			// check password and login are ok
-			authenticate();
-		} else if (text === "Create Account") {
-			createAccount();
-		} else if (text === "Reset Password") {
-			resetPassword();
-		}
-	});
-	// toggle forms
-	$("#createAccount").on('click', function() {
-		var text = $(this).text();
-		if (text === "Create Account") {
-			$(this).text("Cancel");
-			$(".create-account").css('display', 'block');
-			$("#emailWrap").css('display', 'none');
-			$('#login').val("Create Account");
-			$("#loginEmail, #password, #loginAccount").val("");
-			loginMode = "create";
-		} else {
-			$(this).text("Create Account");
-			$(".create-account").css('display', 'none');
-			$("#emailWrap").css('display', 'block');
-			$('#login').val("Login");
-			$("#loginEmail, #password, #promoCode").val("");
-			loginMode = "login";
-		}
+		authenticate();
 	});
 	$("#forgotPassword").on('click', function() {
 		if (this.textContent === "Checking...") {
 			return;
 		}
 		var email = $("#loginEmail").val().toLowerCase();
-		var msg = "Forgot Password";
+		var msg = "Forgot Password?";
 		$("#forgotPassword").text("Checking...");
 		if (!email || email.length < 3) {
 			QMsg("Enter a valid email address");
@@ -273,31 +182,24 @@
 		});
 	});
 	
-	var loginMode = "login",
-		focusPassword = false,
-		focusPasswordVerify = false,
-		createAccountLock = false,
-		buttonLock = false,
+	var focusInput = false,
 		authenticationLock = false;
 		
-	$("#password").on('focus', function() {
-		focusPassword = true;
+	$(".loginInputs").on('focus', function() {
+		focusInput = true;
 	}).on('blur', function() {
-		focusPassword = false;
+		focusInput = false;
 	});
 	
 	$(document).on('keydown',function(e){
 		// hit enter
 		if(e.keyCode===13){
-			if(focusPassword===true&&loginMode==="login"){
-				authenticate();
-			}
-			if(focusPasswordVerify===true&&loginMode==="create"){
-				createAccount();
-			}
+			authenticate();
 		}
 	});
-	$("#loginEmail").focus();
+	$(function(){
+		$("#loginEmail").focus();
+	});
 	</script>
 	<?php
 		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
