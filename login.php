@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	
 	if($_SERVER["SERVER_NAME"] === "localhost"){
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
@@ -13,6 +14,11 @@
 		}
 	}
 	$refer = isset($_GET['back']) ? $_GET['back'] : "/";
+	// redirect if set
+	if(strlen($_SESSION['email'])){
+		header('Location: ' . $refer);
+		exit();
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +26,7 @@
 	<title>Nevergrind | Login & Account Creation</title>
 	<meta name="viewport" content="width=1280,user-scalable=no">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<?php
 		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
 	?>
@@ -30,7 +37,31 @@
 		#mainBG{
 			width: 1024px;
 			height: 768px;
-			background: url('/backgrounds/home.jpg') -110px 0px;
+			background: url('/backgrounds/sanctum.jpg') -110px 0px;
+		}
+		label{
+			font-weight: normal;
+			display: block;
+			margin: .1em 0;
+		}
+		#login{
+			border: 2px groove #357;
+		}
+		#createAccount{
+			color: #fff;
+		}
+		#createAccount:hover{
+			color: #fff;
+		}
+		#forgotPassword{
+			color: #fff;
+		}
+		.textLeft, .signupHeader{
+			margin-top: .375em;
+		}
+		.loginInputs{
+			background: #132239;
+			border: 1px solid #357;
 		}
 	</style>
 </head>
@@ -52,46 +83,47 @@
 					'<form id="loginWrap" class="strongShadow">
 						<div>Reset Your Password</div>
 						<div class="textLeft">Password</div>
-						<input type="password" id="resetPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Password">
+						<input type="password" id="resetPassword" class="loginInputs" maxlength="20" placeholder="Password" />
 						<div class="textLeft">Re-type Password</div>
-						<input type="password" id="resetVerifyPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Verify Password">
+						<input type="password" id="resetVerifyPassword" class="loginInputs" maxlength="20" placeholder="Verify Password" />
 						<div id="resetPW" class="strongShadow NGgradient">Reset Password</div>
 					</form>';
 			} else {
 				echo 
-					'<form id="loginWrap" class="strongShadow" autocomplete="on">
-						<div id="createAccountWrap">
-							<span id="createAccount">Create Account</span>
-						</div>
-						
-						<div class="textLeft">Email Address</div>
-						<input type="text" id="loginEmail" class="loginInputs strongShadow" maxlength="255" placeholder="Email Address" autocomplete="on" name="username">
-						
-						<div class="textLeft create-account signupHeader">Account Name</div>
-						<input type="text" id="loginAccount" class="loginInputs strongShadow create-account" maxlength="16" placeholder="Account Name" name="user">
-						
-						<div class="textLeft">Password</div>
-						<input type="password" id="loginPassword" class="loginInputs strongShadow" maxlength="20" placeholder="Password" autocomplete="on" name="password">
-						
-						<div class="signupHeader create-account">Re-type Password</div>
-						<input type="password" id="loginVerifyPassword" class="loginInputs strongShadow create-account" maxlength="20" placeholder="Verify Password">
-						
-						<p id="emailWrap">
-							<input id="rememberEmail" type="checkbox" checked><label for="rememberEmail">Remember my email address</label>
-						</p>
-						
-						<div class="signupHeader create-account">Promo Code</div>
-						<input type="text" id="promoCode" class="loginInputs strongShadow create-account" maxlength="20" placeholder="Promo Code">
-						
-						<div id="tosWrap" class="create-account">
-							<span id="tos" class="aqua">
-								<a target="_blank" href="//nevergrind.com/blog/terms-of-service/">Terms of Service</a> | <a target="_blank" href="//nevergrind.com/blog/privacy-policy/">Privacy Policy</a>
-							</span>
-						</div>
-						<div id="login" class="strongShadow NGgradient">Login</div>
-						<div id="forgotPasswordWrap">
-							<span title="Neverworks Games will send you an email. Click the link to reset your password." id="forgotPassword">Forgot Password?</span>
-						</div>
+					'<form id="loginWrap" accept-charset="UTF-8" class="strongShadow" onSubmit="return authenticate(this);">
+						<fieldset>
+							<div id="createAccountWrap">
+								<span id="createAccount">Create Account</span>
+							</div>
+							
+							<label class="textLeft" for="loginEmail">Email Address
+								<input name="username" type="text" id="loginEmail" class="loginInputs" maxlength="255" placeholder="Email Address" required="required" />
+							</label>
+							
+							<label class="textLeft" for="password">Password
+								<input name="password" type="password" id="password" class="loginInputs" maxlength="20" placeholder="Password" required="required" />
+							</label>
+							
+							<label class="textLeft create-account signupHeader" for="loginAccount">Account Name
+								<input type="text" name="account" id="loginAccount" class="loginInputs create-account" maxlength="16" placeholder="Account Name"  />
+							</label>
+							
+							<label class="signupHeader create-account" for="promoCode">Promo Code
+								<input type="text" id="promoCode" class="loginInputs create-account" maxlength="20" placeholder="Promo Code" />
+							</label>
+							
+							<div id="tosWrap" class="create-account">
+								<span id="tos" class="aqua">
+									<a target="_blank" href="//nevergrind.com/blog/terms-of-service/">Terms of Service</a> | <a target="_blank" href="//nevergrind.com/blog/privacy-policy/">Privacy Policy</a>
+								</span>
+							</div>
+							
+							<input id="login" type="submit" value="Login" class="btn btn-primary strongShadow" value="Login" />
+							
+							<div id="forgotPasswordWrap">
+								<span title="Neverworks Games will send you an email. Click the link to reset your password." id="forgotPassword">Forgot Password?</span>
+							</div>
+						</fieldset>
 					</form>';
 			}
 		}
@@ -113,25 +145,20 @@
 		if (createAccountLock === true) {
 			return;
 		}
-		var pw = $("#loginPassword").val();
-		var pw2 = $("#loginVerifyPassword").val();
+		var pw = $("#password").val();
 		var acc = $("#loginAccount").val();
-		var accRawLength = acc.length;
-		var newAcc = acc.replace(/[^A-z]/gmi, '');
-		if (acc.match(/[A-z]/gmi, '').length < accRawLength) {
-			QMsg("Your account name should only contain letters.");
+		
+		var newAcc = acc.replace(/[^a-z0-9]/gi, '');
+		if (acc.match(/[a-z0-9]/gi, '').length < acc.length) {
+			QMsg("Your account name should only contain letters and numbers.");
 			return;
 		}
 		if (acc.length < 2) {
-			QMsg("Your account name must be at least two characters long.");
+			QMsg("Your account name must be more than two characters long.");
 			return;
 		}
 		if (acc.length > 16) {
 			QMsg("Your account name must be less than 16 characters long.");
-			return;
-		}
-		if (pw !== pw2) {
-			QMsg("Your passwords do not match.");
 			return;
 		}
 		if (pw.length < 6) {
@@ -144,9 +171,8 @@
 			data: {
 				run: "createAccount",
 				email: $("#loginEmail").val().toLowerCase(),
-				account: newAcc.toLowerCase().toLowerCase(),
+				account: newAcc.toLowerCase(),
 				password: pw,
-				verify: pw2,
 				promo: $("#promoCode").val().toLowerCase()
 			}
 		}).done(function(data) {
@@ -156,50 +182,50 @@
 				QMsg(data + " Redirecting!");
 				setTimeout(function(){
 					$("#refer")[0].click();
-				}, 1000);
+				}, 100);
 			}
 			createAccountLock = false;
 		}).fail(function() {
 			QMsg("Could not contact the server!");
 		});
 	}
-	function authenticate() {
+	function authenticate(f) {
 		if (authenticationLock === true) {
-			return;
+			return false;
 		}
 		if ($("#loginEmail").val().length < 3) {
 			QMsg("This is not a valid email address.");
-			return;
+			return false;
 		}
-		if ($("#loginPassword").val().length < 6) {
+		if ($("#password").val().length < 6) {
 			QMsg("Passwords must be at least six characters long.");
-			return;
+			return false;
 		}
 		QMsg("Connecting to server...");
 		authenticationLock = true;
-		if ($("#rememberEmail").prop('checked')) {
-			var email = $("#loginEmail").val();
-			localStorage.setItem('email', email);
-		} else {
-			localStorage.removeItem('email');
-		}
+		
 		$.ajax({
 			data: {
 				run: "authenticate",
 				email: $("#loginEmail").val().toLowerCase(),
-				password: $("#loginPassword").val()
+				password: $("#password").val()
 			}
 		}).done(function(data) {
 			var target = "https://" + location.host + $("#refer").attr("href");
-			data === "Login successful!" ? location.replace(target) : QMsg(data);
+			if (data === "Login successful!"){
+				location.replace(target);
+			} else {
+				QMsg(data);
+			}
 		}).fail(function() {
 			QMsg("Could not contact the server!");
 		}).always(function(){
 			authenticationLock = false;
 		});
+		return false; // prevent form submission
 	}
 	$('#login').on('click', function() {
-		var text = $(this).text();
+		var text = $(this).val();
 		if (text === "Login") {
 			// check password and login are ok
 			authenticate();
@@ -209,26 +235,23 @@
 			resetPassword();
 		}
 	});
+	// toggle forms
 	$("#createAccount").on('click', function() {
 		var text = $(this).text();
 		if (text === "Create Account") {
 			$(this).text("Cancel");
 			$(".create-account").css('display', 'block');
 			$("#emailWrap").css('display', 'none');
-			document.getElementById('login').textContent = "Create Account";
-			$("#loginEmail, #loginPassword, #loginAccount, #loginVerifyPassword").val("");
+			$('#login').val("Create Account");
+			$("#loginEmail, #password, #loginAccount").val("");
 			loginMode = "create";
 		} else {
 			$(this).text("Create Account");
 			$(".create-account").css('display', 'none');
 			$("#emailWrap").css('display', 'block');
-			document.getElementById('login').textContent = "Login";
-			$("#loginEmail, #loginPassword, #loginVerifyPassword, #promoCode").val("");
+			$('#login').val("Login");
+			$("#loginEmail, #password, #promoCode").val("");
 			loginMode = "login";
-			if ($("#rememberEmail").prop('checked')) {
-				var email = localStorage.getItem("email");
-				$("#loginEmail").val(email);
-			}
 		}
 	});
 	$("#forgotPassword").on('click', function() {
@@ -262,15 +285,10 @@
 		buttonLock = false,
 		authenticationLock = false;
 		
-	$("#loginPassword").on('focus', function() {
+	$("#password").on('focus', function() {
 		focusPassword = true;
 	}).on('blur', function() {
 		focusPassword = false;
-	});
-	$("#loginVerifyPassword").on('focus', function() {
-		focusPasswordVerify = true;
-	}).on('blur', function() {
-		focusPasswordVerify = false;
 	});
 	
 	$(document).on('keydown',function(e){
