@@ -3491,12 +3491,12 @@ th,td{
 }
 #Login{
 	display: inline-block;
-	border: 1px solid #5af;
-	background: #039;
-	color: #aef;
+	border: 2px ridge #5af;
+	background: #337ab7;
+	color: #fff;
 	line-height: 28px;
 	height: 26px;
-	margin: .2em .5em;
+	margin: .125em .5em;
 	padding: 0 2em;
 	border-radius: 5px;
 	font-weight: bold;
@@ -3504,7 +3504,9 @@ th,td{
 	letter-spacing: .05em;
 }
 #Login:hover{
-	background: #04a;
+	background: #286090;
+	box-shadow: 0 0 2px rgba(80, 110, 240, 1),
+		0 0 5px rgba(80, 110, 240, 1)
 }
 #Login>div{
 	cursor: pointer;

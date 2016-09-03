@@ -14,11 +14,6 @@
 		}
 	}
 	$refer = isset($_GET['back']) ? $_GET['back'] : "/";
-	// redirect if set
-	if(strlen($_SESSION['email'])){
-		header('Location: ' . $refer);
-		exit();
-	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,8 +91,8 @@
 								<span id="createAccount">Create Account</span>
 							</div>
 							
-							<label class="textLeft" for="loginEmail">Email Address
-								<input name="username" type="text" id="loginEmail" class="loginInputs" maxlength="255" placeholder="Email Address" required="required" />
+							<label class="textLeft" for="loginEmail">Account or Email Address
+								<input name="username" type="text" id="loginEmail" class="loginInputs" maxlength="255" placeholder="Account or Email Address" required="required" />
 							</label>
 							
 							<label class="textLeft" for="password">Password

@@ -8,13 +8,9 @@
 	if(isset($_SESSION['email'])){
 		// nothing
 	}else{
-		$_SESSION['email'] = '';
-		$_SESSION['account'] = '';
-		$_SESSION['customerId'] = '';
-	}
-	if(!isset($_SESSION['email']) || !strlen($_SESSION['email'])){
-		header("Location: /login.php?back=/");
-		exit();
+		unset($_SESSION['email']);
+		unset($_SESSION['account']);
+		unset($_SESSION['customerId']);
 	}
 ?>
 <!DOCTYPE html>
@@ -25,7 +21,7 @@
 	<meta name="description" content="Nevergrind is a fantasy browser RPG created by Neverworks Games. Nevergrind is a free online game with paid premium features.">
 	<meta name="viewport" content="width=1280,user-scalable=no">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
-	<link rel='stylesheet' type='text/css' href="css/style84.css">
+	<link rel='stylesheet' type='text/css' href="css/style85.css">
 	<?php
 		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
 	?>
@@ -47,6 +43,7 @@
 		<div id="gameView">
 				<header id="currencyIndicator" class="strongShadow">
 				<?php
+				if (isset($_SESSION['email'])){
 					echo 
 					'<div class="accountDetails">
 						<div id="globalGold" class="accountValues"></div>
@@ -67,6 +64,12 @@
 						echo "<div class='modePanel'>";
 							echo "<a title='Manage Account' href='/account/?back=games/firmament-wars'>{$_SESSION['account']}</a> | Version 1-0-101";
 						echo '</div>';
+				} else {
+					echo 
+					'<a id="Login" href="/login.php?back=/">
+						<div>Login</div>
+					</a>';
+				}
 					?>
 				</header>;
 			<div id="loadingmessage" class="strongShadow"></div>
@@ -118,38 +121,39 @@
 			<div id="spellblind"></div>
 			
 			<div id="characterSelectScreen">
-				<div id="leftPaneBG">
 				<?php
-						echo 
-						'<a id="showCrystalWrap" target="_blank" href="/store/">
+				if (isset($_SESSION['email'])){
+					echo '<div id="leftPaneBG">
+						<a id="showCrystalWrap" target="_blank" href="/store/">
 							<div id="showCrystals" class="strongShadow2 NGgradient">
 								<i class="crystals crystals2 pointer"></i>
 								Buy Crystals
 							</div>
-						</a>';
-						echo '<div id="createcharacter" class="strongShadow NGgradient">Create Character</div>';
-						echo '<div id="deletecharacter" class="strongShadow NGgradient">Delete Character</div>';
-					?>
-					<div id="characterSlotPanel" class="strongShadow" >
-						<div id="characterslot1"></div>
-						<div id="characterslot2"></div>
-						<div id="characterslot3"></div>
-						<div id="characterslot4"></div>
-						<div id="characterslot5"></div>
-						<div id="characterslot6"></div>
-						<div id="characterslot7"></div>
-						<div id="characterslot8"></div>
-						<div id="characterslot9"></div>
-						<div id="characterslot10"></div>
-						<div id="characterslot11"></div>
-						<div id="characterslot12"></div>
-						<div id="characterslot13"></div>
-						<div id="characterslot14"></div>
-						<div id="characterslot15"></div>
-						<div id="characterslot16"></div>
-					</div>
-					<div id="logout" class="strongShadow"></div>
-				</div>
+						</a>
+						<div id="createcharacter" class="strongShadow NGgradient">Create Character</div>
+						<div id="deletecharacter" class="strongShadow NGgradient">Delete Character</div>
+						<div id="characterSlotPanel" class="strongShadow" >
+							<div id="characterslot1"></div>
+							<div id="characterslot2"></div>
+							<div id="characterslot3"></div>
+							<div id="characterslot4"></div>
+							<div id="characterslot5"></div>
+							<div id="characterslot6"></div>
+							<div id="characterslot7"></div>
+							<div id="characterslot8"></div>
+							<div id="characterslot9"></div>
+							<div id="characterslot10"></div>
+							<div id="characterslot11"></div>
+							<div id="characterslot12"></div>
+							<div id="characterslot13"></div>
+							<div id="characterslot14"></div>
+							<div id="characterslot15"></div>
+							<div id="characterslot16"></div>
+						</div>
+						<div id="logout" class="strongShadow"></div>
+					</div>';
+				}
+				?>
 				
 				<div id="deletecharfade"></div>
 				<div id="deletecharconfirm" class="strongShadow" >
@@ -172,7 +176,6 @@
 						<a href="//nevergrind.com/forums" class="links">Nevergrind Forums</a>
 						<a href="//nevergrind.com/wiki" class="links">Nevergrind Wiki</a>
 						<a href="//nevergrind.com/blog" class="links" title="Nevergrind's Development Blog">Maelfyn's Glade</a>
-						<a href="//nevergrind.com/blog/?cat=3" class="links">Patch Notes</a>
 						<hr class="fancyHR">
 						<a target="_blank" href="//www.facebook.com/nevergrindthegame/" class="social-wrap"></a>
 						<a id="twitter" target="_blank" href="//twitter.com/neverworksgames" class="social-wrap"></a>
@@ -184,6 +187,9 @@
 						<?php
 							echo "<div>Updated:</div><div id='motdDate'>".date ("F d Y H:i:s", filemtime("index.php"))." CST</div>";
 						?>
+						<hr class="fancyHR">
+						Coming Soon
+						<a href="//nevergrind.com/games/firmament-wars" title="Firmament Wars | Real-Time Grand Strategy Game" class="links">Firmament Wars</a>
 					</nav>
 				</div>
 				
@@ -481,6 +487,12 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/EaselJS/0.7.1/easeljs.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/plugins/EaselPlugin.min.js"></script>
+	<?php
+		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
+		if (!isset($_SESSION['email'])){
+			exit();
+		}
+	?>
 	<script>
 		patchVersion="1-0-101";
 		(function(d){
@@ -515,8 +527,5 @@
 			}
 		})(document);
 	</script>
-	<?php
-		require($_SERVER['DOCUMENT_ROOT'] . "/includes/ga.html");
-	?>
 </body>
 </html>
