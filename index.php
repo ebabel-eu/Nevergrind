@@ -21,7 +21,8 @@
 	<meta name="description" content="Nevergrind is a fantasy browser RPG created by Neverworks Games. Nevergrind is a free online game with paid premium features.">
 	<meta name="viewport" content="width=1280,user-scalable=no">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
-	<link rel='stylesheet' type='text/css' href="css/style85.css">
+	<link rel='stylesheet' type='text/css' href="css/style87.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<?php
 		include($_SERVER['DOCUMENT_ROOT'] . "/includes/head.html");
 	?>
@@ -62,7 +63,26 @@
 							Bank Slots: <span id="bankSlots">0</span>
 						</div>';
 						echo "<div class='modePanel'>";
-							echo "<a title='Manage Account' href='/account/?back=games/firmament-wars'>{$_SESSION['account']}</a> | Version 1-0-101";
+							echo '
+							<a target="_blank" href="//www.facebook.com/neverworksgames" title="Facebook">
+								<i class="fa fa-facebook-square text-primary pointer"></i>
+							</a>
+							<a target="_blank" href="//twitter.com/neverworksgames" title="Twitter">
+								<i class="fa fa-twitter-square text-primary pointer"></i>
+							</a>
+							<a target="_blank" href="//www.youtube.com/user/Maelfyn" title="YouTube">
+								<i class="fa fa-youtube-square text-primary pointer"></i>
+							</a>
+							<a target="_blank" href="//plus.google.com/118162473590412052664" title="Google Plus">
+								<i class="fa fa-google-plus-square text-primary pointer"></i>
+							</a>
+							<a target="_blank" href="//reddit.com/r/nevergrind" title="Reddit">
+								<i class="fa fa-reddit-square text-primary pointer"></i>
+							</a>
+							<a target="_blank" href="//goo.gl/BFsmf2" title="LinkedIn">
+								<i class="fa fa-linkedin-square text-primary pointer"></i>
+							</a>
+							<a title="Manage Account" href="/account/?back=/">Account</a>';
 						echo '</div>';
 				} else {
 					echo 
@@ -161,33 +181,54 @@
 				</div>
 				<div id="rightPaneBG">
 					<nav id="nglogo" class="strongShadow">
+						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+						<!-- xy responsive -->
+						<?php
+						if ($_SERVER['SERVER_NAME'] !== 'localhost'){
+						echo '<ins class="adsbygoogle"
+							 style="display:block"
+							 data-ad-client="ca-pub-8697751823759563"
+							 data-ad-slot="1466592983"
+							 data-ad-format="auto"></ins>';
+						}
+						?>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+						<hr class="fancyHR">
 						<h1>
-							Nevergrind - Fantasy Browser RPG<br>
-							A free online game<br>
-							with paid premium features
+							Nevergrind | Fantasy Browser RPG<br>
+							a free online game<br>
+							by <a target="_blank" href="https://www.linkedin.com/company/neverworks-games-llc">Neverworks Games</a>
 						</h1>
 						<img id="nevergrind" src="/images1/ng_logo_532x428.png" alt="Nevergrind Logo" title="Nevergrind">
 						
-						<a href="//nevergrind.com/leaderboards/" class="links">Leaderboards</a>
-						<a href="//nevergrind.com/leaderboards/hardcore" class="links">Hardcore Leaderboards</a>
-						<a href="//nevergrind.com/nevergrounds/" class="links" title="Character Profiles, Items, and More">Nevergrounds</a>
-						<a href="//nevergrind.com/forums" class="links">Nevergrind Forums</a>
-						<a href="//nevergrind.com/wiki" class="links">Nevergrind Wiki</a>
-						<a href="//nevergrind.com/blog" class="links" title="Nevergrind's Development Blog">Maelfyn's Glade</a>
+						<a href="//nevergrind.com/leaderboards/" class="links">Leaderboards</a> | 
+						<a href="//nevergrind.com/nevergrounds/" class="links" title="Character Profiles, Items, and More">Nevergrounds</a> | 
+						<a href="//nevergrind.com/forums" class="links">Forums</a> | 
+						<a href="//nevergrind.com/wiki" class="links">Wiki</a> | 
+						<a href="//nevergrind.com/blog" class="links" title="Nevergrind's Development Blog">Blog</a>
 						<hr class="fancyHR">
-						<a target="_blank" href="//www.facebook.com/nevergrindthegame/" class="social-wrap"></a>
-						<a id="twitter" target="_blank" href="//twitter.com/neverworksgames" class="social-wrap"></a>
-						<a id="google_plus" target="_blank" href="//plus.google.com/118162473590412052664" class="social-wrap"></a>
-						<a id="youtube" target="_blank" href="//www.youtube.com/Maelfyn/" class="social-wrap"></a>
-						<a id="reddit" target="_blank" href="//reddit.com/r/nevergrind" class="social-wrap"></a>
-						<a id="linkedin" target="_blank" href="//goo.gl/BFsmf2" class="social-wrap"></a>
+						<div>Coming Soon:</div>
+						<div>Real-Time Grand Strategy Warfare</div>
+						<a href="//nevergrind.com/games/firmament-wars" title="Firmament Wars | Real-Time Grand Strategy Warfare" class="links">Firmament Wars</a>
 						<hr class="fancyHR">
+						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+						<!-- Small Leaderboard -->
 						<?php
-							echo "<div>Updated:</div><div id='motdDate'>".date ("F d Y H:i:s", filemtime("index.php"))." CST</div>";
+						if ($_SERVER['SERVER_NAME'] !== 'localhost'){
+						echo '<ins class="adsbygoogle"
+							 style="display:block"
+							 data-ad-client="ca-pub-8697751823759563"
+							 data-ad-slot="1466592983"
+							 data-ad-format="auto"></ins>';
+						}
 						?>
-						<hr class="fancyHR">
-						Coming Soon
-						<a href="//nevergrind.com/games/firmament-wars" title="Firmament Wars | Real-Time Grand Strategy Game" class="links">Firmament Wars</a>
+						<script>
+						if (location.hostname !== 'localhost'){
+							(adsbygoogle = window.adsbygoogle || []).push({});
+						}
+						</script>
 					</nav>
 				</div>
 				
