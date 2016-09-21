@@ -18,7 +18,7 @@
 <head>
 	<title>Nevergrind | Browser RPG | Free Online Game</title>
 	<meta name="keywords" content="fantasy, online, browser, free, game, rpg">
-	<meta name="description" content="Nevergrind is a fantasy browser RPG created by Neverworks Games. Nevergrind is a free online game with paid premium features.">
+	<meta name="description" content="Nevergrind is a fantasy browser RPG created by Neverworks Games. Nevergrind is a single-player game with leaderboards and player profiles.">
 	<meta name="viewport" content="width=1280,user-scalable=no">
 	<link rel='stylesheet' type='text/css' href="/css/global.css">
 	<link rel='stylesheet' type='text/css' href="css/style87.css">
@@ -49,46 +49,45 @@
 					'<div class="accountDetails">
 						<div id="globalGold" class="accountValues"></div>
 						<div id="globalGoldCount" class="accountValueText2">0</div>
+					</div>
+					<div class="accountDetails">
+						<div id="crystals" class="crystalIcon accountValues"></div>
+						<div id="crystalCount" class="accountValueText2">0</div>
+					</div>
+					<div class="accountValueText accountDetails">
+						Character Slots: <span id="characterSlots">0</span>
+					</div>
+					<div class="accountValueText accountDetails">
+						Bank Slots: <span id="bankSlots">0</span>
 					</div>';
-						echo 
-						'<div class="accountDetails">
-							<div id="crystals" class="crystalIcon accountValues"></div>
-							<div id="crystalCount" class="accountValueText2">0</div>
-						</div>';
-						echo 
-						'<div class="accountValueText accountDetails">
-							Character Slots: <span id="characterSlots">0</span>
-						</div>
-						<div class="accountValueText accountDetails">
-							Bank Slots: <span id="bankSlots">0</span>
-						</div>';
-						echo "<div class='modePanel'>";
-							echo '
-							<a target="_blank" href="//www.facebook.com/neverworksgames" title="Facebook">
-								<i class="fa fa-facebook-square text-primary pointer"></i>
-							</a>
-							<a target="_blank" href="//twitter.com/neverworksgames" title="Twitter">
-								<i class="fa fa-twitter-square text-primary pointer"></i>
-							</a>
-							<a target="_blank" href="//www.youtube.com/user/Maelfyn" title="YouTube">
-								<i class="fa fa-youtube-square text-primary pointer"></i>
-							</a>
-							<a target="_blank" href="//plus.google.com/118162473590412052664" title="Google Plus">
-								<i class="fa fa-google-plus-square text-primary pointer"></i>
-							</a>
-							<a target="_blank" href="//reddit.com/r/nevergrind" title="Reddit">
-								<i class="fa fa-reddit-square text-primary pointer"></i>
-							</a>
-							<a target="_blank" href="//goo.gl/BFsmf2" title="LinkedIn">
-								<i class="fa fa-linkedin-square text-primary pointer"></i>
-							</a>
-							<a title="Manage Account" href="/account/?back=/">Account</a>';
-						echo '</div>';
 				} else {
-					echo 
-					'<a id="Login" class="strongShadow" href="/login.php?back=/">Login</a>';
+					echo '<a id="Login" class="strongShadow" href="/login.php?back=/">Login</a>';
 				}
-					?>
+				
+				echo '<div class="modePanel">
+					<a target="_blank" href="//www.youtube.com/user/Maelfyn" title="YouTube">
+						<i class="fa fa-youtube-square text-primary pointer"></i>
+					</a>
+					<a target="_blank" href="//www.facebook.com/neverworksgames" title="Facebook">
+						<i class="fa fa-facebook-square text-primary pointer"></i>
+					</a>
+					<a target="_blank" href="//twitter.com/neverworksgames" title="Twitter">
+						<i class="fa fa-twitter-square text-primary pointer"></i>
+					</a>
+					<a target="_blank" href="//plus.google.com/118162473590412052664" title="Google Plus">
+						<i class="fa fa-google-plus-square text-primary pointer"></i>
+					</a>
+					<a target="_blank" href="//reddit.com/r/nevergrind" title="Reddit">
+						<i class="fa fa-reddit-square text-primary pointer"></i>
+					</a>
+					<a target="_blank" href="//goo.gl/BFsmf2" title="LinkedIn">
+						<i class="fa fa-linkedin-square text-primary pointer"></i>
+					</a>';
+				if (isset($_SESSION['email'])){
+					echo '<a title="Manage Account" href="/account/?back=/">Account</a>';
+				}
+				echo '</div>';
+				?>
 				</header>;
 			<div id="loadingmessage" class="strongShadow"></div>
 			<div id="paused" class="strongShadow">PAUSED<br>Press ESC to Resume</div>
