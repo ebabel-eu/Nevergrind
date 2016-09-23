@@ -1,6 +1,7 @@
 php/
 games/
 firmament-wars/
+connect.php
 connect1.php
 connect_plain.php
 Stripe.php
